@@ -8,7 +8,7 @@ import (
 func main() {
 	fmt.Printf("\nGame of Life - Console Version.\n")
 
-	gol.PlayGOL(20, 20)
+	gol.PlayGOL(30, 30)
 
 	fmt.Printf("\nDone.\n")
 }
