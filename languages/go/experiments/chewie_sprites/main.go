@@ -19,7 +19,7 @@ func main() {
 	myApp := app.New()
 	w := myApp.NewWindow("Chewie Chew Chew Chew!")
 
-	background := load("./assets/background.png")
+	background := load("./assets/tattooine_game_background.png")
 	playerSprites := load("./assets/chewie.png")
 
 	now := time.Now().UnixMilli()
