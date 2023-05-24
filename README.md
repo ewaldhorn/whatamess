@@ -9,5 +9,13 @@ try something that I am thinking of doing a talk about, or do
 some "scratchpad" work while doing a course. Or I'm just high
 on sugar and crafting bugs. Anything goes.
 
-*Rather not run this stuff on your own computer!*
+__Rather not run this stuff on your own computer!__
 
+### Some of this is not meant to run
+
+Some of these projects are not _meant_ to compile or run, because
+I was testing something specific and needed to recreate a scenario.
+So don't be alarmed if there are errors, it might be intentional. Only,
+you'll never know.
+
+Hope you sleep well!
