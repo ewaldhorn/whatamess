@@ -1,0 +1,34 @@
+version: '3'
+
+tasks:
+  default:
+    desc: Displays a list of available tasks.
+    cmds:
+      - task --list-all
+    silent: true
+  build:
+    desc: Builds a binary
+    cmds:
+      - go build -ldflags="-s -w"
+    silent: true
+  lint:
+    desc: Runs the linter
+    cmds:
+      - golangci-lint run -v
+    silent: true
+  leaks:
+    desc: Checks for credential leaks
+    cmds:
+      - gitleaks detect --source . -v
+    silent: true
+  test:
+    desc: Run tests
+    cmds:
+      - go test ./...
+    silent: true
+  update-dependencies:
+    desc: Updates the project dependencies.
+    cmds:
+      - go get -t -u ./...
+      - go mod vendor  
+    silent: true
