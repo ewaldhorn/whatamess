@@ -43,6 +43,11 @@ func run(w *app.Window) error {
 			title.Alignment = text.Middle
 			title.Layout(gtx)
 
+			secondaryTitle := material.H2(th, "This is header type II")
+			red := color.NRGBA{R: 255, G: 0, B: 0, A: 255}
+			secondaryTitle.Color = red
+			secondaryTitle.Layout(gtx)
+
 			e.Frame(gtx.Ops)
 		}
 	}
