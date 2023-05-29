@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/go-gota/gota/dataframe"
 	"github.com/go-gota/gota/series"
@@ -11,6 +12,7 @@ func main() {
 	basicSeriesExample()
 	createDataFrameFromSeries()
 	createDataFrameFromStructs()
+	createDataFrameFromJSON()
 }
 
 func basicSeriesExample() {
@@ -67,4 +69,24 @@ func createDataFrameFromStructs() {
 	fmt.Println(col.Copy())
 	fmt.Println(col.HasNaN())
 	fmt.Println(col.Records())
+}
+
+func createDataFrameFromJSON() {
+	jsonString := `[
+		{
+		  "Name": "John",
+		  "Age": 44,
+		  "Favorite Color": "Red",
+		  "Height(ft)": 6.7
+		},
+		{
+		  "Name": "Mary",
+		  "Age": 40,
+		  "Favorite Color": "Blue",
+		  "Height(ft)": 5.7
+		}
+	  ]`
+
+	jsonDf := dataframe.ReadJSON(strings.NewReader(jsonString))
+	fmt.Println(jsonDf)
 }
