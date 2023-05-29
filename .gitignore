@@ -4,3 +4,4 @@ languages/c/infoDisplay/a.out
 languages/c/learning/typeSizes
 languages/go/data_analysis/gota/hello_gota/output.csv
 languages/go/data_analysis/gota/hello_gota/output.json
+languages/go/wasm/hello_wasm/main.wasm
