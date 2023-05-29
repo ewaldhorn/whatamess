@@ -14,6 +14,7 @@ func TestDiscountedPrice(t *testing.T) {
 		{100.0, 50.0, 50.0, false, "50% discount"},
 		{100.0, 100.0, 0.0, false, "100% discount"},
 		{100.0, 110.0, 0.0, true, "discount greater than 100%"},
+		{100.0, -10.0, 0.0, true, "negative discount"},
 	}
 
 	for _, tc := range testCases {

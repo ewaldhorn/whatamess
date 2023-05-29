@@ -5,3 +5,7 @@ Experimenting with Testing in Go, based on this article: <https://dev.to/hypersk
 ## To run tests
 
 `go test`
+
+## To run tests with coverage
+
+`go test -cover`
