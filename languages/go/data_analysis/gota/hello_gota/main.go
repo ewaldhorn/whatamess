@@ -18,6 +18,7 @@ func main() {
 	createDataFrameFromCSV()
 	readCSVFile()
 	readJSONFile()
+	filterDataFrame()
 }
 
 func basicSeriesExample() {
@@ -129,6 +130,20 @@ func readCSVFile() {
 
 	fmt.Println(firstTwoColumns)
 	fmt.Println(namedColumns)
+
+	// updating the dataframe
+	updatedDf := df.Set(
+		[]int{0, 3},
+		dataframe.LoadRecords(
+			[][]string{
+				[]string{"Jenny", "23", "Purple", "2.2"},
+				[]string{"Jesse", "34", "Indigo", "3.5"},
+				[]string{"Peter", "33", "Violet", "3.3"},
+			},
+		),
+	)
+
+	fmt.Println(updatedDf)
 }
 
 func readJSONFile() {
@@ -140,4 +155,20 @@ func readJSONFile() {
 	df := dataframe.ReadJSON(file)
 
 	fmt.Println(df)
+}
+
+func filterDataFrame() {
+	df := dataframe.New(
+		series.New([]string{"a", "b", "c", "d", "e"}, series.String, "alphas"),
+		series.New([]int{5, 4, 2, 3, 1}, series.Int, "numbers"),
+		series.New([]string{"a1", "b2", "c3", "d4", "e5"}, series.String, "alnums"),
+		series.New([]bool{true, false, true, true, false}, series.Bool, "state"),
+	)
+
+	// Filter out b from the column named alphas
+	fil := df.Filter(
+		dataframe.F{Colname: "alphas", Comparator: series.Eq, Comparando: "b"},
+	)
+
+	fmt.Println(fil)
 }
