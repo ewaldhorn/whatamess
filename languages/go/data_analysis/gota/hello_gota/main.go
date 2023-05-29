@@ -59,4 +59,12 @@ func createDataFrameFromStructs() {
 	fmt.Println(dogsDf.Names())
 	fmt.Println(dogsDf.Nrow())
 	fmt.Println(dogsDf.Ncol())
+
+	// query columns
+	col := dogsDf.Col("Height") // Selects a column
+	fmt.Println(col.IsNaN())
+	fmt.Println(col.Mean())
+	fmt.Println(col.Copy())
+	fmt.Println(col.HasNaN())
+	fmt.Println(col.Records())
 }
