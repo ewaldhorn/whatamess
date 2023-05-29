@@ -20,7 +20,8 @@ func main() {
 	readJSONFile()
 	filterDataFrame()
 	sortDataFrame()
-	categoriseData()
+	categorizeData()
+	joinDataFrames()
 }
 
 func basicSeriesExample() {
@@ -190,7 +191,7 @@ func sortDataFrame() {
 	fmt.Println(sortedAscending)
 }
 
-func categoriseData() {
+func categorizeData() {
 	file, err := os.Open("stats.csv")
 	defer file.Close()
 	if err != nil {
@@ -201,4 +202,23 @@ func categoriseData() {
 	categorize := df.GroupBy("Name", "Age")
 
 	fmt.Println(categorize)
+}
+
+func joinDataFrames() {
+	dfA := dataframe.New(
+		series.New([]string{"a", "b", "c", "d", "e"}, series.String, "alphas"),
+		series.New([]int{5, 4, 2, 3, 1}, series.Int, "numbers"),
+		series.New([]string{"a1", "b2", "c3", "d4", "e5"}, series.String, "alnums"),
+		series.New([]bool{true, false, true, true, false}, series.Bool, "state"),
+	)
+	dfB := dataframe.New(
+		series.New([]string{"f", "g", "h", "i", "j"}, series.String, "alphas"),
+		series.New([]int{1, 2, 3, 4, 5}, series.Int, "numbers"),
+		series.New([]string{"f6", "g7", "h8", "i9", "j10"}, series.String, "alnums"),
+		series.New([]bool{false, true, false, false, true}, series.Bool, "state"),
+	)
+
+	leftJoin := dfA.RightJoin(dfB, "state")
+
+	fmt.Println(leftJoin)
 }
