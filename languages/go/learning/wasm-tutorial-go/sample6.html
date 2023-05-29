@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="style.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <script src="wasm_exec.js"></script>
+    <script src="load_wasm.js"></script>
+    <script>
+      loadWasm("pos-tagging-service.sample6.wasm")
+        .then((wasm) => {
+          console.log("pos-tagging-service.sample6.wasm is loaded 👋");
+        })
+        .catch((error) => {
+          console.log("ouch", error);
+        });
+    </script>
+    <div id="main" class="center">
+      <h1>Webassembly tutorial<h1>
+      <h2 id="description">Sample 6 | Reading the HTML content from Go</h2>
+      <h2 id="descriptionUppercase"></h2>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="style.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <script src="wasm_exec.js"></script>
+    <script src="load_wasm.js"></script>
+    <script>
+      loadWasm("pos-tagging-service.sample7.wasm")
+        .then((wasm) => {
+          console.log("pos-tagging-service.sample7.wasm is loaded 👋");
+          
+        })
+        .catch((error) => {
+          console.log("ouch", error);
+        });
+    </script>
+    <div id="main" class="center">
+      <h1>Webassembly tutorial<h1>
+      <h2 id="description">JSON Beautifier Online service</h2>
+      <div>
+        <label for="input">Raw JSON</label>
+        <textarea rows="10" cols="100" id="input" name="input"  onfocus="editionMode(this)" onblur="prettify(this)"></textarea>
+      </div>
+      <div>
+        <label for="output">Pretty JSON</label>
+        <textarea rows="10" cols="100" id="output" name="output" readonly="true"></textarea>
+      </div>
+    </div>
+  </body>
+</html>
