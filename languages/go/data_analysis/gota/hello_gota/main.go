@@ -22,6 +22,7 @@ func main() {
 	sortDataFrame()
 	categorizeData()
 	joinDataFrames()
+	applyFunctions()
 }
 
 func basicSeriesExample() {
@@ -221,4 +222,23 @@ func joinDataFrames() {
 	leftJoin := dfA.RightJoin(dfB, "state")
 
 	fmt.Println(leftJoin)
+}
+
+func applyFunctions() {
+	df := dataframe.New(
+		series.New([]int{95, 74, 59, 82, 87}, series.Int, "score"),
+	)
+
+	mean := func(s series.Series) series.Series {
+		floats := s.Float()
+		sum := 0.0
+		for _, f := range floats {
+			sum += f
+		}
+		return series.Floats(sum / float64(len(floats)))
+	}
+
+	meanScore := df.Capply(mean)
+
+	fmt.Println(meanScore)
 }
