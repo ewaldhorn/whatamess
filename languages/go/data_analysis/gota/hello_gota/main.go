@@ -20,6 +20,7 @@ func main() {
 	readJSONFile()
 	filterDataFrame()
 	sortDataFrame()
+	categoriseData()
 }
 
 func basicSeriesExample() {
@@ -187,4 +188,17 @@ func sortDataFrame() {
 	)
 
 	fmt.Println(sortedAscending)
+}
+
+func categoriseData() {
+	file, err := os.Open("stats.csv")
+	defer file.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+	df := dataframe.ReadCSV(file)
+
+	categorize := df.GroupBy("Name", "Age")
+
+	fmt.Println(categorize)
 }
