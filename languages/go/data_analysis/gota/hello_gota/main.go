@@ -13,6 +13,7 @@ func main() {
 	createDataFrameFromSeries()
 	createDataFrameFromStructs()
 	createDataFrameFromJSON()
+	createDataFrameFromCSV()
 }
 
 func basicSeriesExample() {
@@ -89,4 +90,14 @@ func createDataFrameFromJSON() {
 
 	jsonDf := dataframe.ReadJSON(strings.NewReader(jsonString))
 	fmt.Println(jsonDf)
+}
+
+func createDataFrameFromCSV() {
+	csvString := `
+	Name,Age,Favorite Color,Height(ft)
+	John,44,Red,6.7
+	Mary,40,Blue,5.7`
+
+	csvDf := dataframe.ReadCSV(strings.NewReader(csvString))
+	fmt.Println(csvDf)
 }
