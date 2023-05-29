@@ -24,7 +24,8 @@ func main() {
 	joinDataFrames()
 	applyFunctions()
 	usingDescribe()
-	exportDataFrame()
+	exportDataFrameCSV()
+	exportDataFrameJSON()
 }
 
 func basicSeriesExample() {
@@ -258,7 +259,7 @@ func usingDescribe() {
 	fmt.Println(description)
 }
 
-func exportDataFrame() {
+func exportDataFrameCSV() {
 	csvString := `
 	Name,Age,Favorite Color,Height(ft)
 	John,44,Red,6.7
@@ -284,4 +285,32 @@ func exportDataFrame() {
 	}
 
 	updatedDf.WriteCSV(file)
+}
+
+func exportDataFrameJSON() {
+	csvString := `
+	Name,Age,Favorite Color,Height(ft)
+	John,44,Red,6.7
+	Mary,40,Blue,5.7
+	Paul,27,green,5.6`
+
+	df := dataframe.ReadCSV(strings.NewReader(csvString))
+
+	updatedDf := df.Set(
+		[]int{0, 2},
+		dataframe.LoadRecords(
+			[][]string{
+				[]string{"Jenny", "23", "Purple", "2.2"},
+				[]string{"Jesse", "34", "Indigo", "3.5"},
+				[]string{"Peter", "33", "Violet", "3.3"},
+			},
+		),
+	)
+
+	file, err := os.Create("output.json")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	updatedDf.WriteJSON(file)
 }
