@@ -23,6 +23,7 @@ func main() {
 	categorizeData()
 	joinDataFrames()
 	applyFunctions()
+	usingDescribe()
 }
 
 func basicSeriesExample() {
@@ -241,4 +242,17 @@ func applyFunctions() {
 	meanScore := df.Capply(mean)
 
 	fmt.Println(meanScore)
+}
+
+func usingDescribe() {
+	df := dataframe.New(
+		series.New([]string{"a", "b", "c", "d", "e"}, series.String, "alphas"),
+		series.New([]int{5, 4, 2, 3, 1}, series.Int, "numbers"),
+		series.New([]string{"a1", "b2", "c3", "d4", "e5"}, series.String, "alnums"),
+		series.New([]bool{true, false, true, true, false}, series.Bool, "state"),
+	)
+
+	description := df.Describe()
+
+	fmt.Println(description)
 }
