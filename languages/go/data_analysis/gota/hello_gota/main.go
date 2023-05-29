@@ -10,6 +10,7 @@ import (
 func main() {
 	basicSeriesExample()
 	createDataFrameFromSeries()
+	createDataFrameFromStructs()
 }
 
 func basicSeriesExample() {
@@ -32,4 +33,30 @@ func createDataFrameFromSeries() {
 	)
 
 	fmt.Println(df)
+}
+
+func createDataFrameFromStructs() {
+	type Dog struct {
+		Name       string
+		Color      string
+		Height     int
+		Vaccinated bool
+	}
+
+	dogs := []Dog{
+		{"Buster", "Black", 56, false},
+		{"Jake", "White", 61, false},
+		{"Bingo", "Brown", 50, true},
+		{"Gray", "Cream", 68, false},
+	}
+
+	dogsDf := dataframe.LoadStructs(dogs)
+
+	fmt.Println(dogsDf)
+
+	fmt.Println(dogsDf.Dims())
+	fmt.Println(dogsDf.Types())
+	fmt.Println(dogsDf.Names())
+	fmt.Println(dogsDf.Nrow())
+	fmt.Println(dogsDf.Ncol())
 }
