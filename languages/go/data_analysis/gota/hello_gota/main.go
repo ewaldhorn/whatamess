@@ -24,6 +24,7 @@ func main() {
 	joinDataFrames()
 	applyFunctions()
 	usingDescribe()
+	exportDataFrame()
 }
 
 func basicSeriesExample() {
@@ -255,4 +256,32 @@ func usingDescribe() {
 	description := df.Describe()
 
 	fmt.Println(description)
+}
+
+func exportDataFrame() {
+	csvString := `
+	Name,Age,Favorite Color,Height(ft)
+	John,44,Red,6.7
+	Mary,40,Blue,5.7
+	Paul,27,green,5.6`
+
+	df := dataframe.ReadCSV(strings.NewReader(csvString))
+
+	updatedDf := df.Set(
+		[]int{0, 2},
+		dataframe.LoadRecords(
+			[][]string{
+				[]string{"Jenny", "23", "Purple", "2.2"},
+				[]string{"Jesse", "34", "Indigo", "3.5"},
+				[]string{"Peter", "33", "Violet", "3.3"},
+			},
+		),
+	)
+
+	file, err := os.Create("output.csv")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	updatedDf.WriteCSV(file)
 }
