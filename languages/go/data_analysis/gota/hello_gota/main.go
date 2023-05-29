@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"os"
 	"strings"
 
 	"github.com/go-gota/gota/dataframe"
@@ -14,6 +16,8 @@ func main() {
 	createDataFrameFromStructs()
 	createDataFrameFromJSON()
 	createDataFrameFromCSV()
+	readCSVFile()
+	readJSONFile()
 }
 
 func basicSeriesExample() {
@@ -100,4 +104,26 @@ func createDataFrameFromCSV() {
 
 	csvDf := dataframe.ReadCSV(strings.NewReader(csvString))
 	fmt.Println(csvDf)
+}
+
+func readCSVFile() {
+	file, err := os.Open("stats.csv")
+	defer file.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+	df := dataframe.ReadCSV(file)
+
+	fmt.Println(df)
+}
+
+func readJSONFile() {
+	file, err := os.Open("stats.json")
+	defer file.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+	df := dataframe.ReadJSON(file)
+
+	fmt.Println(df)
 }
