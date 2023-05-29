@@ -115,6 +115,20 @@ func readCSVFile() {
 	df := dataframe.ReadCSV(file)
 
 	fmt.Println(df)
+
+	// This selects the first two rows of the DataFrame
+	rows := df.Subset([]int{0, 2})
+
+	fmt.Println(rows)
+
+	// This selects the first two columns of a DataFrame
+	firstTwoColumns := df.Select([]int{0, 2})
+
+	// This selects columns of a DataFrame by name
+	namedColumns := df.Select([]string{"Name", "Favorite Color"})
+
+	fmt.Println(firstTwoColumns)
+	fmt.Println(namedColumns)
 }
 
 func readJSONFile() {
