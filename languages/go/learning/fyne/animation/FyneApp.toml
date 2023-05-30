@@ -1,0 +1,8 @@
+Website = "https://www.nofuss.co.za"
+
+[Details]
+Icon = "Icon.png"
+Name = "JustAJoke"
+ID = "someanimation"
+Version = "0.0.1"
+Build = 1
