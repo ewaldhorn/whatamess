@@ -9,7 +9,7 @@ import (
 
 func main() {
 	a := app.New()
-	w := a.NewWindow("Metaballs")
+	w := a.NewWindow("Amoebas")
 	model := collection.NewRandomCollection(8)
 	widget := ui.NewAmoebaWidget(model)
 	w.SetContent(widget)
