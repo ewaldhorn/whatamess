@@ -1,6 +1,15 @@
 package game
 
-import "fmt"
+import (
+	"bytes"
+	"fmt"
+)
+
+const (
+	ROAD     = 0
+	OBSTACLE = 1
+	CAR      = 9
+)
 
 type game struct {
 	level         [][]byte
@@ -8,12 +17,22 @@ type game struct {
 }
 
 func (g *game) render() {
+	buf := new(bytes.Buffer)
 	for h := 0; h < g.height; h++ {
 		for w := 0; w < g.width; w++ {
-			fmt.Printf("%c", g.level[h][w])
+			switch g.level[h][w] {
+			case ROAD:
+				buf.WriteString(" ")
+			case OBSTACLE:
+				buf.WriteString("*")
+			case CAR:
+				buf.WriteString("B")
+			}
 		}
-		fmt.Println()
+		buf.WriteString("\n")
 	}
+
+	fmt.Println(buf.String())
 
 }
 
@@ -25,7 +44,7 @@ func (g *game) makeNewLevel(width, height int) {
 	for h := 0; h < height; h++ {
 		level[h] = make([]byte, width)
 		for w := 0; w < width; w++ {
-			level[h][w] = '.'
+			level[h][w] = OBSTACLE
 		}
 	}
 
