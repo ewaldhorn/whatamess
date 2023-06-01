@@ -55,7 +55,10 @@ func (g *game) render() {
 				buf.WriteString("\u2593")
 			case CAR:
 				buf.WriteString("\u2588")
+			default:
+				buf.WriteByte(g.level[h][w])
 			}
+
 		}
 		buf.WriteString("\n")
 	}
@@ -86,6 +89,30 @@ func (g *game) stop() {
 }
 func (g *game) update() {
 	g.iteration += 1
+
+	// create new layer
+	newLayer := g.makeNewLayer()
+
+	// get ready to combine the new layer with the old ones
+	combineThemAll := make([][]byte, g.height)
+	combineThemAll[0] = newLayer
+
+	// 'move' the old layers one down, so it looks like the screen is moving
+	for i := 1; i < g.height; i++ {
+		combineThemAll[i] = g.level[i-1]
+	}
+
+	g.level = combineThemAll
+}
+
+func (g *game) makeNewLayer() []byte {
+	newLayer := make([]byte, g.width)
+
+	for w := 0; w < g.width; w++ {
+		newLayer[w] = OBSTACLE
+	}
+
+	return newLayer
 }
 
 func (g *game) makeNewLevel(width, height int) {
@@ -102,7 +129,7 @@ func (g *game) makeNewLevel(width, height int) {
 	g.width = width
 	g.height = height
 	g.playerPosition = width / 2
-	g.speed = 200
+	g.speed = 1000
 }
 
 func NewGame() {
