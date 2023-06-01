@@ -15,6 +15,7 @@ type game struct {
 	level          [][]byte
 	width, height  int
 	playerPosition int
+	isPaused       bool
 }
 
 func (g *game) render() {
@@ -23,11 +24,11 @@ func (g *game) render() {
 		for w := 0; w < g.width; w++ {
 			switch g.level[h][w] {
 			case ROAD:
-				buf.WriteString(" ")
+				buf.WriteString("\u2591")
 			case OBSTACLE:
-				buf.WriteString("*")
+				buf.WriteString("\u2593")
 			case CAR:
-				buf.WriteString("B")
+				buf.WriteString("\u2588")
 			}
 		}
 		buf.WriteString("\n")
@@ -37,6 +38,22 @@ func (g *game) render() {
 
 }
 
+func (g *game) start() {
+	g.isPaused = false
+	g.loop()
+}
+func (g *game) pause() {
+	g.isPaused = true
+}
+func (g *game) loop() {
+	for !g.isPaused {
+		g.update()
+		g.render()
+	}
+}
+func (g *game) stop() {
+	g.isPaused = true
+}
 func (g *game) update() {}
 
 func (g *game) makeNewLevel(width, height int) {
@@ -58,5 +75,5 @@ func (g *game) makeNewLevel(width, height int) {
 func NewGame() {
 	game := game{}
 	game.makeNewLevel(80, 20)
-	game.render()
+	game.start()
 }
