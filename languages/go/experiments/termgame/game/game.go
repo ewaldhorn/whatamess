@@ -21,6 +21,7 @@ type game struct {
 	iteration      int
 	speed          int
 	pathWidth      int
+	obstacleX      int
 	statistics     *statistics
 }
 
@@ -126,8 +127,29 @@ func (g *game) makeNewLayer() []byte {
 		}
 	}
 
-	pathXStart := g.width/2 - g.pathWidth
-	pathXEnd := g.width/2 + g.pathWidth
+	shift := 0
+
+	if chance < 20 {
+		shift -= 1
+	}
+
+	if chance > 80 {
+		shift += 1
+	}
+
+	pathXStart := g.obstacleX + shift
+
+	if pathXStart < 5 {
+		pathXStart = 5
+	}
+
+	if pathXStart > g.width-g.pathWidth/2 {
+		pathXStart = g.width - g.pathWidth/2
+	}
+
+	pathXEnd := pathXStart + g.pathWidth
+
+	g.obstacleX = pathXStart
 
 	for w := 0; w < g.width; w++ {
 		if w >= pathXStart && w <= pathXEnd {
@@ -164,7 +186,8 @@ func (g *game) makeNewLevel(width, height int) {
 	g.width = width
 	g.height = height
 	g.playerPosition = width / 2
-	g.speed = 500
+	g.obstacleX = pathXStart
+	g.speed = 250
 }
 
 func NewGame() {
