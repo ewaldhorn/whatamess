@@ -105,6 +105,8 @@ func (g *game) update() {
 		combineThemAll[i] = g.level[i-1]
 	}
 
+	combineThemAll[g.height-1][g.playerPosition] = CAR
+
 	g.level = combineThemAll
 }
 
@@ -143,8 +145,8 @@ func (g *game) makeNewLayer() []byte {
 		pathXStart = 5
 	}
 
-	if pathXStart > g.width-g.pathWidth/2 {
-		pathXStart = g.width - g.pathWidth/2
+	if pathXStart > g.width/2 {
+		pathXStart = g.width / 2
 	}
 
 	pathXEnd := pathXStart + g.pathWidth
