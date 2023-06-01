@@ -18,6 +18,7 @@ type game struct {
 	width, height  int
 	playerPosition int
 	isPaused       bool
+	hasCrashed     bool
 	iteration      int
 	speed          int
 	pathWidth      int
@@ -85,6 +86,13 @@ func (g *game) loop() {
 		g.render()
 		g.statistics.update()
 		time.Sleep(time.Millisecond * time.Duration(g.speed))
+		if g.hasCrashed {
+			break
+		}
+	}
+
+	if g.hasCrashed {
+		fmt.Printf("\n\nKABOOM!\n\n")
 	}
 }
 func (g *game) stop() {
@@ -105,6 +113,9 @@ func (g *game) update() {
 		combineThemAll[i] = g.level[i-1]
 	}
 
+	if combineThemAll[g.height-2][g.playerPosition] != ROAD {
+		g.hasCrashed = true
+	}
 	combineThemAll[g.height-1][g.playerPosition] = CAR
 
 	g.level = combineThemAll
@@ -187,6 +198,7 @@ func (g *game) makeNewLevel(width, height int) {
 	g.level = level
 	g.width = width
 	g.height = height
+	g.hasCrashed = false
 	g.playerPosition = width / 2
 	g.obstacleX = pathXStart
 	g.speed = 250
