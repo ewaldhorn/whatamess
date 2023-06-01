@@ -3,6 +3,7 @@ package game
 import (
 	"bytes"
 	"fmt"
+	"time"
 )
 
 const (
@@ -17,6 +18,30 @@ type game struct {
 	playerPosition int
 	isPaused       bool
 	iteration      int
+	speed          int
+	statistics     *statistics
+}
+
+type statistics struct {
+	start  time.Time
+	frames int
+	fps    float32
+}
+
+// update checks whether we have enough frames to do a FPS calculation
+func (s *statistics) update() {
+	s.frames += 1
+	if s.frames == 30 {
+		s.fps = float32(s.frames) / float32(time.Since(s.start).Seconds())
+		s.frames = 0
+		s.start = time.Now()
+	}
+}
+
+func newStatistics() *statistics {
+	return &statistics{
+		start: time.Now(),
+	}
 }
 
 func (g *game) render() {
@@ -37,7 +62,7 @@ func (g *game) render() {
 
 	fmt.Println(ansiEscapeSeq)
 	fmt.Println(buf.String())
-	fmt.Printf("Iteration %d", g.iteration)
+	fmt.Printf("Iteration %d at %.0f FPS", g.iteration, g.statistics.fps)
 
 }
 
@@ -52,6 +77,8 @@ func (g *game) loop() {
 	for !g.isPaused {
 		g.update()
 		g.render()
+		g.statistics.update()
+		time.Sleep(time.Millisecond * time.Duration(g.speed))
 	}
 }
 func (g *game) stop() {
@@ -75,10 +102,13 @@ func (g *game) makeNewLevel(width, height int) {
 	g.width = width
 	g.height = height
 	g.playerPosition = width / 2
+	g.speed = 200
 }
 
 func NewGame() {
-	game := game{}
+	game := game{
+		statistics: newStatistics(),
+	}
 	game.makeNewLevel(80, 20)
 	game.start()
 }
