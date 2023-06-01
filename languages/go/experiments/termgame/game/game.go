@@ -19,6 +19,7 @@ type game struct {
 	isPaused       bool
 	iteration      int
 	speed          int
+	pathWidth      int
 	statistics     *statistics
 }
 
@@ -118,10 +119,19 @@ func (g *game) makeNewLayer() []byte {
 func (g *game) makeNewLevel(width, height int) {
 	level := make([][]byte, height)
 
+	g.pathWidth = width / 6
+
+	pathXStart := width/2 - g.pathWidth
+	pathXEnd := width/2 + g.pathWidth
+
 	for h := 0; h < height; h++ {
 		level[h] = make([]byte, width)
 		for w := 0; w < width; w++ {
-			level[h][w] = OBSTACLE
+			if w >= pathXStart && w <= pathXEnd {
+				level[h][w] = ROAD
+			} else {
+				level[h][w] = OBSTACLE
+			}
 		}
 	}
 
