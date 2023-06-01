@@ -3,6 +3,7 @@ package game
 import (
 	"bytes"
 	"fmt"
+	"math/rand"
 	"time"
 )
 
@@ -109,8 +110,32 @@ func (g *game) update() {
 func (g *game) makeNewLayer() []byte {
 	newLayer := make([]byte, g.width)
 
+	chance := rand.Intn(100)
+
+	if chance > 60 {
+		g.pathWidth += 1
+
+		if g.pathWidth > g.width/2 {
+			g.pathWidth = g.width / 2
+		}
+	} else if chance < 50 {
+		g.pathWidth -= 1
+
+		if g.pathWidth < 3 {
+			g.pathWidth = 3
+		}
+	}
+
+	pathXStart := g.width/2 - g.pathWidth
+	pathXEnd := g.width/2 + g.pathWidth
+
 	for w := 0; w < g.width; w++ {
-		newLayer[w] = OBSTACLE
+		if w >= pathXStart && w <= pathXEnd {
+			newLayer[w] = ROAD
+		} else {
+			newLayer[w] = OBSTACLE
+		}
+
 	}
 
 	return newLayer
@@ -139,7 +164,7 @@ func (g *game) makeNewLevel(width, height int) {
 	g.width = width
 	g.height = height
 	g.playerPosition = width / 2
-	g.speed = 1000
+	g.speed = 500
 }
 
 func NewGame() {
