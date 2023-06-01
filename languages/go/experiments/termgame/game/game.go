@@ -16,6 +16,7 @@ type game struct {
 	width, height  int
 	playerPosition int
 	isPaused       bool
+	iteration      int
 }
 
 func (g *game) render() {
@@ -34,7 +35,9 @@ func (g *game) render() {
 		buf.WriteString("\n")
 	}
 
+	fmt.Println(ansiEscapeSeq)
 	fmt.Println(buf.String())
+	fmt.Printf("Iteration %d", g.iteration)
 
 }
 
@@ -54,7 +57,9 @@ func (g *game) loop() {
 func (g *game) stop() {
 	g.isPaused = true
 }
-func (g *game) update() {}
+func (g *game) update() {
+	g.iteration += 1
+}
 
 func (g *game) makeNewLevel(width, height int) {
 	level := make([][]byte, height)
