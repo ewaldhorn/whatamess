@@ -12,8 +12,9 @@ const (
 )
 
 type game struct {
-	level         [][]byte
-	width, height int
+	level          [][]byte
+	width, height  int
+	playerPosition int
 }
 
 func (g *game) render() {
@@ -51,6 +52,7 @@ func (g *game) makeNewLevel(width, height int) {
 	g.level = level
 	g.width = width
 	g.height = height
+	g.playerPosition = width / 2
 }
 
 func NewGame() {
