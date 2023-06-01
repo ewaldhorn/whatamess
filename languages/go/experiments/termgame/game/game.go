@@ -10,6 +10,7 @@ import (
 const (
 	ROAD     = 0
 	OBSTACLE = 1
+	CRASHED  = 8
 	CAR      = 9
 )
 
@@ -59,6 +60,8 @@ func (g *game) render() {
 				buf.WriteString("\u2593")
 			case CAR:
 				buf.WriteString("\u2588")
+			case CRASHED:
+				buf.WriteString("\u2639")
 			default:
 				buf.WriteByte(g.level[h][w])
 			}
@@ -70,6 +73,10 @@ func (g *game) render() {
 	fmt.Println(ansiEscapeSeq)
 	fmt.Println(buf.String())
 	fmt.Printf("Iteration %d at %.0f FPS", g.iteration, g.statistics.fps)
+
+	if g.isPaused {
+		fmt.Printf("  (PAUSED)")
+	}
 
 }
 
@@ -115,8 +122,10 @@ func (g *game) update() {
 
 	if combineThemAll[g.height-2][g.playerPosition] != ROAD {
 		g.hasCrashed = true
+		combineThemAll[g.height-1][g.playerPosition] = CRASHED
+	} else {
+		combineThemAll[g.height-1][g.playerPosition] = CAR
 	}
-	combineThemAll[g.height-1][g.playerPosition] = CAR
 
 	g.level = combineThemAll
 }
