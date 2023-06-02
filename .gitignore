@@ -7,3 +7,5 @@ languages/go/data_analysis/gota/hello_gota/output.json
 languages/go/wasm/hello_wasm/main.wasm
 languages/go/wasm/more_wasm/main.wasm
 languages/go/learning/fyne/animation/.idea
+exercism/clojure/clojure-noob/.clj-kondo
+exercism/clojure/clojure-noob/.lsp
