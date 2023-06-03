@@ -25,6 +25,7 @@ type game struct {
 	pathWidth      int
 	obstacleX      int
 	statistics     *statistics
+	keyboard       *input
 }
 
 type statistics struct {
@@ -84,9 +85,10 @@ func (g *game) start() {
 	g.isPaused = false
 	g.loop()
 }
-func (g *game) pause() {
-	g.isPaused = true
+func (g *game) pauseUnpause() {
+	g.isPaused = !g.isPaused
 }
+
 func (g *game) loop() {
 	for !g.isPaused {
 		g.update()
@@ -102,9 +104,11 @@ func (g *game) loop() {
 		fmt.Printf("\n\nKABOOM!\n\n")
 	}
 }
+
 func (g *game) stop() {
 	g.isPaused = true
 }
+
 func (g *game) update() {
 	g.iteration += 1
 
@@ -216,6 +220,7 @@ func (g *game) makeNewLevel(width, height int) {
 func NewGame() {
 	game := game{
 		statistics: newStatistics(),
+		keyboard:   &input{},
 	}
 	game.makeNewLevel(80, 20)
 	game.start()
