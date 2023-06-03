@@ -7,7 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Go and Wasm</title>
     <script src="./static/wasm_exec.js"></script>
-    <script src="./static/entrypoint.js"></script>
+    <script>
+        const go = new Go();
+        WebAssembly.instantiateStreaming(fetch("./static/main.wasm"), go.importObject).then((result) => {
+                go.run(result.instance);
+        });
+    </script>        
 </head>
 
 <body>
