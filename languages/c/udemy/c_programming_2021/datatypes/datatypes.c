@@ -35,5 +35,14 @@ int main() {
     c1 = '0';
     printf("c1='%c'\n", c1);
 
+    _Bool b1 = 0;
+    printf("b1=%d\n",b1);
+
+    b1 = false;
+    printf("b1=%d\n", b1);
+
+    char name[] = "The Coder";
+    printf("The name is %s\n", name);
+
     return 0;
 }
