@@ -12,6 +12,16 @@ int main() {
     printf("All together now: %s %s\n", firstName, lastName);
     printf("%s is %lu characters long\n", firstName, strlen(firstName));
 
+    printf("\nMore string adventures: (every 2nd character from 1)\n");
+
+    char anyString[] = {"abcdefghijklmnopqrstuvwxyz"};
+
+    for (int i = 1; i <= 20; i += 2) {
+        printf("%c", anyString[i]);
+    }
+
+    printf("\n");
+
     printf("\n");
     return 0;
 }
