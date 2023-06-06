@@ -3,7 +3,7 @@
 
 int main() {
 
-    // 1d array
+    // 1d arrays
     int nums[10];
 
     nums[0] = 123; // 1st element
@@ -23,7 +23,7 @@ int main() {
         printf("Position %d contains %d\n", i, totals[i]);
     }
 
-    // 2d array
+    // 2d arrays
     int grid[5][5] = {{0,1,2,3,4},{1,2,3,4,5},{2,3,4,5,6},{3,4,5,6,7},{4,5,6,7,8}};
 
     printf("\n2d arrays:\n");
