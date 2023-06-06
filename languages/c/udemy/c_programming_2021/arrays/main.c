@@ -23,5 +23,19 @@ int main() {
         printf("Position %d contains %d\n", i, totals[i]);
     }
 
+    // 2d array
+    int grid[5][5] = {{0,1,2,3,4},{1,2,3,4,5},{2,3,4,5,6},{3,4,5,6,7},{4,5,6,7,8}};
+
+    printf("\n2d arrays:\n");
+    
+    for (int y = 0; y < 5; y++) {
+        for (int x = 0; x < 5; x++) {
+            printf("%d ", grid[y][x]);
+        }
+        printf("\n");
+    }
+
+    printf("\n");
+
     return 0;
 }
