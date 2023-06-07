@@ -64,7 +64,9 @@ func checkNumbers(scanner *bufio.Scanner) (string, bool) {
 	return msg, false
 }
 
-func prompt() {}
+func prompt() {
+	fmt.Print("-> ")
+}
 
 func printIntro() {
 	fmt.Println("Hello!")
