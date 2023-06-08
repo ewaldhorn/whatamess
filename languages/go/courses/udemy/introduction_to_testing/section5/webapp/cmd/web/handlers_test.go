@@ -17,7 +17,9 @@ func Test_application_handlers(t *testing.T) {
 		{"nowhere", "/bada_bing", http.StatusNotFound},
 	}
 
+	// override path so tests can find templates too
 	pathToTemplates = "./../../templates/"
+
 	var app application
 	routes := app.routes()
 
