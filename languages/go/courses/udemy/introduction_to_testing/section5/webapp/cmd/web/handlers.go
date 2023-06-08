@@ -2,11 +2,22 @@ package main
 
 import (
 	"html/template"
+	"log"
 	"net/http"
 )
 
 func (app *application) Home(w http.ResponseWriter, r *http.Request) {
-	app.render(w, r, "home.page.gohtml", &TemplateData{})
+	err := app.render(w, r, "home.page.gohtml", &TemplateData{})
+	if err != nil {
+		log.Print("Error rendering home page", err)
+	}
+}
+
+func (app *application) About(w http.ResponseWriter, r *http.Request) {
+	err := app.render(w, r, "about.page.gohtml", &TemplateData{})
+	if err != nil {
+		log.Print("Error rendering about page", err)
+	}
 }
 
 type TemplateData struct {
