@@ -1,0 +1,4 @@
+smtpHost: example-smtpserver.emailprovider.com
+smtpPort: 465
+smtpEmail: example-sender@emailprovider.com
+smtpPassword: example-sender-password
