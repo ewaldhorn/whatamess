@@ -7,6 +7,7 @@ import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.fillMaxSize
 import com.varabyte.kobweb.core.Page
+import za.co.nofuss.sections.MainSection
 
 @Page
 @Composable
@@ -16,6 +17,6 @@ fun HomePage() {
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
+        MainSection()
     }
 }
