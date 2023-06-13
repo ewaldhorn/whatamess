@@ -17,3 +17,5 @@ languages/go/courses/udemy/introduction_to_testing/section3/primeapp/coverage.ou
 languages/go/courses/udemy/introduction_to_testing/section5/webapp/.idea
 languages/zig/buildsystem/zig-cache
 languages/zig/buildsystem/zig-out
+languages/zig/simple/zig-cache
+languages/zig/simple/zig-out
