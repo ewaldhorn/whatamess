@@ -21,3 +21,5 @@ languages/zig/simple/zig-cache
 languages/zig/simple/zig-out
 languages/kotlin/wasm/yellow/.gradle
 languages/kotlin/wasm/yellow/.idea
+languages/kotlin/wasm/yellow/build
+languages/kotlin/wasm
