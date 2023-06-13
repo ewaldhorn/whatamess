@@ -1,15 +1,20 @@
 package za.co.nofuss.components
 
 import androidx.compose.runtime.Composable
+import com.varabyte.kobweb.compose.css.FontWeight
+import com.varabyte.kobweb.compose.css.ObjectFit
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
-import com.varabyte.kobweb.compose.ui.modifiers.fillMaxWidth
-import com.varabyte.kobweb.compose.ui.modifiers.margin
+import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.silk.components.graphics.Image
+import com.varabyte.kobweb.silk.components.navigation.Link
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
+import za.co.nofuss.models.Section
+import za.co.nofuss.models.Theme
+import za.co.nofuss.util.Constants
 import za.co.nofuss.util.Resources
 
 @Composable
@@ -20,6 +25,7 @@ fun Header() {
         verticalAlignment = Alignment.CenterVertically
     ) {
         LeftSide()
+        RightSide()
     }
 }
 
@@ -27,6 +33,7 @@ fun Header() {
 fun LeftSide() {
     Row {
         Image(
+            modifier = Modifier.fillMaxSize().objectFit(ObjectFit.Cover),
             src = Resources.Images.NOFUSS_LOGO,
             desc = "NoFuss Logo"
         )
@@ -35,5 +42,18 @@ fun LeftSide() {
 
 @Composable
 fun RightSide() {
-
+    Row(
+        modifier = Modifier.fillMaxWidth(50.percent).borderRadius(r = 50.px).backgroundColor(Theme.LightGray.rgb)
+            .padding(all = 20.px),
+        horizontalArrangement = Arrangement.End
+    ) {
+        Section.values().take(6).forEach {section ->
+            Link(
+                modifier = Modifier.padding(right = 30.px).fontFamily(Constants.FONT_FAMILY)
+                    .fontSize(18.px).fontWeight(FontWeight.Normal),
+                path = section.path,
+                text = section.title
+            )
+        }
+    }
 }

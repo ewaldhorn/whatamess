@@ -30,6 +30,12 @@ enum class Section(
         subtitle = "",
         path = "#profile"
     ),
+    Blog(
+        id = "blog",
+        title = "Blog",
+        subtitle = "",
+        path = "#blog"
+    ),
     Contact(
         id = "contact",
         title = "Contact",
