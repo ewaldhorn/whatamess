@@ -18,18 +18,6 @@ enum class Section(
         subtitle = "",
         path = "#about"
     ),
-    Services(
-        id = "services",
-        title = "Services",
-        subtitle = "",
-        path = "#services"
-    ),
-    Profile(
-        id = "profile",
-        title = "Profile",
-        subtitle = "",
-        path = "#profile"
-    ),
     Articles(
         id = "articles",
         title = "Articles",
