@@ -10,7 +10,7 @@ enum class Section(
         id = "home",
         title = "Home",
         subtitle = "",
-        path = "#home"
+        path = "/"
     ),
     About(
         id = "about",

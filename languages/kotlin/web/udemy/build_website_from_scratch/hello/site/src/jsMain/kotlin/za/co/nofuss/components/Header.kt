@@ -9,6 +9,7 @@ import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
+import com.varabyte.kobweb.navigation.OpenLinkStrategy
 import com.varabyte.kobweb.silk.components.graphics.Image
 import com.varabyte.kobweb.silk.components.icons.fa.FaBars
 import com.varabyte.kobweb.silk.components.icons.fa.IconSize
@@ -23,6 +24,7 @@ import za.co.nofuss.models.Theme
 import za.co.nofuss.styles.LogoStyle
 import za.co.nofuss.styles.NavigationItemStyle
 import za.co.nofuss.util.Constants
+import za.co.nofuss.util.Links
 import za.co.nofuss.util.Resources
 
 @Composable
@@ -52,11 +54,13 @@ fun LeftSide(breakpoint: Breakpoint) {
                 size = IconSize.XL
             )
         }
-        Image(
-            modifier = LogoStyle.toModifier().fillMaxSize(percent = 70.percent).objectFit(ObjectFit.Cover),
-            src = Resources.Images.NOFUSS_LOGO,
-            desc = "NoFuss Logo"
-        )
+        Link(path = Links.NOFUSS, openExternalLinksStrategy = OpenLinkStrategy.IN_PLACE) {
+            Image(
+                modifier = LogoStyle.toModifier().fillMaxSize(percent = 70.percent).objectFit(ObjectFit.Cover),
+                src = Resources.Images.NOFUSS_LOGO,
+                desc = "NoFuss Logo"
+            )
+        }
     }
 }
 
