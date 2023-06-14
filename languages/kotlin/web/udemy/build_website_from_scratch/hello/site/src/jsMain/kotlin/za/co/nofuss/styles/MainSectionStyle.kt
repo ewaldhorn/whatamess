@@ -38,3 +38,14 @@ val LogoStyle by ComponentStyle {
         Modifier.transform { rotate((14).deg) }
     }
 }
+
+@OptIn(ExperimentalComposeWebApi::class)
+val SocialLinksStyle by ComponentStyle {
+    base {
+        Modifier.color(Theme.DarkGray.rgb).transition(CSSTransition(property = "color", duration = 200.ms))
+    }
+
+    hover {
+        Modifier.color(Theme.Primary.rgb).transform { scale(1.20) }
+    }
+}

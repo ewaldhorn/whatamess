@@ -11,3 +11,11 @@ object Resources {
         const val NOFUSS_LOGO = "nofusslogo.svg"
     }
 }
+
+object Links {
+    const val NOFUSS = "https://www.nofuss.co.za"
+    const val LINKEDIN = "https://www.linkedin.com/in/ewaldhorn"
+    const val TWITTER = "https://twitter.com/EwaldHorn"
+    const val FACEBOOK = "https://www.facebook.com/za.nofuss/"
+    const val GITHUB = "https://github.com/ewaldhorn"
+}

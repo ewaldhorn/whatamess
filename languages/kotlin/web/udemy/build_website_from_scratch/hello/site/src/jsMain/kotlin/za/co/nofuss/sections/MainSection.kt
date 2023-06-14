@@ -3,6 +3,7 @@ package za.co.nofuss.sections
 import androidx.compose.runtime.Composable
 import com.varabyte.kobweb.compose.css.ObjectFit
 import com.varabyte.kobweb.compose.foundation.layout.Box
+import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.fillMaxSize
@@ -12,6 +13,7 @@ import com.varabyte.kobweb.compose.ui.modifiers.objectFit
 import com.varabyte.kobweb.silk.components.graphics.Image
 import org.jetbrains.compose.web.css.px
 import za.co.nofuss.components.Header
+import za.co.nofuss.components.SocialBar
 import za.co.nofuss.models.Section
 import za.co.nofuss.util.Constants
 import za.co.nofuss.util.Resources
@@ -23,7 +25,7 @@ fun MainSection() {
         contentAlignment = Alignment.TopCenter
     ) {
         MainBackground()
-        Header()
+        MainContent()
     }
 }
 
@@ -34,4 +36,12 @@ fun MainBackground() {
         src = Resources.Images.BACKGROUND,
         desc = "Background image"
     )
+}
+
+@Composable
+fun MainContent() {
+    Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+        Header()
+        SocialBar()
+    }
 }
