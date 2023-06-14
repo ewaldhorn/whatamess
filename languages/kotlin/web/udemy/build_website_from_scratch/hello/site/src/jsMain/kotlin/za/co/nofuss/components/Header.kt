@@ -16,6 +16,7 @@ import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
 import za.co.nofuss.models.Section
 import za.co.nofuss.models.Theme
+import za.co.nofuss.styles.LogoStyle
 import za.co.nofuss.styles.NavigationItemStyle
 import za.co.nofuss.util.Constants
 import za.co.nofuss.util.Resources
@@ -36,7 +37,7 @@ fun Header() {
 fun LeftSide() {
     Row {
         Image(
-            modifier = Modifier.fillMaxSize().objectFit(ObjectFit.Cover),
+            modifier = LogoStyle.toModifier().fillMaxSize().objectFit(ObjectFit.Cover),
             src = Resources.Images.NOFUSS_LOGO,
             desc = "NoFuss Logo"
         )
