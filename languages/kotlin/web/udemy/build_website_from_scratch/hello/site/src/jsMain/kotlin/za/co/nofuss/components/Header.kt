@@ -3,6 +3,7 @@ package za.co.nofuss.components
 import androidx.compose.runtime.Composable
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.ObjectFit
+import com.varabyte.kobweb.compose.css.TextDecorationLine
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.ui.Alignment
@@ -47,10 +48,13 @@ fun RightSide() {
             .padding(all = 20.px),
         horizontalArrangement = Arrangement.End
     ) {
-        Section.values().take(6).forEach {section ->
+        Section.values().take(6).forEach { section ->
             Link(
-                modifier = Modifier.padding(right = 30.px).fontFamily(Constants.FONT_FAMILY)
-                    .fontSize(18.px).fontWeight(FontWeight.Normal),
+                modifier = Modifier.padding(right = 30.px)
+                    .fontFamily(Constants.FONT_FAMILY)
+                    .fontSize(18.px)
+                    .fontWeight(FontWeight.Normal)
+                    .textDecorationLine(TextDecorationLine.None),
                 path = section.path,
                 text = section.title
             )
