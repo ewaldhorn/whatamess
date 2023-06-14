@@ -11,10 +11,12 @@ import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.silk.components.graphics.Image
 import com.varabyte.kobweb.silk.components.navigation.Link
+import com.varabyte.kobweb.silk.components.style.toModifier
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
 import za.co.nofuss.models.Section
 import za.co.nofuss.models.Theme
+import za.co.nofuss.styles.NavigationItemStyle
 import za.co.nofuss.util.Constants
 import za.co.nofuss.util.Resources
 
@@ -48,9 +50,10 @@ fun RightSide() {
             .padding(all = 20.px),
         horizontalArrangement = Arrangement.End
     ) {
-        Section.values().take(6).forEach { section ->
+        Section.values().take(7).forEach { section ->
             Link(
-                modifier = Modifier.padding(right = 30.px)
+                modifier = NavigationItemStyle.toModifier()
+                    .padding(right = 30.px)
                     .fontFamily(Constants.FONT_FAMILY)
                     .fontSize(18.px)
                     .fontWeight(FontWeight.Normal)
