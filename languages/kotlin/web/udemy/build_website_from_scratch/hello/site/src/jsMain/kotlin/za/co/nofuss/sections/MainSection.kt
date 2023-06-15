@@ -28,6 +28,7 @@ import za.co.nofuss.models.Section
 import za.co.nofuss.models.Theme
 import za.co.nofuss.util.Constants
 import za.co.nofuss.util.Resources
+import za.co.nofuss.util.StaticText
 
 @Composable
 fun MainSection() {
@@ -99,7 +100,7 @@ fun MainText(breakpoint: Breakpoint) {
                     .fontWeight(FontWeight.Bold)
                     .color(Color.black)
                     .toAttrs()
-            ) { Text("Freelance Software Developer") }
+            ) { Text("Your friendly freelance software developer") }
             P(
                 attrs = Modifier.margin(bottom = 25.px)
                     .fontFamily(Constants.FONT_FAMILY)
@@ -109,7 +110,7 @@ fun MainText(breakpoint: Breakpoint) {
                     .fontWeight(FontWeight.Normal)
                     .color(Color.black)
                     .toAttrs()
-            ) { Text("I build bespoke software solutions for mavericks. If it's esoteric, bespoke or just plain crazy, we need to talk! If it's boring, mundane and tedious, we should not!") }
+            ) { Text(StaticText.MAIN_SECTION_SERVICE_DESCRIPTION) }
         }
     }
 }

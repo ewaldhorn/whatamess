@@ -19,3 +19,9 @@ object Links {
     const val FACEBOOK = "https://www.facebook.com/za.nofuss/"
     const val GITHUB = "https://github.com/ewaldhorn"
 }
+
+object StaticText {
+    const val MAIN_SECTION_SERVICE_DESCRIPTION =
+        "I build bespoke software solutions for mavericks. If it's esoteric, bespoke or just plain crazy, we need to talk! " +
+                "If it's boring, mundane and tedious, we should not!"
+}
