@@ -109,7 +109,7 @@ fun MainText(breakpoint: Breakpoint) {
                     .fontWeight(FontWeight.Normal)
                     .color(Color.black)
                     .toAttrs()
-            ) { Text("I build bespoke software solutions for mavericks. If it's esoteric, bespoke or just plain crazy, we need to talk!") }
+            ) { Text("I build bespoke software solutions for mavericks. If it's esoteric, bespoke or just plain crazy, we need to talk! If it's boring, mundane and tedious, we should not!") }
         }
     }
 }
