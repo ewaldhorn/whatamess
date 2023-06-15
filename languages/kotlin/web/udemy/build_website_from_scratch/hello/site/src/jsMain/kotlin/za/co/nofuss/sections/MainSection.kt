@@ -55,7 +55,11 @@ fun MainBackground() {
 
 @Composable
 fun MainContent(breakpoint: Breakpoint) {
-    Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween
+    ) {
         Header()
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -135,7 +139,8 @@ fun MainText(breakpoint: Breakpoint) {
 @Composable
 fun MainImage(breakpoint: Breakpoint) {
     Column(
-        modifier = Modifier.fillMaxSize(80.percent).margin(top = 50.px), verticalArrangement = Arrangement.Center
+        modifier = Modifier.fillMaxSize(80.percent).margin(top = 50.px, bottom = 50.px),
+        verticalArrangement = Arrangement.Bottom
     ) {
         Image(
             src = Resources.Images.EWALD_MAIN,
