@@ -18,6 +18,7 @@ object Links {
     const val TWITTER = "https://twitter.com/EwaldHorn"
     const val FACEBOOK = "https://www.facebook.com/za.nofuss/"
     const val GITHUB = "https://github.com/ewaldhorn"
+    const val BOOK_CALL = "https://calendly.com/ewaldhorn/30min"
 }
 
 object StaticText {

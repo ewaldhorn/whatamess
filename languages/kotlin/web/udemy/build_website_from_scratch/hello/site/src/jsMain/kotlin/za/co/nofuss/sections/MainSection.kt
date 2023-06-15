@@ -4,22 +4,26 @@ import androidx.compose.runtime.Composable
 import com.varabyte.kobweb.compose.css.FontStyle
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.ObjectFit
+import com.varabyte.kobweb.compose.css.TextDecorationLine
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
+import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.silk.components.graphics.Image
 import com.varabyte.kobweb.silk.components.layout.SimpleGrid
 import com.varabyte.kobweb.silk.components.layout.numColumns
+import com.varabyte.kobweb.silk.components.navigation.Link
 import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.theme.breakpoint.rememberBreakpoint
 import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
+import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Text
 import za.co.nofuss.components.Header
@@ -27,6 +31,7 @@ import za.co.nofuss.components.SocialBar
 import za.co.nofuss.models.Section
 import za.co.nofuss.models.Theme
 import za.co.nofuss.util.Constants
+import za.co.nofuss.util.Links
 import za.co.nofuss.util.Resources
 import za.co.nofuss.util.StaticText
 
@@ -94,7 +99,7 @@ fun MainText(breakpoint: Breakpoint) {
                     .toAttrs()
             ) { Text("Ewald Horn") }
             P(
-                attrs = Modifier.margin(top = 10.px, bottom = 5.px)
+                attrs = Modifier.margin(top = 10.px, bottom = 10.px)
                     .fontFamily(Constants.FONT_FAMILY)
                     .fontSize(20.px)
                     .fontWeight(FontWeight.Bold)
@@ -111,6 +116,24 @@ fun MainText(breakpoint: Breakpoint) {
                     .color(Color.black)
                     .toAttrs()
             ) { Text(StaticText.MAIN_SECTION_SERVICE_DESCRIPTION) }
+            Button(
+                attrs = Modifier.height(40.px).border(width = 0.px).borderRadius(5.px)
+                    .backgroundColor(Theme.Primary.rgb).color(Colors.White)
+                    .toAttrs()
+            ) {
+                Link(
+                    path = Links.BOOK_CALL,
+                    modifier = Modifier.color(Colors.White)
+                        .textDecorationLine(TextDecorationLine.None)
+                        .fontWeight(FontWeight.Bold)
+                        .padding(left = 5.px, right = 5.px),
+                    text = "Book a call"
+                )
+            }
         }
     }
+}
+
+@Composable
+fun MainImage(breakpoint: Breakpoint) {
 }
