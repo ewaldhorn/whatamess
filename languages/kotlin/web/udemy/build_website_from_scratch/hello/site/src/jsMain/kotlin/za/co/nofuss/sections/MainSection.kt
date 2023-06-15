@@ -1,10 +1,7 @@
 package za.co.nofuss.sections
 
 import androidx.compose.runtime.Composable
-import com.varabyte.kobweb.compose.css.FontStyle
-import com.varabyte.kobweb.compose.css.FontWeight
-import com.varabyte.kobweb.compose.css.ObjectFit
-import com.varabyte.kobweb.compose.css.TextDecorationLine
+import com.varabyte.kobweb.compose.css.*
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
@@ -70,6 +67,7 @@ fun MainContent(breakpoint: Breakpoint) {
                 numColumns = numColumns(base = 1, md = 2)
             ) {
                 MainText(breakpoint)
+                MainImage(breakpoint)
             }
         }
     }
@@ -105,7 +103,7 @@ fun MainText(breakpoint: Breakpoint) {
                     .fontWeight(FontWeight.Bold)
                     .color(Color.black)
                     .toAttrs()
-            ) { Text("Your friendly freelance software developer") }
+            ) { Text("Your next freelance software developer") }
             P(
                 attrs = Modifier.margin(bottom = 25.px)
                     .fontFamily(Constants.FONT_FAMILY)
@@ -136,4 +134,25 @@ fun MainText(breakpoint: Breakpoint) {
 
 @Composable
 fun MainImage(breakpoint: Breakpoint) {
+    Column(
+        modifier = Modifier.fillMaxSize(80.percent).margin(top = 50.px), verticalArrangement = Arrangement.Center
+    ) {
+        Image(
+            src = Resources.Images.EWALD_MAIN,
+            modifier = Modifier.fillMaxWidth(85.percent).objectFit(ObjectFit.Cover),
+            desc = "Ewald Horn Profile Photo"
+        )
+        P(
+            attrs = Modifier.margin(bottom = 10.px)
+                .fontFamily(Constants.FONT_FAMILY)
+                .fillMaxWidth(85.percent)
+                .fontSize(12.px)
+                .fontStyle(FontStyle.Italic)
+                .fontWeight(FontWeight.Normal)
+                .color(Color.black)
+                .textAlign(TextAlign.End)
+                .toAttrs()
+        ) { Text("Speaking at DevConf 2023. Obviously preaching to my cult.") }
+
+    }
 }

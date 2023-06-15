@@ -9,6 +9,7 @@ object Resources {
     object Images {
         const val BACKGROUND = "background.svg"
         const val NOFUSS_LOGO = "nofusslogo.svg"
+        const val EWALD_MAIN = "ewald_main_page.png"
     }
 }
 
