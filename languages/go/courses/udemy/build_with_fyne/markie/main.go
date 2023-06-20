@@ -1,0 +1,18 @@
+package main
+
+import (
+	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/app"
+)
+
+var cfg config
+
+func main() {
+	myApp := app.New()
+
+	mainWindow := myApp.NewWindow(APP_TITLE)
+	mainWindow.Resize(fyne.NewSize(800.0, 600.0))
+	mainWindow.CenterOnScreen()
+
+	mainWindow.ShowAndRun()
+}
