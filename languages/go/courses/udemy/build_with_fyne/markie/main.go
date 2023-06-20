@@ -16,6 +16,7 @@ func main() {
 	mainWindow.CenterOnScreen()
 
 	edit, preview := cfg.createMainUI()
+	cfg.createMainMenu(mainWindow)
 
 	mainWindow.SetContent(container.NewHSplit(edit, preview))
 
