@@ -2,6 +2,7 @@ package main
 
 import (
 	"io/ioutil"
+	"strings"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/dialog"
@@ -58,6 +59,11 @@ func (c *config) saveAs(window fyne.Window) func() {
 				return
 			}
 
+			if !strings.HasSuffix(strings.ToLower(writer.URI().String()), ".md") {
+				dialog.ShowInformation("Save Error", "Please save as a .md file.", window)
+				return
+			}
+
 			// all good, try to save the file
 			writer.Write([]byte(c.EditWidget.Text))
 			// TODO : Error trapping
@@ -69,6 +75,8 @@ func (c *config) saveAs(window fyne.Window) func() {
 			c.SaveMenuItem.Disabled = false
 		}, window)
 
+		saveDialog.SetFileName("untitled.md")
+		saveDialog.SetFilter(markdownFilter)
 		saveDialog.Show()
 	}
 }
@@ -99,6 +107,7 @@ func (c *config) open(window fyne.Window) func() {
 			window.SetTitle(APP_TITLE + " - " + reader.URI().Name())
 		}, window)
 
+		openDialog.SetFilter(markdownFilter)
 		openDialog.Show()
 	}
 }
