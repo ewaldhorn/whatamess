@@ -1,6 +1,8 @@
 package main
 
 import (
+	"io/ioutil"
+
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/widget"
@@ -27,7 +29,7 @@ func (c *config) createMainUI() (*widget.Entry, *widget.RichText) {
 
 func (c *config) createMainMenu(window fyne.Window) {
 	newMenuItem := fyne.NewMenuItem("New", func() {})
-	openMenuItem := fyne.NewMenuItem("Open...", func() {})
+	openMenuItem := fyne.NewMenuItem("Open...", c.open(window))
 	saveMenuItem := fyne.NewMenuItem("Save", func() {})
 	saveAsMenuItem := fyne.NewMenuItem("Save As...", c.saveAs(window))
 
@@ -58,6 +60,7 @@ func (c *config) saveAs(window fyne.Window) func() {
 
 			// all good, try to save the file
 			writer.Write([]byte(c.EditWidget.Text))
+			// TODO : Error trapping
 			c.CurrentFile = writer.URI()
 
 			defer writer.Close()
@@ -67,5 +70,35 @@ func (c *config) saveAs(window fyne.Window) func() {
 		}, window)
 
 		saveDialog.Show()
+	}
+}
+
+func (c *config) open(window fyne.Window) func() {
+	return func() {
+		openDialog := dialog.NewFileOpen(func(reader fyne.URIReadCloser, err error) {
+			if err != nil {
+				dialog.ShowError(err, window)
+				return
+			}
+
+			if reader == nil {
+				return
+			}
+
+			defer reader.Close()
+
+			data, err := ioutil.ReadAll(reader)
+			if err != nil {
+				dialog.ShowError(err, window)
+				return
+			}
+
+			c.EditWidget.SetText(string(data))
+			c.CurrentFile = reader.URI()
+			c.SaveMenuItem.Disabled = false
+			window.SetTitle(APP_TITLE + " - " + reader.URI().Name())
+		}, window)
+
+		openDialog.Show()
 	}
 }
