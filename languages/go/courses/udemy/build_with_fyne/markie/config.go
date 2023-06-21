@@ -6,6 +6,7 @@ import (
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/dialog"
+	"fyne.io/fyne/v2/storage"
 	"fyne.io/fyne/v2/widget"
 )
 
@@ -29,9 +30,9 @@ func (c *config) createMainUI() (*widget.Entry, *widget.RichText) {
 }
 
 func (c *config) createMainMenu(window fyne.Window) {
-	newMenuItem := fyne.NewMenuItem("New", func() {})
+	newMenuItem := fyne.NewMenuItem("New", c.new(window))
 	openMenuItem := fyne.NewMenuItem("Open...", c.open(window))
-	saveMenuItem := fyne.NewMenuItem("Save", func() {})
+	saveMenuItem := fyne.NewMenuItem("Save", c.save(window))
 	saveAsMenuItem := fyne.NewMenuItem("Save As...", c.saveAs(window))
 
 	fileMenu := fyne.NewMenu("File", newMenuItem, fyne.NewMenuItemSeparator(), openMenuItem,
@@ -40,9 +41,34 @@ func (c *config) createMainMenu(window fyne.Window) {
 
 	// disable save menu item and set Save As menu item pointer
 	saveMenuItem.Disabled = true
-	c.SaveMenuItem = saveAsMenuItem
+	c.SaveMenuItem = saveMenuItem
 
 	window.SetMainMenu(menu)
+}
+
+func (c *config) new(window fyne.Window) func() {
+	return func() {
+		c.SaveMenuItem.Disabled = true
+		c.CurrentFile = nil
+		c.EditWidget.SetText("")
+		window.SetTitle(APP_TITLE + " - " + "untitled.md")
+	}
+}
+
+func (c *config) save(window fyne.Window) func() {
+	return func() {
+		if c.CurrentFile != nil {
+			// only run if we have a current, active file set
+			writer, err := storage.Writer(c.CurrentFile)
+			if err != nil {
+				dialog.ShowError(err, window)
+				return
+			}
+
+			writer.Write([]byte(c.EditWidget.Text))
+			defer writer.Close()
+		}
+	}
 }
 
 func (c *config) saveAs(window fyne.Window) func() {
