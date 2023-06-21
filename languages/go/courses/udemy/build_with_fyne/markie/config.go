@@ -35,6 +35,10 @@ func (c *config) createMainMenu(window fyne.Window) {
 		fyne.NewMenuItemSeparator(), saveMenuItem, saveAsMenuItem)
 	menu := fyne.NewMainMenu(fileMenu)
 
+	// disable save menu item and set Save As menu item pointer
+	saveMenuItem.Disabled = true
+	c.SaveMenuItem = saveAsMenuItem
+
 	window.SetMainMenu(menu)
 }
 
