@@ -11,6 +11,9 @@ var cfg config
 func main() {
 	myApp := app.New()
 
+	// use a custom theme
+	myApp.Settings().SetTheme(&myTheme{})
+
 	mainWindow := myApp.NewWindow(APP_TITLE)
 	mainWindow.Resize(fyne.NewSize(800.0, 600.0))
 	mainWindow.CenterOnScreen()
