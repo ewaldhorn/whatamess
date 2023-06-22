@@ -1,0 +1,38 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  BINARY_NAME: Goldie.app
+  APP_NAME: Goldie
+  VERSION: 0.0.1
+
+tasks:
+  default:
+    desc: Displays a list of available tasks.
+    cmds:
+      - task --list
+    silent: true
+
+  build:
+    desc: Builds the project and creates a binary
+    cmds:
+      - rm -rf {{.BINARY_NAME}}
+      - rm -f fyne-md
+      - fyne package -appVersion {{.VERSION}} -name {{.APP_NAME}} -release
+
+  run:
+    desc: Runs the app
+    cmds:
+      - go run .
+
+  clean:
+    desc: Cleans up build artifacts
+    cmds:
+      - go clean
+      - rm -rf {{.BINARY_NAME}}
+
+  test:
+    desc: Runs tests
+    cmds:
+      - go test -v ./...
