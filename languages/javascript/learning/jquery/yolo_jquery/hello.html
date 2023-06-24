@@ -18,6 +18,7 @@
         <p>some text</p>
     </div>
     <input type="text" id="name" value="Your Name">
+    <p id="demo">Hi </p>
     <script>
         // waits for document to load, then triggers
         $(function () {
@@ -27,6 +28,11 @@
             alert(val);
 
             $("#test").text("hello!");
+
+            $("#demo").append("world!");
+
+            var txt = $("<p></p>").text("Hi"); 
+            $("#demo").after(txt);
         });
 
         /*
