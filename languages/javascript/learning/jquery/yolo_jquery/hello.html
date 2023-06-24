@@ -19,6 +19,7 @@
     </div>
     <input type="text" id="name" value="Your Name">
     <p id="demo">Hi </p>
+    <p>a<span>b</span></p>
     <script>
         // waits for document to load, then triggers
         $(function () {
@@ -33,6 +34,8 @@
 
             var txt = $("<p></p>").text("Hi"); 
             $("#demo").after(txt);
+
+            $("p span").text("a");
         });
 
         /*
