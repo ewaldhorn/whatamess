@@ -25,6 +25,9 @@
 
     <p>Some text</p>
     <button>Toggle Class</button>
+
+    <p>Some text</p>
+
     <script>
         // waits for document to load, then triggers
         $(function () {
@@ -47,6 +50,11 @@
             $("button").click(function(){
                 $("p").toggleClass("red");
             });
+
+            alert($("p").css("background-color"));
+            $("p").css("background-color", "blue");
+
+            $("div").width(100);
         });
 
         /*
@@ -61,6 +69,8 @@
             val() sets or returns the value of form fields.
             attr() sets or returns the value of attributes.
             removeAttr() removes the specified attribute.
+
+            To set multiple CSS properties use JSON: css({"property":"value","property":"value",...});
         */
     </script>
 </body>
