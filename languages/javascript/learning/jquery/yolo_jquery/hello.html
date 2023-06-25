@@ -3,6 +3,7 @@
 
 <head>
     <title>Page Title</title>
+    <link rel="stylesheet" href="styles.css"/>
     <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
 </head>
 
@@ -20,6 +21,10 @@
     <input type="text" id="name" value="Your Name">
     <p id="demo">Hi </p>
     <p>a<span>b</span></p>
+    <div>Some text</div>
+
+    <p>Some text</p>
+    <button>Toggle Class</button>
     <script>
         // waits for document to load, then triggers
         $(function () {
@@ -36,6 +41,12 @@
             $("#demo").after(txt);
 
             $("p span").text("a");
+
+            $("div").addClass("header");
+
+            $("button").click(function(){
+                $("p").toggleClass("red");
+            });
         });
 
         /*
