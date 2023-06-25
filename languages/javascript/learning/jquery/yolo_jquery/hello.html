@@ -3,7 +3,7 @@
 
 <head>
     <title>Page Title</title>
-    <link rel="stylesheet" href="styles.css"/>
+    <link rel="stylesheet" href="styles.css" />
     <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
 </head>
 
@@ -28,6 +28,8 @@
 
     <p>Some text</p>
 
+    <div></div>
+
     <script>
         // waits for document to load, then triggers
         $(function () {
@@ -40,14 +42,14 @@
 
             $("#demo").append("world!");
 
-            var txt = $("<p></p>").text("Hi"); 
+            var txt = $("<p></p>").text("Hi");
             $("#demo").after(txt);
 
             $("p span").text("a");
 
             $("div").addClass("header");
 
-            $("button").click(function(){
+            $("button").click(function () {
                 $("p").toggleClass("red");
             });
 
@@ -55,6 +57,16 @@
             $("p").css("background-color", "blue");
 
             $("div").width(100);
+
+            var txt = "";
+            txt += "width: " + $("div").width() + " ";
+            txt += "height: " + $("div").height() + "<br/>";
+            txt += "innerWidth: " + $("div").innerWidth() + " ";
+            txt += "innerHeight: " + $("div").innerHeight() + "<br/>";
+            txt += "outerWidth: " + $("div").outerWidth() + " ";
+            txt += "outerHeight: " + $("div").outerHeight();
+
+            $("div").html(txt);
         });
 
         /*
