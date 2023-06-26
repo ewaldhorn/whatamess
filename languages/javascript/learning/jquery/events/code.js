@@ -10,4 +10,9 @@ $(function () {
     $("#demo").click(function(){
         $("body").html(Date());
     });
+
+    $("a").click(function(event){
+        alert(event.pageX);
+        event.preventDefault();
+    });
 });
