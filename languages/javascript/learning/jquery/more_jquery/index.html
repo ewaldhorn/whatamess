@@ -9,15 +9,31 @@
 
 <body>
     <div> div element
-        <p>paragraph</p> 
-      </div>
-
+        <p>paragraph</p>
+    </div>
+    <div style="width:300px;"> div
+        <ul> ul
+            <li> li
+                <p id="me">paragraph</p>
+            </li>
+        </ul>
+    </div>
+    <div>
+        <p style="color:red">Red</p>
+        <p style="color:green">Green</p>
+        <p style="color:blue">Blue</p>
+    </div>
 
     <script>
         // waits for document to load, then triggers
         $(function () {
             var e = $("p").parent();
             e.css("border", "2px solid red");
+
+            var d = $("#me").parents();
+            d.css("border", "2px solid blue");
+
+            $("p").eq(3).remove();
         });
     </script>
 </body>
