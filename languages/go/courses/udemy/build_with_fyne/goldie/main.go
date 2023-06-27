@@ -3,9 +3,12 @@ package main
 import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
+	"log"
+	"os"
 )
 
 const AppName = "za.co.nofuss.goldie"
+const AppTitle = "Gold Tracker"
 
 var myApp Config
 
@@ -15,14 +18,28 @@ func main() {
 	myApp.App = fyneApp
 
 	// create loggers
+	setupLoggers()
 
 	// open connection to database
 	// create database repository
+
 	// create and size main window
-	mainWindow := myApp.App.NewWindow("Gold Tracker")
-	mainWindow.Resize(fyne.Size{Width: 800.0, Height: 600.0})
-	mainWindow.CenterOnScreen()
+	mainWindow := configureMainWindow()
 
 	// show and run app
 	mainWindow.ShowAndRun()
+}
+
+func setupLoggers() {
+	myApp.InfoLog = log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
+	myApp.ErrorLog = log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
+}
+
+func configureMainWindow() fyne.Window {
+	mainWindow := myApp.App.NewWindow(AppTitle)
+
+	mainWindow.Resize(fyne.Size{Width: 800.0, Height: 600.0})
+	mainWindow.CenterOnScreen()
+	
+	return mainWindow
 }
