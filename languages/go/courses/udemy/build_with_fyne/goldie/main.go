@@ -24,10 +24,13 @@ func main() {
 	// create database repository
 
 	// create and size main window
-	mainWindow := configureMainWindow()
+	myApp.MainWindow = configureMainWindow()
+
+	// now create the window content
+	myApp.makeUI()
 
 	// show and run app
-	mainWindow.ShowAndRun()
+	myApp.MainWindow.ShowAndRun()
 }
 
 func setupLoggers() {
@@ -40,6 +43,8 @@ func configureMainWindow() fyne.Window {
 
 	mainWindow.Resize(fyne.Size{Width: 800.0, Height: 600.0})
 	mainWindow.CenterOnScreen()
-	
+	mainWindow.SetFixedSize(true)
+	mainWindow.SetMaster()
+
 	return mainWindow
 }
