@@ -13,6 +13,7 @@
     function summer($left, $right) {
         $answer = $left + $right;
         echo $answer;
+        return $answer;
     }
 
     function withDefault($left=10) {
