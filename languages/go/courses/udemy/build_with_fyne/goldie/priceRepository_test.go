@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"fyne.io/fyne/v2/test"
 	"io"
 	"net/http"
 	"os"
@@ -12,18 +13,22 @@ var testApp Config
 
 var jsonToReturn = `{"ts":1687874756262,"tsj":1687874756098,"date":"Jun 27th 2023, 10:05:56 am NY","items":[{"curr":"USD","xauPrice":1234.5678,"xagPrice":22.8427,"chgXau":-1.9225,"chgXag":0.0807,"pcXau":-0.1,"pcXag":0.3545,"xauClose":1922.505,"xagClose":22.762}]}`
 
+var client = NewTestClient(func(req *http.Request) *http.Response {
+	return &http.Response{
+		StatusCode: http.StatusOK,
+		Body:       io.NopCloser(bytes.NewBufferString(jsonToReturn)),
+		Header:     make(http.Header),
+	}
+})
+
 func TestMain(m *testing.M) {
+	fyneApp := test.NewApp()
+	testApp.App = fyneApp
+	testApp.HTTPClient = client
 	os.Exit(m.Run())
 }
 
 func TestGold_Basics(t *testing.T) {
-	client := NewTestClient(func(req *http.Request) *http.Response {
-		return &http.Response{
-			StatusCode: http.StatusOK,
-			Body:       io.NopCloser(bytes.NewBufferString(jsonToReturn)),
-			Header:     make(http.Header),
-		}
-	})
 	g := Gold{
 		Prices: nil,
 		Client: client,

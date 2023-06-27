@@ -4,6 +4,7 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"log"
+	"net/http"
 	"os"
 )
 
@@ -16,6 +17,7 @@ func main() {
 	// create app
 	fyneApp := app.NewWithID(AppName)
 	myApp.App = fyneApp
+	myApp.HTTPClient = &http.Client{}
 
 	// create loggers
 	setupLoggers()
