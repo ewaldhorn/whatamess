@@ -6,8 +6,9 @@ import (
 )
 
 type Config struct {
-	App        fyne.App
-	InfoLog    *log.Logger
-	ErrorLog   *log.Logger
-	MainWindow fyne.Window
+	App            fyne.App
+	InfoLog        *log.Logger
+	ErrorLog       *log.Logger
+	MainWindow     fyne.Window
+	PriceContainer *fyne.Container
 }
