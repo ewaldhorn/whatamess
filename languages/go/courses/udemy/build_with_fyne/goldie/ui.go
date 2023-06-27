@@ -12,6 +12,7 @@ func (cfg *Config) makeUI() {
 
 	// get toolbar
 	toolbar := cfg.getToolbar()
+	cfg.Toolbar = toolbar
 
 	// add container to window
 	finalContent := container.NewVBox(priceContent, toolbar)
