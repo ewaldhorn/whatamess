@@ -23,6 +23,7 @@ func (cfg *Config) makeUI() {
 		container.NewTabItemWithIcon("Prices", theme.HomeIcon(), canvas.NewText("Price content", nil)),
 		container.NewTabItemWithIcon("Holdings", theme.InfoIcon(), canvas.NewText("Holdings content", nil)),
 	)
+	tabs.SetTabLocation(container.TabLocationTop)
 
 	// add container to window
 	finalContent := container.NewVBox(priceContent, toolbar, tabs)

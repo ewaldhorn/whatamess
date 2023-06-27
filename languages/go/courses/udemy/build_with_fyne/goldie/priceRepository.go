@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"fyne.io/fyne/v2/canvas"
 	"io"
 	"log"
 	"net/http"
@@ -10,6 +11,7 @@ import (
 )
 
 const DataURL = "https://data-asg.goldprice.org/dbXRates"
+const ChartURL = "https://goldprice.org/charts/gold_3d_b_o_usd_x.png"
 
 var currency = "USD"
 
@@ -82,4 +84,8 @@ func (g *Gold) getPrices() (*Price, error) {
 	}
 
 	return &currentInfo, nil
+}
+
+func (cfg *Config) getPriceChart() *canvas.Image {
+	return nil
 }
