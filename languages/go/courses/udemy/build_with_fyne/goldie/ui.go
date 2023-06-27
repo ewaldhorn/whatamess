@@ -1,6 +1,10 @@
 package main
 
-import "fyne.io/fyne/v2/container"
+import (
+	"fyne.io/fyne/v2/canvas"
+	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/theme"
+)
 
 func (cfg *Config) makeUI() {
 	// get current price of gold
@@ -14,7 +18,13 @@ func (cfg *Config) makeUI() {
 	toolbar := cfg.getToolbar()
 	cfg.Toolbar = toolbar
 
+	// get app tabs
+	tabs := container.NewAppTabs(
+		container.NewTabItemWithIcon("Prices", theme.HomeIcon(), canvas.NewText("Price content", nil)),
+		container.NewTabItemWithIcon("Holdings", theme.InfoIcon(), canvas.NewText("Holdings content", nil)),
+	)
+
 	// add container to window
-	finalContent := container.NewVBox(priceContent, toolbar)
+	finalContent := container.NewVBox(priceContent, toolbar, tabs)
 	cfg.MainWindow.SetContent(finalContent)
 }
