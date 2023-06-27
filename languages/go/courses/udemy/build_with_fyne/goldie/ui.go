@@ -10,7 +10,10 @@ func (cfg *Config) makeUI() {
 	priceContent := container.NewGridWithColumns(3, openPrice, currentPrice, priceChange)
 	cfg.PriceContainer = priceContent
 
+	// get toolbar
+	toolbar := cfg.getToolbar()
+
 	// add container to window
-	finalContent := container.NewVBox(priceContent)
+	finalContent := container.NewVBox(priceContent, toolbar)
 	cfg.MainWindow.SetContent(finalContent)
 }
