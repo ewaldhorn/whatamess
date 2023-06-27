@@ -1,0 +1,24 @@
+.dropshadow {
+    filter: drop-shadow(5px 9px 2px blue);
+}
+
+.filtered {
+    filter: grayscale(100%);
+}
+
+.sepiad {
+    filter: sepia(100%);
+}
+
+.saturated {
+    filter: saturate(50%);
+}
+
+.rotateColor {
+    filter: hue-rotate(90deg);
+}
+
+.very_bright {
+    filter: brightness(150%);
+    border-radius: 50%;
+}
