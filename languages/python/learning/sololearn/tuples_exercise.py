@@ -12,7 +12,7 @@ found = False
 for c in contacts:
     if c[0] == data:
         print(c[0],"is",c[1])
-        found = true
+        found = True
 
 if found == False:
     print("Not Found")
