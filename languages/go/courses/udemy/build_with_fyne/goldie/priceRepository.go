@@ -3,10 +3,12 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
 	"io"
 	"log"
 	"net/http"
+	"strings"
 	"time"
 )
 
@@ -87,5 +89,23 @@ func (g *Gold) getPrices() (*Price, error) {
 }
 
 func (cfg *Config) getPriceChart() *canvas.Image {
-	return nil
+	apiURL := fmt.Sprintf("https://goldprice.org/charts/gold_3d_b_o_%s_x.png", strings.ToLower(currency))
+	var img *canvas.Image
+
+	err := cfg.downloadFile(apiURL, "gold.png")
+	if err != nil {
+		log.Println("error retrieving price chart", err)
+		// use default image
+		img = canvas.NewImageFromResource(resourceUnreachablePng)
+	} else {
+		img = canvas.NewImageFromFile("gold.png")
+	}
+
+	img.SetMinSize(fyne.Size{
+		Width:  780,
+		Height: 500,
+	})
+
+	img.FillMode = canvas.ImageFillOriginal
+	return img
 }
