@@ -1,0 +1,10 @@
+word = input()
+print([l for l in word.lower() if not l in ["a","e", "i","o","u"]])
+
+#
+#Given a word as input, output a list, containing only the letters of the word that are not vowels.
+#The vowels are a, e, i, o, u. 
+#Sample Input
+#awesome
+#Sample Output 
+#['w', 's', 'm'] 
