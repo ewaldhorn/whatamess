@@ -5,6 +5,7 @@ import (
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/theme"
+	"time"
 )
 
 func (cfg *Config) makeUI() {
@@ -32,6 +33,13 @@ func (cfg *Config) makeUI() {
 	// add container to window
 	finalContent := container.NewVBox(priceContent, toolbar, tabs)
 	cfg.MainWindow.SetContent(finalContent)
+
+	// add a goroutine to refresh the prices every 60 seconds
+	go func() {
+		for range time.Tick(time.Minute * 1) {
+			cfg.refreshGoldPrice()
+		}
+	}()
 }
 
 func (cfg *Config) refreshGoldPrice() {
