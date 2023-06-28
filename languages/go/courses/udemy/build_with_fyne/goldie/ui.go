@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/theme"
@@ -31,4 +32,14 @@ func (cfg *Config) makeUI() {
 	// add container to window
 	finalContent := container.NewVBox(priceContent, toolbar, tabs)
 	cfg.MainWindow.SetContent(finalContent)
+}
+
+func (cfg *Config) refreshGoldPrice() {
+	open, current, change := cfg.getPriceText()
+	cfg.PriceContainer.Objects = []fyne.CanvasObject{open, current, change}
+	cfg.PriceChartContainer.Refresh()
+
+	chart := cfg.getPriceChart()
+	cfg.PriceChartContainer.Objects = []fyne.CanvasObject{chart}
+	cfg.PriceChartContainer.Refresh()
 }
