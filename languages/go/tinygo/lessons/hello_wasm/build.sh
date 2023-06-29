@@ -1,0 +1,1 @@
+tinygo build -o static/wasm.wasm -target wasm ./main.go

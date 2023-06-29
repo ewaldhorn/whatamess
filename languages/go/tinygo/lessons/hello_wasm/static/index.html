@@ -1,0 +1,38 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <script src="wasm_exec.js"></script>
+    <script>
+        const go = new Go(); // Defined in wasm_exec.js
+        const WASM_URL = 'wasm.wasm';
+
+        var wasm;
+
+        if ('instantiateStreaming' in WebAssembly) {
+            WebAssembly.instantiateStreaming(fetch(WASM_URL), go.importObject).then(function (obj) {
+                wasm = obj.instance;
+                go.run(wasm);
+            })
+        } else {
+            fetch(WASM_URL).then(resp =>
+                resp.arrayBuffer()
+            ).then(bytes =>
+                WebAssembly.instantiate(bytes, go.importObject).then(function (obj) {
+                    wasm = obj.instance;
+                    go.run(wasm);
+                })
+            )
+        }
+    </script>
+    <title>Yo TinyGo and Wasm</title>
+</head>
+
+<body>
+    <script>
+
+        console.log('Multiplied two numbers (5,3): ', wasm.multiply(5, 3));
+    </script>
+</body>
+
+</html>
