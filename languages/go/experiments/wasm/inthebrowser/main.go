@@ -1,12 +1,17 @@
 package main
 
 import (
+	"fmt"
 	"strconv"
 	"syscall/js"
 )
 
 func multiply(this js.Value, inputs []js.Value) interface{} {
-	a, _ := strconv.Atoi(inputs[0].String())
+	fmt.Println("Reading from JSON", inputs[0])
+	a, err := strconv.Atoi(inputs[0].String())
+	if err != nil {
+		fmt.Println("Error", err)
+	}
 	b, _ := strconv.Atoi(inputs[1].String())
 	return a * b
 }
