@@ -12,5 +12,5 @@ tasks:
     silent: true
   run:
     cmds:
-      - go run ./src/main.go
+      - go run ./src/main.go {{.CLI_ARGS}}
     
