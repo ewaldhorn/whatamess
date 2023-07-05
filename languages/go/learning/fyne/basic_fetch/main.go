@@ -21,18 +21,25 @@ func main() {
 	window.Resize(fyne.NewSize(800.0, 600.0))
 	window.CenterOnScreen()
 
-	label := widget.NewLabel("New Content")
+	label := widget.NewLabel("... Awaiting content ...")
+	label.Wrapping = fyne.TextWrapBreak
+
 	vBox := container.New(layout.NewVBoxLayout(), layout.NewSpacer(), label, layout.NewSpacer())
 	window.SetContent(vBox)
 
 	client = &http.Client{Timeout: time.Second * 10}
-	fact, err := randomFact()
+	go func() {
+		for {
+			time.Sleep(time.Second * 5)
+			fact, err := randomFact()
 
-	if err != nil {
-		label.SetText("Error retrieving a random fact!")
-	} else {
-		label.SetText(fact)
-	}
+			if err != nil {
+				label.SetText("Error retrieving a random fact!")
+			} else {
+				label.SetText(fact)
+			}
+		}
+	}()
 
 	window.ShowAndRun()
 }
