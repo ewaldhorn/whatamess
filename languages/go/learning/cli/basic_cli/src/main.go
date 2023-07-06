@@ -1,26 +1,30 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
 )
 
 func main() {
-	arguments := os.Args[1:]
+	greetCommand := flag.NewFlagSet("hello", flag.ExitOnError)
+	greetNamePointer := greetCommand.String("name", "Go CLI", "name to greet")
 
-	if len(arguments) == 0 {
+	if len(os.Args) < 2 {
 		fmt.Println("Nothing to do.")
 		listCommands()
 		os.Exit(1)
 	}
 
-	cmd := arguments[0]
+	cmd := os.Args[1]
 
 	switch cmd {
 	case "hello":
-		fmt.Println("Hello, Go CLI!")
+		greetCommand.Parse(os.Args[2:])
+		fmt.Printf("Hello, %s!\n", *greetNamePointer)
 	default:
 		fmt.Printf("Unknown command: '%s'.\n", cmd)
+		os.Exit(2)
 	}
 }
 
