@@ -25,7 +25,26 @@ func main() {
 }
 
 func formHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("/form called")
+	if r.URL.Path != "/form" {
+		http.Error(w, "Path not found", http.StatusNotFound)
+		return
+	}
+
+	if r.Method != "POST" {
+		http.Error(w, "Unsupported operation", http.StatusNotFound)
+		return
+	}
+
+	if err := r.ParseForm(); err != nil {
+		fmt.Fprintf(w, "Form parsing error: %v", err)
+		return
+	}
+
+	fmt.Fprintf(w, "Form received")
+	name := r.FormValue("name")
+	address := r.FormValue("address")
+	fmt.Fprintf(w, "Name as: %s\n", name)
+	fmt.Fprintf(w, "Address as: %s\n", address)
 }
 
 func helloHandler(w http.ResponseWriter, r *http.Request) {
