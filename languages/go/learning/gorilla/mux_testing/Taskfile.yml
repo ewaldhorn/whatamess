@@ -24,3 +24,12 @@ tasks:
       APP_DB_NAME: postgres
       APP_SERVER_PORT: 9000
     silent: true
+  test:
+    cmds:
+      - go test .
+    env:
+      APP_DB_USERNAME: postgres
+      APP_DB_PASSWORD: testpassword
+      APP_DB_NAME: testgres
+      APP_SERVER_PORT: 9000
+    silent: true    
