@@ -1,0 +1,26 @@
+# https://taskfile.dev
+
+version: '3'
+
+tasks:
+  default:
+    cmds:
+      - task --list-all
+    silent: true
+  report:
+    cmds:
+      - echo "==================== REPORT ===================="
+      - echo "Database name is   :" "{{.APP_DB_NAME}}"
+      - echo "Database user is   :" "{{.APP_DB_USERNAME}}"
+      - echo "Application port is:" "{{.APP_SERVER_PORT}}"      
+      - echo
+    silent: true
+  run:
+    cmds:
+      - go run .
+    env:
+      APP_DB_USERNAME: postgres
+      APP_DB_PASSWORD: onepassword
+      APP_DB_NAME: postgres
+      APP_SERVER_PORT: 9000
+    silent: true
