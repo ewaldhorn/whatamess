@@ -4,10 +4,13 @@ version: '3'
 
 tasks:
   default:
+    desc: Lists the available tasks.
     cmds:
       - task --list-all
+      - echo
     silent: true
   report:
+    desc: Reports various configured variable values.
     cmds:
       - echo "==================== REPORT ===================="
       - echo "Database name is   :" "{{.APP_DB_NAME}}"
@@ -16,6 +19,7 @@ tasks:
       - echo
     silent: true
   run:
+    desc: Runs the server, assuming the database is available as per the ENVARS.
     cmds:
       - go run .
     env:
@@ -31,6 +35,7 @@ tasks:
       - docker rm TestDonkey
       - docker volume prune --force
   test:
+    desc: Starts up a PostgreSQL instance in Docker and runs tests against it. 
     cmds:
       - docker run --name TestDonkey -it -p 5432:5432 -e POSTGRES_PASSWORD=testpassword -e POSTGRESS_DB=testgres -d postgres
       - go test .
