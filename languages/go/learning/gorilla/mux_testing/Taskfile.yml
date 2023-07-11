@@ -28,17 +28,24 @@ tasks:
       APP_DB_NAME: postgres
       APP_SERVER_PORT: 9000
     silent: true
-  reset:
-    desc: Resets the Docker TestDonkey image and volume by deleting them. First stops TestDonkey.
+  deleteddb:
+    desc: Deletes the Docker TestDonkey image and volume. First stops TestDonkey.
     cmds:
       - docker stop TestDonkey
       - docker rm TestDonkey
       - docker volume prune --force
-  test:
-    desc: Starts up a PostgreSQL instance in Docker and runs tests against it. 
+  startdb:
+    desc: Starts the Test DB in a Docker instance
     cmds:
-      - docker run --name TestDonkey -it -p 5432:5432 -e POSTGRES_PASSWORD=testpassword -e POSTGRESS_DB=testgres -d postgres
-      - go test .
+      - docker run --name TestDonkey -it -p 5432:5432 -e POSTGRES_DB=testgres -e POSTGRES_PASSWORD=testpassword -d postgres
+  cleardb:
+    desc: Clears the test database, but does not restart anything.
+    cmds:
+      - echo Todo
+  test:
+    desc: Runs tests against an active test DB instance in a Docker image.
+    cmds:
+      - go test -v
     env:
       APP_DB_USERNAME: postgres
       APP_DB_PASSWORD: testpassword
