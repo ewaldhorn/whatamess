@@ -1,0 +1,14 @@
+This text file
+will be sent
+to the user
+one line
+at
+a
+time.
+
+Sure, it's
+rather boring,
+but it does prove
+the concept
+works
+as expected.
