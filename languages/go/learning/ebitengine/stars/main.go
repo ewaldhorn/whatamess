@@ -27,7 +27,7 @@ const (
 	screenWidth  = 640
 	screenHeight = 480
 	scale        = 16
-	starsCount   = 2048
+	starsCount   = 4096
 )
 
 type Star struct {
