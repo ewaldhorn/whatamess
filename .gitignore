@@ -33,3 +33,4 @@ languages/go/experiments/wasm/hashing/static/main.wasm
 languages/go/experiments/wasm/summing/add.wasm
 languages/go/tinygo/lessons/hello_wasm/static/wasm.wasm
 languages/go/learning/gorilla/mux_testing/.vscode
+languages/go/learning/gio/kitchen_sink/main.wasm
