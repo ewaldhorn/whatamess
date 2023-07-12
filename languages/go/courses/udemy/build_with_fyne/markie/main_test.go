@@ -30,9 +30,9 @@ func Test_runApp(t *testing.T) {
 	testWin.SetContent(container.NewHSplit(edit, preview))
 	testApp.Run()
 
-	test.Type(edit, "# This is a test.")
+	test.Type(edit, "# This is a test!")
 
-	if preview.String() != "# This is a test." {
-		t.Error("Expected value not correct.")
+	if preview.String() != "This is a test!" {
+		t.Error("Expected value not correct. [", preview.String(), "]")
 	}
 }
