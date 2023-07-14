@@ -2,6 +2,7 @@ package repository
 
 import (
 	"database/sql"
+	"errors"
 	"time"
 )
 
@@ -69,4 +70,47 @@ func (repo *SQLiteRepository) AllHoldings() ([]Holding, error) {
 	}
 
 	return all, nil
+}
+
+func (repo *SQLiteRepository) GetHoldingByID(id int64) (*Holding, error) {
+	row := repo.Conn.QueryRow("SELECT id, amount, purchase_date, purchase_price FROM holdings WHERE id = ?", id)
+
+	var h Holding
+	var unixTime int64
+
+	err := row.Scan(&h.ID, &h.Amount, &unixTime, &h.PurchasePrice)
+	if err != nil {
+		return nil, err
+	}
+
+	h.PurchaseDate = time.Unix(unixTime, 0)
+
+	return &h, nil
+}
+
+func (repo *SQLiteRepository) UpdateHolding(id int64, updated Holding) error {
+	if id == 0 {
+		return errors.New("invalid update id (0) specified")
+	}
+
+	statement := "UPDATE holdings SET amount = ?, purchase_date = ?, purchase_price = ? WHERE id = ?"
+
+	res, err := repo.Conn.Exec(statement, updated.Amount, updated.PurchaseDate.Unix(), updated.PurchasePrice, id)
+	if err != nil {
+		return err
+	}
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		return err
+	}
+
+	if rowsAffected == 0 {
+		return errUpdateFailed
+	}
+
+	return nil
+}
+
+func (repo *SQLiteRepository) DeleteHolding(id int64) error {
+
 }
