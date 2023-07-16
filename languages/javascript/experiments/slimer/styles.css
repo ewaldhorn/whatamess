@@ -9,5 +9,6 @@ body {
 }
 
 canvas {
+    background-color: brown;
     display: block;
 }
