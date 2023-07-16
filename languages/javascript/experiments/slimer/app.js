@@ -13,7 +13,7 @@ class Ball {
         this.effect = effect;
         this.x = this.effect.width * 0.5;
         this.y = this.effect.height * 0.5;
-        this.radius = (Math.random() * 40) + 10;
+        this.radius = (Math.random() * 20) + 30;
         this.speedX = Math.random() - 0.5;
         this.speedY = Math.random() - 0.5;
     }
@@ -31,10 +31,15 @@ class Ball {
     }
 
     draw(context) {
-        context.fillStyle = "white";
+        context.fillStyle = "red";
         context.beginPath();
         context.arc(this.x, this.y, this.radius, 0, Math.PI * 2.0);
         context.fill();
+    }
+
+    reset() {
+        this.x = this.effect.width * 0.5;
+        this.y = this.effect.height * 0.5;
     }
 }
 
@@ -58,6 +63,12 @@ class MetaBallsEffect {
     draw(context) {
         this.metaBallsArray.forEach(m => m.draw(context));
     }
+
+    reset(newWidth, newHeight) {
+        this.width = newWidth;
+        this.height = newHeight;
+        this.metaBallsArray.forEach(m => m.reset());
+    }
 }
 
 const effect = new MetaBallsEffect(canvas.width, canvas.height);
@@ -71,3 +82,9 @@ function animate() {
 }
 
 animate();
+
+window.addEventListener("resize", function(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    effect.reset(canvas.width, canvas.height);
+})

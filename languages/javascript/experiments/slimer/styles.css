@@ -9,6 +9,7 @@ body {
 }
 
 canvas {
-    background-color: brown;
+    background-color: white;
     display: block;
+    filter: blur(20px) contrast(90);
 }
