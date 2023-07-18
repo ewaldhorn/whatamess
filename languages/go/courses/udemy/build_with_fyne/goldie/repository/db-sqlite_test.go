@@ -72,8 +72,46 @@ func TestSQLiteRepository_GetHoldingByID(t *testing.T) {
 		t.Error("mismatched data retrieved:", fmt.Sprintf("Expected amount of 1, got %d. Expect purchase price of 1000, got %d.", h.Amount, h.PurchasePrice))
 	}
 
-	h, err = testRepo.GetHoldingByID(3)
+	_, err = testRepo.GetHoldingByID(3)
 	if err == nil {
 		t.Error("unexpected return value: Holding with id of 3 should not exist.")
+	}
+}
+
+func TestSQLiteRepository_UpdateHolding(t *testing.T) {
+	h, err := testRepo.GetHoldingByID(1)
+	if err != nil {
+		t.Error("could not load holding:", err)
+	}
+	h.Amount = 4
+
+	err = testRepo.UpdateHolding(1, *h)
+	if err != nil {
+		t.Error("unable to update holding:", err)
+	}
+
+	h, err = testRepo.GetHoldingByID(1)
+	if err != nil {
+		t.Error("unable to retrieve holding:", err)
+	}
+
+	if h.Amount != 4 {
+		t.Error("amount holding update failed - Expected an amount of 4, got:", h.Amount)
+	}
+}
+
+func TestSQLiteRepository_DeleteHolding(t *testing.T) {
+	err := testRepo.DeleteHolding(1)
+	if err != nil {
+		t.Error("deleting holding failed:", err)
+	}
+
+	h, err := testRepo.GetHoldingByID(1)
+	if err == nil {
+		t.Error("retrieving holding should have failed: no record with id 1")
+	}
+
+	if h != nil {
+		t.Error("holding retrieval should not have been possible")
 	}
 }
