@@ -6,6 +6,8 @@ import (
 	"time"
 )
 
+var holdingId int64 = 0
+
 func TestSQLiteRepository_Migrate(t *testing.T) {
 	err := testRepo.Migrate()
 	if err != nil {
@@ -37,6 +39,8 @@ func TestSQLiteRepository_InsertHolding(t *testing.T) {
 	if result.PurchaseDate != purchaseDate {
 		t.Error("insert purchase time failed:", fmt.Sprintf("got %v, expected %v", result.PurchaseDate, purchaseDate))
 	}
+
+	holdingId = result.ID
 }
 
 func TestSQLiteRepository_AllHoldings(t *testing.T) {
@@ -51,5 +55,25 @@ func TestSQLiteRepository_AllHoldings(t *testing.T) {
 
 	if h[len(h)-1].Amount != 1 {
 		t.Error("holding amount wrong:", fmt.Sprintf("Expected 1, got %d", h[len(h)-1].Amount))
+	}
+}
+
+func TestSQLiteRepository_GetHoldingByID(t *testing.T) {
+	h, err := testRepo.GetHoldingByID(holdingId)
+	if err != nil {
+		t.Error("error retrieving holding:", err)
+	}
+
+	if h.ID != holdingId {
+		t.Error("id mismatch", fmt.Sprintf("Expected %d, received %d", h.ID, holdingId))
+	}
+
+	if h.Amount != 1 || h.PurchasePrice != 1000 {
+		t.Error("mismatched data retrieved:", fmt.Sprintf("Expected amount of 1, got %d. Expect purchase price of 1000, got %d.", h.Amount, h.PurchasePrice))
+	}
+
+	h, err = testRepo.GetHoldingByID(3)
+	if err == nil {
+		t.Error("unexpected return value: Holding with id of 3 should not exist.")
 	}
 }
