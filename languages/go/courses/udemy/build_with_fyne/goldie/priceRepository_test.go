@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"goldie/repository"
 	"io"
 	"net/http"
 	"os"
@@ -25,7 +26,9 @@ var client = NewTestClient(func(req *http.Request) *http.Response {
 func TestMain(m *testing.M) {
 	fyneApp := test.NewApp()
 	testApp.App = fyneApp
+	testApp.MainWindow = fyneApp.NewWindow("")
 	testApp.HTTPClient = client
+	testApp.DB = repository.NewTestRepository()
 	os.Exit(m.Run())
 }
 
