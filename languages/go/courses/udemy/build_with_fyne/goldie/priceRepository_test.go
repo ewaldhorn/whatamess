@@ -2,11 +2,12 @@ package main
 
 import (
 	"bytes"
-	"fyne.io/fyne/v2/test"
 	"io"
 	"net/http"
 	"os"
 	"testing"
+
+	"fyne.io/fyne/v2/test"
 )
 
 var testApp Config
@@ -34,7 +35,7 @@ func TestGold_Basics(t *testing.T) {
 		Client: client,
 	}
 
-	p, err := g.getPrices()
+	p, err := g.getPrices(testApp)
 
 	if err != nil {
 		t.Error(err)

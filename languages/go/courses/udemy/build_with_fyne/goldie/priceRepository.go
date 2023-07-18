@@ -3,13 +3,14 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"fyne.io/fyne/v2"
-	"fyne.io/fyne/v2/canvas"
 	"io"
 	"log"
 	"net/http"
 	"strings"
 	"time"
+
+	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/canvas"
 )
 
 const DataURL = "https://data-asg.goldprice.org/dbXRates"
@@ -30,7 +31,7 @@ type Price struct {
 	Time          time.Time `json:"-"`
 }
 
-func (g *Gold) getPrices() (*Price, error) {
+func (g *Gold) getPrices(myApp Config) (*Price, error) {
 	if g.Client == nil {
 		// no client, can't help ya yet!
 		g.Client = &http.Client{}

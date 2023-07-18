@@ -3,7 +3,7 @@ package main
 import "testing"
 
 func TestConfig_getPriceText(t *testing.T) {
-	open, _, _ := testApp.getPriceText()
+	open, _, _ := testApp.getPriceText(testApp)
 
 	if open == nil {
 		t.Error("text component is nil, should not be!")

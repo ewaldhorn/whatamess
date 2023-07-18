@@ -1,23 +1,24 @@
 package main
 
 import (
+	"time"
+
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/theme"
-	"time"
 )
 
-func (cfg *Config) makeUI() {
+func (cfg *Config) makeUI(myApp Config) {
 	// get current price of gold
-	openPrice, currentPrice, priceChange := cfg.getPriceText()
+	openPrice, currentPrice, priceChange := cfg.getPriceText(myApp)
 
 	// put price info into a container
 	priceContent := container.NewGridWithColumns(3, openPrice, currentPrice, priceChange)
 	cfg.PriceContainer = priceContent
 
 	// get toolbar
-	toolbar := cfg.getToolbar()
+	toolbar := cfg.getToolbar(myApp)
 	cfg.Toolbar = toolbar
 
 	// create price tab content
@@ -37,13 +38,13 @@ func (cfg *Config) makeUI() {
 	// add a goroutine to refresh the prices every 60 seconds
 	go func() {
 		for range time.Tick(time.Minute * 1) {
-			cfg.refreshGoldPrice()
+			cfg.refreshGoldPrice(myApp)
 		}
 	}()
 }
 
-func (cfg *Config) refreshGoldPrice() {
-	open, current, change := cfg.getPriceText()
+func (cfg *Config) refreshGoldPrice(myApp Config) {
+	open, current, change := cfg.getPriceText(myApp)
 	cfg.PriceContainer.Objects = []fyne.CanvasObject{open, current, change}
 	cfg.PriceChartContainer.Refresh()
 

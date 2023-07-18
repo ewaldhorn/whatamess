@@ -2,16 +2,17 @@ package main
 
 import (
 	"fmt"
+	"image/color"
+
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
-	"image/color"
 )
 
-func (cfg *Config) getPriceText() (*canvas.Text, *canvas.Text, *canvas.Text) {
+func (cfg *Config) getPriceText(myApp Config) (*canvas.Text, *canvas.Text, *canvas.Text) {
 	var g Gold
 	var open, current, change *canvas.Text
 
-	gold, err := g.getPrices()
+	gold, err := g.getPrices(myApp)
 
 	if err != nil {
 		grey := color.NRGBA{R: 155, G: 155, B: 155, A: 255}
