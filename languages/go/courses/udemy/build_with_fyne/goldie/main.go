@@ -1,12 +1,16 @@
 package main
 
 import (
+	"database/sql"
+	"goldie/repository"
 	"log"
 	"net/http"
 	"os"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
+
+	_ "github.com/glebarez/go-sqlite"
 )
 
 const AppName = "za.co.nofuss.goldie"
@@ -22,7 +26,13 @@ func main() {
 	setupLoggers(&myApp)
 
 	// open connection to database
+	sqlDB, err := myApp.connectSQL()
+	if err != nil {
+		log.Panic(err)
+	}
+
 	// create database repository
+	myApp.setupDB(sqlDB)
 
 	// create and size main window
 	myApp.MainWindow = configureMainWindow(&myApp)
@@ -48,4 +58,32 @@ func configureMainWindow(myApp *Config) fyne.Window {
 	mainWindow.SetMaster()
 
 	return mainWindow
+}
+
+func (myApp *Config) connectSQL() (*sql.DB, error) {
+	path := ""
+	if os.Getenv("DB_PATH") != "" {
+		path = os.Getenv("DB_PATH")
+	} else {
+		path = myApp.App.Storage().RootURI().Path() + "/sql.db"
+		myApp.InfoLog.Println("db in:", path)
+	}
+
+	db, err := sql.Open("sqlite", path)
+	if err != nil {
+		myApp.ErrorLog.Println("Error opening database:", err)
+		return nil, err
+	}
+
+	return db, nil
+}
+
+func (myApp *Config) setupDB(sqlDB *sql.DB) {
+	myApp.DB = repository.NewSQLiteRepository(sqlDB)
+
+	err := myApp.DB.Migrate()
+	if err != nil {
+		myApp.ErrorLog.Println(err)
+		log.Panic()
+	}
 }

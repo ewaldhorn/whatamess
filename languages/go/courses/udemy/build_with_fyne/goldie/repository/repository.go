@@ -13,7 +13,7 @@ var (
 type Repository interface {
 	Migrate() error
 	InsertHolding(h Holding) (*Holding, error)
-	AllHoldings() (*Holding, error)
+	AllHoldings() ([]Holding, error)
 	GetHoldingByID(id int64) (*Holding, error)
 	UpdateHolding(id int64, updated Holding) error
 	DeleteHolding(id int64) error
