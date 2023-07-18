@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+body {
+  font: 15px "Helvetica Neue" sans-serif;
+  background : #FAEDCE;
+}
+
+h1 {
+ color: #9012BF;
+ }
+ 
+ 
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.dot {
+  stroke: #fa9;
+}
+.text {
+  font-size: 15px "Helvetica Neue" sans-serif;
+}
+
+div.boutons {
+  position: absolute;
+left:800px;
+top:150px;
+}
+
+div.blah {
+ width: 900px;
+ margin-left:30px;
+ }
+
+div.tooltip {   
+  position: absolute;           
+  text-align: center;           
+  width: 120px;                  
+  height: 28px;                 
+  padding: 2px;
+  margin:40px;             
+  font: 12px sans-serif;        
+  background: lightsteelblue;   
+  border: 0px;      
+  border-radius: 8px;           
+  pointer-events: none;         
+}
+
+</style>
+<body>
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
+
+var n = 200,
+    m = 10,
+    padding = 6;
+    
+var margin = {top: 20, right: 20, bottom: 20, left: 100},
+    width = 960 - margin.left - margin.right,
+    height = 600 - margin.top - margin.bottom;
+
+var col= ["rgb(0,0,255)","#9012BF","#FAEDCE"],
+    color = function(d){ return col[d]} ;
+
+var x = d3.scale.linear()
+    .range([0, width]);
+
+var y = d3.scale.log()
+    .range([height, 0]);
+    
+    
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom")
+    .tickValues([]);
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+	//.tickValues([200, 500, 1000, 2000, 5000])
+	.tickFormat(function (d) {
+        return y.tickFormat(4,d3.format(",d"))(d)
+});
+
+
+    
+d3.tsv("data5.tsv", function(error, data) {
+  data.forEach(function(d) {
+    d.cy = +d.TOTAL13;
+    d.cx = +d.TB13;
+    d.cz = +d.PROPTB13;
+    d.color= color(d.GAR13);
+  });
+
+  x.domain([0,2.4]);
+  y.domain([200,4800]);
+//  y.domain(d3.extent(data, function(d) { return d.cy; }));
+
+var force = d3.layout.force()
+    .nodes(data)
+    .size([width, height])
+    .gravity(0)
+    .charge(0)
+    .alpha(10)
+    .friction(.4)
+    .on("tick", tick)
+    .start();
+
+var div = d3.select("body").append("div")   
+    .attr("class", "tooltip")               
+    .style("opacity", 0);
+    
+var svg = d3.select("#viz1").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+// placement des points
+  var circle = svg.selectAll("text")
+      .data(data)
+      .enter().append("text")
+      .text(function(d) {return d.LABEL;  })
+      .style("text-anchor","middle").style("dominant-baseline","center")
+      .style("font-size", "10px")
+      .style("fill",function(d) { return d.color; })
+      .on("mouseover", function(d) {
+            d3.select(this)
+            .transition().duration(200)
+            .style("font-weight", "bold")
+            .style("fill","#EA4B3A")
+            .style("font-size", "35px");
+            div .transition()        
+                .duration(200)      
+                .style("opacity", .9);      
+            div .html(d.cy + " " + d.LABEL + "<br/>" + d.cz + " %TB")  
+                .style("left", (d3.event.pageX) + "px")     
+                .style("top", (d3.event.pageY - 28) + "px");    
+            })                  
+      .on("mouseout", function(d) {
+            d3.select(this)
+            .transition().duration(500)
+            .style("font-weight", null)
+            .style("fill",d.color)
+            .style("font-size", "10px");        
+            div.transition()        
+                .duration(1000)      
+                .style("opacity", 0);   
+        }); 
+
+  var i=0;
+  circle.each(function() {
+    	data[i].width=(-5+this.getBBox().width);
+	    data[i].height=(-2+this.getBBox().height);
+	    i++;
+        });
+
+  d3.selectAll("input").on("change", change);
+
+  function change() {
+    if (this.value === "bac2012") transition12();
+    else transition13();
+  }
+
+  function transition12() {
+    x.domain([0,2.4]); // 30 pour avoir tous les grosses prop d'oral
+    data.forEach(function(d) {
+    d.cy = +d.TOTAL12;
+    d.cx = +d.TB12;
+    d.cz = +d.PROPTB12;
+    d.color= color(d.GAR12);
+  });
+  d3.layout.force()
+    .nodes(data)
+    .size([width, height])
+    .gravity(0)
+    .charge(0)
+    .alpha(0.01)
+        .friction(.4)
+    .on("tick", tick)
+    .start();
+    circle.transition()
+          .duration(1500)
+          .style("fill",function(d) { return d.color; });
+
+  }
+
+  function transition13() {
+    x.domain([0,2.4]);
+    data.forEach(function(d) {
+    d.cy = +d.TOTAL13;
+    d.cx = +d.TB13;
+    d.cz = +d.PROPTB13;
+    d.color= color(d.GAR13);
+  });
+  d3.layout.force()
+    .nodes(data)
+    .links(1)
+    .size([width, height])
+    .gravity(0)
+    .charge(0)
+    .alpha(0.01)
+        .friction(.4)
+    .on("tick", tick)
+    .start();
+
+    circle.transition()
+          .duration(1500).style("fill",function(d) { return d.color; });
+
+  }
+
+function tick(e) {
+  circle
+      .each(gravity(e.alpha))
+      .each(collide(0.01))
+      .attr("x", function(d) { return d.x; })
+      .attr("y", function(d) { return d.y; });
+}
+
+// Move data toward cluster focus.
+function gravity(alpha) {
+  return function(d) {
+//	console.log(alpha)
+	if(alpha>0.08){
+    		d.y += (y(d.cy) - d.y) * alpha;
+    		d.x += (x(d.cx) - d.x) * alpha;
+	}
+  };
+}
+
+// Resolve collisions between data.
+function collide(alpha) {
+  var quadtree = d3.geom.quadtree(data);
+  return function(d) {
+    var nx1 = d.x - d.width/2,
+        nx2 = d.x + d.width/2,
+        ny1 = d.y - d.height/2,
+        ny2 = d.y + d.height/2;
+    quadtree.visit(function(quad, x1, y1, x2, y2) {
+      if (quad.point && (quad.point !== d)) {
+	  a = d;
+	  b = quad.point;
+	  dx =  (a.x - b.x)
+          dy =  (a.y - b.y)
+          adx = Math.abs(dx)
+          ady = Math.abs(dy)
+          mdx = (a.width + b.width)/2
+          mdy = (a.height + b.height)/2
+          if (adx < mdx  &&  ady < mdy) {          
+            l = Math.sqrt(dx * dx + dy * dy)
+            lx = (adx - mdx) / l * alpha
+            ly = (ady - mdy) / l * alpha
+            dx *= lx
+            dy *= ly
+            a.x -= dx
+            a.y -= dy
+            b.x += dx
+            b.y += dy
+          }
+      }
+      return x1 > nx2
+          || x2 < nx1
+          || y1 > ny2
+          || y2 < ny1;
+    });
+  };
+}
+
+// axe des abscisses
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis)
+    .append("text")
+      .attr("class", "label")
+      .attr("x", width)
+      .attr("y", 15)
+      .style("text-anchor", "end")
+      .text("Proportion de mention TB");
+
+// axe des ordonnées
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("class", "label")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Effectif");
+
+
+});
+
+</script>
+
+<h1>Proportion de mentions "très bien" par groupe de prénoms. Bac 2012 et bac 2013.</h1> 
+<div class="boutons"><form>
+  <label><input type="radio" name="mode" value="bac2012"> Bac2012</label><br>
+  <label><input type="radio" name="mode" value="bac2013" checked> Bac2013</label>
+</form>
+</div>
+<div id="viz1">
+</div>
+
+<div class="blah">En 2012 et 2013, près de 700 000 résultats nominatifs au Bac (général et technologique) ont été récupérés. Les données portent sur les candidats ayant obtenu 8 ou plus de moyenne et ayant autorisé la diffusion de leurs résultats. Pour le graphique ci dessous, je n'ai retenu que les prénoms apparaissant plus de 200 fois. L'échelle de l'axe des ordonnées est logarithmique. <a href="http://coulmont.com/blog/2013/07/07/prenoms-mentions-bac-2013/">Informations complémentaires ici</a>.<br>
+Réalisé avec l'aide précieuse d'<a href="http://www.comeetie.fr">Etienne Côme</a>.<br>
+Attention ! Les prénoms bougent tous un peu pour ne pas se superposer. Leur position finale diffère un peu de la position qu'ils auraient si les proportions et les effectifs étaient bien respectés.
+</div>
+
+</body>
+</html>
