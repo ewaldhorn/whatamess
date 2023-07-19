@@ -1,8 +1,152 @@
 <!DOCTYPE html>
-<div id="container"></div>
-<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script type="module">
+<html>
 
+<head>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container"></div>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script type="module">
+        const width = 800;
+        const height = 600;
+        const marginTop = 40;
+        const marginRight = 200;
+        const marginBottom = 30;
+        const marginLeft = 50;
+
+        const labels = [
+            "One",
+            "Two",
+            "Three",
+            "Three Little Pigs",
+            "Toss a coin to your witcher",
+            "Short",
+            "Longer",
+            "The Longest",
+            "Town",
+            "House",
+            "Bazinga"
+        ];
+
+        let data = [];
+        let labelNodes = [];
+
+        for (let i = 0; i < 40; i++) {
+            const dataItem = {
+                y: Math.random() * (height - marginBottom - marginTop) + marginTop,
+                x: Math.random() * (width - marginRight - marginLeft) + marginLeft,
+                label: labels[Math.floor(Math.random() * labels.length)],
+                id: 'node-' + i
+            };
+            data.push(dataItem);
+
+            // Creating label nodes
+            labelNodes.push({
+                ...dataItem,
+                id: 'labelNode-' + i
+            });
+        }
+
+        const svg = d3.create("svg").attr("width", width).attr("height", height);
+
+        svg
+            .append("g")
+            .attr("transform", `translate(0,${height - marginBottom})`)
+            .call(d3.axisBottom(d3.scaleUtc()
+                .domain([new Date("2023-01-01"), new Date("2024-01-01")])
+                .range([marginLeft, width - marginRight])));
+
+        svg.append("g").attr("transform", `translate(${marginLeft},0)`).call(d3.axisLeft(d3.scaleLinear()
+            .domain([0, 100])
+            .range([height - marginBottom, marginTop])));
+
+        const nodes = svg
+            .append("g")
+            .selectAll("circle")
+            .data(data)
+            .enter()
+            .append("circle")
+            .attr("r", 10)
+            .attr("cx", d => d.x)
+            .attr("cy", d => d.y)
+            .style("fill", "#4245FF");
+
+        const links = svg.append("g")
+            .selectAll("line")
+            .data(labelNodes)
+            .enter()
+            .append("line")
+            .attr("id", (d) => 'link-' + d.id)
+            .attr("stroke", "#e1d5b7")
+            .attr("stroke-width", 1);
+
+        const labelsGroup = svg
+            .append("g")
+            .selectAll("g")
+            .data(labelNodes)
+            .enter()
+            .append("g");
+
+        labelsGroup
+            .append("rect")
+            .attr("x", 0)
+            .attr("y", -10)
+            .attr("rx", 5)
+            .attr("ry", 5)
+            .attr("width", d => d.label.length * 6 + 10)
+            .attr("height", 20)
+            .attr("stroke", "#eee")
+            .attr("fill", "#fff");
+
+        labelsGroup
+            .append("text")
+            .text(d => d.label)
+            .attr("id", (d) => 'label-' + d.id)
+            .style("font-size", "10px")
+            .attr("dy", ".35em")
+            .attr("x", 5)
+            .attr("y", 0);
+
+        function forceXAlphaTarget(alpha, target) {
+            return (node) => (node.vx -= (node.x - target) * alpha);
+        }
+
+        function forceYAlphaTarget(alpha, target) {
+            return (node) => (node.vy -= (node.y - target) * alpha);
+        }
+
+        d3.forceSimulation(labelNodes)
+            .force("charge", d3.forceManyBody().strength(2)) // mess around with this value to set the distance of the labels to their plot points
+            .force("collide", d3.forceCollide(60)) // mess around with this value to avoid label overlapping
+            .force("x", (alpha) => {
+                for (let i = 0; i < labelNodes.length; i++) {
+                    forceXAlphaTarget(alpha * 0.02, data[i].x)(labelNodes[i]);
+                }
+            })
+            .force("y", (alpha) => {
+                for (let i = 0; i < labelNodes.length; i++) {
+                    forceYAlphaTarget(alpha * 0.02, data[i].y)(labelNodes[i]);
+                }
+            })
+            .on("tick", () => {
+                links
+                    .attr("x1", d => d.x)
+                    .attr("y1", d => d.y)
+                    .attr("x2", d => data.find(dd => dd.id === 'node-' + d.id.split('-')[1]).x)
+                    .attr("y2", d => data.find(dd => dd.id === 'node-' + d.id.split('-')[1]).y);
+                labelsGroup
+                    .attr("transform", d => `translate(${d.x},${d.y})`);
+            });
+
+        container.append(svg.node());
+    </script>
+    <!-- <script type="module">
     const width = 640;
     const height = 400;
     const marginTop = 20;
@@ -60,4 +204,7 @@
 
     container.append(svg.node());
 
-</script>
+</script> -->
+</body>
+
+</html>
