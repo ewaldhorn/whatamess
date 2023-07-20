@@ -15,10 +15,10 @@
     <script type="module">
         const width = 800;
         const height = 600;
-        const marginTop = 40;
+        const marginTop = 50;
         const marginRight = 200;
-        const marginBottom = 30;
-        const marginLeft = 50;
+        const marginBottom = 50;
+        const marginLeft = 60;
 
         const labels = [
             "One",
@@ -122,16 +122,16 @@
         }
 
         d3.forceSimulation(labelNodes)
-            .force("charge", d3.forceManyBody().strength(2)) // mess around with this value to set the distance of the labels to their plot points
-            .force("collide", d3.forceCollide(60)) // mess around with this value to avoid label overlapping
+            .force("charge", d3.forceManyBody().strength(1)) // mess around with this value to set the distance of the labels to their plot points
+            .force("collide", d3.forceCollide(50)) // mess around with this value to avoid label overlapping
             .force("x", (alpha) => {
                 for (let i = 0; i < labelNodes.length; i++) {
-                    forceXAlphaTarget(alpha * 0.02, data[i].x)(labelNodes[i]);
+                    forceXAlphaTarget(alpha * 0.015, data[i].x)(labelNodes[i]);
                 }
             })
             .force("y", (alpha) => {
                 for (let i = 0; i < labelNodes.length; i++) {
-                    forceYAlphaTarget(alpha * 0.02, data[i].y)(labelNodes[i]);
+                    forceYAlphaTarget(alpha * 0.015, data[i].y)(labelNodes[i]);
                 }
             })
             .on("tick", () => {
