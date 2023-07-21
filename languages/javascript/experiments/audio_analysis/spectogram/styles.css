@@ -1,0 +1,11 @@
+* {
+  margin: 0;
+  padding: 0;
+  background-color: black;
+}
+
+body {
+  margin: 0px;
+  background-color: #222222;
+  overflow: hidden;
+}
