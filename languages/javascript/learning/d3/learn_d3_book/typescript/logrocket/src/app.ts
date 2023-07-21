@@ -1,7 +1,7 @@
 import d3 from './d3.v7'
 
 const svg = d3
-  .select("body")
+  .select("#content")
   .append("svg")
   .attr("width", 500)
   .attr("height", 500);
