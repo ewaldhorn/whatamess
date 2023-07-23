@@ -1,0 +1,121 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: teal;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+  align-items: center;
+}
+
+.square {
+  background-color: teal;
+  height: 200px;
+  width: 200px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+.box-bottom {
+  width: 0;
+  height: 0;
+  border-left: 100px solid transparent;
+  border-right: 100px solid transparent;
+  border-bottom: 110px solid orange;
+  z-index: 4;
+  position: absolute;
+  bottom: 0px;
+}
+
+.box-top {
+  width: 0;
+  height: 0;
+  border-left: 100px solid transparent;
+  border-right: 100px solid transparent;
+  z-index: 3;
+  border-top: 140px solid burlywood;
+  box-sizing: border-box;
+  position: absolute;
+  top: 0px;
+  transition: 3s;
+}
+
+.box-left {
+  width: 0;
+  height: 0;
+  border-top: 100px solid transparent;
+  border-bottom: 100px solid transparent;
+  z-index: 3;
+  border-left: 100px solid burlywood;
+  position: absolute;
+  left: 0px;
+}
+
+.box-right {
+  width: 0;
+  height: 0;
+  border-top: 100px solid transparent;
+  border-bottom: 100px solid transparent;
+  z-index: 3;
+  border-right: 100px solid burlywood;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+}
+
+.top {
+  width: 0;
+  height: 0;
+  border-left: 100px solid transparent;
+  border-right: 100px solid transparent;
+  z-index: 4;
+  border-top: 120px solid olivedrab;
+  position: absolute;
+  top: 0px;
+  transition: transform 2s ease, z-index 1s;
+  transform-origin: top;
+}
+
+.square:hover .top {
+  transform: rotate(180deg);
+  transition: transform 1s 1s, z-index 0s 2s;
+  z-index: -10;
+}
+
+.square:hover .box-top {
+  transition: z-index 0s 1s;
+  z-index: -10;
+}
+
+.square:hover .letter {
+  transform: translateY(-120px);
+  transition-timing-function: ease-out;
+  transition-delay: 2s;
+}
+
+.letter {
+    height: 160px;
+    width: 150px;
+    background-color: wheat;
+    border: solid;
+    border-radius: 5px;
+    z-index: 2;
+    top: 15px;
+    position: absolute;
+    transition: transform 2s ease;
+}
+
+.p {
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;
+}
