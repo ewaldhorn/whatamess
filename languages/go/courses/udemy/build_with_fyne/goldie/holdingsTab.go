@@ -4,6 +4,7 @@ import (
 	"goldie/repository"
 
 	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/widget"
 )
 
 func (app *Config) holdingsTab() *fyne.Container {
@@ -16,6 +17,15 @@ func (app *Config) getHoldingSlice() [][]interface{} {
 }
 
 func (app *Config) currentHoldings() ([]repository.Holding, error) {
-	var holdings []repository.Holding
+	holdings, err := app.DB.AllHoldings()
+	if err != nil {
+		app.ErrorLog.Println(err)
+		return nil, err
+	}
+
 	return holdings, nil
+}
+
+func (app *Config) getHoldingsTable() *widget.Table {
+	return nil
 }
