@@ -30,5 +30,9 @@ void main() {
     print("changeable is $changeable");
     // changeable = "Billy"; // can't do this either...
 
+    // Declaring but never using.
+    var thisIsUnused;
+    print("thisIsUnused contains $thisIsUnused, because we never used...");
+
     print("");
 }
