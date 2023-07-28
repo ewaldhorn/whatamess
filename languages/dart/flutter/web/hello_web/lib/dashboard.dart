@@ -33,8 +33,28 @@ class Dashboard extends StatelessWidget {
               color: AppColours.secondaryBg,
               padding:
                   const EdgeInsets.symmetric(vertical: 30.0, horizontal: 30.0),
-              child: const Column(
-                children: [AppBarActionItems()],
+              child: Column(
+                children: [
+                  const AppBarActionItems(),
+                  Column(
+                    children: [
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical! * 5,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30.0),
+                            boxShadow: const [
+                              BoxShadow(
+                                  color: AppColours.iconGray,
+                                  blurRadius: 15.0,
+                                  offset: Offset(10.0, 15.0))
+                            ]),
+                        child: Image.asset('assets/promo.png'),
+                      )
+                    ],
+                  )
+                ],
               ),
             ),
           )
