@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hello_web/config/size_config.dart';
 import 'package:hello_web/style/colours.dart';
+import 'package:hello_web/widgets/sidemenu.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({super.key});
@@ -13,39 +13,9 @@ class Dashboard extends StatelessWidget {
           child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
+          const Expanded(
             flex: 1,
-            child: Container(
-              width: double.infinity,
-              height: SizeConfig.screenHeight,
-              color: AppColours.secondaryBg,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Container(
-                      height: 100,
-                      alignment: Alignment.topCenter,
-                      padding: const EdgeInsets.only(top: 20),
-                      child: SizedBox(
-                        width: 35,
-                        height: 35,
-                        child: SvgPicture.asset('assets/folder-plus.svg'),
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: SvgPicture.asset(
-                        'assets/house.svg',
-                        color: AppColours.iconGray,
-                      ),
-                      iconSize: 20,
-                      padding: const EdgeInsets.symmetric(vertical: 20.0),
-                    )
-                  ],
-                ),
-              ),
-            ),
+            child: SideMenu(),
           ),
           Expanded(
             flex: 10,
