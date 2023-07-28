@@ -15,13 +15,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: true,
       title: 'Flutter Responsive Dashboard',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-        scaffoldBackgroundColor: AppColours.primaryBg
-      ),
+          primarySwatch: Colors.blue,
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+          scaffoldBackgroundColor: AppColours.primaryBg),
       home: const Dashboard(),
     );
   }
 }
-

@@ -11,7 +11,7 @@ const recentActivities = [
 
 const upcomingPayments = [
   {"icon": "assets/house.svg", "label": "Home Rent", "amount": "\$1500"},
-  {"icon": "assets/salary.svg", "label": "Car Insurance", "amount": "\$150"}
+  {"icon": "assets/bill.svg", "label": "Car Insurance", "amount": "\$150"}
 ];
 
 const transactionHistory = [
