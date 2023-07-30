@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -18,19 +19,20 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="First Flutter App Codelab">
+  <meta name="description" content="A new Flutter project.">
 
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="first_app">
+  <meta name="apple-mobile-web-app-title" content="embedded">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="icon" type="image/png" href="favicon.png" />
 
-  <title>first_app</title>
+  <title>Embedded Flutter in Standard HTML Page</title>
   <link rel="manifest" href="manifest.json">
+
   <link rel="stylesheet" href="styles.css">
 
   <script>
@@ -40,25 +42,28 @@
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
 </head>
+
 <body>
-  <h1>Flutter Embedded</h1>
-  <p>Host a Flutter app inside an HTML element.</p>
-  <div id="flutter_app"></div>
-  <p>Now, there's static content for SEO purposes, <em>and</em> the Flutter app, all in one HTML page.</p>
+  <h1>Flutter Embedded in HTML Page</h1>
+  <p>Showing a Flutter app running inside a normal HTML page, allowing for better SEO while
+    still using Flutter to create visual effects.</p>
+  <div style="display: flex; align-content: center; justify-content: center;">
+    <div id="flutter_app"></div>
+  </div>
   <script>
-    window.addEventListener('load', function(ev) {
-      // Download main.dart.js
+    window.addEventListener("load", function (ev) {
+      // Embed flutter into div#flutter_target
+      let target = document.querySelector("#flutter_app");
       _flutter.loader.loadEntrypoint({
-        serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
-        },
-        onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine({hostElement: document.querySelector("#flutter_app")}).then(function(appRunner) {
-            appRunner.runApp();
+        onEntrypointLoaded: async function (engineInitializer) {
+          let appRunner = await engineInitializer.initializeEngine({
+            hostElement: target,
           });
-        }
+          await appRunner.runApp();
+        },
       });
     });
   </script>
 </body>
+
 </html>
