@@ -1,34 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:progress_chart/data/scores.dart';
+import 'package:progress_chart/painters/chart_painter.dart';
 
 class ProgressChart extends StatefulWidget {
-  const ProgressChart({super.key});
+  final List<Score> scores;
+
+  const ProgressChart(this.scores, {super.key});
 
   @override
   ProgressChartState createState() => ProgressChartState();
 }
 
+const weekDays = ["", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
 class ProgressChartState extends State<ProgressChart> {
+  late double _min, _max;
+
+  late List<double> _Y;
+  late List<String> _X;
+
+  @override
+  void initState() {
+    super.initState();
+    var min = double.maxFinite;
+    var max = -double.maxFinite;
+
+    for (var element in widget.scores) {
+      min = min > element.value ? element.value : min;
+      max = max < element.value ? element.value : max;
+    }
+
+    setState(() {
+      _min = min;
+      _max = max;
+      _Y = widget.scores.map((e) => e.value).toList();
+      _X = widget.scores
+          .map((e) => "${weekDays[e.time.weekday]}\n${e.time.day}")
+          .toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: CustomPaint(
+        painter: ChartPainter(_X, _Y, _min, _max),
         child: Container(),
-        painter: ChartPainter(),
       ),
     );
-  }
-}
-
-class ChartPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final c = Offset(size.width / 2, size.height / 2);
-    final paint = Paint()..color = Colors.black;
-    canvas.drawCircle(c, size.width / 12, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
   }
 }
