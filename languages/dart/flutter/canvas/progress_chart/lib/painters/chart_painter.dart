@@ -6,7 +6,10 @@ class ChartPainter extends CustomPainter {
   final double min, max;
 
   ChartPainter(this.x, this.y, this.min, this.max);
-
+  final linePaint = Paint()
+    ..color = Colors.grey.shade700
+    ..style = PaintingStyle.stroke
+    ..strokeWidth = 0.5;
   static double border = 10.0;
 
   @override
@@ -35,10 +38,14 @@ class ChartPainter extends CustomPainter {
     _drawOutline(canvas, c, wd, height);
 
     // now compute the data point locations
-    final points = computePoints(c, wd, height, hr);
-    points.forEach((p) {
-      canvas.drawCircle(p, 10.0, Paint()..color = Colors.white);
-    });
+    final points = _computePoints(c, wd, height, hr);
+    final path = _computePath(points);
+
+    // draw the path, then overlay the points
+    canvas.drawPath(path, linePaint);
+    for (var p in points) {
+      canvas.drawCircle(p, 5.0, Paint()..color = Colors.white);
+    }
   }
 
   @override
@@ -59,7 +66,8 @@ class ChartPainter extends CustomPainter {
     }
   }
 
-  List<Offset> computePoints(Offset c, double width, double height, double hr) {
+  List<Offset> _computePoints(
+      Offset c, double width, double height, double hr) {
     List<Offset> points = [];
     for (var element in y) {
       final yy = height - (element - min) * hr;
@@ -68,5 +76,19 @@ class ChartPainter extends CustomPainter {
       c += Offset(width, 0);
     }
     return points;
+  }
+
+  Path _computePath(List<Offset> points) {
+    Path result = Path();
+
+    for (var i = 0; i < points.length; i++) {
+      final p = points[i];
+      if (i == 0) {
+        result.moveTo(p.dx, p.dy);
+      } else {
+        result.lineTo(p.dx, p.dy);
+      }
+    }
+    return result;
   }
 }
