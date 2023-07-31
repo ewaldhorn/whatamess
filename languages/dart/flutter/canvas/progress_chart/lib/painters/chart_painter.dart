@@ -1,17 +1,57 @@
 import 'package:flutter/material.dart';
 
 class ChartPainter extends CustomPainter {
-  ChartPainter(List<String> x, List<double> y, double min, double max);
+  final List<String> x;
+  final List<double> y;
+  final double min, max;
+
+  ChartPainter(this.x, this.y, this.min, this.max);
+
+  static double border = 10.0;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final c = Offset(size.width / 2, size.height / 2);
-    final paint = Paint()..color = Colors.black;
-    canvas.drawCircle(c, size.width / 12, paint);
+    // draw background
+    final clipRect = Rect.fromLTWH(0, 0, size.width, size.height);
+    canvas.clipRect(clipRect);
+    canvas.drawPaint(Paint()..color = Colors.black);
+
+    // now the data points
+
+    // first set up some drawing dimensions
+    final drawableHeight = size.height - 2.0 * border;
+    final drawableWidth = size.width - 2.0 * border;
+    final hd = drawableHeight / 5.0;
+    final wd = drawableWidth / x.length.toDouble();
+    final height = hd * 3.0;
+    final width = drawableWidth;
+
+    // check validity of data against our drawable area
+    if (height <= 0.0 || width <= 0.0) return;
+    if (max - min < 1.0e-6) return;
+
+    final hr = height / (max - min); // height per unit value
+    final left = border;
+    final top = border;
+    final c = Offset(left + wd / 2.0, top + height / 2.0);
+    _drawOutline(canvas, c, wd, height);
   }
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     return true;
+  }
+
+  final outlinePaint = Paint()
+    ..strokeWidth = 1
+    ..style = PaintingStyle.stroke
+    ..color = Colors.white;
+
+  void _drawOutline(Canvas canvas, Offset c, double width, double height) {
+    for (var yElement in y) {
+      final rect = Rect.fromCenter(center: c, width: width, height: height);
+      canvas.drawRect(rect, outlinePaint);
+      c += Offset(width, 0);
+    }
   }
 }
