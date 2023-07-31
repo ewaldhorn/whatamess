@@ -16,9 +16,7 @@ class ChartPainter extends CustomPainter {
     canvas.clipRect(clipRect);
     canvas.drawPaint(Paint()..color = Colors.black);
 
-    // now the data points
-
-    // first set up some drawing dimensions
+    // set up some drawing dimensions
     final drawableHeight = size.height - 2.0 * border;
     final drawableWidth = size.width - 2.0 * border;
     final hd = drawableHeight / 5.0;
@@ -35,6 +33,12 @@ class ChartPainter extends CustomPainter {
     final top = border;
     final c = Offset(left + wd / 2.0, top + height / 2.0);
     _drawOutline(canvas, c, wd, height);
+
+    // now compute the data point locations
+    final points = computePoints(c, wd, height, hr);
+    points.forEach((p) {
+      canvas.drawCircle(p, 10.0, Paint()..color = Colors.white);
+    });
   }
 
   @override
@@ -53,5 +57,16 @@ class ChartPainter extends CustomPainter {
       canvas.drawRect(rect, outlinePaint);
       c += Offset(width, 0);
     }
+  }
+
+  List<Offset> computePoints(Offset c, double width, double height, double hr) {
+    List<Offset> points = [];
+    for (var element in y) {
+      final yy = height - (element - min) * hr;
+      final dp = Offset(c.dx, c.dy - height / 2.0 + yy);
+      points.add(dp);
+      c += Offset(width, 0);
+    }
+    return points;
   }
 }
