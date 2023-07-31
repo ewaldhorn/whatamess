@@ -10,6 +10,8 @@ class ChartPainter extends CustomPainter {
     ..color = Colors.grey.shade700
     ..style = PaintingStyle.stroke
     ..strokeWidth = 0.5;
+  final labelStyle = const TextStyle(color: Colors.white30, fontSize: 14);
+
   static double border = 10.0;
 
   @override
@@ -34,17 +36,21 @@ class ChartPainter extends CustomPainter {
     final hr = height / (max - min); // height per unit value
     final left = border;
     final top = border;
-    final c = Offset(left + wd / 2.0, top + height / 2.0);
+    var c = Offset(left + wd / 2.0, top + height / 2.0);
     _drawOutline(canvas, c, wd, height);
 
     // now compute the data point locations
     final points = _computePoints(c, wd, height, hr);
     final path = _computePath(points);
+    final labels = _computeLabels();
 
     // draw the path, then overlay the points
     canvas.drawPath(path, linePaint);
-    for (var p in points) {
-      canvas.drawCircle(p, 5.0, Paint()..color = Colors.white);
+    for (var i = 0; i < points.length; i++) {
+      final label = labels[i];
+      canvas.drawCircle(points[i], 5.0, Paint()..color = Colors.white);
+      drawTextCentered(canvas, c, label, labelStyle, wd);
+      c += Offset(wd, 0);
     }
   }
 
@@ -90,5 +96,28 @@ class ChartPainter extends CustomPainter {
       }
     }
     return result;
+  }
+
+  List<String> _computeLabels() {
+    return y.map((yp) => yp.toStringAsFixed(1)).toList();
+  }
+
+  TextPainter measureText(
+      String text, TextStyle style, double maxWidth, TextAlign align) {
+    final span = TextSpan(text: text, style: style);
+    final tp = TextPainter(
+        text: span, textAlign: align, textDirection: TextDirection.ltr);
+    tp.layout(minWidth: 0, maxWidth: maxWidth);
+
+    return tp;
+  }
+
+  Size drawTextCentered(
+      Canvas canvas, Offset c, String text, TextStyle style, double width) {
+    final tp = measureText(text, style, width, TextAlign.center);
+    final position = c + Offset(-tp.width / 2.0, -tp.height / 2.0);
+    tp.paint(canvas, position);
+
+    return tp.size;
   }
 }
