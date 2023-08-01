@@ -11,7 +11,7 @@ class _DesktopViewState extends State<DesktopView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.red,
+      backgroundColor: Colors.red[100],
       appBar: AppBar(
         title: const Text('Desktop View'),
       ),

@@ -21,6 +21,7 @@ class _ResponsiveDemoState extends State<ResponsiveDemo> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(primarySwatch: Colors.red),
       home: ResponsiveUI(
         desktopView: DesktopView(),
         tabletView: TabletView(),

@@ -11,7 +11,7 @@ class _TabletViewState extends State<TabletView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.red,
+      backgroundColor: Colors.red[100],
       appBar: AppBar(
         title: const Text('Tablet View'),
       ),
