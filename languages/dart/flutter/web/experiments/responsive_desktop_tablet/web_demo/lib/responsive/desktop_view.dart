@@ -15,6 +15,42 @@ class _DesktopViewState extends State<DesktopView> {
       appBar: AppBar(
         title: const Text('Desktop View'),
       ),
+      body: Row(
+        children: [
+          Expanded(
+            child: Column(
+              children: [
+                AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Container(
+                        height: 180,
+                        color: Colors.red,
+                      ),
+                    )),
+                Expanded(
+                    child: ListView.builder(
+                  itemCount: 10,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Container(
+                        height: 100,
+                        color: Colors.blue,
+                      ),
+                    );
+                  },
+                ))
+              ],
+            ),
+          ),
+          Container(
+            width: 200,
+            color: Colors.orange,
+          )
+        ],
+      ),
     );
   }
 }

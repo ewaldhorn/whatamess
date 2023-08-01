@@ -15,6 +15,32 @@ class _TabletViewState extends State<TabletView> {
       appBar: AppBar(
         title: const Text('Tablet View'),
       ),
+      body: Column(
+        children: [
+          AspectRatio(
+              aspectRatio: 16 / 9,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Container(
+                  height: 180,
+                  color: Colors.red,
+                ),
+              )),
+          Expanded(
+              child: ListView.builder(
+            itemCount: 10,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Container(
+                  height: 100,
+                  color: Colors.blue,
+                ),
+              );
+            },
+          ))
+        ],
+      ),
     );
   }
 }
