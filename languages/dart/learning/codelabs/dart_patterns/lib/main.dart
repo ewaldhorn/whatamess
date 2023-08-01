@@ -1,20 +1,45 @@
 import 'package:flutter/material.dart';
 
+import 'data.dart';
+
 void main() {
-  runApp(const MyApp());
+  runApp(const DocumentApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class DocumentApp extends StatelessWidget {
+  const DocumentApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text("Yolo!"),
-        ),
+    return MaterialApp(
+      theme: ThemeData(useMaterial3: true),
+      home: DocumentScreen(
+        document: Document(),
+      ),
+    );
+  }
+}
+
+class DocumentScreen extends StatelessWidget {
+  final Document document;
+
+  const DocumentScreen({
+    required this.document,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Title goes here'),
+      ),
+      body: const Column(
+        children: [
+          Center(
+            child: Text('Body goes here'),
+          ),
+        ],
       ),
     );
   }
