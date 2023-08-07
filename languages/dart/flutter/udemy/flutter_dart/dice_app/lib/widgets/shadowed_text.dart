@@ -7,11 +7,19 @@ class ShadowedText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(msg,
-        style: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 30.0,
-            shadows: [Shadow(color: Colors.black, offset: Offset(2.0, 2.0))]));
+    return Text(
+      msg,
+      style: const TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
+        fontSize: 30.0,
+        shadows: [
+          Shadow(
+            color: Colors.black,
+            offset: Offset(2.0, 2.0),
+          ),
+        ],
+      ),
+    );
   }
 }
