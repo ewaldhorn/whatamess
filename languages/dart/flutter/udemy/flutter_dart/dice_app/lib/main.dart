@@ -7,13 +7,21 @@ void main() {
         backgroundColor: Colors.yellow[800],
         body: Container(
           decoration: const BoxDecoration(
-              gradient: LinearGradient(colors: [
-            Color.fromARGB(255, 243, 136, 61),
-            Color.fromARGB(255, 220, 110, 40),
-            Color.fromARGB(255, 181, 88, 31),
-          ])),
+            gradient: LinearGradient(colors: [
+              Color.fromARGB(255, 243, 136, 61),
+              Color.fromARGB(255, 220, 110, 40),
+              Color.fromARGB(255, 181, 88, 31),
+            ], begin: Alignment.centerLeft, end: Alignment.bottomRight),
+          ),
           child: const Center(
-            child: Text('Yolo'),
+            child: Text('Yolo',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30.0,
+                    shadows: [
+                      Shadow(color: Colors.black, offset: Offset(2.0, 2.0))
+                    ])),
           ),
         ),
       ),
