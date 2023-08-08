@@ -1,0 +1,34 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  PORT: 9000
+  DATA: '{"title": "Take out trash"}'
+  CONTENT_TYPE: 'Content-Type: application/json'
+
+tasks:
+  default:
+    cmds:
+      - task --list-all
+    silent: true
+  run:
+    cmds:
+      - dart_frog dev
+    silent: true
+  create_todo:
+    cmds:
+      - curl --request POST --url http://localhost:{{.PORT}}/todos --header {{.CONTENT_TYPE}} --data '{{.DATA}}'
+      - echo
+    silent: true
+  read_all:
+    cmds:
+      - curl --request GET --url http://localhost:{{.PORT}}/todos
+      - echo
+    silent: true
+  read_specific:
+    cmds:
+      - curl --request GET --url http://localhost:8080/todos/<id>
+      - echo
+    silent: true
+      
