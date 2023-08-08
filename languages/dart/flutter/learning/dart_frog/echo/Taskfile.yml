@@ -1,0 +1,36 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  GREETING: Hello, World!
+
+tasks:
+  default:
+    cmds:
+      - task --list-all
+    silent: true
+  run:
+    cmds:
+      - dart_frog dev
+    silent: true
+  test1:
+    cmds:
+      - curl --request GET --url http://localhost:8080/ping
+      - echo
+    silent: true
+  test2:
+    cmds:
+      - curl --request GET --url http://localhost:8080/pong
+      - echo
+    silent: true
+  test3:
+    cmds:
+      - curl --request GET --url http://localhost:8080/noodle
+      - echo
+    silent: true
+  test-all:
+    cmds:
+      - task: test1
+      - task: test2
+      - task: test3
