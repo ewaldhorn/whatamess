@@ -13,6 +13,12 @@ class GradientContainer extends StatelessWidget {
   const GradientContainer(this.child,
       {super.key, this.colourRange = defaultColours});
 
+  const GradientContainer.purple(this.child, {super.key})
+      : colourRange = const [
+          Color.fromARGB(255, 128, 64, 128),
+          Color.fromARGB(255, 255, 128, 255)
+        ];
+
   @override
   Widget build(BuildContext context) {
     return Container(

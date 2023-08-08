@@ -6,10 +6,10 @@ void main() {
     MaterialApp(
       home: Scaffold(
           backgroundColor: Colors.yellow[800],
-          body: GradientContainer(
+          body: GradientContainer.purple(
             ListView(
               children: [
-                ShadowedText('Yolo'),
+                const ShadowedText('Yolo'),
                 Image.asset("dice-images/dice-1.png")
               ],
             ),
