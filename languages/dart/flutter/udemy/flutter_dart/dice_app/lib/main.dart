@@ -6,9 +6,12 @@ void main() {
     MaterialApp(
       home: Scaffold(
           backgroundColor: Colors.yellow[800],
-          body: const GradientContainer(
-            Center(
-              child: ShadowedText('Yolo'),
+          body: GradientContainer(
+            ListView(
+              children: [
+                ShadowedText('Yolo'),
+                Image.asset("dice-images/dice-1.png")
+              ],
             ),
           )),
     ),
