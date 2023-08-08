@@ -1,0 +1,8 @@
+    name: remote_todo
+
+    packages:
+      - packages/*
+
+    scripts:
+      analyze:
+        exec: Dart analyze .
