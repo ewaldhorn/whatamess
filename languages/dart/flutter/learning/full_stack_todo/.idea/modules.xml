@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/packages/backend_frog/melos_backend_frog.iml" filepath="$PROJECT_DIR$/packages/backend_frog/melos_backend_frog.iml" />
+      <module fileurl="file://$PROJECT_DIR$/packages/frontend_flutter/melos_frontend_flutter.iml" filepath="$PROJECT_DIR$/packages/frontend_flutter/melos_frontend_flutter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/packages/todo/melos_todo.iml" filepath="$PROJECT_DIR$/packages/todo/melos_todo.iml" />
       <module fileurl="file://$PROJECT_DIR$/melos_remote_todo.iml" filepath="$PROJECT_DIR$/melos_remote_todo.iml" />
     </modules>
   </component>
