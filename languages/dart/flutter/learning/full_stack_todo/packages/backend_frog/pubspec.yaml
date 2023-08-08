@@ -8,7 +8,9 @@ environment:
 
 dependencies:
   dart_frog: ^1.0.0
+  shelf_cors_headers: ^0.1.5
   todo: ^0.0.1
+  uuid: ^3.0.7
 
 dev_dependencies:
   mocktail: ^0.3.0

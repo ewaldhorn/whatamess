@@ -3,6 +3,5 @@
 /// More dartdocs go here.
 library;
 
-export 'src/todo_base.dart';
-
-// TODO: Export any libraries intended for clients of this package.
+export 'src/todo_entity.dart';
+export 'src/todo_repository.dart';
