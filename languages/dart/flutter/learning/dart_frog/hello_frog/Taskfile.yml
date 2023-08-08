@@ -1,0 +1,24 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  GREETING: Hello, World!
+
+tasks:
+  default:
+    desc: List all available options.
+    cmds:
+      - task --list-all
+    silent: true
+  run:
+    desc: Runs the server.
+    cmds:
+      - dart_frog dev
+    silent: true
+  basic_curl:
+    desc: Does a simple CURL call to check the server.
+    cmds:
+      - curl --request GET --url http://localhost:8080
+      - echo
+    silent: true
