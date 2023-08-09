@@ -9,6 +9,9 @@ class DiceRoller extends StatefulWidget {
 }
 
 class _DiceRollerState extends State<DiceRoller> {
+  var activeImageNumber = 1;
+  var activeImagePath = 'dice-images/dice-1.png';
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -18,14 +21,22 @@ class _DiceRollerState extends State<DiceRoller> {
       children: [
         const ShadowedText('Try your luck'),
         Image.asset(
-          "dice-images/dice-1.png",
+          activeImagePath,
           width: 200,
         ),
         const SizedBox(
           height: 20,
         ),
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            setState(() {
+              activeImageNumber += 1;
+              if (activeImageNumber > 6) {
+                activeImageNumber = 1;
+              }
+              activeImagePath = 'dice-images/dice-$activeImageNumber.png';
+            });
+          },
           child: const Text(
             "Roll it",
             style: TextStyle(fontSize: 25),
