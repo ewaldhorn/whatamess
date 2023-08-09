@@ -1,5 +1,6 @@
 import 'package:dice_app/widgets/my_widgets.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 class DiceRoller extends StatefulWidget {
   const DiceRoller({super.key});
@@ -29,11 +30,8 @@ class _DiceRollerState extends State<DiceRoller> {
         ),
         ElevatedButton(
           onPressed: () {
+            activeImageNumber = Random().nextInt(5) + 1;
             setState(() {
-              activeImageNumber += 1;
-              if (activeImageNumber > 6) {
-                activeImageNumber = 1;
-              }
               activeImagePath = 'dice-images/dice-$activeImageNumber.png';
             });
           },
