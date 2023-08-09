@@ -16,7 +16,7 @@ class ShadowedText extends StatelessWidget {
         shadows: [
           Shadow(
             color: Colors.black,
-            offset: Offset(2.0, 2.0),
+            offset: Offset(3.0, 3.0),
           ),
         ],
       ),
