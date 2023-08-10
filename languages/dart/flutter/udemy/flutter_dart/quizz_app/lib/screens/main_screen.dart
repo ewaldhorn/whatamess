@@ -7,33 +7,40 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Image.asset(
-            "images/quiz-logo.png",
-            width: 200,
-          ),
-          const SizedBox(
-            height: 50,
-          ),
-          const Text(
-            "Learn Flutter the fun way!",
-            style: TextStyle(fontSize: 20, color: Colors.white),
-          ),
-          const SizedBox(
-            height: 50,
-          ),
-          OutlinedButton(
-              onPressed: () {},
-              child: const Text(
-                'Start Quiz',
-                style: TextStyle(color: Colors.white),
-              ))
-        ],
+    return Container(
+      decoration: const BoxDecoration(
+          gradient: LinearGradient(colors: [
+        Color.fromARGB(255, 245, 107, 52),
+        Color.fromARGB(255, 113, 47, 6)
+      ])),
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset(
+              "images/quiz-logo.png",
+              width: 200,
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            const Text(
+              "Learn Flutter the fun way!",
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            OutlinedButton(
+                onPressed: () {},
+                child: const Text(
+                  'Start Quiz',
+                  style: TextStyle(color: Colors.white),
+                ))
+          ],
+        ),
       ),
     );
   }
