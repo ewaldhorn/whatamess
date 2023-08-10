@@ -42,9 +42,7 @@ class MainScreen extends StatelessWidget {
             OutlinedButton.icon(
               icon: const Icon(Icons.arrow_forward,
                   color: Colors.white, size: 16),
-              onPressed: () {
-                startGameCallback();
-              },
+              onPressed: startGameCallback,
               style: OutlinedButton.styleFrom(elevation: 2.0),
               label: const Text(
                 'Start Quiz',

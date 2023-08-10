@@ -11,25 +11,22 @@ class MainQuizWidget extends StatefulWidget {
 }
 
 class _MainQuizWidgetState extends State<MainQuizWidget> {
-  bool isPlaying = false;
+  late Widget activeScreen;
 
   void startGame() {
     setState(() {
-      isPlaying = true;
+      activeScreen = const QuizScreen();
     });
   }
 
-  Widget getCurrentScreen() {
-    if (isPlaying) {
-      return const QuizScreen();
-    } else {
-      return const MainScreen(startGame);
-    }
+  @override
+  void initState() {
+    super.initState();
+    activeScreen = MainScreen(startGame);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: backgroundColour, body: getCurrentScreen());
+    return Scaffold(backgroundColor: backgroundColour, body: activeScreen);
   }
 }
