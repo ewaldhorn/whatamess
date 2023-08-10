@@ -11,11 +11,13 @@ class MainScreen extends StatelessWidget {
       decoration: const BoxDecoration(
           gradient: LinearGradient(colors: [
         Color.fromARGB(255, 245, 107, 52),
-        Color.fromARGB(255, 113, 47, 6)
+        Color.fromARGB(255, 217, 83, 30),
+        Color.fromARGB(255, 139, 64, 18),
+        Color.fromARGB(255, 113, 47, 6),
       ])),
       child: Center(
         child: Column(
-          mainAxisSize: MainAxisSize.max,
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -34,11 +36,12 @@ class MainScreen extends StatelessWidget {
               height: 50,
             ),
             OutlinedButton(
-                onPressed: () {},
-                child: const Text(
-                  'Start Quiz',
-                  style: TextStyle(color: Colors.white),
-                ))
+              onPressed: () {},
+              child: const Text(
+                'Start Quiz',
+                style: TextStyle(color: Colors.white),
+              ),
+            )
           ],
         ),
       ),
