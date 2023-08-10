@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class MainScreen extends StatelessWidget {
-  const MainScreen({
+  final void Function() startGameCallback;
+
+  const MainScreen(
+    this.startGameCallback, {
     super.key,
   });
 
@@ -39,7 +42,9 @@ class MainScreen extends StatelessWidget {
             OutlinedButton.icon(
               icon: const Icon(Icons.arrow_forward,
                   color: Colors.white, size: 16),
-              onPressed: () {},
+              onPressed: () {
+                startGameCallback();
+              },
               style: OutlinedButton.styleFrom(elevation: 2.0),
               label: const Text(
                 'Start Quiz',
