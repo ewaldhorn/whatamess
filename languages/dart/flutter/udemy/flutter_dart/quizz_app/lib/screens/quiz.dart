@@ -15,7 +15,13 @@ class _MainQuizWidgetState extends State<MainQuizWidget> {
 
   void startGame() {
     setState(() {
-      activeScreen = const QuizScreen();
+      activeScreen = QuizScreen(endGameCallback: endGame);
+    });
+  }
+
+  void endGame() {
+    setState(() {
+      activeScreen = const ResultsScreen();
     });
   }
 
