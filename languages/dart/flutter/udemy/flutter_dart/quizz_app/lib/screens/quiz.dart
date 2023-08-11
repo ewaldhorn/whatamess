@@ -16,6 +16,8 @@ class _MainQuizWidgetState extends State<MainQuizWidget> {
 
   void startGame() {
     setState(() {
+      selectedAnswers.clear();
+
       activeScreen = QuizScreen(
         endGameCallback: endGame,
         answerCallback: chooseAnswer,
@@ -25,7 +27,7 @@ class _MainQuizWidgetState extends State<MainQuizWidget> {
 
   void endGame() {
     setState(() {
-      activeScreen = ResultsScreen(selectedAnswers);
+      activeScreen = ResultsScreen(selectedAnswers, startGame);
     });
   }
 
