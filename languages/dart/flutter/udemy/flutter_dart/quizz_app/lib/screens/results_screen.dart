@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 
 class ResultsScreen extends StatelessWidget {
-  const ResultsScreen({super.key});
+  const ResultsScreen(this.answers, {super.key});
+
+  final List<String> answers;
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Column(
+      children: [Text("There are ${answers.length}.")],
+    );
   }
 }

@@ -4,9 +4,11 @@ import 'package:quiz_app/widgets/answer_button.dart';
 import 'package:quiz_app/questions/questions.dart';
 
 class QuizScreen extends StatefulWidget {
-  const QuizScreen({super.key, required this.endGameCallback});
+  const QuizScreen(
+      {super.key, required this.endGameCallback, required this.answerCallback});
 
   final void Function() endGameCallback;
+  final void Function(String choice) answerCallback;
 
   @override
   State<QuizScreen> createState() => _QuizScreenState();
@@ -16,7 +18,9 @@ class _QuizScreenState extends State<QuizScreen> {
   final questionCount = questions.length;
   var currentQuestionNumber = 0;
 
-  void answerQuestion() {
+  void answerQuestion(String choice) {
+    widget.answerCallback(choice);
+
     if (currentQuestionNumber < (questionCount - 1)) {
       setState(() {
         currentQuestionNumber++;
@@ -50,7 +54,7 @@ class _QuizScreenState extends State<QuizScreen> {
               return AnswerButton(
                   text: a,
                   onPressed: () {
-                    answerQuestion();
+                    answerQuestion(a);
                   });
             }),
             const SizedBox(height: 20),

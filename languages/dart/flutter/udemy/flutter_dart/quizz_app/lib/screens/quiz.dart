@@ -12,17 +12,25 @@ class MainQuizWidget extends StatefulWidget {
 
 class _MainQuizWidgetState extends State<MainQuizWidget> {
   late Widget activeScreen;
+  List<String> selectedAnswers = [];
 
   void startGame() {
     setState(() {
-      activeScreen = QuizScreen(endGameCallback: endGame);
+      activeScreen = QuizScreen(
+        endGameCallback: endGame,
+        answerCallback: chooseAnswer,
+      );
     });
   }
 
   void endGame() {
     setState(() {
-      activeScreen = const ResultsScreen();
+      activeScreen = ResultsScreen(selectedAnswers);
     });
+  }
+
+  void chooseAnswer(String choice) {
+    selectedAnswers.add(choice);
   }
 
   @override
