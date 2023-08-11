@@ -10,7 +10,16 @@ class QuizScreen extends StatefulWidget {
 }
 
 class _QuizScreenState extends State<QuizScreen> {
-  final currentQuestion = questions[0];
+  final questionCount = questions.length;
+  var currentQuestionNumber = 0;
+
+  void answerQuestion() {
+    if (currentQuestionNumber < (questionCount - 1)) {
+      setState(() {
+        currentQuestionNumber++;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +33,24 @@ class _QuizScreenState extends State<QuizScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              currentQuestion.question,
+              questions[currentQuestionNumber].question,
               textAlign: TextAlign.center,
               style: const TextStyle(color: Colors.white, fontSize: 26),
             ),
             const SizedBox(height: 20),
-            ...currentQuestion.getShuffledAnswers().map((a) {
-              return AnswerButton(text: a, onPressed: () {});
+            ...questions[currentQuestionNumber].getShuffledAnswers().map((a) {
+              return AnswerButton(
+                  text: a,
+                  onPressed: () {
+                    answerQuestion();
+                  });
             }),
+            const SizedBox(height: 20),
+            Text(
+              "${currentQuestionNumber + 1} / $questionCount",
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: Colors.grey),
+            )
           ],
         ),
       ),
