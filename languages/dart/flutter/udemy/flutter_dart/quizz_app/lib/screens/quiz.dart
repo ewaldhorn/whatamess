@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:quizz_app/constants/colours.dart';
-import 'package:quizz_app/screens/quiz_screen.dart';
-import 'package:quizz_app/screens/screens.dart';
+import 'package:quiz_app/constants/colours.dart';
+import 'package:quiz_app/screens/quiz_screen.dart';
+import 'package:quiz_app/screens/screens.dart';
 
 class MainQuizWidget extends StatefulWidget {
   const MainQuizWidget({super.key});
