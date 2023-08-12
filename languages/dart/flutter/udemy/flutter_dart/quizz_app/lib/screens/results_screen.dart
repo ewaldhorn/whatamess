@@ -34,7 +34,8 @@ class ResultsScreen extends StatelessWidget {
         children: [
           Text(
             "You got ${calculateCorrectAnswers()} / ${answers.length} right!",
-            style: GoogleFonts.lora(color: Colors.white, fontSize: 20),
+            style: GoogleFonts.lora(
+                color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 30),
