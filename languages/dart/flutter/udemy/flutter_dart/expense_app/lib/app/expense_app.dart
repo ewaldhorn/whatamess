@@ -20,6 +20,11 @@ class _ExpenseAppState extends State<ExpenseApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(onPressed: () {}, icon: const Icon(Icons.plus_one))
+        ],
+      ),
       body: Column(
         children: [
           const Text('Chart'),
