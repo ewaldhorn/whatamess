@@ -9,5 +9,9 @@ tasks:
     silent: true
   run:
     cmds:
-      - flutter run -d chrome
+      - flutter run -d chrome --web-renderer canvaskit
+    silent: true
+  build:
+    cmds:
+      - flutter build web --web-renderer canvaskit
     silent: true
