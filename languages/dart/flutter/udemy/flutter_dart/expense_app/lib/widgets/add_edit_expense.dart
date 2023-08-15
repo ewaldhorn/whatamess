@@ -34,15 +34,26 @@ class _AddEditExpenseState extends State<AddEditExpense> {
             controller: _amountController,
             maxLength: 10,
             keyboardType: TextInputType.number,
-            decoration: const InputDecoration(label: Text('Amount')),
+            decoration:
+                const InputDecoration(label: Text('Amount'), prefixText: 'R '),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TextButton(onPressed: () {}, child: const Text('Cancel')),
+              const SizedBox(width: 20),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Cancel'),
+              ),
+              const Spacer(),
               ElevatedButton(
-                  onPressed: () {}, child: const Text('Save Expense'))
+                onPressed: () {},
+                child: const Text('Save Expense'),
+              ),
+              const SizedBox(width: 20)
             ],
           ),
         ],
