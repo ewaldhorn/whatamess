@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+final dateFormatter = DateFormat.yMd();
 
 class AddEditExpense extends StatefulWidget {
   const AddEditExpense({super.key});
@@ -10,6 +13,7 @@ class AddEditExpense extends StatefulWidget {
 class _AddEditExpenseState extends State<AddEditExpense> {
   final _descriptionController = TextEditingController();
   final _amountController = TextEditingController();
+  DateTime? _selectedDate;
 
   @override
   void dispose() {
@@ -18,12 +22,17 @@ class _AddEditExpenseState extends State<AddEditExpense> {
     super.dispose();
   }
 
-  void _presentDatePicker() {
-    showDatePicker(
+  void _presentDatePicker() async {
+    final selected = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime.now().subtract(const Duration(days: 365)),
         lastDate: DateTime.now());
+
+    setState(() {
+      // wait for the date picker to return a selected date
+      _selectedDate = selected;
+    });
   }
 
   @override
@@ -43,7 +52,10 @@ class _AddEditExpenseState extends State<AddEditExpense> {
               Expanded(
                 child: Row(
                   children: [
-                    const Text('Selected Date'),
+                    Text(switch (_selectedDate) {
+                      null => 'Select Date',
+                      _ => dateFormatter.format(_selectedDate!)
+                    }),
                     const SizedBox(width: 10),
                     IconButton(
                       color: Colors.green[900],
