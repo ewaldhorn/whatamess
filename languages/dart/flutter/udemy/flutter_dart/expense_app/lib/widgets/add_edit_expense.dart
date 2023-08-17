@@ -23,6 +23,7 @@ class _AddEditExpenseState extends State<AddEditExpense> {
   }
 
   void _presentDatePicker() async {
+    // wait for the date picker to return a selected date
     final selected = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
@@ -30,7 +31,6 @@ class _AddEditExpenseState extends State<AddEditExpense> {
         lastDate: DateTime.now());
 
     setState(() {
-      // wait for the date picker to return a selected date
       _selectedDate = selected;
     });
   }
