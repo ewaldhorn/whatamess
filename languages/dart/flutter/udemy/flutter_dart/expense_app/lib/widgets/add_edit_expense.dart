@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:expense_app/models/expense.dart' as cats;
 
 final dateFormatter = DateFormat.yMd();
 
@@ -14,6 +16,7 @@ class _AddEditExpenseState extends State<AddEditExpense> {
   final _descriptionController = TextEditingController();
   final _amountController = TextEditingController();
   DateTime? _selectedDate;
+  cats.Category _selectedCategory = cats.Category.leisure;
 
   @override
   void dispose() {
@@ -82,6 +85,26 @@ class _AddEditExpenseState extends State<AddEditExpense> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(width: 20),
+              DropdownButton(
+                  value: _selectedCategory,
+                  items: cats.Category.values
+                      .map(
+                        (entry) => DropdownMenuItem(
+                          value: entry,
+                          child: Text(entry.name.toUpperCase()),
+                        ),
+                      )
+                      .toList(),
+                  onChanged: (value) {
+                    if (value == null) {
+                      return;
+                    }
+
+                    setState(() {
+                      _selectedCategory = value;
+                    });
+                  }),
+              const Spacer(),
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
