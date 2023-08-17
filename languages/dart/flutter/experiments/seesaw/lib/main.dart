@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:seesaw/data.dart';
 
 void main() => runApp(const MyApp());
 
@@ -12,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: VisApp(),
+      home: const VisApp(),
     );
   }
 }
@@ -26,11 +28,27 @@ class VisApp extends StatelessWidget {
       return Scaffold(
         appBar: AppBar(
           title: const Text('Data Vis App'),
+          centerTitle: true,
         ),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[Text('This is it!')],
+            children: <Widget>[
+              SizedBox(
+                height: 250,
+                child: charts.BarChart(
+                  SampleData.createChartData(),
+                  animate: true,
+                  behaviors: [
+                    charts.ChartTitle('Company Size vs Number of Companies'),
+                    charts.ChartTitle('Number of Companies',
+                        behaviorPosition: charts.BehaviorPosition.start),
+                    charts.ChartTitle('Company Size',
+                        behaviorPosition: charts.BehaviorPosition.bottom)
+                  ],
+                ),
+              )
+            ],
           ),
         ),
       );
