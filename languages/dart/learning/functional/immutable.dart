@@ -21,3 +21,9 @@ class Person {
     return Person(name: name ?? this.name, age: age ?? this.age);
   }
 }
+
+class Dummy {
+  final String description;
+
+  Dummy({required this.description});
+}
