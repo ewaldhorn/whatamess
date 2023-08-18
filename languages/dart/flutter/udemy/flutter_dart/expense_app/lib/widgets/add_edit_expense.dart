@@ -25,6 +25,15 @@ class _AddEditExpenseState extends State<AddEditExpense> {
     super.dispose();
   }
 
+  void _submitExpenseData() {
+    final amount = double.tryParse(_amountController.text);
+    final amountInvalid = amount == null || amount < 0.0;
+
+    if (_descriptionController.text.trim().isEmpty ||
+        amountInvalid ||
+        _selectedDate == null) {}
+  }
+
   void _presentDatePicker() async {
     // wait for the date picker to return a selected date
     final selected = await showDatePicker(
@@ -113,7 +122,7 @@ class _AddEditExpenseState extends State<AddEditExpense> {
               ),
               const Spacer(),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: _submitExpenseData,
                 child: const Text('Save Expense'),
               ),
               const SizedBox(width: 20)
