@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:expense_app/models/expense.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:expense_app/models/expense.dart' as cats;
@@ -6,7 +6,9 @@ import 'package:expense_app/models/expense.dart' as cats;
 final dateFormatter = DateFormat.yMd();
 
 class AddEditExpense extends StatefulWidget {
-  const AddEditExpense({super.key});
+  const AddEditExpense({super.key, required this.onAddExpense});
+
+  final void Function(Expense expense) onAddExpense;
 
   @override
   State<AddEditExpense> createState() => _AddEditExpenseState();
@@ -31,7 +33,29 @@ class _AddEditExpenseState extends State<AddEditExpense> {
 
     if (_descriptionController.text.trim().isEmpty ||
         amountInvalid ||
-        _selectedDate == null) {}
+        _selectedDate == null) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text("Invalid Input"),
+          content: const Text("Please make sure you completed all fields."),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text("OK"))
+          ],
+        ),
+      );
+      return;
+    }
+
+    var newExpense = Expense(
+        _selectedCategory, _descriptionController.text, amount, _selectedDate!);
+
+    widget.onAddExpense(newExpense);
+    Navigator.pop(context);
   }
 
   void _presentDatePicker() async {
