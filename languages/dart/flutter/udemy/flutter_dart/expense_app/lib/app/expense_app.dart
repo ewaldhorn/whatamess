@@ -32,6 +32,7 @@ class _ExpenseAppState extends State<ExpenseApp> {
   void _showAddExpenseModal() {
     showModalBottomSheet(
       context: context,
+      useSafeArea: true,
       isScrollControlled: true,
       builder: (ctx) => AddEditExpense(onAddExpense: _addExpense),
     );
