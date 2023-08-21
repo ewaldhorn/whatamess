@@ -73,86 +73,93 @@ class _AddEditExpenseState extends State<AddEditExpense> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 32, 16, 0),
-      child: Column(
-        children: [
-          TextField(
-            controller: _descriptionController,
-            maxLength: 100,
-            keyboardType: TextInputType.text,
-            decoration: const InputDecoration(label: Text('Description')),
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: Row(
-                  children: [
-                    Text(switch (_selectedDate) {
-                      null => 'Select Date',
-                      _ => dateFormatter.format(_selectedDate!)
-                    }),
-                    const SizedBox(width: 10),
-                    IconButton(
-                      color: Colors.green[900],
-                      onPressed: _presentDatePicker,
-                      icon: const Icon(Icons.calendar_month_outlined),
-                    )
-                  ],
-                ),
-              ),
-              const SizedBox(width: 20),
-              Expanded(
-                child: TextField(
-                  controller: _amountController,
-                  maxLength: 10,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                      label: Text('Amount'), prefixText: 'R '),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(width: 20),
-              DropdownButton(
-                  value: _selectedCategory,
-                  items: cats.Category.values
-                      .map(
-                        (entry) => DropdownMenuItem(
-                          value: entry,
-                          child: Text(entry.name.toUpperCase()),
-                        ),
-                      )
-                      .toList(),
-                  onChanged: (value) {
-                    if (value == null) {
-                      return;
-                    }
+    final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
 
-                    setState(() {
-                      _selectedCategory = value;
-                    });
-                  }),
-              const Spacer(),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('Cancel'),
+    return SizedBox(
+      height: double.infinity,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(16, 32, 16, keyboardHeight + 16),
+          child: Column(
+            children: [
+              TextField(
+                controller: _descriptionController,
+                maxLength: 100,
+                keyboardType: TextInputType.text,
+                decoration: const InputDecoration(label: Text('Description')),
               ),
-              const Spacer(),
-              ElevatedButton(
-                onPressed: _submitExpenseData,
-                child: const Text('Save Expense'),
+              Row(
+                children: [
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Text(switch (_selectedDate) {
+                          null => 'Select Date',
+                          _ => dateFormatter.format(_selectedDate!)
+                        }),
+                        const SizedBox(width: 10),
+                        IconButton(
+                          color: Colors.green[900],
+                          onPressed: _presentDatePicker,
+                          icon: const Icon(Icons.calendar_month_outlined),
+                        )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  Expanded(
+                    child: TextField(
+                      controller: _amountController,
+                      maxLength: 10,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                          label: Text('Amount'), prefixText: 'R '),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(width: 20)
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(width: 20),
+                  DropdownButton(
+                      value: _selectedCategory,
+                      items: cats.Category.values
+                          .map(
+                            (entry) => DropdownMenuItem(
+                              value: entry,
+                              child: Text(entry.name.toUpperCase()),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: (value) {
+                        if (value == null) {
+                          return;
+                        }
+
+                        setState(() {
+                          _selectedCategory = value;
+                        });
+                      }),
+                  const Spacer(),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Cancel'),
+                  ),
+                  const Spacer(),
+                  ElevatedButton(
+                    onPressed: _submitExpenseData,
+                    child: const Text('Save Expense'),
+                  ),
+                  const SizedBox(width: 20)
+                ],
+              ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }
