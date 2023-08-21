@@ -25,3 +25,20 @@ const categoryIcons = {
   Category.work: Icons.work,
   Category.leisure: Icons.holiday_village
 };
+
+class ExpenseBucket {
+  final Category category;
+  final List<Expense> expenses;
+
+  ExpenseBucket({required this.category, required this.expenses});
+
+  double get totalExpenses {
+    double sum = 0;
+
+    for (final expense in expenses) {
+      sum += expense.amount;
+    }
+
+    return sum;
+  }
+}
