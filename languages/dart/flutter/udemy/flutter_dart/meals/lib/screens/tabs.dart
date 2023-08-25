@@ -17,11 +17,13 @@ class _TabsScreenState extends State<TabsScreen> {
   void _toggleFavouriteMealStatus(Meal meal) {
     final _isExisting = _favouriteMeals.contains(meal);
 
-    if (_isExisting) {
-      _favouriteMeals.remove(meal);
-    } else {
-      _favouriteMeals.add(meal);
-    }
+    setState(() {
+      if (_isExisting) {
+        _favouriteMeals.remove(meal);
+      } else {
+        _favouriteMeals.add(meal);
+      }
+    });
   }
 
   void _selectPage(int index) {
