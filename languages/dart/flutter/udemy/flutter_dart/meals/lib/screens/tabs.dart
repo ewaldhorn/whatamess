@@ -32,7 +32,8 @@ class _TabsScreenState extends State<TabsScreen> {
       appBar: AppBar(title: Text(activePageTitle)),
       body: activePage,
       bottomNavigationBar: BottomNavigationBar(
-        items: [
+        currentIndex: _selectedPageIndex,
+        items: const [
           BottomNavigationBarItem(
               icon: Icon(Icons.set_meal), label: 'Categories'),
           BottomNavigationBarItem(icon: Icon(Icons.star), label: 'Favourites'),
