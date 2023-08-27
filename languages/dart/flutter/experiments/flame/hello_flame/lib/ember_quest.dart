@@ -12,6 +12,9 @@ class EmberQuestGame extends FlameGame {
   late EmberPlayer _ember;
   double objectSpeed = 0.0;
 
+  late double lastBlockXPosition = 0.0;
+  late UniqueKey lastBlockKey;
+
   final world = World();
   late final CameraComponent cameraComponent;
 
@@ -53,6 +56,12 @@ class EmberQuestGame extends FlameGame {
     for (final block in segments[segmentIndex]) {
       switch (block.blockType) {
         case GroundBlock:
+          add(
+            GroundBlock(
+              gridPosition: block.gridPosition,
+              xOffset: xPositionOffset,
+            ),
+          );
           break;
         case PlatformBlock:
           add(PlatformBlock(
