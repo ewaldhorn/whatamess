@@ -16,7 +16,7 @@ class WaterEnemy extends SpriteAnimationComponent
   }) : super(size: Vector2.all(64), anchor: Anchor.bottomLeft);
 
   @override
-  void onLoad() {
+  Future<void> onLoad() async {
     animation = SpriteAnimation.fromFrameData(
       game.images.fromCache('water_enemy.png'),
       SpriteAnimationData.sequenced(
@@ -26,8 +26,8 @@ class WaterEnemy extends SpriteAnimationComponent
       ),
     );
     position = Vector2(
-      (gridPosition.x * size.x) + xOffset + (size.x / 2),
-      game.size.y - (gridPosition.y * size.y) - (size.y / 2),
+      (gridPosition.x * size.x) + xOffset,
+      game.size.y - (gridPosition.y * size.y),
     );
     add(RectangleHitbox(collisionType: CollisionType.passive));
     add(
@@ -46,7 +46,6 @@ class WaterEnemy extends SpriteAnimationComponent
   void update(double dt) {
     velocity.x = game.objectSpeed;
     position += velocity * dt;
-
     if (position.x < -size.x || game.health <= 0) {
       removeFromParent();
     }

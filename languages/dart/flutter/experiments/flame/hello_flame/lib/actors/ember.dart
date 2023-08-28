@@ -2,9 +2,10 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/services.dart';
-import 'package:hello_flame/actors/all_enemies.dart';
 import 'package:hello_flame/ember_quest.dart';
 import 'package:hello_flame/objects/all_objects.dart';
+
+import 'water_enemy.dart';
 
 class EmberPlayer extends SpriteAnimationComponent
     with KeyboardHandler, CollisionCallbacks, HasGameRef<EmberQuestGame> {
@@ -12,20 +13,20 @@ class EmberPlayer extends SpriteAnimationComponent
     required super.position,
   }) : super(size: Vector2.all(64), anchor: Anchor.center);
 
-  int horizontalDirection = 0;
   final Vector2 velocity = Vector2.zero();
-  final double moveSpeed = 200;
   final Vector2 fromAbove = Vector2(0, -1);
-  bool isOnGround = false;
   final double gravity = 15;
   final double jumpSpeed = 600;
+  final double moveSpeed = 200;
   final double terminalVelocity = 150;
-  bool hitByEnemy = false;
+  int horizontalDirection = 0;
 
   bool hasJumped = false;
+  bool isOnGround = false;
+  bool hitByEnemy = false;
 
   @override
-  void onLoad() {
+  Future<void> onLoad() async {
     animation = SpriteAnimation.fromFrameData(
       game.images.fromCache('ember.png'),
       SpriteAnimationData.sequenced(
@@ -34,61 +35,10 @@ class EmberPlayer extends SpriteAnimationComponent
         stepTime: 0.12,
       ),
     );
+
     add(
       CircleHitbox(),
     );
-  }
-
-  @override
-  void update(double dt) {
-    velocity.x = horizontalDirection * moveSpeed;
-    position += velocity * dt;
-
-    if (horizontalDirection < 0 && scale.x > 0) {
-      flipHorizontally();
-    } else if (horizontalDirection > 0 && scale.x < 0) {
-      flipHorizontally();
-    }
-
-    // Apply basic gravity
-    velocity.y += gravity;
-
-    // Determine if ember has jumped
-    if (hasJumped) {
-      if (isOnGround) {
-        velocity.y = -jumpSpeed;
-        isOnGround = false;
-      }
-      hasJumped = false;
-    }
-
-    // Prevent ember from jumping to crazy fast as well as descending too fast and
-    // crashing through the ground or a platform.
-    velocity.y = velocity.y.clamp(-jumpSpeed, terminalVelocity);
-
-    game.objectSpeed = 0;
-    // Prevent ember from going backwards at screen edge.
-    if (position.x - 36 <= 0 && horizontalDirection < 0) {
-      velocity.x = 0;
-    }
-    // Prevent ember from going beyond half screen.
-    if (position.x + 64 >= game.size.x / 2 && horizontalDirection > 0) {
-      velocity.x = 0;
-      game.objectSpeed = -moveSpeed;
-    }
-
-    position += velocity * dt;
-
-    // If ember fell in pit, then game over.
-    if (position.y > game.size.y + size.y) {
-      game.health = 0;
-    }
-
-    if (game.health <= 0) {
-      removeFromParent();
-    }
-
-    super.update(dt);
   }
 
   @override
@@ -105,8 +55,57 @@ class EmberPlayer extends SpriteAnimationComponent
 
     hasJumped = keysPressed.contains(LogicalKeyboardKey.space) ||
         keysPressed.contains(LogicalKeyboardKey.arrowUp);
-
     return true;
+  }
+
+  @override
+  void update(double dt) {
+    velocity.x = horizontalDirection * moveSpeed;
+    game.objectSpeed = 0;
+    // Prevent ember from going backwards at screen edge.
+    if (position.x - 36 <= 0 && horizontalDirection < 0) {
+      velocity.x = 0;
+    }
+    // Prevent ember from going beyond half screen.
+    if (position.x + 64 >= game.size.x / 2 && horizontalDirection > 0) {
+      velocity.x = 0;
+      game.objectSpeed = -moveSpeed;
+    }
+
+    // Apply basic gravity.
+    velocity.y += gravity;
+
+    // Determine if ember has jumped.
+    if (hasJumped) {
+      if (isOnGround) {
+        velocity.y = -jumpSpeed;
+        isOnGround = false;
+      }
+      hasJumped = false;
+    }
+
+    // Prevent ember from jumping to crazy fast.
+    velocity.y = velocity.y.clamp(-jumpSpeed, terminalVelocity);
+
+    // Adjust ember position.
+    position += velocity * dt;
+
+    // If ember fell in pit, then game over.
+    if (position.y > game.size.y + size.y) {
+      game.health = 0;
+    }
+
+    if (game.health <= 0) {
+      removeFromParent();
+    }
+
+    // Flip ember if needed.
+    if (horizontalDirection < 0 && scale.x > 0) {
+      flipHorizontally();
+    } else if (horizontalDirection > 0 && scale.x < 0) {
+      flipHorizontally();
+    }
+    super.update(dt);
   }
 
   @override
@@ -131,23 +130,22 @@ class EmberPlayer extends SpriteAnimationComponent
         // Resolve collision by moving ember along
         // collision normal by separation distance.
         position += collisionNormal.scaled(separationDistance);
-
-        if (other is Star) {
-          other.removeFromParent();
-          game.starsCollected++;
-        }
-
-        if (other is WaterEnemy) {
-          hit();
-        }
       }
     }
 
+    if (other is Star) {
+      other.removeFromParent();
+      game.starsCollected++;
+    }
+
+    if (other is WaterEnemy) {
+      hit();
+    }
     super.onCollision(intersectionPoints, other);
   }
 
   // This method runs an opacity effect on ember
-// to make it blink.
+  // to make it blink.
   void hit() {
     if (!hitByEnemy) {
       game.health--;
