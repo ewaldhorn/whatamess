@@ -1,1 +1,1 @@
-export "package:hello_flame/actors/water_enemy.dart";
+export "package:jumpy/actors/water_enemy.dart";

@@ -2,8 +2,8 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/services.dart';
-import 'package:hello_flame/ember_quest.dart';
-import 'package:hello_flame/objects/all_objects.dart';
+import 'package:jumpy/ember_quest.dart';
+import 'package:jumpy/objects/all_objects.dart';
 
 import 'water_enemy.dart';
 

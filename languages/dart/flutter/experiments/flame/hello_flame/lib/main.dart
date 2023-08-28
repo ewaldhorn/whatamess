@@ -1,7 +1,7 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:hello_flame/overlays/game_over.dart';
-import 'package:hello_flame/overlays/main_menu.dart';
+import 'package:jumpy/overlays/game_over.dart';
+import 'package:jumpy/overlays/main_menu.dart';
 
 import 'ember_quest.dart';
 

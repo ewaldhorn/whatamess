@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hello_flame/ember_quest.dart';
+import 'package:jumpy/ember_quest.dart';
 
 class MainMenu extends StatelessWidget {
   // Reference to parent game.

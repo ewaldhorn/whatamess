@@ -1,6 +1,6 @@
 import 'package:flame/game.dart';
-import 'package:hello_flame/actors/all_enemies.dart';
-import 'package:hello_flame/objects/all_objects.dart';
+import 'package:jumpy/actors/water_enemy.dart';
+import 'package:jumpy/objects/all_objects.dart';
 
 class Block {
   // gridPosition position is always segment based X,Y.
