@@ -7,7 +7,8 @@ import 'package:hello_flame/objects/all_objects.dart';
 import 'actors/all_enemies.dart';
 import 'actors/ember.dart';
 
-class EmberQuestGame extends FlameGame with HasKeyboardHandlerComponents {
+class EmberQuestGame extends FlameGame
+    with HasCollisionDetection, HasKeyboardHandlerComponents {
   EmberQuestGame();
 
   late EmberPlayer _ember;
@@ -48,8 +49,9 @@ class EmberQuestGame extends FlameGame with HasKeyboardHandlerComponents {
     }
 
     _ember = EmberPlayer(
-      position: Vector2(128, canvasSize.y - 70),
+      position: Vector2(128, canvasSize.y - 128),
     );
+
     world.add(_ember);
   }
 
