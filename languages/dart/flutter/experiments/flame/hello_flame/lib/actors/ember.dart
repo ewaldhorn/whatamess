@@ -136,6 +136,11 @@ class EmberPlayer extends SpriteAnimationComponent
     if (other is Star) {
       other.removeFromParent();
       game.starsCollected++;
+      if (game.starsCollected % 10 == 0) {
+        if (game.health < 3) {
+          game.health += 1;
+        }
+      }
     }
 
     if (other is WaterEnemy) {
