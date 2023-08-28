@@ -4,6 +4,7 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:hello_flame/managers/segment_manager.dart';
 import 'package:hello_flame/objects/all_objects.dart';
+import 'package:hello_flame/overlays/hud.dart';
 import 'actors/all_enemies.dart';
 import 'actors/ember.dart';
 
@@ -19,6 +20,8 @@ class EmberQuestGame extends FlameGame
 
   final world = World();
   late final CameraComponent cameraComponent;
+  int starsCollected = 0;
+  int health = 3;
 
   @override
   Future<void> onLoad() async {
@@ -53,6 +56,9 @@ class EmberQuestGame extends FlameGame
     );
 
     world.add(_ember);
+
+    // User Interface
+    cameraComponent.viewport.add(Hud());
   }
 
   void loadGameSegments(int segmentIndex, double xPositionOffset) {
