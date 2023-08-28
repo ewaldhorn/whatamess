@@ -78,6 +78,16 @@ class EmberPlayer extends SpriteAnimationComponent
     }
 
     position += velocity * dt;
+
+    // If ember fell in pit, then game over.
+    if (position.y > game.size.y + size.y) {
+      game.health = 0;
+    }
+
+    if (game.health <= 0) {
+      removeFromParent();
+    }
+
     super.update(dt);
   }
 
@@ -93,7 +103,8 @@ class EmberPlayer extends SpriteAnimationComponent
         ? 1
         : 0;
 
-    hasJumped = keysPressed.contains(LogicalKeyboardKey.space);
+    hasJumped = keysPressed.contains(LogicalKeyboardKey.space) ||
+        keysPressed.contains(LogicalKeyboardKey.arrowUp);
 
     return true;
   }
