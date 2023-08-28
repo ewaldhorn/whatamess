@@ -1,9 +1,10 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flutter/services.dart';
+import 'package:hello_flame/actors/all_enemies.dart';
 import 'package:hello_flame/ember_quest.dart';
-import 'package:hello_flame/objects/ground_block.dart';
-import 'package:hello_flame/objects/platform_block.dart';
+import 'package:hello_flame/objects/all_objects.dart';
 
 class EmberPlayer extends SpriteAnimationComponent
     with KeyboardHandler, CollisionCallbacks, HasGameRef<EmberQuestGame> {
@@ -19,6 +20,7 @@ class EmberPlayer extends SpriteAnimationComponent
   final double gravity = 15;
   final double jumpSpeed = 600;
   final double terminalVelocity = 150;
+  bool hitByEnemy = false;
 
   bool hasJumped = false;
 
@@ -64,6 +66,18 @@ class EmberPlayer extends SpriteAnimationComponent
     // crashing through the ground or a platform.
     velocity.y = velocity.y.clamp(-jumpSpeed, terminalVelocity);
 
+    game.objectSpeed = 0;
+    // Prevent ember from going backwards at screen edge.
+    if (position.x - 36 <= 0 && horizontalDirection < 0) {
+      velocity.x = 0;
+    }
+    // Prevent ember from going beyond half screen.
+    if (position.x + 64 >= game.size.x / 2 && horizontalDirection > 0) {
+      velocity.x = 0;
+      game.objectSpeed = -moveSpeed;
+    }
+
+    position += velocity * dt;
     super.update(dt);
   }
 
@@ -106,9 +120,36 @@ class EmberPlayer extends SpriteAnimationComponent
         // Resolve collision by moving ember along
         // collision normal by separation distance.
         position += collisionNormal.scaled(separationDistance);
+
+        if (other is Star) {
+          other.removeFromParent();
+        }
+
+        if (other is WaterEnemy) {
+          hit();
+        }
       }
     }
 
     super.onCollision(intersectionPoints, other);
+  }
+
+  // This method runs an opacity effect on ember
+// to make it blink.
+  void hit() {
+    if (!hitByEnemy) {
+      hitByEnemy = true;
+    }
+    add(
+      OpacityEffect.fadeOut(
+        EffectController(
+          alternate: true,
+          duration: 0.1,
+          repeatCount: 6,
+        ),
+      )..onComplete = () {
+          hitByEnemy = false;
+        },
+    );
   }
 }
