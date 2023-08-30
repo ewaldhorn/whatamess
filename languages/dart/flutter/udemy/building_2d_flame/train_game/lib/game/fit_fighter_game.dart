@@ -10,7 +10,7 @@ class FitFighterGame extends FlameGame {
   Future<void> onLoad() async {
     super.onLoad();
     add(BackgroundComponent());
-    add(PlayerComponent());
+    add(PlayerComponent(joystick: joystick));
     add(joystick);
   }
 }

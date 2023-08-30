@@ -9,7 +9,7 @@ JoystickComponent joystick = JoystickComponent(
   ),
   background: CircleComponent(
     radius: 80,
-    paint: BasicPalette.red.withAlpha(200).paint(),
+    paint: BasicPalette.darkGray.withAlpha(100).paint(),
   ),
   margin: const EdgeInsets.only(left: 40, bottom: 40),
 );
