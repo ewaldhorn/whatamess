@@ -8,9 +8,9 @@ class BackgroundComponent extends SpriteComponent
     with HasGameRef<FitFighterGame> {
   @override
   Future<void> onLoad() async {
-    super.onLoad();
+    await super.onLoad();
 
-    sprite = await gameRef.loadSprite(Global.backgroundSprite);
+    sprite = await gameRef.loadSprite(Globals.backgroundSprite);
     size = gameRef.size;
   }
 }

@@ -1,7 +1,7 @@
-class Global {
+class Globals {
   // Private constructor, we don't want an instance of this class floating
   // around for any reason.
-  Global._();
+  Globals._();
 
   // -------------------------------------------------------------------- IMAGES
   static const String backgroundSprite = "background.jpg";
