@@ -8,10 +8,13 @@ import 'package:train_game/components/player_component.dart';
 import 'package:train_game/constants/globals.dart';
 import 'package:train_game/game/fit_fighter_game.dart';
 
-class DumbbellComponent extends SpriteComponent
+class VirusComponent extends SpriteComponent
     with HasGameRef<FitFighterGame>, CollisionCallbacks {
   final double _spriteHeight = 60;
+  final Vector2 startPosition;
   final Random _random = Random();
+
+  VirusComponent({required this.startPosition});
 
   Vector2 _getRandomPosition() {
     double x = _random.nextInt(gameRef.size.x.toInt()).toDouble();
@@ -21,10 +24,10 @@ class DumbbellComponent extends SpriteComponent
 
   @override
   Future<void> onLoad() async {
-    super.onLoad();
-    sprite = await gameRef.loadSprite(Globals.dumbbellSprite);
+    await super.onLoad();
+    sprite = await gameRef.loadSprite(Globals.virusSprite);
     height = width = _spriteHeight;
-    position = _getRandomPosition();
+    position = startPosition;
     anchor = Anchor.center;
     add(RectangleHitbox());
   }
@@ -33,9 +36,9 @@ class DumbbellComponent extends SpriteComponent
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
     if (other is PlayerComponent) {
-      FlameAudio.play(Globals.dumbbellSound);
+      FlameAudio.play(Globals.virusSound);
       removeFromParent();
-      gameRef.add(DumbbellComponent());
+      gameRef.add(VirusComponent(startPosition: _getRandomPosition()));
     }
   }
 }

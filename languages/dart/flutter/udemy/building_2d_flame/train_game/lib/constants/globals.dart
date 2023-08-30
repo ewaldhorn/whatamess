@@ -21,5 +21,5 @@ class Globals {
   static const String dumbbellSound = "dumbbell_sound.mp3";
   static const String proteinSound = "protein_sound.mp3";
   static const String vaccineSound = "vaccine_sound.mp3";
-  static const String virusSound = "virus_sounds.mp3";
+  static const String virusSound = "virus_sound.mp3";
 }
