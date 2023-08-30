@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flame/game.dart';
 import 'package:train_game/components/background_component.dart';
 import 'package:train_game/components/player_component.dart';
+import 'package:train_game/inputs/joystick.dart';
 
 class FitFighterGame extends FlameGame {
   @override
@@ -10,5 +11,6 @@ class FitFighterGame extends FlameGame {
     super.onLoad();
     add(BackgroundComponent());
     add(PlayerComponent());
+    add(joystick);
   }
 }
