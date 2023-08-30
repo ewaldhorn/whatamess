@@ -6,7 +6,7 @@ import 'package:train_game/components/dumbbell_component.dart';
 import 'package:train_game/components/player_component.dart';
 import 'package:train_game/inputs/joystick.dart';
 
-class FitFighterGame extends FlameGame {
+class FitFighterGame extends FlameGame with HasCollisionDetection {
   @override
   Future<void> onLoad() async {
     super.onLoad();
