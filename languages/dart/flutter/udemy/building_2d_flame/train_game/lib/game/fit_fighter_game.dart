@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:flame/game.dart';
+import 'package:train_game/components/background_component.dart';
 
 class FitFighterGame extends FlameGame {
   @override
-  FutureOr<void> onLoad() async {
-    return super.onLoad();
+  Future<void> onLoad() async {
+    super.onLoad();
+    add(BackgroundComponent());
   }
 }
