@@ -16,5 +16,5 @@ tasks:
   build:
     desc: Builds a production release, performing tree-shaking and targets canvaskit.
     cmds:
-      - flutter build web --web-renderer canvaskit --base-href /jumpy/
+      - flutter build web --web-renderer canvaskit --base-href /train_game/
     silent: true
