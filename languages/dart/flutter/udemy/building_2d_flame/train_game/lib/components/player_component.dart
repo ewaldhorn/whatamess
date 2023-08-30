@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:train_game/constants/globals.dart';
 import 'package:train_game/game/fit_fighter_game.dart';
 
-class PlayerComponent extends SpriteComponent with HasGameRef<FitFighterGame> {
+class PlayerComponent extends SpriteComponent
+    with HasGameRef<FitFighterGame>, CollisionCallbacks {
   final double _spriteHeight = 100;
   final double _speed = 500;
 
@@ -53,5 +55,7 @@ class PlayerComponent extends SpriteComponent with HasGameRef<FitFighterGame> {
     _leftEdge = 60;
     _topEdge = 60;
     _bottomEdge = gameRef.size.y - 60;
+
+    add(RectangleHitbox());
   }
 }
