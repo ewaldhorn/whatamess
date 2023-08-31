@@ -20,6 +20,6 @@ class Globals {
   // --------------------------------------------------------------------- AUDIO
   static const String dumbbellSound = "dumbbell_sound.mp3";
   static const String proteinSound = "protein_sound.mp3";
-  static const String vaccineSound = "vaccine_sound.mp3";
+  static const String vaccineSound = "vaccine_sound.wav";
   static const String virusSound = "virus_sound.mp3";
 }

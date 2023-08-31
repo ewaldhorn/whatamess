@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame_audio/flame_audio.dart';
+import 'package:train_game/components/vaccine_component.dart';
 import 'package:train_game/components/virus_component.dart';
 import 'package:train_game/constants/globals.dart';
 import 'package:train_game/game/fit_fighter_game.dart';
@@ -12,7 +13,9 @@ class PlayerComponent extends SpriteComponent
   final double _spriteHeight = 100;
   final double _speed = 500;
   bool _virusAttacked = false;
+  bool _vaccinated = false;
   final Timer _feverTimer = Timer(3);
+  final Timer _vaccinatedTimer = Timer(3);
 
   late double _leftEdge, _rightEdge, _topEdge, _bottomEdge;
   late Sprite playerSkinny, playerFever, playerFit, playerMuscular;
@@ -31,8 +34,13 @@ class PlayerComponent extends SpriteComponent
     }
   }
 
+  void _vaccinatePlayer() {
+    _vaccinated = true;
+    _vaccinatedTimer.start();
+  }
+
   void _freezePlayer() {
-    if (!_virusAttacked) {
+    if (!_virusAttacked && !_vaccinated) {
       FlameAudio.play(Globals.virusSound);
       _virusAttacked = true;
       gameRef.score -= 2;
@@ -49,6 +57,13 @@ class PlayerComponent extends SpriteComponent
   @override
   void update(double dt) {
     super.update(dt);
+
+    if (_vaccinated) {
+      _vaccinatedTimer.update(dt);
+      if (_vaccinatedTimer.finished) {
+        _vaccinated = false;
+      }
+    }
 
     if (_virusAttacked) {
       _feverTimer.update(dt);
@@ -108,6 +123,10 @@ class PlayerComponent extends SpriteComponent
     super.onCollision(intersectionPoints, other);
     if (other is VirusComponent) {
       _freezePlayer();
+    } else if (other is VaccineComponent) {
+      if (!_virusAttacked) {
+        _vaccinatePlayer();
+      }
     }
   }
 }

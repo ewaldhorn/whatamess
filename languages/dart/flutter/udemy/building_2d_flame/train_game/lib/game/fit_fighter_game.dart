@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/painting.dart';
 import 'package:train_game/components/background_component.dart';
 import 'package:train_game/components/dumbbell_component.dart';
 import 'package:train_game/components/player_component.dart';
+import 'package:train_game/components/vaccine_component.dart';
 import 'package:train_game/components/virus_component.dart';
 import 'package:train_game/constants/globals.dart';
 import 'package:train_game/inputs/joystick.dart';
@@ -16,9 +18,11 @@ import 'package:train_game/screens/game_over_menu.dart';
 class FitFighterGame extends FlameGame with HasCollisionDetection {
   int score = 0;
   late Timer _gameTimer;
+  late int _vaccineTimerAppearance;
   int _remainingTime = 30;
   late TextComponent _scoreText;
   late TextComponent _timeText;
+  VaccineComponent vaccineComponent = VaccineComponent();
 
   @override
   Future<void> onLoad() async {
@@ -29,6 +33,8 @@ class FitFighterGame extends FlameGame with HasCollisionDetection {
       Globals.vaccineSound,
       Globals.virusSound
     ]);
+
+    _vaccineTimerAppearance = Random().nextInt(_remainingTime - 20) + 20;
 
     add(BackgroundComponent());
     add(VirusComponent(startPosition: Vector2(100, 150)));
@@ -43,6 +49,8 @@ class FitFighterGame extends FlameGame with HasCollisionDetection {
       if (_remainingTime <= 0) {
         pauseEngine();
         overlays.add(GameOverMenu.id);
+      } else if (_remainingTime == _vaccineTimerAppearance) {
+        add(vaccineComponent);
       } else {
         _remainingTime -= 1;
       }
