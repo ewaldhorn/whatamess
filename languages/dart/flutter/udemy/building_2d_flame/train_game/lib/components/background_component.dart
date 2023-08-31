@@ -11,6 +11,7 @@ class BackgroundComponent extends SpriteComponent
     await super.onLoad();
 
     sprite = await gameRef.loadSprite(Globals.backgroundSprite);
+    opacity = 0.10;
     size = gameRef.size;
   }
 }

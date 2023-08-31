@@ -3,8 +3,6 @@ import 'dart:math';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame_audio/flame_audio.dart';
-import 'package:train_game/components/player_component.dart';
 import 'package:train_game/constants/globals.dart';
 import 'package:train_game/game/fit_fighter_game.dart';
 
@@ -14,7 +12,8 @@ class VirusComponent extends SpriteComponent
   final Vector2 startPosition;
   final Random _random = Random();
   late Vector2 _velocity;
-  final double _speed = 200;
+  double _speed = 155.0;
+  int beenAlive = 0;
 
   VirusComponent({required this.startPosition});
 
@@ -24,6 +23,7 @@ class VirusComponent extends SpriteComponent
   }
 
   Vector2 _getRandomPosition() {
+    _speed = _random.nextInt(150) + 75.0;
     double x = 25.0 + _random.nextInt(gameRef.size.x.toInt() - 100).toDouble();
     double y = 25.0 + _random.nextInt(gameRef.size.y.toInt() - 100).toDouble();
     return Vector2(x, y);
@@ -55,10 +55,6 @@ class VirusComponent extends SpriteComponent
         // hit top or bottom wall
         _velocity.y *= -1;
       }
-    } else if (other is PlayerComponent) {
-      FlameAudio.play(Globals.virusSound);
-      removeFromParent();
-      gameRef.add(VirusComponent(startPosition: _getRandomPosition()));
     }
   }
 
@@ -66,6 +62,12 @@ class VirusComponent extends SpriteComponent
   void update(double dt) {
     super.update(dt);
     position += _velocity * dt;
+    beenAlive += 1;
+
+    if (beenAlive > 1000) {
+      beenAlive = 0;
+      position = _getRandomPosition();
+    }
 
     if (position.x < -25 ||
         position.x > gameRef.size.x + 25 ||

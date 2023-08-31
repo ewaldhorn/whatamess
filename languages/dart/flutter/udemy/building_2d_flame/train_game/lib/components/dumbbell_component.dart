@@ -35,6 +35,7 @@ class DumbbellComponent extends SpriteComponent
     if (other is PlayerComponent) {
       FlameAudio.play(Globals.dumbbellSound);
       removeFromParent();
+      gameRef.score += 1;
       gameRef.add(DumbbellComponent());
     }
   }
