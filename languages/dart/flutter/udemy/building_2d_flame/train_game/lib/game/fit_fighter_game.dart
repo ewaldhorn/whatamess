@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flame/collisions.dart';
 import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:train_game/components/background_component.dart';
@@ -26,5 +27,7 @@ class FitFighterGame extends FlameGame with HasCollisionDetection {
     add(PlayerComponent(joystick: joystick));
     add(DumbbellComponent());
     add(joystick);
+
+    add(ScreenHitbox());
   }
 }
