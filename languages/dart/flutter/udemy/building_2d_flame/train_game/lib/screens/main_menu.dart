@@ -22,7 +22,7 @@ class MainMenu extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 50),
               child: Text('Fit Fighter', style: TextStyle(fontSize: 50)),
             ),
-            const SizedBox(height: 200),
+            const SizedBox(height: 250),
             SizedBox(
               width: 200,
               height: 50,

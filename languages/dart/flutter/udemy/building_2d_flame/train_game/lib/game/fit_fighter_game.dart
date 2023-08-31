@@ -11,6 +11,7 @@ import 'package:train_game/components/player_component.dart';
 import 'package:train_game/components/virus_component.dart';
 import 'package:train_game/constants/globals.dart';
 import 'package:train_game/inputs/joystick.dart';
+import 'package:train_game/screens/game_over_menu.dart';
 
 class FitFighterGame extends FlameGame with HasCollisionDetection {
   int score = 0;
@@ -41,6 +42,7 @@ class FitFighterGame extends FlameGame with HasCollisionDetection {
     _gameTimer = Timer(1, repeat: true, onTick: () {
       if (_remainingTime <= 0) {
         pauseEngine();
+        overlays.add(GameOverMenu.id);
       } else {
         _remainingTime -= 1;
       }
@@ -77,5 +79,10 @@ class FitFighterGame extends FlameGame with HasCollisionDetection {
     _gameTimer.update(dt);
     _scoreText.text = 'Score: $score';
     _timeText.text = 'Time Left: $_remainingTime s';
+  }
+
+  void reset() {
+    score = 0;
+    _remainingTime = 30;
   }
 }

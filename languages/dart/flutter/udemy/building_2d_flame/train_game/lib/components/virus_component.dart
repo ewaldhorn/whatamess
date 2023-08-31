@@ -8,7 +8,7 @@ import 'package:train_game/game/fit_fighter_game.dart';
 
 class VirusComponent extends SpriteComponent
     with HasGameRef<FitFighterGame>, CollisionCallbacks {
-  final double _spriteHeight = 40;
+  final double _spriteHeight = 30;
   final Vector2 startPosition;
   final Random _random = Random();
   late Vector2 _velocity;
