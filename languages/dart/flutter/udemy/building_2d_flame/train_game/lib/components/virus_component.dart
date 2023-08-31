@@ -8,11 +8,11 @@ import 'package:train_game/game/fit_fighter_game.dart';
 
 class VirusComponent extends SpriteComponent
     with HasGameRef<FitFighterGame>, CollisionCallbacks {
-  final double _spriteHeight = 60;
+  final double _spriteHeight = 40;
   final Vector2 startPosition;
   final Random _random = Random();
   late Vector2 _velocity;
-  double _speed = 155.0;
+  double _speed = 115.0;
   int beenAlive = 0;
 
   VirusComponent({required this.startPosition});
@@ -23,7 +23,7 @@ class VirusComponent extends SpriteComponent
   }
 
   Vector2 _getRandomPosition() {
-    _speed = _random.nextInt(150) + 75.0;
+    _speed = _random.nextInt(75) + 75.0;
     double x = 25.0 + _random.nextInt(gameRef.size.x.toInt() - 100).toDouble();
     double y = 25.0 + _random.nextInt(gameRef.size.y.toInt() - 100).toDouble();
     return Vector2(x, y);

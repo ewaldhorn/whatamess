@@ -59,7 +59,7 @@ class FitFighterGame extends FlameGame with HasCollisionDetection {
 
     _timeText = TextComponent(
         text: 'Time Left: $_remainingTime s',
-        position: Vector2(size.x - 100, 40),
+        position: Vector2(size.x - 40, 40),
         anchor: Anchor.topRight,
         textRenderer: TextPaint(
             style: TextStyle(

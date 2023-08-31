@@ -14,8 +14,8 @@ class DumbbellComponent extends SpriteComponent
   final Random _random = Random();
 
   Vector2 _getRandomPosition() {
-    double x = _random.nextInt(gameRef.size.x.toInt()).toDouble();
-    double y = _random.nextInt(gameRef.size.y.toInt()).toDouble();
+    double x = 20 + _random.nextInt(gameRef.size.x.toInt() - 50).toDouble();
+    double y = 20 + _random.nextInt(gameRef.size.y.toInt() - 50).toDouble();
     return Vector2(x, y);
   }
 
