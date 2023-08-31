@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame/palette.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:train_game/components/vaccine_component.dart';
 import 'package:train_game/components/virus_component.dart';
@@ -16,7 +15,7 @@ class PlayerComponent extends SpriteComponent
   bool _virusAttacked = false;
   bool _vaccinated = false;
   final Timer _feverTimer = Timer(3);
-  final Timer _vaccinatedTimer = Timer(3);
+  final Timer _vaccinatedTimer = Timer(5);
 
   late double _leftEdge, _rightEdge, _topEdge, _bottomEdge;
   late Sprite playerSkinny, playerFever, playerFit, playerMuscular;
