@@ -21,6 +21,16 @@ class PlayerComponent extends SpriteComponent
 
   PlayerComponent({required this.joystick});
 
+  void _selectAppropriatePlayerSprite() {
+    if (gameRef.score >= 60) {
+      sprite = playerMuscular;
+    } else if (gameRef.score >= 30) {
+      sprite = playerFit;
+    } else {
+      sprite = playerSkinny;
+    }
+  }
+
   void _freezePlayer() {
     if (!_virusAttacked) {
       FlameAudio.play(Globals.virusSound);
@@ -33,7 +43,7 @@ class PlayerComponent extends SpriteComponent
 
   void _unfreezePlayer() {
     _virusAttacked = false;
-    sprite = playerSkinny;
+    _selectAppropriatePlayerSprite();
   }
 
   @override
@@ -46,6 +56,7 @@ class PlayerComponent extends SpriteComponent
         _unfreezePlayer();
       }
     } else {
+      _selectAppropriatePlayerSprite();
       if (joystick.direction == JoystickDirection.idle) {
         return;
       }
@@ -79,7 +90,7 @@ class PlayerComponent extends SpriteComponent
     playerMuscular = await gameRef.loadSprite(Globals.playerMuscularSprite);
     playerSkinny = await gameRef.loadSprite(Globals.playerSkinnySprite);
 
-    sprite = playerSkinny;
+    _selectAppropriatePlayerSprite();
     position = gameRef.size / 2;
     height = width = _spriteHeight;
     anchor = Anchor.center;

@@ -36,7 +36,13 @@ class MainMenu extends StatelessWidget {
                     'Play',
                     style: TextStyle(fontSize: 25),
                   )),
-            )
+            ),
+            const SizedBox(height: 50),
+            const Text(
+              'Avoid getting sick, build your muscle.\nAll in 30 seconds!',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 20),
+            ),
           ],
         ),
       ),
