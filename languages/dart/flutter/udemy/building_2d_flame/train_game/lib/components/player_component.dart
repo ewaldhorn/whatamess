@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame/palette.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:train_game/components/vaccine_component.dart';
 import 'package:train_game/components/virus_component.dart';
@@ -62,6 +63,9 @@ class PlayerComponent extends SpriteComponent
       _vaccinatedTimer.update(dt);
       if (_vaccinatedTimer.finished) {
         _vaccinated = false;
+        scale = Vector2(1.0, 1.0);
+      } else {
+        scale = Vector2(2.0, 2.0);
       }
     }
 

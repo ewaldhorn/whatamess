@@ -51,6 +51,7 @@ class FitFighterGame extends FlameGame with HasCollisionDetection {
         overlays.add(GameOverMenu.id);
       } else if (_remainingTime == _vaccineTimerAppearance) {
         add(vaccineComponent);
+        _vaccineTimerAppearance = -1;
       } else {
         _remainingTime -= 1;
       }
