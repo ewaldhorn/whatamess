@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame_audio/flame_audio.dart';
+import 'package:train_game/components/protein_component.dart';
 import 'package:train_game/components/vaccine_component.dart';
 import 'package:train_game/components/virus_component.dart';
 import 'package:train_game/constants/globals.dart';
@@ -130,6 +131,8 @@ class PlayerComponent extends SpriteComponent
       if (!_virusAttacked) {
         _vaccinatePlayer();
       }
+    } else if (other is ProteinComponent) {
+      game.score += 7;
     }
   }
 }
