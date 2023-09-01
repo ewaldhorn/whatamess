@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:train_game/screens/main_menu.dart';
+import 'package:train_game/screens/game_splash.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: MainMenu(),
+    home: GameSplashScreen(),
   ));
 }
