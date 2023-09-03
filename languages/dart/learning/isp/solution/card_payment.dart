@@ -1,6 +1,6 @@
 import 'payment_service.dart';
 
-class CarPayment implements PaymentService {
+class CardPayment implements PaymentService {
   @override
   void cashBack() {}
 
@@ -15,10 +15,4 @@ class CarPayment implements PaymentService {
 
   @override
   void payCoupon() {}
-
-  @override
-  void payCrypto() {}
-
-  @override
-  void payWallet() {}
 }
