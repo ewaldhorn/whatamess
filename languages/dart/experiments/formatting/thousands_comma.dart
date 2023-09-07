@@ -1,4 +1,5 @@
 void main(List<String> args) {
+  print("9         becomes: ${intComma(9)}");
   print("9         becomes: ${intCommaII(9)}");
   print("99        becomes: ${intCommaII(99)}");
   print("999       becomes: ${intComma(999)}");
