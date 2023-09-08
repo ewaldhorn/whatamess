@@ -18,6 +18,8 @@ npm start
 npm run build
 ```
 
+You might need to add `NODE_OPTIONS=--openssl-legacy-provider` as well, depending on your Node version.
+
 ## How to run unit tests
 
 ```sh
