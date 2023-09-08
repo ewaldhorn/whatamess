@@ -33,7 +33,7 @@ fn draw_triangle() {
     context.move_to(300.0, 0.0); // top of triangle
     context.begin_path();
     context.line_to(0.0, 500.0); // bottom left of triangle
-    context.line_to(500.0, 500.0); // bottom right of triangle
+    context.line_to(600.0, 500.0); // bottom right of triangle
     context.line_to(300.0, 0.0); // back to top of triangle
     context.close_path();
     context.stroke();
