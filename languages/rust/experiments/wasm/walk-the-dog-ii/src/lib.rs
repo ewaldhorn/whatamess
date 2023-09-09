@@ -28,13 +28,23 @@ pub fn main_js() -> Result<(), JsValue> {
         .dyn_into::<web_sys::CanvasRenderingContext2d>()
         .unwrap();
 
-        let mut rng = thread_rng();
-        let first_color = (
-            rng.gen_range(0..255),
-            rng.gen_range(0..255),
-            rng.gen_range(0..255),
-        );
+    let mut rng = thread_rng();
+    let first_color = (
+        rng.gen_range(0..255),
+        rng.gen_range(0..255),
+        rng.gen_range(0..255),
+    );
 
+    let image = web_sys::HtmlImageElement::new().unwrap();
+    image.set_src("assets/images/rhb/Idle (1).png");
+
+    // wait for the image to load, let us know when it has
+    let callback = Closure::once(|| {
+        web_sys::console::log_1(&JsValue::from_str("loaded"));
+    });
+    image.set_onload(Some(callback.as_ref().unchecked_ref()));
+
+    _ = context.draw_image_with_html_image_element(&image, 0.0, 0.0);
 
     sierpinski(
         &context,
