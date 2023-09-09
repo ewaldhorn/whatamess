@@ -35,23 +35,30 @@ pub fn main_js() -> Result<(), JsValue> {
         rng.gen_range(0..255),
     );
 
-    let image = web_sys::HtmlImageElement::new().unwrap();
-    image.set_src("assets/images/rhb/Idle (1).png");
+    // all of this is to wait for the image to be loaded before displaying it
+    // lots of back and forth between rust and javascript
+    wasm_bindgen_futures::spawn_local(async move {
+        let (success_tx, success_rx) = futures::channel::oneshot::channel::<()>();
+        let image = web_sys::HtmlImageElement::new().unwrap();
+        image.set_src("assets/images/rhb/Idle (1).png");
 
-    // wait for the image to load, let us know when it has
-    let callback = Closure::once(|| {
-        web_sys::console::log_1(&JsValue::from_str("loaded"));
+        // wait for the image to load, let us know when it has
+        let callback = Closure::once(|| {
+            web_sys::console::log_1(&JsValue::from_str("loaded"));
+            _ = success_tx.send(());
+        });
+        image.set_onload(Some(callback.as_ref().unchecked_ref()));
+
+        _ = success_rx.await;
+        _ = context.draw_image_with_html_image_element(&image, 0.0, 0.0);
+
+        sierpinski(
+            &context,
+            [(300.0, 0.0), (0.0, 600.0), (600.0, 600.0)],
+            first_color,
+            8,
+        );
     });
-    image.set_onload(Some(callback.as_ref().unchecked_ref()));
-
-    _ = context.draw_image_with_html_image_element(&image, 0.0, 0.0);
-
-    sierpinski(
-        &context,
-        [(300.0, 0.0), (0.0, 600.0), (600.0, 600.0)],
-        first_color,
-        8,
-    );
 
     Ok(())
 }
