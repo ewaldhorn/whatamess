@@ -2,7 +2,7 @@ use std::rc::Rc;
 use std::sync::Mutex;
 
 use rand::prelude::*;
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
@@ -54,6 +54,13 @@ pub fn main_js() -> Result<(), JsValue> {
         rng.gen_range(0..255),
     );
 
+    sierpinski(
+        &context,
+        [(300.0, 0.0), (0.0, 600.0), (600.0, 600.0)],
+        first_color,
+        8,
+    );
+
     // all of this is to wait for the image to be loaded before displaying it
     // lots of back and forth between rust and javascript
     wasm_bindgen_futures::spawn_local(async move {
@@ -82,14 +89,46 @@ pub fn main_js() -> Result<(), JsValue> {
 
         // read sprite sheet data for rhb
         let json = fetch_json("assets/sprite_sheets/rhb.json").await.unwrap();
-        let sheet: Sheet = serde_wasm_bindgen::from_value(json).unwrap(); // TODO: Rather handle the potential error
+        let sheet: Sheet = serde_wasm_bindgen::from_value(json)
+            .expect("Oh my, could not parse the json structure!"); // TODO: Rather handle the potential error
 
-        sierpinski(
-            &context,
-            [(300.0, 0.0), (0.0, 600.0), (600.0, 600.0)],
-            first_color,
-            8,
+        // -----------------------------------------------------------------------------------------
+        // draw using sprite sheet starts
+        let (success_tx, success_rx) = futures::channel::oneshot::channel::<Result<(), JsValue>>();
+        let success_tx = Rc::new(Mutex::new(Some(success_tx)));
+        let error_tx = Rc::clone(&success_tx);
+        let image = web_sys::HtmlImageElement::new().unwrap();
+        image.set_src("assets/sprite_sheets/rhb.png");
+
+        // wait for the image to load, let us know when it has
+        let callback = Closure::once(move || {
+            if let Some(success_tx) = success_tx.lock().ok().and_then(|mut opt| opt.take()) {
+                _ = success_tx.send(Ok(()));
+            }
+        });
+        let error_callback = Closure::once(move |err| {
+            if let Some(error_tx) = error_tx.lock().ok().and_then(|mut opt| opt.take()) {
+                _ = error_tx.send(Err(err));
+            }
+        });
+        image.set_onload(Some(callback.as_ref().unchecked_ref()));
+        image.set_onerror(Some(error_callback.as_ref().unchecked_ref()));
+
+        _ = success_rx.await;
+        let sprite = sheet.frames.get("Run (1).png").expect("Cell not found");
+        _ = context.draw_image_with_html_image_element_and_sw_and_sh_and_dx_and_dy_and_dw_and_dh(
+            &image,
+            sprite.frame.x.into(),
+            sprite.frame.y.into(),
+            sprite.frame.w.into(),
+            sprite.frame.h.into(),
+            200.0,
+            320.0,
+            sprite.frame.w.into(),
+            sprite.frame.h.into(),
         );
+        // draw using sprite sheet ends
+        // -----------------------------------------------------------------------------------------
     });
 
     Ok(())
