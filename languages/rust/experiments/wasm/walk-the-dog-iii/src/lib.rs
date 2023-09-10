@@ -1,8 +1,10 @@
-use std::rc::Rc;
-use std::sync::Mutex;
+#[macro_use]
+mod browser;
 
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
+use std::rc::Rc;
+use std::sync::Mutex;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
 
@@ -29,28 +31,18 @@ struct Sheet {
 pub fn main_js() -> Result<(), JsValue> {
     // This provides better error messages in debug mode.
     // It's disabled in release mode so it doesn't bloat up the file size.
-    #[cfg(debug_assertions)]
+    // #[cfg(debug_assertions)]
     console_error_panic_hook::set_once();
 
-    let window = web_sys::window().unwrap();
-    let document = window.document().unwrap();
-    let canvas = document
-        .get_element_by_id("canvas")
-        .unwrap()
-        .dyn_into::<web_sys::HtmlCanvasElement>()
-        .unwrap();
-    let context = canvas
-        .get_context("2d")
-        .unwrap()
-        .unwrap()
-        .dyn_into::<web_sys::CanvasRenderingContext2d>()
-        .unwrap();
+    let context = browser::context().expect("Could not get canvas context");
 
     // all of this is to wait for the image to be loaded before displaying it
     // lots of back and forth between rust and javascript
-    wasm_bindgen_futures::spawn_local(async move {
+    browser::spawn_local(async move {
         // read sprite sheet data for rhb
-        let json = fetch_json("assets/sprite_sheets/rhb.json").await.unwrap();
+        let json = browser::fetch_json("assets/sprite_sheets/rhb.json")
+            .await
+            .expect("Could not fetch rhb.json");
         let sheet: Sheet = serde_wasm_bindgen::from_value(json)
             .expect("Oh my, could not parse the json structure!"); // TODO: Rather handle the potential error
 
@@ -86,24 +78,26 @@ pub fn main_js() -> Result<(), JsValue> {
             let frame_name = format!("Run ({}).png", frame);
             let sprite = sheet.frames.get(&frame_name).expect("Cell not found");
             context.clear_rect(0.0, 0.0, 600.0, 600.0);
-            _ = context.draw_image_with_html_image_element_and_sw_and_sh_and_dx_and_dy_and_dw_and_dh(
-                &image,
-                sprite.frame.x.into(),
-                sprite.frame.y.into(),
-                sprite.frame.w.into(),
-                sprite.frame.h.into(),
-                200.0,
-                320.0,
-                sprite.frame.w.into(),
-                sprite.frame.h.into(),
-            );
+            _ = context
+                .draw_image_with_html_image_element_and_sw_and_sh_and_dx_and_dy_and_dw_and_dh(
+                    &image,
+                    sprite.frame.x.into(),
+                    sprite.frame.y.into(),
+                    sprite.frame.w.into(),
+                    sprite.frame.h.into(),
+                    200.0,
+                    320.0,
+                    sprite.frame.w.into(),
+                    sprite.frame.h.into(),
+                );
         }) as Box<dyn FnMut()>);
-        _ = window.set_interval_with_callback_and_timeout_and_arguments_0(
-            interval_callback.as_ref().unchecked_ref(),
-            50,
-        );
+        _ = browser::window()
+            .unwrap()
+            .set_interval_with_callback_and_timeout_and_arguments_0(
+                interval_callback.as_ref().unchecked_ref(),
+                50,
+            );
         interval_callback.forget();
-
 
         // draw using sprite sheet ends
         // -----------------------------------------------------------------------------------------
