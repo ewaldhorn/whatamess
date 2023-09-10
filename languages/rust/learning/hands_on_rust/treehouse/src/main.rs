@@ -1,12 +1,10 @@
 #![warn(clippy::all, clippy::pedantic)]
 
-use std::io::stdin;
+mod prompts;
 
 fn main() {
     println!("Who goes there?");
 
-    let mut name = String::new();
-    stdin().read_line(&mut name).expect("Unable to read line");
-
+    let name = prompts::get_user_name();
     println!("Oh, hello there {name}!");
 }
