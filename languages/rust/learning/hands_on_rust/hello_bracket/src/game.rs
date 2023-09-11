@@ -1,7 +1,4 @@
-use bracket_lib::{
-    random::RandomNumberGenerator,
-    terminal::{to_cp437, BTerm, GameState, VirtualKeyCode, BLACK, NAVY, RED, YELLOW},
-};
+use bracket_lib::prelude::*;
 
 const SCREEN_WIDTH: i32 = 80;
 const SCREEN_HEIGHT: i32 = 50;
@@ -32,7 +29,7 @@ impl Obstacle {
             ctx.set(screen_x, y, RED, BLACK, to_cp437('|'));
         }
 
-        for y in half_size..SCREEN_HEIGHT {
+        for y in self.gap_y + half_size..SCREEN_HEIGHT {
             // draw bottom
             ctx.set(screen_x, y, RED, BLACK, to_cp437('|'));
         }
