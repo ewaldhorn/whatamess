@@ -1,15 +1,21 @@
 #![warn(clippy::all, clippy::pedantic)]
 
-use crate::visitor::Visitor;
+use crate::visitor::{Visitor, VisitorAction};
 
 mod prompts;
 mod visitor;
 
 fn main() {
     let mut allowed_visitors = vec![
-        Visitor::new("bert", "Hello Bert, enjoy your treehouse."),
-        Visitor::new("steve", "Hi Steve. Your milk is in the fridge."),
-        Visitor::new("fred", "Wow, who invited Fred?"),
+        Visitor::new("bert", VisitorAction::Accept, 45),
+        Visitor::new(
+            "steve",
+            VisitorAction::AcceptWithNote {
+                note: String::from("Lactose-free milk is in the fridge."),
+            },
+            29,
+        ),
+        Visitor::new("fred", VisitorAction::Refuse, 27),
     ];
 
     loop {
@@ -24,7 +30,7 @@ fn main() {
                 break;
             }
             println!("Seems you aren't on the list, here's an application form.");
-            allowed_visitors.push(Visitor::new(&name, "New Friend"));
+            allowed_visitors.push(Visitor::new(&name, VisitorAction::Probation, 18));
         }
     }
     println!("The final list of visitors:");
