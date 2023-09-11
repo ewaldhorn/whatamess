@@ -1,8 +1,28 @@
-use bracket_lib::terminal::{to_cp437, BTerm, GameState, VirtualKeyCode, BLACK, NAVY, YELLOW};
+use bracket_lib::{
+    random::RandomNumberGenerator,
+    terminal::{to_cp437, BTerm, GameState, VirtualKeyCode, BLACK, NAVY, YELLOW},
+};
 
 const SCREEN_WIDTH: i32 = 80;
 const SCREEN_HEIGHT: i32 = 50;
 const FRAME_DURATION: f32 = 75.0;
+
+struct Obstacle {
+    x: i32,
+    gap_y: i32,
+    size: i32,
+}
+
+impl Obstacle {
+    fn new(x: i32, score: i32) -> Self {
+        let mut random = RandomNumberGenerator::new();
+        Obstacle {
+            x,
+            gap_y: random.range(10, 40),
+            size: i32::max(2, 20 - score),
+        }
+    }
+}
 
 struct Player {
     x: i32,
