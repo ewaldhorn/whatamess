@@ -1,3 +1,4 @@
+#[derive(Debug)]
 pub(crate) struct Visitor {
     pub(crate) name: String,
     greeting: String,
