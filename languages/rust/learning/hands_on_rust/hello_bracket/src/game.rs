@@ -1,4 +1,4 @@
-use bracket_lib::terminal::{to_cp437, BTerm, GameState, VirtualKeyCode, BLACK, YELLOW};
+use bracket_lib::terminal::{to_cp437, BTerm, GameState, VirtualKeyCode, BLACK, NAVY, YELLOW};
 
 const SCREEN_WIDTH: i32 = 80;
 const SCREEN_HEIGHT: i32 = 50;
@@ -23,7 +23,7 @@ impl Player {
         ctx.set(0, self.y, YELLOW, BLACK, to_cp437('@'));
     }
 
-    fn gravity_and_move(&mut self) {
+    fn apply_gravity_and_move(&mut self) {
         if self.velocity < 2.0 {
             self.velocity += 0.2;
         }
@@ -63,7 +63,24 @@ impl State {
         }
     }
     fn play(&mut self, ctx: &mut BTerm) {
-        self.mode = GameMode::End;
+        ctx.cls_bg(NAVY);
+        self.frame_time += ctx.frame_time_ms;
+
+        if self.frame_time > FRAME_DURATION {
+            self.frame_time = 0.0;
+            self.player.apply_gravity_and_move();
+        }
+
+        if let Some(VirtualKeyCode::Space) = ctx.key {
+            self.player.flap();
+        }
+
+        self.player.render(ctx);
+        ctx.print(0, 0, "Press <SPACE> to boost.");
+
+        if self.player.y > SCREEN_HEIGHT {
+            self.mode = GameMode::End;
+        }
     }
 
     fn dead(&mut self, ctx: &mut BTerm) {
