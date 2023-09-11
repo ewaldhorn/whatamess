@@ -1,4 +1,26 @@
-use bracket_lib::terminal::{BTerm, GameState};
+use bracket_lib::terminal::{
+    to_cp437, BTerm, GameState, VirtualKeyCode, BLACK, BLANCHEDALMOND, YELLOW,
+};
+
+struct Player {
+    x: i32,
+    y: i32,
+    velocity: f32,
+}
+
+impl Player {
+    fn new(x: i32, y: i32) -> Self {
+        Player {
+            x,
+            y,
+            velocity: 0.0,
+        }
+    }
+
+    fn render(&mut self, ctx: &mut BTerm) {
+        ctx.set(0, self.y, YELLOW, BLACK, to_cp437('@'));
+    }
+}
 
 #[derive(Debug)]
 enum GameMode {
@@ -18,12 +40,10 @@ impl State {
         }
     }
     fn play(&mut self, ctx: &mut BTerm) {
-        // TODO: Fill in this stub later
         self.mode = GameMode::End;
     }
 
     fn dead(&mut self, ctx: &mut BTerm) {
-        // TODO: Fill in this stub later
         self.mode = GameMode::End;
     }
 
@@ -32,11 +52,17 @@ impl State {
         ctx.print_centered(5, "Welcome to Crusty Rusty");
         ctx.print_centered(8, "(P) Play Game");
         ctx.print_centered(9, "(Q) Quit Game");
-        self.mode = GameMode::End;
+
+        if let Some(key) = ctx.key {
+            match key {
+                VirtualKeyCode::P => self.restart(),
+                VirtualKeyCode::Q => ctx.quitting = true,
+                _ => {}
+            }
+        }
     }
 
     fn restart(&mut self) {
-        // TODO: Fill in this stub later
         self.mode = GameMode::Playing;
     }
 }
