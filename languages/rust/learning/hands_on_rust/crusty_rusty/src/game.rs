@@ -25,14 +25,19 @@ impl Obstacle {
         let screen_x = self.x - player_x;
         let half_size = self.size / 2;
 
-        for y in 0..self.gap_y - half_size {
-            // draw top
-            ctx.set(screen_x, y, RED, BLACK, to_cp437('|'));
+        // ground
+        for x in 0..SCREEN_WIDTH {
+            ctx.set(x, SCREEN_HEIGHT - 1, WHITE, WHITE, to_cp437('#'));
         }
 
-        for y in self.gap_y + half_size..SCREEN_HEIGHT {
+        for y in 0..self.gap_y - half_size {
+            // draw top
+            ctx.set(screen_x, y, RED, BLACK, 179);
+        }
+
+        for y in self.gap_y + half_size..SCREEN_HEIGHT - 1 {
             // draw bottom
-            ctx.set(screen_x, y, RED, BLACK, to_cp437('|'));
+            ctx.set(screen_x, y, RED, BLACK, 179);
         }
     }
 
