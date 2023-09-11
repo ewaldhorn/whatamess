@@ -5,6 +5,8 @@ use bracket_lib::prelude::*;
 use game::State;
 
 fn main() -> BError {
-    let context = BTermBuilder::simple80x50().with_title("Crusty Rusty").build()?;
-    main_loop(context, State{})
+    let context = BTermBuilder::simple80x50()
+        .with_title("Crusty Rusty")
+        .build()?;
+    main_loop(context, State::new())
 }
