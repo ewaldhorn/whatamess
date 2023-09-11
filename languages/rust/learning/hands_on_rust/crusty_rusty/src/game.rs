@@ -1,8 +1,9 @@
 use bracket_lib::prelude::*;
 
-const SCREEN_WIDTH: i32 = 80;
-const SCREEN_HEIGHT: i32 = 50;
-const FRAME_DURATION: f32 = 75.0;
+pub const SCREEN_WIDTH: i32 = 80;
+pub const SCREEN_HEIGHT: i32 = 50;
+pub const FRAME_DURATION: f32 = 75.0;
+const PLAYER_FRAMES: [u16; 6] = [1, 2, 3, 4, 2, 1];
 
 struct Obstacle {
     x: i32,
@@ -48,6 +49,7 @@ struct Player {
     x: i32,
     y: i32,
     velocity: f32,
+    frame: usize,
 }
 
 impl Player {
@@ -56,11 +58,12 @@ impl Player {
             x,
             y,
             velocity: 0.0,
+            frame: 0,
         }
     }
 
     fn render(&mut self, ctx: &mut BTerm) {
-        ctx.set(0, self.y, YELLOW, BLACK, to_cp437('@'));
+        ctx.set(0, self.y, YELLOW, BLACK, PLAYER_FRAMES[self.frame]);
     }
 
     fn apply_gravity_and_move(&mut self) {
@@ -73,6 +76,11 @@ impl Player {
 
         if self.y < 0 {
             self.y = 0;
+        }
+
+        self.frame += 1;
+        if self.frame > 5 {
+            self.frame = 0;
         }
     }
 
@@ -107,7 +115,7 @@ impl State {
         }
     }
     fn play(&mut self, ctx: &mut BTerm) {
-        ctx.cls_bg(NAVY);
+        ctx.cls_bg(BLACK);
         self.frame_time += ctx.frame_time_ms;
 
         if self.frame_time > FRAME_DURATION {
