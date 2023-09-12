@@ -63,3 +63,5 @@ languages/rust/experiments/monte_carlo/simple/target
 languages/rust/learning/hands_on_rust/hello_bracket/target
 languages/rust/learning/hands_on_rust/crusty_rusty/target
 languages/rust/experiments/cli/generic/target
+languages/rust/experiments/fractals/julia/target
+languages/rust/experiments/fractals/julia/julia.png
