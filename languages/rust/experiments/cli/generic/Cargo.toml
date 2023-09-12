@@ -8,3 +8,4 @@ authors = ["Ewald <ewald@nofuss.co.za>"]
 
 [dependencies]
 cargo-watch = "8.4.1"
+rayon = "1.7.0"
