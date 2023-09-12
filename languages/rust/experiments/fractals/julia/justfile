@@ -1,0 +1,10 @@
+alias b := build
+
+# build project
+build:
+	cargo build
+
+# run project
+run:
+	cargo run -q
+
