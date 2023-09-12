@@ -1,4 +1,8 @@
+mod extension_traits;
+
 use rayon::prelude::*;
+
+use crate::extension_traits::Palindrome;
 
 fn calculate_sum(numbers: &[i32]) -> Result<i32, String> {
     let mut sum = 0;
@@ -32,4 +36,7 @@ fn main() {
         Ok(sum) => println!("Parallel sum is also {sum}."),
         Err(err) => eprintln!("The error is: {err}"),
     }
+
+    let s = String::from("madam");
+    println!("{s} is a palindrome: {}", s.is_palindrome());
 }
