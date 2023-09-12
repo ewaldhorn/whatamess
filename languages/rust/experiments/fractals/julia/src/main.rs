@@ -28,10 +28,14 @@ fn main() {
         let cx = x as f64 * scale_x - 1.5;
         let cy = y as f64 * scale_y - 1.5;
 
-        let c = Complex::new(-0.8, 0.156);
+        let c = Complex::new(-0.66, 0.121);
         let value = calculate_pixel(c, cx, cy);
 
-        *pixel = Rgb([value, value, value]);
+        *pixel = Rgb([
+            value,
+            value.max((value as f32 * 1.25) as u8),
+            value.max(value * 2),
+        ]);
     }
 
     _ = img.save("julia.png");
