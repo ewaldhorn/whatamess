@@ -71,3 +71,6 @@ languages/rust/experiments/cli/guessing_game/target
 languages/rust/rust_cleaner
 languages/rust/learning/books/rust_in_action/ch2/first_steps/target
 languages/rust/learning/books/rust_in_action/ch2/mandelbrot/target
+languages/rust/tooling/rust_cleaner/.idea
+languages/rust/tooling
+languages/rust/learning/books/zero2production/zero2prod/target
