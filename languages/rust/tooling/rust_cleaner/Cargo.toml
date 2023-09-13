@@ -1,0 +1,17 @@
+[package]
+name = "rust_cleaner"
+version = "0.1.0"
+edition = "2021"
+authors = ["Ewald <ewald@nofuss.co.za>"]
+description = "Cleans up Rust target folders, used to perform basic maintenace by, well, me."
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+globwalk = "0.8.1"
+
+[profile.release]
+strip = true      # Automatically strip symbols
+opt-level = "s"   # Optimise for Size
+lto = true        # link time optimisation
+codegen-units = 1 # run it all in one worker, easier to optimise for size
