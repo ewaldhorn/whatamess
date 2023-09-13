@@ -14,7 +14,14 @@ fn main() {
             .read_line(&mut guess)
             .expect("Failed to read input.");
 
-        let guess: u32 = guess.trim().parse().expect("That's not a number!");
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => {
+                println!("Please enter a number.");
+                continue;
+            }
+        };
+
         guesses += 1;
         match guess.cmp(&secret_number) {
             std::cmp::Ordering::Less => println!("Too small!"),
