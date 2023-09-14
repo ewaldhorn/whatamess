@@ -7,4 +7,6 @@ fn main() {
     boxes::draw_triangle(5);
     println!("\nReversed Triangle:");
     boxes::draw_triangle_reversed(5);
+    println!("\nBox:");
+    boxes::draw_box(5);
 }
