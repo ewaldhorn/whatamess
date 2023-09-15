@@ -83,3 +83,4 @@ languages/rust/experiments/linfa/hello_linfa/output.pdf
 languages/rust/experiments/iced/hello_iced/target
 languages/rust/experiments/iced/hello_iced/.idea
 languages/rust/experiments/leptos/leptos_with_tauri/.vscode
+languages/rust/experiments/cli/cli_experiments/target
