@@ -81,3 +81,4 @@ languages/rust/experiments/linfa/hello_linfa/output.aux
 languages/rust/experiments/linfa/hello_linfa/output.log
 languages/rust/experiments/linfa/hello_linfa/output.pdf
 languages/rust/experiments/iced/hello_iced/target
+languages/rust/experiments/iced/hello_iced/.idea
