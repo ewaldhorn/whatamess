@@ -13,7 +13,8 @@
             const bytes = await fetch("target/wasm32-unknown-unknown/debug/fibonacci.wasm");
             const response = await bytes.arrayBuffer();
             const result = await WebAssembly.instantiate(response, {});
-            console.log(result.instance.exports.add(10, 3));
+            console.log('Adding 11 and 17:', result.instance.exports.add(11, 17))
+            console.log('Fibonacci numbers summed up to 20:', result.instance.exports.fibonacci(20))
         })();
     </script>
 </body>
