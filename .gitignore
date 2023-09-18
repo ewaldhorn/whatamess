@@ -100,3 +100,6 @@ languages/rust/experiments/wasm/with_parcel/with_parcel.js
 languages/rust/experiments/wasm/with_parcel/with_parcel_bg.js
 languages/rust/experiments/wasm/with_parcel/with_parcel_bg.wasm
 languages/rust/experiments/wasm/with_parcel/with_parcel_bg.wasm.d.ts
+languages/rust/experiments/wasm/with_parcel/.cache
+languages/rust/experiments/wasm/with_parcel/dist
+languages/rust/experiments/wasm/with_parcel/node_modules
