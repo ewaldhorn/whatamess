@@ -85,3 +85,4 @@ languages/rust/experiments/iced/hello_iced/.idea
 languages/rust/experiments/leptos/leptos_with_tauri/.vscode
 languages/rust/experiments/cli/cli_experiments/target
 rust_cleaner
+languages/rust/experiments/wasm/fibonacci/target
