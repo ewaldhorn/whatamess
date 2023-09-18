@@ -5,7 +5,7 @@ class Classes {
     }
 }
 
-class Contact {
+class Contact implements BusinessCard {
     String name;
     short age;
 
@@ -13,4 +13,16 @@ class Contact {
         this.name = name;
         this.age = age;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String card() {
+        return "Business Card for " + name;
+    }
+}
+
+interface BusinessCard {
+    public String card();
 }
