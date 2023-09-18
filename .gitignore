@@ -103,3 +103,4 @@ languages/rust/experiments/wasm/with_parcel/with_parcel_bg.wasm.d.ts
 languages/rust/experiments/wasm/with_parcel/.cache
 languages/rust/experiments/wasm/with_parcel/dist
 languages/rust/experiments/wasm/with_parcel/node_modules
+languages/rust/experiments/wasm/class_world/target
