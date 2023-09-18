@@ -94,3 +94,9 @@ languages/rust/experiments/wasm/lo_wasmbindgen/lo_wasmbindgen_bg.wasm
 languages/rust/experiments/wasm/lo_wasmbindgen/lo_wasmbindgen_bg.wasm.d.ts
 languages/rust/experiments/wasm/lo_wasmbindgen/target
 languages/rust/experiments/wasm/lo_wasmbindgen/target
+languages/rust/experiments/wasm/with_parcel/target
+languages/rust/experiments/wasm/with_parcel/with_parcel.d.ts
+languages/rust/experiments/wasm/with_parcel/with_parcel.js
+languages/rust/experiments/wasm/with_parcel/with_parcel_bg.js
+languages/rust/experiments/wasm/with_parcel/with_parcel_bg.wasm
+languages/rust/experiments/wasm/with_parcel/with_parcel_bg.wasm.d.ts
