@@ -106,3 +106,5 @@ languages/rust/experiments/wasm/with_parcel/node_modules
 languages/rust/experiments/wasm/class_world/target
 languages/rust/experiments/wasm/parcel_app/dist
 languages/rust/experiments/wasm/parcel_app/target
+languages/rust/experiments/leptos/basic_app/dist
+languages/rust/experiments/leptos/basic_app/target
