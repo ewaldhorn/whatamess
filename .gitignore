@@ -86,3 +86,11 @@ languages/rust/experiments/leptos/leptos_with_tauri/.vscode
 languages/rust/experiments/cli/cli_experiments/target
 rust_cleaner
 languages/rust/experiments/wasm/fibonacci/target
+languages/rust/experiments/wasm/lo_wasmbindgen/node_modules
+languages/rust/experiments/wasm/lo_wasmbindgen/lo_wasmbindgen.d.ts
+languages/rust/experiments/wasm/lo_wasmbindgen/lo_wasmbindgen.js
+languages/rust/experiments/wasm/lo_wasmbindgen/lo_wasmbindgen_bg.js
+languages/rust/experiments/wasm/lo_wasmbindgen/lo_wasmbindgen_bg.wasm
+languages/rust/experiments/wasm/lo_wasmbindgen/lo_wasmbindgen_bg.wasm.d.ts
+languages/rust/experiments/wasm/lo_wasmbindgen/target
+languages/rust/experiments/wasm/lo_wasmbindgen/target
