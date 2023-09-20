@@ -11,7 +11,7 @@ impl Todo {
             task_list: HashMap::new(),
         }
     }
-    fn insert(&mut self, key: String, note: Option<String>) {
+    pub(crate) fn insert(&mut self, key: String, note: Option<String>) {
         // adds a new TodoItem to our list, with an optional note
         self.task_list.insert(
             key,
@@ -27,7 +27,7 @@ impl Todo {
             println!("List is empty!");
         } else {
             self.task_list.iter().for_each(|a| {
-                println!("{} - {} - {}", a.0, a.1.get_note(), a.1.get_status());
+                println!("{:40} - {:40} - {}", a.0, a.1.get_note(), a.1.get_status());
             });
         }
     }
@@ -43,7 +43,7 @@ impl TodoItem {
     fn get_note(&self) -> String {
         String::from(match &self.note {
             Some(msg) => msg,
-            _ => "",
+            _ => "No note",
         })
     }
 

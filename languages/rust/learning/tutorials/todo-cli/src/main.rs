@@ -10,6 +10,17 @@ fn main() {
 
     let mut tasks = Todo::new();
 
+    // should say the list is empty
+    println!("Contents of Todo list:");
+    tasks.list_all();
+
+    tasks.insert(String::from("Build todo list"), None);
+    tasks.insert(String::from("Bake bread"), Some("Need flour".to_string()));
+
+    // leave a gap
+    println!("\n");
+
+    // expecting items in the list
     println!("Contents of Todo list:");
     tasks.list_all();
 }
