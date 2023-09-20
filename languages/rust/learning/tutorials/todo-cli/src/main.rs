@@ -15,7 +15,7 @@ fn main() {
     tasks.list_all();
 
     tasks.insert(String::from("Build todo list"), None);
-    tasks.insert(String::from("Bake bread"), Some("Need flour".to_string()));
+    tasks.insert("Bake bread".into(), Some("Need flour".into()));
 
     // leave a gap
     println!("\n");
