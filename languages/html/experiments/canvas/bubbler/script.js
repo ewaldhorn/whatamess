@@ -14,10 +14,22 @@ class Particle {
     draw() {
         context.beginPath();
         context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
-        context.strokeStyle = this.color;
+        context.strokeStyle = `hsl(${this.hue} 100% 50%)`;
         context.stroke();
 
-        context.fillStyle = this.color;
+        const gradient = context.createRadialGradient(
+            this.x,
+            this.y,
+            1,
+            this.x + 0.5,
+            this.y + 0.5,
+            this.radius
+        );
+
+        gradient.addColorStop(0.3, "rgba(255, 255, 255, 0.3)");
+        gradient.addColorStop(0.95, "#e7feff");
+
+        context.fillStyle = gradient;
         context.fill();
     }
 
