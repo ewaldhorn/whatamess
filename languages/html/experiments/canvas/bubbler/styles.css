@@ -1,0 +1,19 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: tomato;
+}
+
+#primary-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: turquoise;
+}
+
+#main-canvas {
+    width: 640px;
+    height: 480px;
+    background-color: black;
+}
