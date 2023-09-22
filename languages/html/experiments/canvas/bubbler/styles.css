@@ -9,11 +9,10 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     background-color: turquoise;
 }
 
 #main-canvas {
-    width: 640px;
-    height: 480px;
     background-color: black;
 }
