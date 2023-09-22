@@ -10,6 +10,9 @@ let info;
 /** @type {Array<Particle>} */
 let particleArray = [];
 
+/** @type {number} */
+let animationHandle;
+
 class Particle {
     /**
      * 
@@ -118,10 +121,17 @@ const animate = () => {
 
     particleArray = particleArray.filter((p) => { return p.radius > 0; })
     info.innerHTML = `Active bubbles: ${particleArray.length}`;
-    requestAnimationFrame(animate);
+    animationHandle = requestAnimationFrame(animate);
 }
 
 window.onload = function () {
+    resize_primary_div();
+    init_variables();
+    animate();
+};
+
+window.onresize = function () {
+    cancelAnimationFrame(animationHandle);
     resize_primary_div();
     init_variables();
     animate();
