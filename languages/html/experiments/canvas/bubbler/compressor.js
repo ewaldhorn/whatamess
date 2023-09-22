@@ -26,7 +26,7 @@ const config = {
     module: false,
     sourceMap: false,
     output: {
-        comments: true
+        comments: false
     }
 };
 

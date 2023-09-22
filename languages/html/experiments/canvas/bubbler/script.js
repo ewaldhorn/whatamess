@@ -63,7 +63,13 @@ const resize_primary_div = () => {
     pd.style.width = `${window.innerWidth - 20}px`;
 };
 
-
+// JSDoc
+/**
+ * 
+ * @param {number} min - Minimum number required
+ * @param {number} max - Maximum number allowed
+ * @returns {number} - Between min and max
+ */
 const randomNumberMinMax = (min, max) =>
     Math.floor(min + Math.random() * (max - min + 1))
 
