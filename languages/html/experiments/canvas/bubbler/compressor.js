@@ -1,7 +1,9 @@
 // Import Terser so we can use it
+// @ts-ignore
 const { minify } = require('terser');
 
 // Import fs so we can read/write files
+// @ts-ignore
 const fs = require('fs');
 
 // Define the config for how Terser should minify the code
@@ -34,6 +36,7 @@ const config = {
 const code = fs.readFileSync('script.js', 'utf8');
 
 // Minify the code with Terser
+// @ts-ignore
 const minified = await minify(code, config);
 
 // Save the code!

@@ -1,14 +1,28 @@
-let canvas, context, info;
+/** @type {HTMLCanvasElement} */
+let canvas;
+
+/** @type {CanvasRenderingContext2D} */
+let context;
+
+/** @type {HTMLParagraphElement} */
+let info;
+
+/** @type {Array<Particle>} */
 let particleArray = [];
 
 class Particle {
+    /**
+     * 
+     * @param {number} x 
+     * @param {number} y 
+     */
     constructor(x = 0, y = 0) {
         this.x = x;
         this.y = y;
-        this.radius = randomNumberMinMax(10, 20);
-        this.ttl = randomNumberMinMax(50, 1000);
-        this.dx = (1 + Math.random() * 4) * (Math.floor(Math.random() * 100) > 50) ? 1 : -1;
-        this.dy = (1 + Math.random() * 4) * (Math.floor(Math.random() * 100) > 50) ? 1 : -1;
+        this.radius = randomNumberMinMax(8, 25);
+        this.ttl = randomNumberMinMax(50, 2000);
+        this.dx = (1 + Math.random() * 4) * ((Math.floor(Math.random() * 100) > 50) ? 1 : -1);
+        this.dy = (1 + Math.random() * 4) * ((Math.floor(Math.random() * 100) > 50) ? 1 : -1);
         this.color = 'white';
     }
 
@@ -16,7 +30,7 @@ class Particle {
         if (this.radius > 0) {
             context.beginPath();
             context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
-            context.strokeStyle = `hsl(${this.hue} 100% 50%)`;
+            // context.strokeStyle = `hsl(${this.hue} 100% 50%)`;
             context.stroke();
 
             const gradient = context.createRadialGradient(
@@ -58,12 +72,13 @@ class Particle {
 
 const resize_primary_div = () => {
     const pd = document.getElementById('primary-div');
-    pd.style.backgroundColor = 'white';
-    pd.style.height = `${window.innerHeight - 20}px`;
-    pd.style.width = `${window.innerWidth - 20}px`;
+    if (pd) {
+        pd.style.backgroundColor = 'white';
+        pd.style.height = `${window.innerHeight - 20}px`;
+        pd.style.width = `${window.innerWidth - 20}px`;
+    }
 };
 
-// JSDoc
 /**
  * 
  * @param {number} min - Minimum number required
@@ -73,30 +88,23 @@ const resize_primary_div = () => {
 const randomNumberMinMax = (min, max) =>
     Math.floor(min + Math.random() * (max - min + 1))
 
-
-const drawCircle = (x, y) => {
-    context.strokeStyle = 'white';
-
-    context.beginPath();
-    context.arc(x, y, randomNumberMinMax(10, 20), 0, 2 * Math.PI);
-    context.stroke();
-};
-
-
-const handleDrawCircle = (event) => {
+const handleDrawCircle = (/** @type {{ offsetX: number | undefined; offsetY: number | undefined; }} */ event) => {
     const particle = new Particle(event.offsetX, event.offsetY);
     particleArray.push(particle);
 }
 
 const init_variables = () => {
+    // @ts-ignore
     canvas = document.getElementById('main-canvas');
-    canvas.width = window.innerWidth / 3;
+    canvas.width = window.innerWidth / 2;
     canvas.height = window.innerHeight / 2;
-    context = canvas.getContext('2d');
-
-    canvas.style.backgroundColor = '#00b4ff';
+    canvas.style.backgroundColor = '#0074aa';
     canvas.addEventListener('click', handleDrawCircle);
 
+    // @ts-ignore
+    context = canvas.getContext('2d');
+
+    // @ts-ignore
     info = document.getElementById('info');
 }
 
