@@ -39,5 +39,10 @@ pub fn main() !void {
         }
     }
     var fattest : u32 = std.mem.max(u32, all_elves.items);
-    std.debug.print("The largest count was {}.\n", .{fattest});
+    std.debug.print("The largest single amount is {}.\n", .{fattest});
+
+    // could also use sorting...
+    std.mem.sort(u32, all_elves.items, {}, comptime std.sort.desc(u32));
+    var top_three_total : u32 = all_elves.items[0] + all_elves.items[1] + all_elves.items[2];
+    std.debug.print("Top three total is {}.\n", .{top_three_total});
 }
