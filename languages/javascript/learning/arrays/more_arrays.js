@@ -38,5 +38,32 @@ reporter();
 
 newHeader("Splicing and dicing:");
 myArray.splice(3, 2); // remove two elements (at positions 3 and 4) starting at position 3
+myFancyArray.splice(2, 0, 'Derrick', 19); // add two elements, delete 0 elements
 reporter();
+
+newHeader("Check if it's an array:");
+console.log("myArray is an array: " + Array.isArray(myArray));
+console.log("reporter is an array: " + Array.isArray(reporter));
+
+newHeader("Loops");
+console.log("For loop:");
+for (let i = 0; i < myArray.length; i++) {
+    console.log(myArray[i]);
+}
+newHeader("While loop:");
+let i = 0;
+while (i < myArray.length) {
+    console.log(myArray[i]);
+    i++;
+}
+newHeader("For in loop:");
+for (let i in myArray) {
+    console.log(myArray[i]);
+}
+newHeader("For of loop:");
+for (let element of myArray) {
+    console.log(element);
+}
+newHeader("For each loop:");
+myArray.forEach((e) => console.log(e));
 
