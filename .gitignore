@@ -112,3 +112,4 @@ languages/zig/hello_wasm/main.wasm.o
 languages/zig/hello_wasm/main.wasm
 languages/zig/hello_wasm/zig-cache
 languages/rust/learning/tutorials/todo-cli/target
+languages/zig/build/rickroll/zig-cache
