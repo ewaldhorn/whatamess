@@ -67,3 +67,44 @@ for (let element of myArray) {
 newHeader("For each loop:");
 myArray.forEach((e) => console.log(e));
 
+newHeader("Joining up:");
+console.log("Just .toString()   : " + myArray.toString());
+console.log("Custom join instead: " + myArray.join("|"));
+
+newHeader("Comparisons:");
+const tmpArraySame = ["Dylan", 34, "Sally", 78, "Ted"];
+const tmpArrayDiff = ["Dylan", 34, "Sally", 88, "Ted"];
+const tmpArrayShorter = ["Dylan", 34, "Sally", 78];
+const tmpArrayDiffOrder = ["Dylan", 78, "Sally", 34, "Ted"];
+
+let isEqual = (myArray.length === tmpArraySame.length) && myArray.every((el, idx) => el == tmpArraySame[idx]);
+console.log("myArray === tmpArraySame: " + isEqual);
+
+isEqual = (myArray.length === tmpArrayDiff.length) && myArray.every((el, idx) => el == tmpArrayDiff[idx]);
+console.log("myArray === tmpArrayDiff: " + isEqual);
+
+isEqual = (myArray.length === tmpArrayShorter.length) && myArray.every((el, idx) => el == tmpArrayShorter[idx]);
+console.log("myArray === tmpArrayShorter: " + isEqual);
+
+isEqual = (myArray.length === tmpArrayDiffOrder.length) && myArray.every((el) => tmpArrayDiffOrder.includes(el));
+console.log("myArray === tmpArrayDiffOrder: " + isEqual);
+
+newHeader("Copying:");
+console.log("With slice, it's ok for primitives: " + myArray.slice());
+const newArray = JSON.parse(JSON.stringify(myArray));
+console.log("Deep copies are required for objects: " + newArray);
+console.log();
+console.log("Now modify the copy.");
+newArray[0] = "Frank";
+console.log("Original: " + myArray);
+console.log("Copy    : " + newArray);
+
+newHeader("Merging arrays:");
+console.log("Merge myArray and myFancyArray: " + myArray.concat(myFancyArray));
+console.log("Merge myArray and myFancyArray and myArray: " + myArray.concat(myFancyArray, myArray));
+console.log();
+console.log("Now with the spread (...) operator:");
+console.log("Merge myArray and myFancyArray: " + [...myArray, ...myFancyArray]);
+console.log("Merge myArray and myFancyArray and myArray: " + [...myArray, ...myFancyArray, ...myArray]);
+
+newHeader("Searching:");
