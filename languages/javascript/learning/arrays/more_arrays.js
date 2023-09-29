@@ -108,3 +108,27 @@ console.log("Merge myArray and myFancyArray: " + [...myArray, ...myFancyArray]);
 console.log("Merge myArray and myFancyArray and myArray: " + [...myArray, ...myFancyArray, ...myArray]);
 
 newHeader("Searching:");
+console.log("myArray includes \"Bob\": " + myArray.includes("Bob"));
+console.log("myArray includes \"Ted\": " + myArray.includes("Ted"));
+console.log();
+console.log("The index of \"Bob\" is: " + myArray.indexOf("Bob"));
+console.log("The index of \"Ted\" is: " + myArray.indexOf("Ted"));
+console.log();
+console.log("All items that are numbers    : " + myArray.filter((e) => !isNaN(e)));
+console.log("All items that are not numbers: " + myArray.filter((e) => isNaN(e)));
+
+newHeader("Sorting:");
+console.log("Natural sort   : " + myArray.sort().join(" -> "));
+console.log("Sorting numbers: " + [8, 0, 9, 1, 4, 2, 5, 3, 7, 6].sort((l, r) => l - r).join(''));
+console.log("And in reverse : " + [8, 0, 9, 1, 4, 2, 5, 3, 7, 6].sort((l, r) => l - r).reverse().join(''));
+
+newHeader("Multi-dimensional arrays:");
+let multi = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+console.log("Multi as-is : " + multi);
+console.log("Multi length: " + multi.length);
+console.log("Multi 0 : " + multi[0]);
+console.log("Multi 2 : " + multi[0]);
+console.log("Multi 3 : " + multi[0]);
+console.log();
+console.log("Joined with newlines:\n" + multi.join("\n"));
+console.log();
