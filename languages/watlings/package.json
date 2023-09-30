@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node scripts/run.mjs",
+    "build": "node scripts/build.mjs",
+    "solve": "node scripts/solve.mjs",
+    "test": "vitest --run"
+  },
+  "devDependencies": {
+    "vitest": "^0.34.1"
+  },
+  "dependencies": {
+    "wabt": "^1.0.32"
+  }
+}
