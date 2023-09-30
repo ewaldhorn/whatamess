@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Based on https://www.freecodecamp.org/news/learn-javascript-object-oriented-programming/ -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer Experiment</title>
+    <style>
+        .container {
+            margin: 0 auto;
+            width: 300px;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ipt {
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        input {
+            width: 100px;
+            height: 50px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .btn {
+            margin: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        button {
+            margin: 10px 10px;
+            width: 50px;
+            height: 30px;
+            font-size: 10px;
+        }
+
+        #currentTime {
+            margin: 10px;
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Procedural Timer -->
+    <div class="container">
+        <h1>Timer</h1>
+        <div class="ipt">
+            <input id="input_hours" type="number" placeholder="hour">
+            <input id="input_minutes" type="number" placeholder="minute">
+            <input id="input_seconds" type="number" placeholder="second">
+        </div>
+        <div class="btn">
+            <button id="btn-start" onclick="start_counting()">Start</button>
+            <button id="btn-pause" onclick="pause_counting()">Pause</button>
+            <button id="btn-stop" onclick="end_counting()">Stop</button>
+        </div>
+        <p id="currentTime">current time: </p>
+    </div>
+    <script>
+        // initialize button state
+        document.getElementById("btn-pause").disabled = true;
+        document.getElementById("btn-stop").disabled = true;
+
+        // define global variables
+        var timer = null; // store the returned value of timer
+        var h = 0; // store the value of hour
+        var m = 0; // store the value of minute
+        var s = 0; // store the value of second
+
+        // define a function
+        // start the timer
+        function start_counting() {
+            // get the time entered or set a default value
+            h = +document.getElementById("input_hours").value || h;
+            m = +document.getElementById("input_minutes").value || m;
+            s = +document.getElementById("input_seconds").value || s;
+
+            // check for illegal input
+            if (
+                (h == 0 && m == 0 && s == 0) ||
+                (h < 0 || m < 0 || s < 0)
+            ) {
+                alert("The time entered is illegal!");
+                return;
+            }
+
+            // start the timer
+            timer = setInterval(counting, 1000);
+
+            // change the state of buttons and input fields to prohibit users from re-entering numbers
+            document.getElementById("btn-start").disabled = true;
+            document.getElementById("btn-pause").disabled = false;
+            document.getElementById("btn-stop").disabled = false;
+            document.getElementById("input_hours").disabled = true;
+            document.getElementById("input_minutes").disabled = true;
+            document.getElementById("input_seconds").disabled = true;
+        }
+
+        // pause the timer
+        function pause_counting() {
+            // change the state of buttons and input fields to allow users to re-enter numbers
+            document.getElementById("btn-start").disabled = false;
+            document.getElementById("btn-pause").disabled = true;
+            document.getElementById("btn-stop").disabled = false;
+            document.getElementById("input_hours").disabled = false;
+            document.getElementById("input_minutes").disabled = false;
+            document.getElementById("input_seconds").disabled = false;
+
+            // pause the timer
+            clearInterval(timer);
+        }
+
+        // stop the timer
+        function end_counting() {
+            // change the state of buttons and input fields to allow users to re-enter numbers
+            document.getElementById("btn-start").disabled = false;
+            document.getElementById("btn-pause").disabled = true;
+            document.getElementById("btn-stop").disabled = true;
+            document.getElementById("input_hours").disabled = false;
+            document.getElementById("input_minutes").disabled = false;
+            document.getElementById("input_seconds").disabled = false;
+
+            // stop the timer
+            clearInterval(timer);
+
+            // reset the time variables
+            h = 0;
+            m = 0;
+            s = 0;
+            document.getElementById("currentTime").innerHTML = "Timer stopped";
+        }
+
+        // countdown
+        function counting() {
+            // check if the second is 0
+            if (s == 0) {
+                // check if the minute is 0 when the second is 0
+                if (m == 0) {
+                    // the entered time has already been checked for legality before starting the timer, so there is no need to check the value of the variable h again here
+                    h--;
+                    m = 59;
+                    s = 59;
+                } else {
+                    // when the minute is not 0, the minute minus 1 and the second becomes 59
+                    m--;
+                    s = 59;
+                }
+            } else {
+                // when the second is not 0, the second minus 1
+                s--;
+            }
+
+            // display current time
+            document.getElementById("currentTime").innerHTML = "current time: " + h + " h " + m + " m " + s + " s";
+            document.getElementById("input_hours").value = h;
+            document.getElementById("input_minutes").value = m;
+            document.getElementById("input_seconds").value = s;
+
+            // check if the second is 0
+            if (s == 0) {
+                // when the second is 0, check if the minute is 0
+                if (m == 0) {
+                    // when the minute is 0, check if the hour is 0
+                    if (h == 0) {
+                        // when the hour is 0, stop the timer
+                        // stop the timer
+                        end_counting();
+                        // execute popup in the next event loop to prevent it from blocking DOM rendering
+                        setTimeout(function () {
+                            alert("The time is up!");
+                        }, 0);
+                        return;
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
