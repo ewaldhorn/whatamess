@@ -113,3 +113,5 @@ languages/zig/hello_wasm/main.wasm
 languages/zig/hello_wasm/zig-cache
 languages/rust/learning/tutorials/todo-cli/target
 languages/zig/build/rickroll/zig-cache
+languages/zig/experiments/zigging_it/zig-cache
+languages/zig/experiments/zigging_it/zig-out
