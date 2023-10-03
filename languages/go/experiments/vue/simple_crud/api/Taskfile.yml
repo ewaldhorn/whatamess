@@ -10,7 +10,27 @@ tasks:
     cmds:
       - task --list-all
     silent: true
+
   run:
+    desc: Runs the API in a Docker image
     cmds:
-      - docker compose up
+      - docker compose up --build
+    silent: true
+
+  generatesql:
+    desc: Generates the SQL bindings using SQLC.
+    cmds:
+      - sqlc generate
+    silent: true
+
+  connectdb:
+    desc: Connects to the DB instance running in the container.
+    cmds:
+      - docker exec -it api-db-1 /bin/sh
+    silent: true
+
+  shell:
+    desc: Connects to the Docker shell in the container.
+    cmds:
+      - docker exec -it apidev /bin/sh
     silent: true
