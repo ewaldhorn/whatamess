@@ -1,0 +1,57 @@
+ services:
+   db:
+     image: postgres
+     shm_size: 256mb
+     restart: always
+     read_only: true
+     tmpfs:
+       - /tmp
+       - /run/postgresql
+     security_opt:
+       - no-new-privileges:true
+     environment:
+       POSTGRES_USER: admin
+       POSTGRES_DB: statisitixes
+       POSTGRES_PASSWORD: toppadapops
+       PGDATA: /var/lib/postgresql/data
+     volumes:
+      - ./statisitixes:/var/lib/postgresql/data
+     ports:
+       - "5432:5432"
+  #  api:
+  #    image: 577726176664.dkr.ecr.af-south-1.amazonaws.com/simvidadev:latest
+  #    container_name: simvidadev
+  #    shm_size: 256mb
+  #    read_only: false
+  #    user: root
+  #    security_opt:
+  #      - no-new-privileges:true
+  #    ports:
+  #      - "80:80"
+  #    environment:
+  #      - NODE_ENV=development
+  #      - PORT=80
+  #      - DB_HOST=db
+  #      - APP_NAME=simvida-api
+  #      - DB_PORT=5432
+  #      - DB_USERNAME=admin
+  #      - DB_PASSWORD=toppadapops
+  #      - DB_NAME=simvida
+  #      - DB_AUTO_SYNC=true
+  #      - JWT_EXPIRES_IN=3600
+  #      - JWT_AUDIENCE=users.simvida.com
+  #      - JWT_ISS=SimvidaUserAuth
+  #      - JWT_TOKEN_TYPE=ACCESS_TOKEN
+  #      - JWT_PUBLIC_KEY=secret5secret
+  #      - JWT_PRIVATE_KEY=qwertyuiaposdfzhjklgxcvbnm123456
+  #    volumes:
+  #      - ./yarncache:/usr/local/share/.cache/yarn
+  #      - ./yarncachetmp:/tmp/.yarn-cache
+  #      - ./global:/usr/local/share/.yarn
+  #    depends_on:
+  #      - db
+ volumes:
+  statisitixes:
+  # global:
+  # logs:
+
