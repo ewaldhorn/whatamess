@@ -265,3 +265,228 @@ test "pointers" {
 //     var y: *u8 = @ptrFromInt(x);
 //     _ = y;
 // }
+
+// breaks because x is constant and cannot be reassigned
+// test "const pointers" {
+//     const x: u8 = 1;
+//     var y = &x;
+//     y.* += 1;
+// }
+
+test "usize" {
+    try expect(@sizeOf(usize) == @sizeOf(*u8));
+    try expect(@sizeOf(isize) == @sizeOf(*u8));
+}
+
+fn total(values: []const u8) usize {
+    var sum: usize = 0;
+    for (values) |v| sum += v;
+    return sum;
+}
+
+test "slices" {
+    const array = [_]u8{ 1, 2, 3, 4, 5 };
+    const slice = array[0..3];
+    try expect(total(slice) == 6);
+}
+
+test "slices 2" {
+    const array = [_]u8{ 1, 2, 3, 4, 5 };
+    const slice = array[0..3];
+    try expect(@TypeOf(slice) == *const [3]u8);
+}
+
+test "slices 3" {
+    var array = [_]u8{ 1, 2, 3, 4, 5 };
+    var slice = array[0..];
+    _ = slice;
+}
+
+const Direction = enum { north, south, east, west };
+const Value = enum(u2) { zero, one, two };
+
+test "enum ordinal value" {
+    try expect(@intFromEnum(Value.zero) == 0);
+    try expect(@intFromEnum(Value.one) == 1);
+    try expect(@intFromEnum(Value.two) == 2);
+}
+
+const Value2 = enum(u32) {
+    hundred = 100,
+    thousand = 1000,
+    million = 1000000,
+    next,
+};
+
+test "set enum ordinal value" {
+    try expect(@intFromEnum(Value2.hundred) == 100);
+    try expect(@intFromEnum(Value2.thousand) == 1000);
+    try expect(@intFromEnum(Value2.million) == 1000000);
+    try expect(@intFromEnum(Value2.next) == 1000001);
+}
+
+const Suit = enum {
+    clubs,
+    spades,
+    diamonds,
+    hearts,
+    pub fn isClubs(self: Suit) bool {
+        return self == Suit.clubs;
+    }
+};
+
+test "enum method" {
+    try expect(Suit.spades.isClubs() == Suit.isClubs(.spades));
+}
+
+const Mode = enum {
+    var count: u32 = 0;
+    on,
+    off,
+};
+
+test "hmm" {
+    Mode.count += 1;
+    try expect(Mode.count == 1);
+}
+
+const Vec3 = struct { x: f32, y: f32, z: f32 };
+
+test "struct usage" {
+    const my_vector = Vec3{
+        .x = 0,
+        .y = 100,
+        .z = 50,
+    };
+    _ = my_vector;
+}
+
+// fails on missing y field
+// test "missing struct field" {
+//     const my_vector = Vec3{
+//         .x = 0,
+//         .z = 50,
+//     };
+//     _ = my_vector;
+// }
+
+const Vec4 = struct { x: f32, y: f32, z: f32 = 0, w: f32 = undefined };
+
+test "struct defaults" {
+    const my_vector = Vec4{
+        .x = 25,
+        .y = -50,
+    };
+    _ = my_vector;
+}
+
+const Stuff = struct {
+    x: i32,
+    y: i32,
+    fn swap(self: *Stuff) void {
+        const tmp = self.x;
+        self.x = self.y;
+        self.y = tmp;
+    }
+};
+
+test "automatic dereference" {
+    var thing = Stuff{ .x = 10, .y = 20 };
+    thing.swap();
+    try expect(thing.x == 20);
+    try expect(thing.y == 10);
+}
+
+const Result = union {
+    int: i64,
+    float: f64,
+    bool: bool,
+};
+
+// fails because the union is initialised to be an int, can't assign a float.
+// test "simple union" {
+//     var result = Result{ .int = 1234 };
+//     result.float = 12.34;
+// }
+
+const Tag = enum { a, b, c };
+
+const Tagged = union(Tag) { a: u8, b: f32, c: bool };
+
+test "switch on tagged union" {
+    var value = Tagged{ .b = 1.5 };
+    switch (value) {
+        .a => |*byte| byte.* += 1,
+        .b => |*float| float.* *= 2,
+        .c => |*b| b.* = !b.*,
+    }
+    try expect(value.b == 3);
+}
+
+test "integer widening" {
+    const a: u8 = 250;
+    const b: u16 = a;
+    const c: u32 = b;
+    try expect(c == a);
+}
+
+test "@intCast" {
+    const x: u64 = 200;
+    const y = @as(u8, @intCast(x));
+    try expect(@TypeOf(y) == u8);
+}
+
+test "well defined overflow" {
+    var a: u8 = 255;
+    a +%= 1;
+    try expect(a == 0);
+}
+
+test "float widening" {
+    const a: f16 = 0;
+    const b: f32 = a;
+    const c: f128 = b;
+    try expect(c == @as(f128, a));
+}
+
+test "int-float conversion" {
+    const a: i32 = 0;
+    const b = @as(f32, @floatFromInt(a));
+    const c = @as(i32, @intFromFloat(b));
+    try expect(c == a);
+}
+
+test "labelled blocks" {
+    const count = blk: {
+        var sum: u32 = 0;
+        var i: u32 = 0;
+        while (i < 10) : (i += 1) sum += i;
+        break :blk sum;
+    };
+    try expect(count == 45);
+    try expect(@TypeOf(count) == u32);
+}
+
+test "nested continue" {
+    var count: usize = 0;
+    outer: for ([_]i32{ 1, 2, 3, 4, 5, 6, 7, 8 }) |_| {
+        for ([_]i32{ 1, 2, 3, 4, 5 }) |_| {
+            count += 1;
+            continue :outer;
+        }
+    }
+    try expect(count == 8);
+}
+
+fn rangeHasNumber(begin: usize, end: usize, number: usize) bool {
+    var i = begin;
+    return while (i < end) : (i += 1) {
+        if (i == number) {
+            break true;
+        }
+    } else false;
+}
+
+test "while loop expression" {
+    try expect(rangeHasNumber(0, 10, 3));
+}
