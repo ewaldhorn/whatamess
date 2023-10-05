@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zig and Wasm Interop</title>
+</head>
+
+<body>
+    <script>
+        (async () => {
+            const bytes = await fetch("adder.wasm");
+            const response = await bytes.arrayBuffer();
+            const result = await WebAssembly.instantiate(response, { env: {} });
+            const add_two = result.instance.exports.add_two;
+            var left = 4;
+            var right = 5;
+            console.log(`Adding ${left} and ${right} up equals ${add_two(left, right)}.`);
+        })();
+
+    </script>
+</body>
+
+</html>

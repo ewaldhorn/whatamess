@@ -116,3 +116,5 @@ languages/zig/build/rickroll/zig-cache
 languages/zig/experiments/zigging_it/zig-cache
 languages/zig/experiments/zigging_it/zig-out
 languages/go/experiments/vue/simple_crud/api/statisitixes
+languages/zig/wasm/experiments/adder/assets/adder.wasm
+languages/zig/wasm/experiments/adder/assets/adder.wasm.o
