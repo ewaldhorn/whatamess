@@ -12,11 +12,23 @@
         (async () => {
             const bytes = await fetch("adder.wasm");
             const response = await bytes.arrayBuffer();
-            const result = await WebAssembly.instantiate(response, { env: {} });
+            const result = await WebAssembly.instantiate(response, {
+                env: {
+                    b: function () { return 10; },
+                },
+                app: { c: () => 12 }
+            });
             const add_two = result.instance.exports.add_two;
+            const add = result.instance.exports.add;
+            const double = result.instance.exports.double;
             var left = 4;
             var right = 5;
             console.log(`Adding ${left} and ${right} up equals ${add_two(left, right)}.`);
+            console.log(`Calling add: ${add(5)}`);
+            console.log(`Calling add: ${add(10)}`);
+            console.log(`Calling add: ${add(15)}`);
+            console.log(`Calling double: ${double(2)}`);
+            console.log(`Calling use_c: ${result.instance.exports.use_c()}`);
         })();
 
     </script>
