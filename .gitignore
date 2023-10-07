@@ -118,3 +118,4 @@ languages/zig/experiments/zigging_it/zig-out
 languages/go/experiments/vue/simple_crud/api/statisitixes
 languages/zig/wasm/experiments/adder/assets/adder.wasm
 languages/zig/wasm/experiments/adder/assets/adder.wasm.o
+languages/rust/experiments/yew/yew_canvas/target

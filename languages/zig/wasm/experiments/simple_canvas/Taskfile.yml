@@ -1,0 +1,17 @@
+# https://taskfile.dev
+
+version: "3"
+
+tasks:
+  default:
+    cmds:
+      - task --list-all
+    silent: true
+  build:
+    cmds:
+      - zig build-lib src/canvas.zig -target wasm32-freestanding -dynamic -rdynamic -femit-bin=assets/canvas.wasm
+    silent: true
+  run:
+    cmds:
+      - echo "TODO"
+    silent: true

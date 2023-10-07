@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zig and Wasm Interop</title>
+    <style>
+        body {
+            display: grid;
+            place-items: center;
+            background-color: white;
+        }
+
+        #main_canvas {
+            background: rgb(1, 72, 1);
+            height: 480px;
+            width: 640px;
+        }
+
+        #main_div {
+            display: grid;
+            place-items: center;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main_div">
+        <canvas id="main_canvas" width="640" height="480"></canvas>
+    </div>
+    <script>
+        var context;
+
+        (async () => {
+            const importObject = {
+                env: {
+                    b: function () { return 10; },
+                },
+                app: { c: () => 12 }
+            };
+
+            const result = await WebAssembly.instantiateStreaming(fetch("canvas.wasm"), importObject).then((result) => {
+                // const add_two = result.instance.exports.add_two;
+                // const add = result.instance.exports.add;
+                // const double = result.instance.exports.double;
+
+                let canvas = document.getElementById("main_canvas");
+                context = canvas.getContext("2d");
+                context.lineWidth = 1.0;
+
+                context.strokeStyle = "#FFFFFF";
+                context.strokeRect(75, 140, 150, 110);
+
+                context.beginPath();
+                context.moveTo(10, 10);
+                context.lineTo(100, 100);
+                context.lineTo(10, 100);
+                context.lineTo(10, 10);
+                context.closePath();
+                context.stroke();
+
+
+                // var left = 4;
+                // var right = 5;
+                // console.log(`Adding ${left} and ${right} up equals ${add_two(left, right)}.`);
+                // console.log(`Calling add: ${add(3)}`);
+                // console.log(`Calling add: ${add(7)}`);
+                // console.log(`Calling add: ${add(11)}`);
+                // console.log(`Calling double: ${double(2)}`);
+                // console.log(`Calling use_c: ${result.instance.exports.use_c()}`);
+            });
+        })();
+
+    </script>
+</body>
+
+</html>
