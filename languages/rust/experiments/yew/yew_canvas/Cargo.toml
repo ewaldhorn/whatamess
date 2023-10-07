@@ -7,3 +7,26 @@ authors = ["Ewald Horn <ewald@nofuss.co.za>"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+getrandom = { version = "0.2.10", features = ["js"] }
+gloo = "0.10.0"
+gloo-utils = "0.2.0"
+js-sys = "0.3.64"
+rand = "0.8.5"
+wasm-bindgen = "0.2.87"
+wasm-bindgen-futures = "0.4.37"
+yew = { version = "0.21.0", features = ["csr"] }
+
+[dependecies.web-sys]
+version = "0.3.64"
+features = [
+    "CanvasRenderingContext2d",
+    "HtmlCanvasElement",
+    "ImageBitmap",
+    "ImageData",
+    "Navigator",
+    "Response",
+    "Request",
+    "RequestInit",
+    "RequestMode",
+    "Window",
+]
