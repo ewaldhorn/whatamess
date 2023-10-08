@@ -16,7 +16,7 @@ wasm-bindgen = "0.2.87"
 wasm-bindgen-futures = "0.4.37"
 yew = { version = "0.21.0", features = ["csr"] }
 
-[dependecies.web-sys]
+[dependencies.web-sys]
 version = "0.3.64"
 features = [
     "CanvasRenderingContext2d",
