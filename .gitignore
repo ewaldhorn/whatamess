@@ -123,3 +123,4 @@ languages/rust/experiments/yew/yew_canvas/dist
 languages/rust/learning/books/practical_webassembly/chapter7/hello/hello.html
 languages/rust/learning/books/practical_webassembly/chapter7/hello/hello.js
 languages/rust/learning/books/practical_webassembly/chapter7/hello/hello.wasm
+languages/rust/learning/books/practical_webassembly/chapter7/hello_wasm/target
