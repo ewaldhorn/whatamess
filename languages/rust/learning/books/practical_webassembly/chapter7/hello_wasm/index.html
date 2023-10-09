@@ -9,12 +9,34 @@
 
 <body>
     <script>
+        function fibonacci(num) {
+            // x is representing the first term,
+            // y is representing the second term, and
+            // z is representing the sum of x and y.
+            var x = 0;
+            var y = 1;
+            var z;
+            var i = 0;
+            for (i = 2; i < num; i++) {
+                z = x + y;
+                x = y;
+                y = z;
+            }
+            return y;
+        }
+
+        var num = 44;
+        answer = fibonacci(num);
+
+        console.log("The 44st term of the Fibonacci series is: ", answer);
+
         (async () => {
             const bytes = await fetch("target/wasm32-unknown-unknown/debug/hello_wasm.wasm");
             const response = await bytes.arrayBuffer();
             const result = await WebAssembly.instantiate(response, {});
             console.log('Add 10 and 3: ' + result.instance.exports.add(10, 3));
             console.log("Double 10: " + result.instance.exports.double(10));
+            console.log("Fibonacci of 43: " + result.instance.exports.fibonacci(43));
         })();
     </script>
 </body>
