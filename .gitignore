@@ -120,3 +120,6 @@ languages/zig/wasm/experiments/adder/assets/adder.wasm
 languages/zig/wasm/experiments/adder/assets/adder.wasm.o
 languages/rust/experiments/yew/yew_canvas/target
 languages/rust/experiments/yew/yew_canvas/dist
+languages/rust/learning/books/practical_webassembly/chapter7/hello/hello.html
+languages/rust/learning/books/practical_webassembly/chapter7/hello/hello.js
+languages/rust/learning/books/practical_webassembly/chapter7/hello/hello.wasm

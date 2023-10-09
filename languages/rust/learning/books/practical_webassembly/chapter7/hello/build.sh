@@ -1,0 +1,1 @@
+rustc --target wasm32-unknown-emscripten hello.rs -o hello.html
