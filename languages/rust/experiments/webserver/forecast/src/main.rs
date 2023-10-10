@@ -2,9 +2,10 @@ pub mod georesponse;
 
 use std::net::SocketAddr;
 
+use anyhow::Context;
+use askama::Template;
 use axum::{extract::Query, routing::get, Router};
-use georesponse::{GeoResponse, LatLong};
-use reqwest::StatusCode;
+use georesponse::{AppError, GeoResponse, LatLong, WeatherDisplay, WeatherResponse};
 use serde::Deserialize;
 
 #[derive(Deserialize)]
@@ -12,19 +13,18 @@ pub struct WeatherQuery {
     pub city: String,
 }
 
-// basic handler that responds with a static string
-async fn index() -> &'static str {
-    "Index"
+#[derive(Template)]
+#[template(path = "index.html")]
+struct IndexTemplate;
+
+async fn index() -> IndexTemplate {
+    IndexTemplate
 }
 
-async fn weather(Query(params): Query<WeatherQuery>) -> Result<String, StatusCode> {
-    let lat_long = fetch_lat_long(&params.city)
-        .await
-        .map_err(|_| StatusCode::NOT_FOUND)?;
-    Ok(format!(
-        "{}: {}, {}",
-        params.city, lat_long.latitude, lat_long.longitude
-    ))
+async fn weather(Query(params): Query<WeatherQuery>) -> Result<WeatherDisplay, AppError> {
+    let lat_long = fetch_lat_long(&params.city).await?;
+    let weather = fetch_weather(lat_long).await?;
+    Ok(WeatherDisplay::new(params.city, weather))
 }
 
 #[axum_macros::debug_handler]
@@ -32,23 +32,25 @@ async fn stats() -> &'static str {
     "Stats"
 }
 
-async fn fetch_lat_long(city: &str) -> Result<LatLong, Box<dyn std::error::Error>> {
+async fn fetch_lat_long(city: &str) -> Result<LatLong, anyhow::Error> {
     let endpoint = format!(
         "https://geocoding-api.open-meteo.com/v1/search?name={}&count=1&language=en&format=json",
         city
     );
     let response = reqwest::get(&endpoint).await?.json::<GeoResponse>().await?;
-    response
-        .results
-        .get(0)
-        .cloned()
-        .ok_or("No results found".into())
+    response.results.get(0).cloned().context("No results found")
+}
 
-    // or
-    // match response.results.get(0) {
-    //     Some(lat_long) => Ok(lat_long.clone()),
-    //     None => Err("No results found".into()),
-    // }
+async fn fetch_weather(lat_long: LatLong) -> Result<WeatherResponse, anyhow::Error> {
+    let endpoint = format!(
+        "https://api.open-meteo.com/v1/forecast?latitude={}&longitude={}&hourly=temperature_2m",
+        lat_long.latitude, lat_long.longitude
+    );
+    let response = reqwest::get(&endpoint)
+        .await?
+        .json::<WeatherResponse>()
+        .await?;
+    Ok(response)
 }
 
 #[tokio::main]
