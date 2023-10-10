@@ -130,3 +130,5 @@ languages/rust/learning/books/practical_webassembly/chapter7/hello_bindgen/hello
 languages/rust/learning/books/practical_webassembly/chapter7/hello_bindgen/hello_bindgen_bg.wasm
 languages/rust/learning/books/practical_webassembly/chapter7/hello_bindgen/hello_bindgen_bg.wasm.d.ts
 languages/rust/learning/books/practical_webassembly/chapter7/hello_bindgen/target
+languages/rust/experiments/webserver/forecast/target
+languages/rust/experiments/webserver/forecast/.idea
