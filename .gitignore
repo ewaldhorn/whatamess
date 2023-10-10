@@ -124,3 +124,9 @@ languages/rust/learning/books/practical_webassembly/chapter7/hello/hello.html
 languages/rust/learning/books/practical_webassembly/chapter7/hello/hello.js
 languages/rust/learning/books/practical_webassembly/chapter7/hello/hello.wasm
 languages/rust/learning/books/practical_webassembly/chapter7/hello_wasm/target
+languages/rust/learning/books/practical_webassembly/chapter7/hello_bindgen/hello_bindgen.d.ts
+languages/rust/learning/books/practical_webassembly/chapter7/hello_bindgen/hello_bindgen.js
+languages/rust/learning/books/practical_webassembly/chapter7/hello_bindgen/hello_bindgen_bg.js
+languages/rust/learning/books/practical_webassembly/chapter7/hello_bindgen/hello_bindgen_bg.wasm
+languages/rust/learning/books/practical_webassembly/chapter7/hello_bindgen/hello_bindgen_bg.wasm.d.ts
+languages/rust/learning/books/practical_webassembly/chapter7/hello_bindgen/target

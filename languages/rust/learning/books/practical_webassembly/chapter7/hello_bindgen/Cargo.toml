@@ -1,0 +1,11 @@
+[package]
+name = "hello_bindgen"
+version = "0.1.0"
+edition = "2021"
+authors = ["Ewald Horn <ewald@nofuss.co.za>"]
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+wasm-bindgen = "0.2.87"
