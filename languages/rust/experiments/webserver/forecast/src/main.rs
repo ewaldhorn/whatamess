@@ -54,15 +54,22 @@ async fn fetch_weather(lat_long: LatLong) -> Result<WeatherResponse, anyhow::Err
 }
 
 #[tokio::main]
-async fn main() {
+async fn main() -> anyhow::Result<()> {
+    let db_connection_str = std::env::var("DATABASE_URL").context("DATABASE_URL must be set")?;
+    let pool = sqlx::PgPool::connect(&db_connection_str)
+        .await
+        .context("can't connect to database")?;
+
     let app = Router::new()
         .route("/", get(index))
         .route("/weather", get(weather))
-        .route("/stats", get(stats));
+        .route("/stats", get(stats))
+        .with_state(pool);
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 9000));
     axum::Server::bind(&addr)
         .serve(app.into_make_service())
-        .await
-        .unwrap();
+        .await?;
+
+    Ok(())
 }

@@ -1,0 +1,2 @@
+docker run -p 5432:5432 -e POSTGRES_USER=forecast -e POSTGRES_PASSWORD=forecast -e POSTGRES_DB=forecast -v `pwd`/init.sql:/docker-entrypoint-initdb.d/index.sql -d postgres
+export DATABASE_URL="postgres://forecast:forecast@localhost:5432/forecast?sslmode=disable"
