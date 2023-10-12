@@ -1,6 +1,7 @@
 mod enums;
 mod structs;
 mod tuples;
+mod count_vowels;
 
 #[derive(Debug)]
 struct Data {
