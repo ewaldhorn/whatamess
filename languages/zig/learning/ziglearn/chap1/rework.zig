@@ -198,3 +198,26 @@ test "unreachable switch" {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////// POINTERS
+// Referencing is done with &variable, and dereferencing is done with variable.*.
+fn increment(num: *u8) void {
+    num.* += 1;
+}
+
+test "pointers" {
+    var x: u8 = 1;
+    increment(&x);
+    try expect(x == 2);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////// SLICES
+fn total(values: []const u8) usize {
+    var sum: usize = 0;
+    for (values) |v| sum += v;
+    return sum;
+}
+
+test "slices" {
+    const array = [_]u8{ 1, 2, 3, 4, 5 };
+    const slice = array[0..3]; // creates a slice of the elements starting at x[n] and ending at x[m - 1]
+    try expect(total(slice) == 6);
+}
