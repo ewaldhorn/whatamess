@@ -133,3 +133,5 @@ languages/rust/learning/books/practical_webassembly/chapter7/hello_bindgen/targe
 languages/rust/experiments/webserver/forecast/target
 languages/rust/experiments/webserver/forecast/.idea
 languages/rust/experiments/cli/cli_experiments/.idea
+languages/zig/learning/logrocket/build_system/zig-cache
+languages/zig/learning/logrocket/build_system/zig-out
