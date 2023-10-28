@@ -2,7 +2,7 @@
 
 Best not to look too closely if you value your mental health.
 
-## PLEASE PLEASE PLEASE PLEASE NOTE
+## PLEASE NOTE
 
 These are _experiments_, often in some state of flux. I might
 try something that I am thinking of doing a talk about, or do
