@@ -12,6 +12,7 @@ export fn add(a: i32) i32 {
 }
 
 export fn double(a: i32) i32 {
+    consoleLog("This is a message.", "This is a message.".len);
     return a + a;
 }
 
@@ -22,3 +23,5 @@ export fn use_c() i32 {
 export fn print_five() void {
     print(5);
 }
+
+extern fn consoleLog(msg: [*]const u8, len: u8) void;

@@ -12,7 +12,7 @@ tasks:
     silent: true
   build:
     cmds:
-      - zig build-lib src/adder.zig -target wasm32-freestanding -dynamic -rdynamic -femit-bin=assets/adder.wasm
+      - zig build-lib src/adder.zig -target wasm32-freestanding -dynamic -rdynamic -femit-bin=assets/adder.wasm -O ReleaseFast
     silent: true
   run:
     cmds:
