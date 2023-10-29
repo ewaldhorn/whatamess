@@ -15,20 +15,26 @@
             const result = await WebAssembly.instantiate(response, {
                 env: {
                     b: function () { return 10; },
+                    print: function (x) { console.log(x); }
                 },
                 app: { c: () => 12 }
             });
             const add_two = result.instance.exports.add_two;
             const add = result.instance.exports.add;
             const double = result.instance.exports.double;
+            const print_five = result.instance.exports.print_five;
+
             var left = 4;
             var right = 5;
+
             console.log(`Adding ${left} and ${right} up equals ${add_two(left, right)}.`);
             console.log(`Calling add: ${add(5)}`);
             console.log(`Calling add: ${add(10)}`);
             console.log(`Calling add: ${add(15)}`);
             console.log(`Calling double: ${double(2)}`);
             console.log(`Calling use_c: ${result.instance.exports.use_c()}`);
+            console.log("Going to call print_five...");
+            print_five();
         })();
 
     </script>

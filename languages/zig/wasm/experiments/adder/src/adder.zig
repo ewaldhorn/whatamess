@@ -1,4 +1,5 @@
 extern fn b() i32;
+extern fn print(val: i32) void;
 
 extern "app" fn c() i32;
 
@@ -16,4 +17,8 @@ export fn double(a: i32) i32 {
 
 export fn use_c() i32 {
     return c();
+}
+
+export fn print_five() void {
+    print(5);
 }
