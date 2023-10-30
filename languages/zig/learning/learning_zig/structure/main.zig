@@ -3,6 +3,7 @@ const User = @import("models/user.zig").User;
 const SuperDooper = @import("models/user.zig").SuperUser;
 const circle = @import("constants/constants.zig");
 const adder = @import("math/adders/adder.zig");
+const Stuff = @import("models/inventory_item.zig");
 
 pub fn main() void {
     const user = User{
@@ -29,6 +30,9 @@ pub fn main() void {
 
     std.debug.print("Power user (alternate syntax.) ", .{});
     SuperDooper.debugMessage(powerTripper);
+
+    const fishPaste = Stuff.InventoryItem.init("Wedwo", 34.95);
+    fishPaste.report();
 
     std.debug.print("\n", .{});
 }
