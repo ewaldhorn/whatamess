@@ -24,5 +24,11 @@ pub fn main() void {
 
     std.debug.print("The power user's name is {s}.\n", .{powerTripper.user.name});
 
+    std.debug.print("Power user ", .{});
+    powerTripper.debugMessage();
+
+    std.debug.print("Power user (alternate syntax.) ", .{});
+    SuperDooper.debugMessage(powerTripper);
+
     std.debug.print("\n", .{});
 }
