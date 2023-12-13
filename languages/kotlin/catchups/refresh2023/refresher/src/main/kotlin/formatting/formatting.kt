@@ -8,7 +8,6 @@ import java.util.*
  */
 fun main() {
     val integer = 10
-    val largeInteger = 10222333
     val double = 10.345
     val smallDouble = 0.0035
 
@@ -25,8 +24,6 @@ fun main() {
     println("Standard double is         : |$double|")
     println("Padded double is           : |$paddedDouble|")
     println("Right Padded double is     : |$rightPaddedDouble|")
-
-
 
     println("Small Double is (default)  : |$smallDouble|")
     println("Small Double is  (5 dec)   : |${"%.5f".format(smallDouble)}|")
