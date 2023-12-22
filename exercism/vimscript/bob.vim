@@ -8,11 +8,19 @@ function! Response(remark) abort
   let strlength = len(a:remark)
   let lastChar = a:remark[strlength-1]
   let isQuestion = lastChar == '?'
-  
-  if isQuestion
-    return 'Sure.'
-  endif
+  let isEmpty = len(trim(a:remark)) == 0
+  let isYelling = a:remark == toupper(a:remark)
 
-  return 'Whatever.'
+  if isEmpty
+    return 'Fine. Be that way!'
+  elseif isYelling && isQuestion
+    return 'Calm down, I know what I''m doing!'
+  elseif isYelling
+    return 'Whoa, chill out!'
+  elseif isQuestion
+    return 'Sure.'
+  else
+    return 'Whatever.'
+  endif
 endfunction
 
