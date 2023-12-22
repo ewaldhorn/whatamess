@@ -5,11 +5,13 @@ function! Response(remark) abort
 
   " your solution goes here
 
-  let strlength = len(a:remark)
-  let lastChar = a:remark[strlength-1]
+  let s:remark = trim(a:remark)
+  let strlength = len(s:remark)
+  let lastChar = s:remark[strlength-1]
   let isQuestion = lastChar == '?'
-  let isEmpty = len(trim(a:remark)) == 0
-  let isYelling = a:remark == toupper(a:remark)
+  let isEmpty = len(trim(s:remark)) == 0
+  let hasLetters = empty(matchstr(s:remark, '[a-zA-Z]')) == 0
+  let isYelling = s:remark == toupper(s:remark) && hasLetters
 
   if isEmpty
     return 'Fine. Be that way!'
