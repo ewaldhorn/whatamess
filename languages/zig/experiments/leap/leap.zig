@@ -24,6 +24,15 @@ test "year 2000" {
     try expect(result == true);
 }
 
+test "year 2001" {
+    const result = isLeapYear(2001);
+    try expect(result == false);
+}
+
+test "year 2002" {
+    try expect(isLeapYear(2002) == false);
+}
+
 test "year 2004" {
     const result = isLeapYear(2004);
     try expect(result == true);
