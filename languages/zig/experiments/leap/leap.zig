@@ -9,6 +9,31 @@ test "year 1700" {
     try expect(result == false);
 }
 
+test "year 1701" {
+    const result = isLeapYear(1701);
+    try expect(result == false);
+}
+
+test "year 1702" {
+    const result = isLeapYear(1702);
+    try expect(result == false);
+}
+
+test "year 1703" {
+    const result = isLeapYear(1703);
+    try expect(result == false);
+}
+
+test "year 1704" {
+    const result = isLeapYear(1704);
+    try expect(result == true);
+}
+
+test "year 1705" {
+    const result = isLeapYear(1705);
+    try expect(result == false);
+}
+
 test "year 1800" {
     const result = isLeapYear(1800);
     try expect(result == false);
