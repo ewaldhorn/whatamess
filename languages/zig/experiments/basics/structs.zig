@@ -8,12 +8,19 @@ pub fn main() void {
     };
 
     stdlib.debug.print("{s}'s power is {d}.\n", .{user.name, user.power});
+    user.printDebugMessage();
 }
 
 pub const User = struct {
     power: u64,
     name: []const u8,
-    version: u32 = 1
+    version: u32 = DEFAULT_VERSION,
+
+    pub const DEFAULT_VERSION = 1;
+
+    fn printDebugMessage(user:User)void{
+        stdlib.debug.print("{s} is an object of version type {d}.\n", .{user.name, user.version});
+    }
 };
 
 
