@@ -1,0 +1,12 @@
+This file contains some text.
+Some lines are long.
+Some are short.
+This one, for example, does not count as one of the short lines.
+This one could, but, alas, it does not.
+
+The line above this one is blank.
+Actually, the line below this one is blank as well.
+
+So, there you have it.
+A file with text.
+And this is the last line!
