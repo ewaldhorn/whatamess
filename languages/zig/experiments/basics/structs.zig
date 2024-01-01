@@ -9,6 +9,9 @@ pub fn main() void {
     // access struct functions
     user.printDebugMessage();
     User.printDebugMessage(user); // can also call this way, if needed
+
+    const anotherUser: User = .{ .power = 1, .name = "Sal" };
+    anotherUser.printDebugMessage();
 }
 
 pub const User = struct {
@@ -23,10 +26,7 @@ pub const User = struct {
     }
 
     pub fn initDefault() User {
-        return User {
-            .power = 0,
-            .name = "Default"
-        };
+        return User{ .power = 0, .name = "Default" };
     }
 };
 
