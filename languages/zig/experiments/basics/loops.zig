@@ -29,3 +29,9 @@ test "sum 1..3 will be four, as the last number is excluded" {
 
     try expect(val == 4);
 }
+
+test "sum 1..4 will be zero, as the last number is excluded" {
+    const val = sumFromOneTo(4);
+
+    try expect(val == 7);
+}
