@@ -9,6 +9,17 @@ pub fn main() void {
     std.debug.print("{any}\n", .{std.mem.asBytes(&a).*});
 }
 
+// finding out if an array contains a value or not
+// shows how to loop over entire array
+fn contains(haystack: []const u32, needle: u32) bool {
+    for (haystack) |value| {
+        if (needle == value) {
+            return true;
+        }
+    }
+    return false;
+}
+
 // ========================================================================================== TESTS
 test "basic array" {
     const a = [5]i32{ 1, 2, 3, 4, 5 };
@@ -32,4 +43,14 @@ test "update array values" {
     a[0] = 2;
 
     try expect(a[0] == 2);
+}
+
+test "contains where value is present" {
+    const a = [_]u32{ 1, 2, 3, 4, 5, 6, 7, 8 };
+    try expect(contains(&a, 3) == true);
+}
+
+test "contains where value is not present" {
+    const a = [_]u32{ 1, 2, 3, 4, 5, 6, 7, 8 };
+    try expect(contains(&a, 9) == false);
 }
