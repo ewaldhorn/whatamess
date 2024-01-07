@@ -18,8 +18,8 @@
                 app: { c: () => 12 }
             };
 
-            const result = await WebAssembly.instantiateStreaming(fetch("main.wasm"), importObject).then((result) => {
-                const calling_yolo = result.instance.exports.yolo;
+            const result = await WebAssembly.instantiateStreaming(fetch("./main.wasm"), importObject).then((result) => {
+                const calling_yolo = result.instance.exports.yolo();
                 // const add = result.instance.exports.add;
                 // const double = result.instance.exports.double;
                 // const print_five = result.instance.exports.print_five;
