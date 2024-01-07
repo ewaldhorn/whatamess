@@ -1,1 +1,1 @@
-zig build-lib src/main.zig -target wasm32-freestanding -dynamic -rdynamic -femit-bin=build/main.wasm -O ReleaseFast
+zig build-lib src/main.zig -target wasm32-freestanding -dynamic -rdynamic -femit-bin=output/main.wasm -O ReleaseFast
