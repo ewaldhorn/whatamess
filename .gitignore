@@ -139,3 +139,4 @@ languages/kotlin/catchups/refresh2023/refresher/.idea
 languages/zig/experiments/build/hello_builder/zig-cache
 languages/zig/experiments/build/hello_builder/zig-out
 languages/zig/experiments/wasm/hello_canvas/output
+languages/zig/experiments/wasm/checkerboard/zig-cache
