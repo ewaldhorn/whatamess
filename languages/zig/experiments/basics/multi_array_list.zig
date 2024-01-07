@@ -14,7 +14,7 @@ pub fn main() !void {
     var soa = MonsterList{};
     defer soa.deinit(allocator);
 
-    // Normally you would want to append many monsters
+    // Add a couple of monsters
     for (0..10) |_| {
         try soa.append(allocator, .{
             .element = .fire,
