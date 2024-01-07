@@ -141,3 +141,4 @@ languages/zig/experiments/build/hello_builder/zig-out
 languages/zig/experiments/wasm/hello_canvas/output
 languages/zig/experiments/wasm/checkerboard/zig-cache
 languages/zig/experiments/wasm/checkerboard/zig-out
+languages/zig/experiments/wasm/canvas/out
