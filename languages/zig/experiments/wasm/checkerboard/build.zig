@@ -8,20 +8,16 @@ const number_of_pages = 2;
 // declaratively construct a build graph that will be executed by an external
 // runner.
 pub fn build(b: *std.Build) void {
+    const build_target = b.resolveTargetQuery(.{ .cpu_arch = .wasm32, .os_tag = .freestanding, .abi = .musl });
+
     const lib = b.addSharedLibrary(.{
         .name = "checkerboard",
 
         // In this case the main source file is merely a path, however, in more
         // complicated build scripts, this could be a generated file.
         .root_source_file = .{ .path = "src/checkerboard.zig" },
-
-        .target = .{
-            .cpu_arch = .wasm32,
-            .os_tag = .freestanding,
-            .abi = .musl,
-        },
-
-        .optimize = .ReleaseSmall,
+        .target = build_target,
+        // .optimize = .ReleaseSmall,
     });
 
     // <https://github.com/ziglang/zig/issues/8633>
