@@ -145,3 +145,4 @@ languages/zig/experiments/wasm/canvas/out
 languages/zig/experiments/wasm/write_wasm/noop.wasm
 languages/zig/experiments/file_io/basics/test.txt
 languages/zig/experiments/file_io/basics/test_append.txt
+languages/zig/experiments/wasm/basic_wasm/output
