@@ -33,11 +33,37 @@ fn calculate_maximum_brute(values: []const i32, window_size: usize) isize {
     return max;
 }
 
+// uses the sliding-window principle to calculate the maximum value in the specified window size
+// uses less loops than the brute-force version
+// as the window moves right, the FIRST value of the previous window is subtracted and the NEW
+// end value of the new window is added. This creates a new total for the current window.
 fn calculate_maximum_sliding(values: []const i32, window_size: usize) isize {
     var max: isize = -1;
 
     if (values.len < window_size) {
-        max = -1;
+        return -1;
+    }
+
+    var start: usize = 0;
+    var end: usize = 0;
+    var window_max: isize = 0;
+
+    // get the starting values
+    while (end < window_size) {
+        window_max += values[end];
+        end += 1;
+    }
+    max = window_max;
+
+    while (start < values.len - window_size) {
+        window_max = window_max - values[start] + values[end];
+
+        if (window_max > max) {
+            max = window_max;
+        }
+
+        start += 1;
+        end += 1;
     }
 
     return max;
