@@ -33,8 +33,24 @@ fn calculate_maximum_brute(values: []const i32, window_size: usize) isize {
     return max;
 }
 
+fn calculate_maximum_sliding(values: []const i32, window_size: usize) isize {
+    var max: isize = -1;
+
+    if (values.len < window_size) {
+        max = -1;
+    }
+
+    return max;
+}
+
 test "brute empty array" {
     const result = calculate_maximum_brute(&[_]i32{}, 3);
+
+    try std.testing.expect(result == -1);
+}
+
+test "sliding empty array" {
+    const result = calculate_maximum_sliding(&[_]i32{}, 3);
 
     try std.testing.expect(result == -1);
 }
@@ -47,6 +63,18 @@ test "brute too short array" {
 
 test "brute too short array by one" {
     const result = calculate_maximum_brute(&[_]i32{ 1, 2 }, 3);
+
+    try std.testing.expect(result == -1);
+}
+
+test "sliding too short array" {
+    const result = calculate_maximum_sliding(&[_]i32{1}, 3);
+
+    try std.testing.expect(result == -1);
+}
+
+test "sliding too short array by one" {
+    const result = calculate_maximum_sliding(&[_]i32{ 1, 2 }, 3);
 
     try std.testing.expect(result == -1);
 }
@@ -71,6 +99,30 @@ test "brute output should be 27" {
 
 test "brute output should be 18" {
     const result = calculate_maximum_brute(&[_]i32{ 1, 2, 6, 2, 4, 1, 4, 5, 3, 9, 8, 5, 7, 9, 9, 9, 3, 4, 8, 8, 8, 2, 1, 4, 5 }, 2);
+
+    try std.testing.expect(result == 18);
+}
+
+test "sliding output should be 12" {
+    const result = calculate_maximum_sliding(&[_]i32{ 1, 2, 6, 2, 4, 1 }, 3);
+
+    try std.testing.expect(result == 12);
+}
+
+test "sliding output should be 8" {
+    const result = calculate_maximum_sliding(&[_]i32{ 1, 2, 6, 2, 4, 1 }, 2);
+
+    try std.testing.expect(result == 8);
+}
+
+test "sliding output should be 27" {
+    const result = calculate_maximum_sliding(&[_]i32{ 1, 2, 6, 2, 4, 1, 4, 5, 3, 9, 8, 5, 7, 9, 9, 9, 3, 4, 8, 8, 8, 2, 1, 4, 5 }, 3);
+
+    try std.testing.expect(result == 27);
+}
+
+test "sliding output should be 18" {
+    const result = calculate_maximum_sliding(&[_]i32{ 1, 2, 6, 2, 4, 1, 4, 5, 3, 9, 8, 5, 7, 9, 9, 9, 3, 4, 8, 8, 8, 2, 1, 4, 5 }, 2);
 
     try std.testing.expect(result == 18);
 }
