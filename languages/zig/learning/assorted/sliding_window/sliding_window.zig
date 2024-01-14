@@ -56,3 +56,21 @@ test "brute output should be 12" {
 
     try std.testing.expect(result == 12);
 }
+
+test "brute output should be 8" {
+    const result = calculate_maximum_brute(&[_]i32{ 1, 2, 6, 2, 4, 1 }, 2);
+
+    try std.testing.expect(result == 8);
+}
+
+test "brute output should be 27" {
+    const result = calculate_maximum_brute(&[_]i32{ 1, 2, 6, 2, 4, 1, 4, 5, 3, 9, 8, 5, 7, 9, 9, 9, 3, 4, 8, 8, 8, 2, 1, 4, 5 }, 3);
+
+    try std.testing.expect(result == 27);
+}
+
+test "brute output should be 18" {
+    const result = calculate_maximum_brute(&[_]i32{ 1, 2, 6, 2, 4, 1, 4, 5, 3, 9, 8, 5, 7, 9, 9, 9, 3, 4, 8, 8, 8, 2, 1, 4, 5 }, 2);
+
+    try std.testing.expect(result == 18);
+}
