@@ -1,0 +1,4 @@
+thisafileacontains
+aevenalinea
+of
+aext.a
