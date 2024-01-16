@@ -33,11 +33,7 @@ test "Encode a struct into a JSON string" {
     defer file.close();
 
     const options = std.json.StringifyOptions{
-        .whitespace = .{
-            .indent_level = 0,
-            .indent = .{ .Space = 4 },
-            .separator = true,
-        },
+        .whitespace = .indent_2
     };
 
     try std.json.stringify(foo, options, file.writer());
