@@ -11,7 +11,20 @@ fn sumFromOneTo(num: usize) usize {
     return tmp;
 }
 
+fn rangeHasNumber(begin: usize, end: usize, number: usize) bool {
+    var i = begin;
+    return while (i < end) : (i += 1) {
+        if (i == number) {
+            break true;
+        }
+    } else false;
+}
+
 // =========================================================================================== TESTS
+test "while loop expression" {
+    try expect(rangeHasNumber(0, 10, 3));
+}
+
 test "sum 1..1 will be one, as the last number is excluded" {
     const val = sumFromOneTo(1);
 
