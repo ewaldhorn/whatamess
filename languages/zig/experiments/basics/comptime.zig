@@ -49,3 +49,75 @@ test "typeinfo switch" {
     try std.testing.expect(@TypeOf(x) == u16);
     try std.testing.expect(x == 50);
 }
+
+fn GetBiggerInt(comptime T: type) type {
+    return @Type(.{
+        .Int = .{
+            .bits = @typeInfo(T).Int.bits + 1,
+            .signedness = @typeInfo(T).Int.signedness,
+        },
+    });
+}
+
+test "@Type" {
+    try std.testing.expect(GetBiggerInt(u8) == u9);
+    try std.testing.expect(GetBiggerInt(i31) == i32);
+}
+
+fn Vec(
+    comptime count: comptime_int,
+    comptime T: type,
+) type {
+    return struct {
+        data: [count]T,
+        const Self = @This();
+
+        fn abs(self: Self) Self {
+            var tmp = Self{ .data = undefined };
+            for (self.data, 0..) |elem, i| {
+                tmp.data[i] = if (elem < 0)
+                    -elem
+                else
+                    elem;
+            }
+            return tmp;
+        }
+
+        fn init(data: [count]T) Self {
+            return Self{ .data = data };
+        }
+    };
+}
+
+const eql = @import("std").mem.eql;
+
+test "generic vector" {
+    const x = Vec(3, f32).init([_]f32{ 10, -10, 5 });
+    const y = x.abs();
+    try std.testing.expect(eql(f32, &y.data, &[_]f32{ 10, 10, 5 }));
+}
+
+fn plusOne(x: anytype) @TypeOf(x) {
+    return x + 1;
+}
+
+test "inferred function parameter" {
+    try std.testing.expect(plusOne(@as(u32, 1)) == 2);
+}
+
+test "++" {
+    const x: [4]u8 = undefined;
+    const y = x[0..];
+
+    const a: [6]u8 = undefined;
+    const b = a[0..];
+
+    const new = y ++ b;
+    try std.testing.expect(new.len == 10);
+}
+
+test "**" {
+    const pattern = [_]u8{ 0xCC, 0xAA };
+    const memory = pattern ** 3;
+    try std.testing.expect(eql(u8, &memory, &[_]u8{ 0xCC, 0xAA, 0xCC, 0xAA, 0xCC, 0xAA }));
+}
