@@ -21,3 +21,27 @@ test "undefined is also available" {
 
     try expect(pseudo_uuid[0] != undefined);
 }
+
+test "optional" {
+    var found_index: ?usize = null;
+    const data = [_]i32{ 1, 2, 3, 4, 5, 6, 7, 8, 12 };
+    for (data, 0..) |v, i| {
+        if (v == 10) found_index = i;
+    }
+    try expect(found_index == null);
+}
+
+test "orelse" {
+    const a: ?f32 = null;
+    const b = a orelse 0;
+    try expect(b == 0);
+    try expect(@TypeOf(b) == f32);
+}
+
+test "orelse unreachable" {
+    const a: ?f32 = 5;
+    const b = a orelse unreachable;
+    const c = a.?;
+    try expect(b == c);
+    try expect(@TypeOf(c) == f32);
+}
