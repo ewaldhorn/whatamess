@@ -10,7 +10,7 @@ const Data = struct {
 const Foo = enum {hello, world};
 
 pub fn main() void {
-    var d: Data = .{
+    const d: Data = .{
         .foo = .world,
         .bytes = "abcdefgh".*,
         .ok = true,
@@ -23,4 +23,11 @@ fn dump(data: anytype) void {
     inline for (@typeInfo(T).Struct.fields) |field| {
         std.debug.print("{any}\n", .{@field(data, field.name)});
     }
+}
+
+test "inline for" {
+    const types = [_]type{ i32, f32, u8, bool };
+    var sum: usize = 0;
+    inline for (types) |T| sum += @sizeOf(T);
+    try std.testing.expect(sum == 10);
 }
