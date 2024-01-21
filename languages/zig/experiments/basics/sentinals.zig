@@ -6,6 +6,12 @@ test "sentinel termination" {
     try expect(@as(*const [4]u8, @ptrCast(&terminated))[3] == 0);
 }
 
+test "sentinel termination terminated by 'e'" {
+    const terminated = [3:'e']u8{ 3, 2, 1 };
+    try expect(terminated.len == 3);
+    try expect(@as(*const [4]u8, @ptrCast(&terminated))[3] == 'e');
+}
+
 test "string literal" {
     try expect(@TypeOf("hello") == *const [5:0]u8);
 }
