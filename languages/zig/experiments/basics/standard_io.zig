@@ -96,11 +96,7 @@ const MyByteList = struct {
         if (self.items.len + data.len > self.data.len) {
             return error.EndOfBuffer;
         }
-        std.mem.copy(
-            u8,
-            self.data[self.items.len..],
-            data,
-        );
+        std.mem.copyForwards(u8,self.data[self.items.len..],data);
         self.items = self.data[0 .. self.items.len + data.len];
         return data.len;
     }
