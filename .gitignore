@@ -148,3 +148,4 @@ languages/zig/experiments/file_io/basics/test_append.txt
 languages/zig/experiments/wasm/basic_wasm/output
 languages/zig/experiments/json/data.json
 languages/zig/experiments/basics/junk_file.txt
+languages/zig/experiments/basics/junk_file2.txt
