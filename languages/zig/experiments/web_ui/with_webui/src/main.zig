@@ -8,12 +8,7 @@ var rand: ?std.rand.Random = null;
 pub fn main() !void {
     var nwin = webui.newWindow();
 
-    var prng = std.rand.DefaultPrng.init(blk: {
-        var seed: u64 = undefined;
-        try std.os.getrandom(std.mem.asBytes(&seed));
-        break :blk seed;
-    });
-    rand = prng.random();
+    try initRandomNumberGenerator();
 
     // show embedded index file
     _ = nwin.show(indexFile);
@@ -23,6 +18,15 @@ pub fn main() !void {
 
     webui.wait();
     webui.clean();
+}
+
+fn initRandomNumberGenerator() !void {
+    var prng = std.rand.DefaultPrng.init(blk: {
+        var seed: u64 = undefined;
+        try std.os.getrandom(std.mem.asBytes(&seed));
+        break :blk seed;
+    });
+    rand = prng.random();
 }
 
 fn getRandomNumber() u8 {
