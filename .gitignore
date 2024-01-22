@@ -151,3 +151,5 @@ languages/zig/experiments/basics/junk_file.txt
 languages/zig/experiments/basics/junk_file2.txt
 languages/zig/experiments/ray_tracing/with_webui/zig-cache
 languages/zig/experiments/ray_tracing/with_webui/zig-out
+languages/zig/experiments/web_ui/with_webui/zig-cache
+languages/zig/experiments/web_ui/with_webui/zig-out

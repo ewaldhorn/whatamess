@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="webui.js"></script>
+    <title>WebUI with Zig</title>
+</head>
+
+<body>
+    <div>
+        <h1>WebUI with Zig</h1>
+        <p>Calling JS from Zig and Zig from JS.</p>
+    </div>
+    <hr>
+    <h3 id="target">--</h3>
+    <button id="getTargetButton">Get Random Target</button>
+    <script>
+        let targetNumber = 0;
+
+        function setTarget(number) {
+            document.getElementById("target").innerHTML = number;
+            targetNumber = number;
+        };
+    </script>
+</body>
+
+</html>
