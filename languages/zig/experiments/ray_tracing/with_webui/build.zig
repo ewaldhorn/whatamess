@@ -10,17 +10,16 @@ pub fn build(b: *std.Build) void {
     // for restricting supported target set are available.
     const target = b.standardTargetOptions(.{});
 
+    // Set optimization to ReleaseSmall.
+    const optimize = b.standardOptimizeOption(.{ .preferred_optimize_mode = std.builtin.OptimizeMode.ReleaseSmall });
+
     // for Zig WebUI
     const zig_webui = b.dependency("zig-webui", .{
         .target = target,
+        .optimize = optimize,
         .enable_tls = false, // whether enable tls support
         .is_static = true, // whether static link
     });
-
-    // Standard optimization options allow the person running `zig build` to select
-    // between Debug, ReleaseSafe, ReleaseFast, and ReleaseSmall. Here we do not
-    // set a preferred release mode, allowing the user to decide how to optimize.
-    const optimize = b.standardOptimizeOption(.{});
 
     const lib = b.addStaticLibrary(.{
         .name = "with_webui",
