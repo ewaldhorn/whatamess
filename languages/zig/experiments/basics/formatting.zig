@@ -4,6 +4,22 @@ const expect = std.testing.expect;
 const eql = std.mem.eql;
 const test_allocator = std.testing.allocator;
 
+pub fn main() void {
+    const value = 1234;
+
+    std.debug.print("\nZig Formatting:\n", .{});
+    
+    std.debug.print("Value: {d:12}\n", .{value});
+    std.debug.print("Value: {d:<12}\n", .{value});
+    std.debug.print("Value: {x:12}\n", .{value});
+    std.debug.print("Value: {X:12}\n", .{value});
+    std.debug.print("Value: {b:12}\n", .{value});
+    std.debug.print("Value: {s:_>12}\n", .{"1234"});
+
+
+    std.debug.print("\n", .{});
+}
+
 // A basic example of creating a formatted string. The format string must be compile time known. 
 // The d here denotes that we want a decimal number.
 test "fmt" {
