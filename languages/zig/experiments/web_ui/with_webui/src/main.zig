@@ -10,11 +10,14 @@ pub fn main() !void {
 
     try initRandomNumberGenerator();
 
-    // show embedded index file
-    _ = nwin.show(indexFile);
-
     // bind to the button
     _ = nwin.bind("getTargetButton", get_target_button);
+
+    // we can also use bind to make Zig functions callable by the JS side of things
+    _ = nwin.bind("GetRandomNumber", returnRandomNumber);
+
+    // show embedded index file
+    _ = nwin.show(indexFile);
 
     webui.wait();
     webui.clean();
@@ -27,6 +30,11 @@ fn initRandomNumberGenerator() !void {
         break :blk seed;
     });
     rand = prng.random();
+}
+
+// returns a random number to webui
+fn returnRandomNumber(e: webui.Event) void {
+    webui.returnInt(e, getRandomNumber());
 }
 
 fn getRandomNumber() u8 {
