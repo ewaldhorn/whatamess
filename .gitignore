@@ -153,3 +153,4 @@ languages/zig/experiments/ray_tracing/with_webui/zig-cache
 languages/zig/experiments/ray_tracing/with_webui/zig-out
 languages/zig/experiments/web_ui/with_webui/zig-cache
 languages/zig/experiments/web_ui/with_webui/zig-out
+languages/zig/experiments/simple/zig-cache
