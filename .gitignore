@@ -156,3 +156,5 @@ languages/zig/experiments/web_ui/with_webui/zig-out
 languages/zig/experiments/simple/zig-cache
 languages/zig/experiments/web_ui/with_d3/zig-cache
 languages/zig/experiments/web_ui/with_d3/zig-out
+languages/zig/learning/star_shower/out/main.wasm
+languages/zig/learning/star_shower/out/main.wasm.o
