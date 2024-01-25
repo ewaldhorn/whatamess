@@ -19,11 +19,10 @@
         }
     </style>
     <script type="module">
-        import indexWasmUrl from "./main.wasm?url"
         const canvas = document.body.querySelector("canvas")
         const ctx = canvas.getContext("2d")
 
-        const module = await WebAssembly.compileStreaming(fetch(indexWasmUrl))
+        const module = await WebAssembly.compileStreaming(fetch("./main.wasm"))
 
         const decodeString = (pointer, length) => {
             const slice = new Uint8Array(
