@@ -9,7 +9,7 @@ pub fn readInputFile(allocator: std.mem.Allocator) ![]const u8 {
     return try file.reader().readAllAlloc(allocator, fileSize);
 }
 
-pub fn splitStringIntoLines(lines : std.ArrayList([]const u8), content: []const u8) void {
+pub fn splitStringIntoLines(lines : *std.ArrayList([]const u8), content: []const u8) !void {
     var readIter = std.mem.tokenize(u8, content, "\n");
 
     while (readIter.next()) |line| {
@@ -17,6 +17,7 @@ pub fn splitStringIntoLines(lines : std.ArrayList([]const u8), content: []const 
     }
 }
 
+// ________________________________________________________________________________________________
 // ========================================================================================== TESTS
 
 test "can read embedded content" {
@@ -59,11 +60,11 @@ test "can read and split external file content" {
     try std.testing.expect(lines.items.len == 6);
 }
 
-// test "can split embedded content using function" {
-//     var lines = std.ArrayList([]const u8).init(std.testing.allocator);
-//     defer lines.deinit();
+test "can split embedded content using function" {
+    var lines = std.ArrayList([]const u8).init(std.testing.allocator);
+    defer lines.deinit();
 
-//     splitStringIntoLines(&lines, embedded_content);
+    try splitStringIntoLines(&lines, embedded_content);
 
-//     try std.testing.expect(lines.items.len == 6);
-// }
+    try std.testing.expect(lines.items.len == 6);
+}
