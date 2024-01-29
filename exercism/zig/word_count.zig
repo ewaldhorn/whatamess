@@ -5,15 +5,17 @@ const mem = std.mem;
 /// Caller owns the returned memory.
 pub fn countWords(allocator: mem.Allocator, s: []const u8) !std.StringHashMap(u32) {
     const working_string = try std.ascii.allocLowerString(allocator, s);
-    errdefer allocator.free(working_string);
+    defer allocator.free(working_string);
 
     var splitter = mem.splitAny(u8, working_string, " :!?\t\n,.");
     var result = std.StringHashMap(u32).init(allocator);
     
     // std.debug.print("\n\nWorking with: \"{s}\"\n\n", .{working_string});
     
-    while (splitter.next()) |tmp| {
+    while (splitter.next()) |tmp_s| {
         // std.debug.print("Now looking for: {s}\n", .{tmp});
+        // need to make our own copy of the tmp string, or it will get freed before we are done
+        const tmp = std.fmt.allocPrint(allocator, "{s}", .{tmp_s}) catch "ERROR";
         const value = result.get(tmp);
         if (value) |v| {
             try result.put(tmp, v + 1);
@@ -32,7 +34,7 @@ pub fn countWords(allocator: mem.Allocator, s: []const u8) !std.StringHashMap(u3
     // if (word) |w| {
     //     std.debug.print("Found {d} occurence(s) of 'word'.\n", .{w});
     // }
-
+    
     return result;
 }
 
@@ -55,4 +57,15 @@ test "count one word" {
 
     try std.testing.expectEqual(@as(u32, 1), map.count());
     try std.testing.expectEqual(@as(?u32, 1), map.get("word"));
+}
+
+test "count one of each word" {
+    const s = "one of each";
+    var map = try countWords(test_allocator, s);
+    defer freeKeysAndDeinit(&map);
+
+    try std.testing.expectEqual(@as(u32, 3), map.count());
+    try std.testing.expectEqual(@as(?u32, 1), map.get("one"));
+    try std.testing.expectEqual(@as(?u32, 1), map.get("of"));
+    try std.testing.expectEqual(@as(?u32, 1), map.get("each"));
 }
