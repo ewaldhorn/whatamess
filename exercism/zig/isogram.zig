@@ -5,18 +5,19 @@ pub fn isIsogram(str: []const u8) bool {
     var result = true;
 
     if (str.len > 1) {
-        for (str, 0..str.len) |_,i| {
-            const character = std.ascii.toLower(str[i]);
-            
+        const target_str = std.ascii.allocLowerString(allocator, str) catch "ERROR Creating lower-case string";
+        defer allocator.free(target_str);
+
+        for (target_str) |character| {
             if (character == ' ' or character == '-') {
                 // spaces and hyphens do not count, skip them.
                 continue;
             }
 
-            const needle = std.fmt.allocPrint(allocator,"{c}", .{character}) catch "ERROR";
+            const needle = std.fmt.allocPrint(allocator,"{c}", .{character}) catch "ERROR creating needle";
             defer allocator.free(needle);
 
-            if (std.mem.count(u8, str, needle) > 1) {
+            if (std.mem.count(u8, target_str, needle) > 1) {
                 result = false;
                 break;
             }
