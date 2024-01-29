@@ -13,7 +13,7 @@ pub fn main() !void {
     defer arena.deinit();
     const allocator = arena.allocator();
 
-    const read_buffer = try input.readToEndAlloc(allocator, 1024*1024);
+    const read_buffer = try input.readToEndAlloc(allocator, 1024 * 1024);
     defer allocator.free(read_buffer);
 
     // output everything
@@ -25,7 +25,7 @@ pub fn main() !void {
     var all_elves = std.ArrayList(u32).init(allocator);
     defer all_elves.deinit();
 
-    var currentCount : u32 = 0;
+    var currentCount: u32 = 0;
     // loop over the iterator
     while (iterator.next()) |amount| {
         if (amount.len == 0) {
@@ -33,16 +33,16 @@ pub fn main() !void {
             try all_elves.append(currentCount);
             currentCount = 0;
         } else {
-            var tmp : u32 = try std.fmt.parseInt(u32, amount, 10);
+            const tmp: u32 = try std.fmt.parseInt(u32, amount, 10);
             // std.debug.print("{d}\n", .{tmp});
             currentCount += tmp;
         }
     }
-    var fattest : u32 = std.mem.max(u32, all_elves.items);
+    const fattest: u32 = std.mem.max(u32, all_elves.items);
     std.debug.print("The largest single amount is {}.\n", .{fattest});
 
     // could also use sorting...
     std.mem.sort(u32, all_elves.items, {}, comptime std.sort.desc(u32));
-    var top_three_total : u32 = all_elves.items[0] + all_elves.items[1] + all_elves.items[2];
+    const top_three_total: u32 = all_elves.items[0] + all_elves.items[1] + all_elves.items[2];
     std.debug.print("Top three total is {}.\n", .{top_three_total});
 }
