@@ -47,7 +47,7 @@ pub fn isValidIsbn10(s: []const u8) bool {
             },
             '-' => continue,
             else => {
-                if (pos != s.len - 1) {
+                if (pos != 9) {
                     result = false;
                     break;
                 } else {
@@ -79,12 +79,14 @@ test "invalid ISBN check digit" {
     try testing.expect(!isValidIsbn10("3-598-21508-9"));
 }
 
-// test "valid ISBN with a check digit of 10" {
-//     try testing.expect(isValidIsbn10("3-598-21507-X"));
-// }
-// test "check digit is a character other than x" {
-//     try testing.expect(!isValidIsbn10("3-598-21507-A"));
-// }
+test "valid ISBN with a check digit of 10" {
+    try testing.expect(isValidIsbn10("3-598-21507-X"));
+}
+
+test "check digit is a character other than x" {
+    try testing.expect(!isValidIsbn10("3-598-21507-A"));
+}
+
 // test "invalid check digit in ISBN is not treated as zero" {
 //     try testing.expect(!isValidIsbn10("4-598-21507-B"));
 // }
