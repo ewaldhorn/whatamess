@@ -1,12 +1,11 @@
 const std = @import("std");
 
 pub fn isValidIsbn10(s: []const u8) bool {
-    var result = true;
     var tally: usize = 0;
     var pos: usize = 0;
 
     for (s) |c| {
-        std.debug.print("'{c}' {d}\n", .{ c, pos });
+        // std.debug.print("'{c}' {d}\n", .{ c, pos });
         switch (c) {
             '0' => {
                 pos += 1;
@@ -50,8 +49,7 @@ pub fn isValidIsbn10(s: []const u8) bool {
             '-' => continue,
             else => {
                 if (pos != 9) {
-                    result = false;
-                    break;
+                    return false;
                 } else {
                     if (c == 'X') {
                         tally += 10;
@@ -62,17 +60,8 @@ pub fn isValidIsbn10(s: []const u8) bool {
         }
     }
 
-    // too long or short, we don't need to do more.
-    if (pos != 10) {
-        return false;
-    }
-
-    // nothing went wrong until here, so let's see if it's a valid ISBN
-    if (result) {
-        result = tally % 11 == 0;
-    }
-
-    return result;
+    // don't bother doing check digit if the ISBN code isn't 10 characters long
+    return (pos == 10) and tally % 11 == 0;
 }
 
 // ________________________________________________________________________________________________
@@ -111,40 +100,46 @@ test "valid ISBN without separating dashes" {
     try testing.expect(isValidIsbn10("3598215088"));
 }
 
-// test "ISBN without separating dashes and x as check digit" {
-//     try testing.expect(isValidIsbn10("359821507X"));
-// }
+test "ISBN without separating dashes and x as check digit" {
+    try testing.expect(isValidIsbn10("359821507X"));
+}
 
-// test "ISBN without check digit and dashes" {
-//     try testing.expect(!isValidIsbn10("359821507"));
-// }
+test "ISBN without check digit and dashes" {
+    try testing.expect(!isValidIsbn10("359821507"));
+}
 
-// test "too long ISBN and no dashes" {
-//     try testing.expect(!isValidIsbn10("3598215078X"));
-// }
+test "too long ISBN and no dashes" {
+    try testing.expect(!isValidIsbn10("3598215078X"));
+}
 
-// test "too short ISBN" {
-//     try testing.expect(!isValidIsbn10("00"));
-// }
+test "too short ISBN" {
+    try testing.expect(!isValidIsbn10("00"));
+}
 
-// test "ISBN without check digit" {
-//     try testing.expect(!isValidIsbn10("3-598-21507"));
-// }
-// test "check digit of x should not be used for 0" {
-//     try testing.expect(!isValidIsbn10("3-598-21515-X"));
-// }
-// test "empty ISBN" {
-//     try testing.expect(!isValidIsbn10(""));
-// }
-// test "input is 9 characters" {
-//     try testing.expect(!isValidIsbn10("134456729"));
-// }
-// test "invalid characters are not ignored after checking length" {
-//     try testing.expect(!isValidIsbn10("3132P34035"));
-// }
-// test "invalid characters are not ignored before checking length" {
-//     try testing.expect(!isValidIsbn10("3598P215088"));
-// }
-// test "input is too long but contains a valid ISBN" {
-//     try testing.expect(!isValidIsbn10("98245726788"));
-// }
+test "ISBN without check digit" {
+    try testing.expect(!isValidIsbn10("3-598-21507"));
+}
+
+test "check digit of x should not be used for 0" {
+    try testing.expect(!isValidIsbn10("3-598-21515-X"));
+}
+
+test "empty ISBN" {
+    try testing.expect(!isValidIsbn10(""));
+}
+
+test "input is 9 characters" {
+    try testing.expect(!isValidIsbn10("134456729"));
+}
+
+test "invalid characters are not ignored after checking length" {
+    try testing.expect(!isValidIsbn10("3132P34035"));
+}
+
+test "invalid characters are not ignored before checking length" {
+    try testing.expect(!isValidIsbn10("3598P215088"));
+}
+
+test "input is too long but contains a valid ISBN" {
+    try testing.expect(!isValidIsbn10("98245726788"));
+}
