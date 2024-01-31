@@ -1,5 +1,16 @@
 const std = @import("std");
 
+fn splitStringIntoArrayOfCharacters(alloc : std.mem.Allocator, string: []const u8) ![]u8 {
+    var list = try std.ArrayList(u8).initCapacity(alloc, string.len);
+    defer list.deinit();
+
+    for (string) |c| {
+        list.appendAssumeCapacity(c);
+    }
+
+    return try list.toOwnedSlice();
+}
+
 // ________________________________________________________________________________________________
 // ========================================================================================== TESTS
 const expect = std.testing.expect;
@@ -136,4 +147,12 @@ test "pre-allocat memory for the array list" {
 
     try expect(my_list.capacity == 12);
     try expect(my_list.items.len == 4);
+}
+
+test "returning an array from an array list" {
+    const source_string = "This is the input string";
+    const result = try splitStringIntoArrayOfCharacters(allocator, source_string);
+    defer allocator.free(result);
+
+    try expect(result.len == source_string.len);
 }
