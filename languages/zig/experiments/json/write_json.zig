@@ -32,9 +32,7 @@ test "Encode a struct into a JSON string" {
     var file = try std.fs.cwd().createFile("data.json", .{});
     defer file.close();
 
-    const options = std.json.StringifyOptions{
-        .whitespace = .indent_2
-    };
+    const options = std.json.StringifyOptions{ .whitespace = .indent_2 };
 
     try std.json.stringify(foo, options, file.writer());
 
