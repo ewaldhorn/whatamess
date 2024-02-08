@@ -15,8 +15,7 @@ const Data = struct {
 };
 
 test "Decode into a struct from a JSON string" {
-    const options = std.json.ParseOptions{
-    };
+    const options = std.json.ParseOptions{};
 
     // On success, `foo` will be of type `Data` struct.
     const foo = try std.json.parse(Data, &std.json.TokenStream.init(

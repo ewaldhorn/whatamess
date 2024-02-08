@@ -1,12 +1,13 @@
 const std = @import("std");
 
 const webui = @import("webui");
-const indexFile = @embedFile("index.html");
 
 var rand: ?std.rand.Random = null;
 
 pub fn main() !void {
     var nwin = webui.newWindow();
+
+    _ = nwin.setRootFolder("web");
 
     try initRandomNumberGenerator();
 
@@ -17,7 +18,7 @@ pub fn main() !void {
     _ = nwin.bind("GetRandomNumber", returnRandomNumber);
 
     // show embedded index file
-    _ = nwin.show(indexFile);
+    _ = nwin.show("index.html");
 
     webui.wait();
     webui.clean();

@@ -16,6 +16,7 @@
     <hr>
     <h3 id="target">--</h3>
     <button id="getTargetButton">Get Random Target</button>
+    <button id="directCallButton" onclick="getRandomNumber();">Do a direct call to Zig</button>
     <script>
         let targetNumber = 0;
 
@@ -23,6 +24,13 @@
             document.getElementById("target").innerHTML = number;
             targetNumber = number;
         };
+
+        function getRandomNumber() {
+            let value = webui.call("GetRandomNumber").then((r) => {
+                document.getElementById("target").innerHTML = r;
+                targetNumber = r;
+            });
+        }
     </script>
 </body>
 
