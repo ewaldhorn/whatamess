@@ -1,25 +1,13 @@
 const std = @import("std");
 
-pub fn doubleMe(num: u8) u8 {
-    const doubled = num + num;
-
-    if (doubled > 9) {
-        return doubled - 9;
-    }
-
-    return doubled;
-}
-
 pub fn isValid(s: []const u8) bool {
     if (s.len > 1) {
         // only bother if we have a potential number
-        var total : u64 = 0;
+        var total: u64 = 0;
 
-        var pos : u8 = 1; // need to start from the right, working backwards, ignoring spaces
+        var pos: u8 = 1; // need to start from the right, working backwards, ignoring spaces
         var idx = s.len; // need to work through all characters, including spaces
-        var digits : u8 = 0;
-
-        std.debug.print("\n\n{s}\n", .{s});
+        var digits: u8 = 0;
 
         while (idx != 0) {
             idx -= 1;
@@ -28,14 +16,9 @@ pub fn isValid(s: []const u8) bool {
                 return false;
             }
 
-            std.debug.print("At position {d} looking at '{c}'", .{pos, c});
-
-            // "234 567 891 234"
-
             if (c != ' ') {
                 if (pos % 2 == 0) {
-                    std.debug.print(" * ", .{});
-                    total += doubleMe(c - '0');
+                    total += if ((c - '0') * 2 > 9) ((c - '0') * 2) - 9 else (c - '0') * 2;
                 } else {
                     total += c - '0';
                 }
@@ -45,20 +28,16 @@ pub fn isValid(s: []const u8) bool {
                 // increment our digit position
                 pos += 1;
             }
-
-            std.debug.print(" Total is {d}\n", .{total});
         }
 
-
-        std.debug.print(">>>>>>> Total came to: {d}\n", .{total});
         return total % 10 == 0 and digits > 1;
+    } else {
+        return false;
     }
-
-    return false;
 }
 
-// ________________________________________________________________________________________________ 
-// ========================================================================================== TESTS 
+// ________________________________________________________________________________________________
+// ========================================================================================== TESTS
 const testing = std.testing;
 
 test "single digit strings cannot be valid" {
