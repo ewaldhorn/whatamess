@@ -8,6 +8,7 @@ import (
 
 const (
 	HelloCmd = "hello"
+	ByeCmd = "bye"
 )
 
 func main() {
@@ -27,6 +28,14 @@ func main() {
 		if greetCmd.Arg(0) == "formal" {
 			greetFormalCmd.Parse(os.Args[3:])
 			fmt.Printf("How do you do, %s?\n", *greetNamePtr)
+		}
+	case ByeCmd:
+		greetCmd.Parse(os.Args[2:])
+		fmt.Println("Bye!")
+
+		if greetCmd.Arg(0) == "formal" {
+			greetFormalCmd.Parse(os.Args[3:])
+			fmt.Printf("See you later %s!\n", *greetNamePtr)
 		}
 	default:
 		fmt.Println("Unknown command")
