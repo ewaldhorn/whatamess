@@ -1,12 +1,19 @@
 # https://taskfile.dev
 
-version: '3'
+version: "3"
 
 vars:
-  GREETING: Hello, World!
+  WASM_FILE: json.wasm
+  SRC_FOLDER: ./cmd/wasm
 
 tasks:
   default:
+    desc: List the available tasks
     cmds:
-      - echo "{{.GREETING}}"
+      - task --list-all
     silent: true
+  build:
+    desc: Builds the WASM component of the project
+    cmds:
+      - GOOS=js GOARCH=wasm go build -C {{.SRC_FOLDER}} -o ../../assets/{{.WASM_FILE}}
+    silent: false
