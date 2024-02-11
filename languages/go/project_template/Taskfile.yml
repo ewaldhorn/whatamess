@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 tasks:
   default:
@@ -16,6 +16,10 @@ tasks:
     cmds:
       - golangci-lint run -v
     silent: true
+  list:
+    desc: List packages in this module
+    cmds:
+      - go list -m all
   leaks:
     desc: Checks for credential leaks
     cmds:
@@ -30,5 +34,5 @@ tasks:
     desc: Updates the project dependencies.
     cmds:
       - go get -t -u ./...
-      - go mod vendor  
+      - go mod vendor
     silent: true
