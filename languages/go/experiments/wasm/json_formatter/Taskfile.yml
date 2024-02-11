@@ -18,6 +18,11 @@ tasks:
     cmds:
       - GOOS=js GOARCH=wasm go build -C {{.SRC_FOLDER}} -o ../../assets/{{.WASM_FILE}}
     silent: false
+  test:
+    desc: Runs the test suite for the WASM component
+    cmds:
+      - go test -C {{.SRC_FOLDER}}
+    silent: true
   run:
     desc: Runs the http server on port 9000
     cmds:
