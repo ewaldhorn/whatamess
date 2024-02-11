@@ -5,6 +5,7 @@ version: "3"
 vars:
   WASM_FILE: json.wasm
   SRC_FOLDER: ./cmd/wasm
+  SERVER_FOLDER: ./cmd/server/
 
 tasks:
   default:
@@ -17,3 +18,7 @@ tasks:
     cmds:
       - GOOS=js GOARCH=wasm go build -C {{.SRC_FOLDER}} -o ../../assets/{{.WASM_FILE}}
     silent: false
+  run:
+    desc: Runs the http server on port 9000
+    cmds:
+      - go run -C {{.SERVER_FOLDER}} main.go
