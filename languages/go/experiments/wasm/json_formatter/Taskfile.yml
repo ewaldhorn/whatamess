@@ -1,4 +1,5 @@
 # https://taskfile.dev
+# Generic Task File for Ewald Horn and his Go adventures.
 
 version: "3"
 

@@ -1,5 +1,9 @@
 package main
-
+/*
+ * Super basic HTTP server.
+ * Only usable during development.
+ * It has no security and it's full of exploits, for sure.
+ */
 import (
 	"fmt"
 	"net/http"
