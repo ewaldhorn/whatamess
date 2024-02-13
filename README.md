@@ -21,3 +21,6 @@ Some of the code here is not _meant_ to compile or run, because
 I was testing something specific and needed to create a scenario.
 So don't be alarmed if there are errors, it might be intentional. Only,
 you'll never know now, will you?
+
+#### Don't click here ####
+Seriously. Especially not on a mobile device.  [Terrible Idea](https://liquid.nofuss.co.za).
