@@ -1,0 +1,8 @@
+This is a text document.
+
+This document contains text.
+Sometimes, the text is on a longer line than the others and,
+well,
+sometimes not.
+
+This is the last line.
