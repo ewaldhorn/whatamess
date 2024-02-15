@@ -162,3 +162,6 @@ languages/zig/learning/star_shower/out/main.wasm
 languages/zig/learning/star_shower/out/main.wasm.o
 languages/zig/experiments/wasm/zig_dom/out
 languages/go/experiments/wasm/json_formatter/assets/json.wasm
+languages/zig/experiments/1brc/zig-cache
+languages/zig/experiments/1brc/zig-out
+languages/zig/experiments/1brc/measurements.txt
