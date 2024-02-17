@@ -32,6 +32,9 @@ test "finding stuff in strings" {
     try expect(std.mem.indexOf(u8, haystack, "this") == 0);
     try expect(std.mem.indexOf(u8, haystack, "string") == 5);
     try expect(std.mem.lastIndexOf(u8, haystack, "s") == haystack.len - 1);
+
+    // when not found, we get a null back
+    try expect(std.mem.indexOf(u8, haystack, "lol") == null);
 }
 
 test "modifying strings" {
