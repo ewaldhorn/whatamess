@@ -29,6 +29,7 @@ test "combining strings" {
 test "finding stuff in strings" {
     const haystack = "this string contains a few words";
 
+    try expect(std.mem.indexOf(u8, haystack, "this") == 0);
     try expect(std.mem.indexOf(u8, haystack, "string") == 5);
     try expect(std.mem.lastIndexOf(u8, haystack, "s") == haystack.len - 1);
 }
