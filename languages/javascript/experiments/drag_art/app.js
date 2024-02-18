@@ -1,14 +1,29 @@
 import { Entity } from "./entity.js";
 
-let canvas, context, width, height;
+let rng, canvas, context, width, height;
 let isDrawing = false;
 
 const setup = () => {
+    rng = document.getElementById("rng");
     canvas = document.getElementById("canvas");
     context = canvas.getContext("2d");
 
+    setupRNG();
     resized();
     render();
+}
+
+const setupRNG = () => {
+    const choices = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+    let tmp = "";
+
+    for (let i = 0; i < 8; i++) {
+        const pos = Math.floor(1 + Math.random() * choices.length);
+        tmp += choices.charAt(pos);
+    }
+
+    rng.innerText = tmp;
 }
 
 const resized = () => {
@@ -25,8 +40,10 @@ const render = () => {
  * @param {MouseEvent} e 
  */
 const handleMouseMoveEvent = (e) => {
-    const entity = new Entity(e.x, e.y);
-    entity.update(context);
+    for (let i = 0; i < 3; i++) {
+        const entity = new Entity(e.x, e.y, context);
+        entity.update();
+    }
 }
 
 window.addEventListener("DOMContentLoaded", setup);

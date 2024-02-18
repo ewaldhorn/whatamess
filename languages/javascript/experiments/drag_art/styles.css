@@ -40,3 +40,7 @@ body {
 #info :visited {
     color: gray;
 }
+
+#info #rng {
+    font-size: small;
+}
