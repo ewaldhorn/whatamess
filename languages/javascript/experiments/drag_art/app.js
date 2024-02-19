@@ -51,4 +51,3 @@ window.addEventListener("resize", resized);
 window.onmousedown = (e) => { isDrawing = true; };
 window.onmouseup = (e) => { isDrawing = false; };
 window.onmousemove = (e) => { if (isDrawing) { handleMouseMoveEvent(e); } }
-// window.onclick = (e) => { handleInteractionEvent(e); };

@@ -1,0 +1,20 @@
+body {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background-color: black;
+    overflow: hidden;
+}
+
+h1 {
+    color: white;
+    z-index: 100;
+}
+
+#backgroundCanvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: -100;
+    background-color: hsl(223, 90%, 4%);
+}
