@@ -9,11 +9,13 @@ const setup = () => {
 };
 
 const resized = (context) => {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-    drawBackground(context);
-    effect = new Effect(width, height);
-    animate();
+    if (canvas) {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+        drawBackground(context);
+        effect = new Effect(width, height);
+        animate();
+    }
 }
 
 /**
@@ -34,7 +36,6 @@ const animate = () => {
 
     context.font = effect.fontSize + "px monospace";
     effect.symbols.forEach(symbol => symbol.draw(context));
-
     requestAnimationFrame(animate);
 }
 
@@ -55,6 +56,7 @@ class Symbol {
     draw(context) {
         this.text = this.characters.charAt(Math.floor(Math.random() * this.characters.length));
         context.fillStyle = "#093009";
+        context.textAlign = "center";
         context.fillText(this.text, this.x * this.fontSize, this.y * this.fontSize);
         if (this.y * this.fontSize > this.canvasHeight && Math.random() > 0.97) {
             this.y = 0;
