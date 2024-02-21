@@ -112,7 +112,6 @@ class State {
             context2d.strokeStyle = toJsAny("white")
             context2d.strokeText(scoreText, (maxWidth / 2.0) - (scoreWidth / 2.0), (maxHeight / 2.0) + 70.0)
         }
-
     }
 
     fun configureKeyboardCallbacks() {
