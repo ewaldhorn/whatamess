@@ -168,3 +168,4 @@ languages/zig/wasm/hello_wasm/zig-cache
 languages/zig/wasm/hello_wasm/zig-out/bin/hello_wasm
 languages/javascript/learning/promises/__snapshots__
 languages/kotlin/wasm/BoomBoomBoom/.fleet
+languages/kotlin/web/flylin/build
