@@ -167,3 +167,4 @@ languages/zig/experiments/1brc/zig-out
 languages/zig/experiments/1brc/measurements.txt
 languages/zig/wasm/hello_wasm/zig-cache
 languages/zig/wasm/hello_wasm/zig-out/bin/hello_wasm
+languages/javascript/learning/promises/__snapshots__
