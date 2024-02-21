@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
-    kotlin("multiplatform") version "1.9.20"
+    kotlin("multiplatform") version "1.9.22"
 }
 
 group = "flylin.nofuss"
@@ -32,7 +32,7 @@ kotlin {
             }
 
             // Uncomment the next line to apply Binaryen and get optimized wasm binaries
-             applyBinaryen()
+            applyBinaryen()
         }
     }
     sourceSets {
