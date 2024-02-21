@@ -22,7 +22,6 @@ languages/zig/simple/zig-out
 languages/kotlin/wasm/yellow/.gradle
 languages/kotlin/wasm/yellow/.idea
 languages/kotlin/wasm/yellow/build
-languages/kotlin/wasm
 languages/kotlin/desktop/SimpleCar/.idea
 languages/kotlin/web/udemy/build_website_from_scratch/hello/.idea
 languages/go/learning/ebitengine/stars/stars.wasm
@@ -168,3 +167,4 @@ languages/zig/experiments/1brc/measurements.txt
 languages/zig/wasm/hello_wasm/zig-cache
 languages/zig/wasm/hello_wasm/zig-out/bin/hello_wasm
 languages/javascript/learning/promises/__snapshots__
+languages/kotlin/wasm/BoomBoomBoom/.fleet
