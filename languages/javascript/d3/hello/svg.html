@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        svg {
+            border: solid 1px lightgray;
+            background-color: hsla(240, 100%, 50%, 0.2)
+        }
+    </style>
+    <script src="../lib/d3.v7.min.js"></script>
+</head>
+
+<body>
+    <h2>SVG viewport</h2>
+    <svg width="600" height="300">
+        <circle r="25"></circle>
+        <circle cx="250" cy="200" r="50"></circle>
+        <circle cx="50" cy="50" r="20"></circle>
+        <circle cx="400" cy="300" r="50"></circle>
+    </svg>
+
+    <!-- Notice how y2 defaults to 0, because it's not specified -->
+    <svg width="200" height="250">
+        <line x1="0" y1="0" x2="100" stroke="green" stroke-width="3" />
+        <line x1="100" y1="0" x2="100" y2="100" stroke="green" stroke-width="8" />
+        <line x2="104" y1="100" y2="100" stroke="green" stroke-width="13" />
+        <line x1="0" y1="100" stroke="green" stroke-width="18" />
+    </svg>
+
+    <script>
+        const target = d3
+            .select("body")
+            .append("svg")
+            .attr("width", 640)
+            .attr("height", 480)
+            .style("background-color", "darkblue");
+
+        target.append("circle").attr("r", 25);
+        target.append("circle").attr("cx", 250).attr("cy", 200).attr("r", 50);
+        target.append("circle").attr("cx", 50).attr("cy", 50).attr("r", 20);
+        target.append("circle").attr("cx", 400).attr("cy", 300).attr("r", 50);
+    </script>
+</body>
+
+</html>
