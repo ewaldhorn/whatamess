@@ -1,0 +1,30 @@
+# https://taskfile.dev
+# Generic Task File for Ewald Horn and his Go adventures.
+
+version: "3"
+
+vars:
+  WASM_FILE: json.wasm
+  SRC_FOLDER: ./cmd/wasm
+  SERVER_FOLDER: ./cmd/server/
+
+tasks:
+  default:
+    desc: List the available tasks
+    cmds:
+      - task --list-all
+    silent: true
+  build:
+    desc: Builds the WASM component of the project
+    cmds:
+      - GOOS=js GOARCH=wasm go build -C {{.SRC_FOLDER}} -o ../../assets/{{.WASM_FILE}}
+    silent: false
+  test:
+    desc: Runs the test suite for the WASM component
+    cmds:
+      - go test -C {{.SRC_FOLDER}}
+    silent: true
+  run:
+    desc: Runs the http server on port 9000
+    cmds:
+      - go run -C {{.SERVER_FOLDER}} main.go

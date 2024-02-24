@@ -1,6 +1,6 @@
 # Just an absolute MESS of experiments
 
-Best not to look too closely if you value your sanity.
+Best not to look too closely, you will pick up bad habits.
 
 ## PLEASE NOTE
 
@@ -17,9 +17,10 @@ __So... Rather do not run any of this stuff on your computer!__
 
 ### Some of this is not meant to work
 
-Some of these projects are not _meant_ to compile or run, because
+Some of the code here is not _meant_ to compile or run, because
 I was testing something specific and needed to create a scenario.
 So don't be alarmed if there are errors, it might be intentional. Only,
-you'll never know.
+you'll never know now, will you?
 
-Hope you sleep well!
+#### Don't click here ####
+Seriously. Especially not on a mobile device.  [Terrible Idea](https://liquid.nofuss.co.za).

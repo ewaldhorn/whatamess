@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Bubbles</title>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            height: 100vh;
+            background-image: linear-gradient(219deg, rgba(246, 246, 246, 0.02) 0%, rgba(246, 246, 246, 0.02) 17%, rgba(225, 225, 225, 0.02) 23%, rgba(225, 225, 225, 0.02) 30%, rgba(136, 136, 136, 0.02) 50%, rgba(136, 136, 136, 0.02) 60%, rgba(216, 216, 216, 0.02) 60%, rgba(216, 216, 216, 0.02) 80%, rgba(35, 35, 35, 0.02) 80%, rgba(35, 35, 35, 0.02) 100%), linear-gradient(299deg, rgba(213, 213, 213, 0.02) 0%, rgba(213, 213, 213, 0.02) 20%, rgba(150, 150, 150, 0.02) 20%, rgba(150, 150, 150, 0.02) 40%, rgba(161, 161, 161, 0.02) 40%, rgba(161, 161, 161, 0.02) 60%, rgba(186, 186, 186, 0.02) 60%, rgba(186, 186, 186, 0.02) 80%, rgba(28, 28, 28, 0.02) 80%, rgba(28, 28, 28, 0.02) 100%), linear-gradient(50deg, rgba(157, 157, 157, 0.02) 0%, rgba(157, 157, 157, 0.02) 16.667%, rgba(147, 147, 147, 0.02) 16.667%, rgba(147, 147, 147, 0.02) 33.334%, rgba(42, 42, 42, 0.02) 33.334%, rgba(42, 42, 42, 0.02) 50.001000000000005%, rgba(214, 214, 214, 0.02) 50.001%, rgba(214, 214, 214, 0.02) 66.668%, rgba(34, 34, 34, 0.02) 66.668%, rgba(34, 34, 34, 0.02) 83.33500000000001%, rgba(211, 211, 211, 0.02) 83.335%, rgba(211, 211, 211, 0.02) 100.002%), linear-gradient(278deg, rgba(79, 79, 79, 0.03) 0%, rgba(79, 79, 79, 0.03) 20%, rgba(217, 217, 217, 0.03) 20%, rgba(217, 217, 217, 0.03) 40%, rgba(5, 5, 5, 0.03) 40%, rgba(5, 5, 5, 0.03) 60%, rgba(200, 200, 200, 0.03) 60%, rgba(200, 200, 200, 0.03) 80%, rgba(125, 125, 125, 0.03) 80%, rgba(125, 125, 125, 0.03) 100%), linear-gradient(274deg, rgba(235, 235, 235, 0.03) 0%, rgba(235, 235, 235, 0.03) 12.5%, rgba(100, 100, 100, 0.03) 12.5%, rgba(100, 100, 100, 0.03) 25%, rgba(44, 44, 44, 0.03) 25%, rgba(44, 44, 44, 0.03) 37.5%, rgba(228, 228, 228, 0.03) 37.5%, rgba(228, 228, 228, 0.03) 50%, rgba(36, 36, 36, 0.03) 50%, rgba(36, 36, 36, 0.03) 62.5%, rgba(72, 72, 72, 0.03) 62.5%, rgba(72, 72, 72, 0.03) 75%, rgba(30, 30, 30, 0.03) 75%, rgba(30, 30, 30, 0.03) 87.5%, rgba(109, 109, 109, 0.03) 87.5%, rgba(109, 109, 109, 0.03) 100%), linear-gradient(90deg, hsl(28, 0%, 14%), hsl(28, 0%, 14%));
+        }
+
+        #canvas {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #info {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            color: gray;
+        }
+
+        #info :visited {
+            color: gray;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <p id="info"><a href="https://nofuss.co.za/toys/">Back to the NoFuss Solutions Toy Collection</a></p>
+    <script>
+        let canvas, context, width, height, hue = 0;
+        let collection = [], maxItems = 500, probability = 0.0250;
+
+        const setup = () => {
+            canvas = document.getElementById("canvas");
+            context = canvas.getContext("2d");
+
+            resized();
+            render();
+        }
+
+        const resized = () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        const render = () => {
+            createBubbleIfWeNeedMore();
+            drawAll();
+
+            collection = collection.filter((item) => item.moving);
+
+            requestAnimationFrame(render);
+        }
+
+        const createBubbleIfWeNeedMore = () => {
+            if (collection.length < maxItems) {
+                if (Math.random() <= probability) {
+                    collection.push(new Bubble());
+                    hue += 1;
+                    hue = hue % 360;
+                }
+            }
+        }
+
+        const drawAll = () => {
+            context.clearRect(0, 0, width, height);
+
+            collection.forEach(b => {
+                b.update();
+                b.draw();
+            });
+        }
+
+        const calculateGrowthRate = () => {
+            let rate = Math.random();
+
+            return (rate < 0.010) ? rate : 0.010;
+        }
+
+        const calculateSpeed = () => {
+            let speed = 0.25 + Math.random() * 1;
+
+            return (speed > 1.0) ? 0.5 : speed;
+        }
+
+        const handleInteractionEvent = (e) => {
+            for (let i = 0; i < 100; i++) {
+                createBubbleIfWeNeedMore();
+            }
+        }
+
+        class Bubble {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = height;
+                this.size = 0.025;
+                this.sizeMax = 4 + Math.ceil((Math.random() * 3));
+                this.growthRate = calculateGrowthRate();
+                this.speed = calculateSpeed();
+                this.moving = true;
+                this.hue = hue;
+            }
+
+            draw() {
+                if (this.moving) {
+                    context.beginPath();
+                    context.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
+                    context.shadowColor = `hsla(${this.hue}, 100%, 80%, 1)`;
+                    context.shadowBlur = 5;
+                    context.fillStyle = `hsla(${this.hue}, 100%, 70%, 0.9)`;
+                    context.fill();
+                    context.closePath();
+                }
+            }
+
+            update() {
+                if (this.y > 2) {
+                    this.y -= this.speed;
+                } else {
+                    this.moving = false;
+                }
+
+                if (this.size < this.sizeMax) {
+                    this.size += this.growthRate;
+                }
+            }
+        }
+
+        window.addEventListener("DOMContentLoaded", setup);
+        window.addEventListener("resize", resized);
+        window.onclick = (e) => { handleInteractionEvent(e); };
+    </script>
+</body>
+
+</html>

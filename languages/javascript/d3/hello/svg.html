@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        svg {
+            border: solid 1px lightgray;
+            background-color: hsla(240, 100%, 50%, 0.2)
+        }
+
+        .reds {
+            fill: red;
+        }
+
+        .semitr {
+            fill-opacity: 0.5;
+        }
+    </style>
+    <script src="../lib/d3.v7.min.js"></script>
+</head>
+
+<body>
+    <h2>SVG viewport</h2>
+    <svg width="600" height="300">
+        <circle r="25"></circle>
+        <circle cx="250" cy="200" r="50"></circle>
+        <circle cx="50" cy="50" r="20"></circle>
+        <circle cx="400" cy="300" r="50"></circle>
+    </svg>
+
+    <!-- Notice how y2 defaults to 0, because it's not specified -->
+    <svg width="200" height="250">
+        <line x1="0" y1="0" x2="100" stroke="green" stroke-width="3" />
+        <line x1="100" y1="0" x2="100" y2="100" stroke="green" stroke-width="8" />
+        <line x2="104" y1="100" y2="100" stroke="green" stroke-width="13" />
+        <line x1="0" y1="100" stroke="green" stroke-width="18" />
+    </svg>
+
+    <script>
+        const target = d3
+            .select("body")
+            .append("svg")
+            .attr("width", 640)
+            .attr("height", 480)
+            .style("background-color", "darkblue");
+
+        target.append("circle").attr("r", 25);
+        target.append("circle").attr("cx", 250).attr("cy", 200).attr("r", 50);
+        target.append("circle").attr("cx", 50).attr("cy", 50).attr("r", 20);
+        target.append("circle").attr("cx", 400).attr("cy", 300).attr("r", 50);
+    </script>
+
+    <svg width="600" height="200">
+        <rect x="50" y="50" width="90" height="90" class="semitr" />
+        <rect x="200" y="50" width="175" height="100" rx="40" ry="40" class="reds semitr" />
+        <rect x="450" y="25" width="100" height="150" class="reds" />
+    </svg>
+
+    <svg width="600" height="300">
+        <rect x="50" y="50" height="100" width="100" rx="10" ry="10" stroke="red" stroke-width="10" fill-opacity="0" />
+        <rect x="75" y="75" height="100" width="100" rx="10" ry="10" fill="gray" stroke="black" stroke-width="10"
+            fill-opacity=".7" />
+        <rect x="100" y="100" height="100" width="100" rx="10" ry="10" fill="yellow" stroke="blue" stroke-width="10"
+            stroke-opacity=".6" />
+        <rect x="300" y="50" height="150" width="25" />
+        <rect x="400" y="50" height="150" width="25" fill-opacity=".5" />
+        <rect x="250" y="100" height="50" width="300" fill="red" stroke="orange" stroke-width="10"
+            stroke-opacity=".5" />
+        <rect x="350" y="50" height="150" width="25" />
+        <rect x="450" y="50" height="150" width="25" fill-opacity=".5" />
+    </svg>
+
+    <svg width="600" height="400">
+        <ellipse cx="150" cy="100" rx="150" ry="100" fill="yellow" fill-opacity="0.5" stroke="blue" stroke-width="1"
+            stroke-dasharray="5 5" />
+        <ellipse cx="400" cy="150" rx="75" ry="125" fill="red" fill-opacity="0.2" stroke="red" stroke-width="5"
+            stroke-opacity="0.5" />
+        <ellipse cx="400" cy="250" rx="150" ry="40" fill="black" fill-opacity="0" stroke="green" stroke-width="20"
+            stroke-opacity="0.2" />
+    </svg>
+
+    <svg width="600" height="300">
+        <polygon points="150,150 50,150 100,20 150,50 200,200 50,200 20,154 48,82
+      32,20" fill="blue" stroke="white" stroke-width="3" />
+        <polygon points="450,150 350,150 400,20 450,50 500,200 350,200 320,154 348,82
+      332,20" fill="red" fill-rule="evenodd" stroke="black" stroke-width="3" />
+    </svg>
+
+    <svg width="600" height="300">
+        <path d="M100,200 C200,50 300,100 300,200 L400,250 500,100" fill="yellow" stroke="red" stroke-width="4" />
+    </svg>
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello D3</title>
+    <script src="../lib/d3.v7.min.js"></script>
+</head>
+
+<body>
+    <svg id="chart" width="600" height="200"></svg>
+    <script>
+        const array = [100, 200, 300, 350, 375, 400, 500, 524];
+
+        d3.select("#chart")       // selects the svg element by id (like JQuery)
+            .selectAll("circle")  // declares the elements we would like to create
+            .data(array)          // sets the data to drive the creation of the elements
+            .enter()              // creates a selection to add elements per data item
+            .append("circle")     // appends an element of this type to each data item
+            .attr("r", 10)        // sets “r” attribute
+            .attr("cy", 100)      // sets “cy” attribute
+            .attr("cx", d => d);  // sets “cx” attribute (same as function(d) { // return d; }
+
+        // now update the chart after 2 seconds (2000ms)
+        // because the data exists, no need to "enter()", we are just adjusting what is there.
+        // notice how the last dot is not affected, because the new data is 1 element less
+        setTimeout(function () {
+            d3.select("#chart")
+                .selectAll("circle")
+                .data([50, 75, 125, 225, 325, 425, 450])
+                .transition().duration(1000)
+                .attr("r", 5)
+                .attr("cx", d => d)
+                .style("fill", "red");
+        }, 2000);
+    </script>
+</body>
+
+</html>
