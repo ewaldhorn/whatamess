@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Each Demo</title>
+</head>
+
+<body>
+    <div id="staff"></div>
+    <script>
+        const staffDiv = document.querySelector("#staff");
+
+        const staffList = [
+            { first: "Bob", last: "Holly" }, { first: "Sam", last: "Sheep" }, { first: "Tiffany", last: "Blue" }
+        ];
+
+        let template = "";
+
+        staffList.forEach(person => { template += `<div>${person.first} ${person.last}</div>`; });
+
+        staffDiv.innerHTML = template;
+    </script>
+</body>
+
+</html>

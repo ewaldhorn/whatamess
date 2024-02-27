@@ -3,6 +3,7 @@
  */
 console.log("\n");
 
+
 const items = ["cat", "dog"];
 console.log("Current:", items, " (" + items.length + ")");
 items.push("parrot");
