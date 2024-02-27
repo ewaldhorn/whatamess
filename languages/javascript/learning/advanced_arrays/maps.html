@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapsperiment</title>
+</head>
+
+<body>
+    <div id="personnelDiv"></div>
+    <script>
+        const personnelList = ["Ryno", "Carl", "Bill", "Sannie", "Terra"];
+        const outputDiv = document.querySelector("#personnelDiv");
+        let generatedHTML = "<ul>";
+
+        console.log(personnelList);
+
+        generatedHTML += personnelList.map(p => `<li>${p}</li>`);
+
+        generatedHTML += "</ul>";
+        outputDiv.innerHTML = generatedHTML;
+    </script>
+</body>
+
+</html>
