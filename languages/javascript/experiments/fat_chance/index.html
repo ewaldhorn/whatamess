@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fat Chance</title>
+    <style>
+        body {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Ask the Oracle</h1>
+    <label for="question">What do you want to know?</label>
+    <input id="question" type="text" />
+    <button onclick=getAnswer()>Ask!</button>
+
+    <script>
+        const randomNumber = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+        const answers = ["For sure!", "It is certain", "Absolutely", "No way", "Guaranteed"];
+
+        const getAnswer = () => window.alert(`${answers[randomNumber(0, answers.length - 1)]}`);
+    </script>
+</body>
+
+</html>
