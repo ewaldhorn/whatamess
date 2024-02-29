@@ -2,12 +2,18 @@
 
 <head>
     <meta charset="utf-8" />
-    <script src="wasm_exec.js"></script>
-    <script>
-        const go = new Go(); // Defined in wasm_exec.js
-        const WASM_URL = 'wasm.wasm';
+    <script src="wasm_exec_tiny.js"></script>
+    <title>Yo TinyGo and Wasm</title>
+</head>
 
-        var wasm;
+<body>
+    <script type="module" defer>
+        "use strict";
+
+        const go = new Go(); // Defined in wasm_exec.js
+        const WASM_URL = 'compiled.wasm';
+
+        let wasm;
 
         go.importObject.env = {
             'add': function (x, y) {
@@ -30,14 +36,14 @@
                 })
             )
         }
-    </script>
-    <title>Yo TinyGo and Wasm</title>
-</head>
 
-<body>
-    <script>
+        window.setTimeout(() => {
+            console.log("12 * 10 =", wasm.exports.multiply(12, 10));
+        }, 2000);
 
-        console.log('Multiplied two numbers (5,3): ', wasm.multiply(5, 3));
+        window.setTimeout(() => {
+            console.log("10 * 10 =", wasm.exports.multiply(10, 10));
+        }, 4000);
     </script>
 </body>
 

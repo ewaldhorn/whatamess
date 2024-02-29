@@ -2,7 +2,7 @@ package main
 
 // This calls a JS function from Go.
 func main() {
-    println("adding two numbers:", add(2, 3)) // expecting 5
+	println("Adding two numbers gives ", add(2, 3)) // expecting 5
 }
 
 // This function is imported from JavaScript, as it doesn't define a body.
@@ -17,5 +17,5 @@ func add(x, y int) int
 //
 //export multiply
 func multiply(x, y int) int {
-    return x * y;
+	return x * y
 }

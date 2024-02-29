@@ -19,10 +19,14 @@
     <button onclick=getAnswer()>Ask!</button>
 
     <script>
+        "use strict";
+
         const randomNumber = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
         const answers = ["For sure!", "It is certain", "Absolutely", "No way", "Guaranteed"];
 
         const getAnswer = () => window.alert(`${answers[randomNumber(0, answers.length - 1)]}`);
+
+        tmp = 0; // raises an error in strict mode
     </script>
 </body>
 
