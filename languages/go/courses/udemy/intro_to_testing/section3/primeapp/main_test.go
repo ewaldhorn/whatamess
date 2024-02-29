@@ -33,3 +33,30 @@ func Test_isPrime(t *testing.T) {
 		t.Errorf("with %d, expected '%s', got '%s'", 2, "2 is a prime number!", msg)
 	}
 }
+
+func Test_isPrime_WithTables(t *testing.T) {
+	primeTests := []struct {
+		name     string
+		number   int
+		expected bool
+		msg      string
+	}{
+		{"zero", 0, false, "0 is not a prime number."},
+		{"one", 1, false, "1 is not a prime number."},
+		{"two", 2, true, "2 is a prime number!"},
+		{"three", 3, true, "3 is a prime number!"},
+		{"four", 4, false, "4 is not a prime number, divisible by 2."},
+	}
+
+	for _, test := range primeTests {
+		result, msg := isPrime(test.number)
+
+		if test.expected != result {
+			t.Errorf("%s: expected '%t' but got '%t'", test.name, test.expected, result)
+		}
+
+		if msg != test.msg {
+			t.Errorf("with %d, expected '%s', got '%s'", test.number, test.msg, msg)
+		}
+	}
+}
