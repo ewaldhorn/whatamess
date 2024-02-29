@@ -3,10 +3,6 @@ package main
 import "fmt"
 
 func main() {
-	n := 2
-	_, msg := isPrime(n)
-
-	fmt.Println(msg)
 }
 
 func isPrime(number int) (bool, string) {
