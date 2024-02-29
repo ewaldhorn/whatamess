@@ -41,6 +41,7 @@ func Test_isPrime_WithTables(t *testing.T) {
 		expected bool
 		msg      string
 	}{
+		{"negative", -10, false, "-10 is not a prime number."},
 		{"zero", 0, false, "0 is not a prime number."},
 		{"one", 1, false, "1 is not a prime number."},
 		{"two", 2, true, "2 is a prime number!"},
