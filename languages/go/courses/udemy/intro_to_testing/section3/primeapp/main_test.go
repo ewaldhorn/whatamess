@@ -48,6 +48,7 @@ func Test_isPrime_WithTables(t *testing.T) {
 		{"three", 3, true, "3 is a prime number!"},
 		{"four", 4, false, "4 is not a prime number, divisible by 2."},
 		{"five", 5, true, "5 is a prime number!"},
+		{"six", 6, false, "6 is not a prime number, divisible by 2."},
 	}
 
 	for _, test := range primeTests {
