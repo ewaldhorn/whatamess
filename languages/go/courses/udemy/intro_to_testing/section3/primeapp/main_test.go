@@ -2,6 +2,7 @@ package main
 
 import "testing"
 
+// ------------------------------------------------------------------------------------------------
 func Test_isPrime(t *testing.T) {
 	result, msg := isPrime(0)
 
@@ -34,6 +35,7 @@ func Test_isPrime(t *testing.T) {
 	}
 }
 
+// ------------------------------------------------------------------------------------------------
 func Test_isPrime_WithTables(t *testing.T) {
 	primeTests := []struct {
 		name     string

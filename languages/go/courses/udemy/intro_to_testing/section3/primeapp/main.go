@@ -25,13 +25,18 @@ func main() {
 	sayGoodbye()
 }
 
+// ------------------------------------------------------------------------------------------------
 func sayWelcome() { fmt.Println("\nHello! Pick a number.\nOr (Q)uit : "); prompt() }
+
+// ------------------------------------------------------------------------------------------------
 func sayGoodbye() { fmt.Println("\nThat was fun, let's do it again soon!") }
 
+// ------------------------------------------------------------------------------------------------
 func prompt() {
 	fmt.Print("-> ")
 }
 
+// ------------------------------------------------------------------------------------------------
 func readUserInput(signal chan bool) {
 	scanner := bufio.NewScanner(os.Stdin)
 
@@ -48,6 +53,7 @@ func readUserInput(signal chan bool) {
 	}
 }
 
+// ------------------------------------------------------------------------------------------------
 func checkNumbers(scanner *bufio.Scanner) (string, bool) {
 	scanner.Scan()
 
@@ -66,6 +72,7 @@ func checkNumbers(scanner *bufio.Scanner) (string, bool) {
 	return msg, false
 }
 
+// ------------------------------------------------------------------------------------------------
 func isPrime(number int) (bool, string) {
 	if number < 2 {
 		return false, fmt.Sprintf("%d is not a prime number.", number)
