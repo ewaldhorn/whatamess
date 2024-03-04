@@ -143,8 +143,10 @@ func Test_checkNumbers(t *testing.T) {
 		input    string
 		expected string
 	}{
+		{name: "word", input: "one", expected: "Please enter a whole, positive number"},
 		{name: "empty", input: "", expected: "Please enter a whole, positive number"},
 		{name: "negative", input: "-1", expected: "Please enter a whole, positive number"},
+		{name: "zero", input: "0", expected: "0 is not a prime number."},
 		{name: "one", input: "1", expected: "1 is not a prime number."},
 		{name: "two", input: "2", expected: "2 is a prime number!"},
 		{name: "quit", input: "q", expected: ""},
