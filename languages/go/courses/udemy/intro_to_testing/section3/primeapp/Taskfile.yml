@@ -23,3 +23,11 @@ tasks:
     cmds:
       - go test -coverprofile=coverage.out .
       - go tool cover -html=coverage.out
+  testprime:
+    desc: Runs tests for isPrime only
+    cmds:
+      - go test -run Test_isPrime
+  testhellobye:
+    desc: Runs the helloBye test suite
+    cmds:
+      - go test -run Test_helloBye

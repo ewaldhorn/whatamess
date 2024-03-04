@@ -98,7 +98,7 @@ func Test_prompt(t *testing.T) {
 }
 
 // ------------------------------------------------------------------------------------------------
-func Test_sayWelcome(t *testing.T) {
+func Test_helloBye_sayWelcome(t *testing.T) {
 	oldStdout := os.Stdout
 
 	r, w, _ := os.Pipe()
@@ -118,7 +118,7 @@ func Test_sayWelcome(t *testing.T) {
 }
 
 // ------------------------------------------------------------------------------------------------
-func Test_sayGoodbye(t *testing.T) {
+func Test_helloBye_sayGoodbye(t *testing.T) {
 	oldStdout := os.Stdout
 
 	r, w, _ := os.Pipe()
