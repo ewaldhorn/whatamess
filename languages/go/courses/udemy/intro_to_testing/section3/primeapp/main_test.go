@@ -1,6 +1,10 @@
 package main
 
-import "testing"
+import (
+	"io"
+	"os"
+	"testing"
+)
 
 // ------------------------------------------------------------------------------------------------
 func Test_isPrime(t *testing.T) {
@@ -63,5 +67,29 @@ func Test_isPrime_WithTables(t *testing.T) {
 		if msg != test.msg {
 			t.Errorf("with %d, expected '%s', got '%s'", test.number, test.msg, msg)
 		}
+	}
+}
+
+// ------------------------------------------------------------------------------------------------
+func Test_prompt(t *testing.T) {
+	oldStdout := os.Stdout // preserve a copy of Stdout to restore when we are done
+
+	// intercept os.Stdout
+	r, w, _ := os.Pipe()
+	os.Stdout = w
+
+	prompt()
+
+	// close the writer
+	_ = w.Close()
+
+	os.Stdout = oldStdout // now restore Stdout
+
+	// time to read the output
+	out, _ := io.ReadAll(r)
+
+	// test if we got what we expected
+	if string(out) != "-> " {
+		t.Errorf("incorrect prompt: expected '-> ', got '%s'", string(out))
 	}
 }
