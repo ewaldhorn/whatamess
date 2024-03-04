@@ -63,7 +63,7 @@ func checkNumbers(scanner *bufio.Scanner) (string, bool) {
 
 	number, err := strconv.Atoi(scanner.Text())
 
-	if err != nil {
+	if err != nil || number < 0 {
 		return "Please enter a whole, positive number", false
 	}
 
