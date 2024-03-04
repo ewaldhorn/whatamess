@@ -6,6 +6,7 @@ import (
 	"testing"
 )
 
+// ------------------------------------------------------------------------------------------------
 func Test_application_handlers(t *testing.T) {
 	var tests = []struct {
 		name               string

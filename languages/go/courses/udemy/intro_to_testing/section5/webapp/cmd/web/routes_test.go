@@ -8,6 +8,7 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
+// ------------------------------------------------------------------------------------------------
 func Test_application_routes(t *testing.T) {
 	var registered = []struct {
 		route  string
@@ -28,6 +29,7 @@ func Test_application_routes(t *testing.T) {
 	}
 }
 
+// ------------------------------------------------------------------------------------------------
 func routeExists(testRoute, testMethod string, chiRoutes chi.Routes) bool {
 	found := false
 
