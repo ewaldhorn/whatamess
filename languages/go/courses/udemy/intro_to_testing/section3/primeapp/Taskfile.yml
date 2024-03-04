@@ -1,0 +1,25 @@
+# https://taskfile.dev
+
+version: "3"
+
+tasks:
+  default:
+    desc: Displays a list of all available tasks
+    cmds:
+      - task --list-all
+    silent: true
+  test:
+    desc: Tests the Go code
+    cmds:
+      - go test .
+    silent: true
+  cover:
+    desc: Shows test coverage percentage
+    cmds:
+      - go test -cover .
+    silent: true
+  coverreport:
+    desc: Shows test coverage report
+    cmds:
+      - go test -coverprofile=coverage.out .
+      - go tool cover -html=coverage.out
