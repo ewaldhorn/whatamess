@@ -3,6 +3,7 @@ package main
 import (
 	"io"
 	"os"
+	"strings"
 	"testing"
 )
 
@@ -91,5 +92,45 @@ func Test_prompt(t *testing.T) {
 	// test if we got what we expected
 	if string(out) != "-> " {
 		t.Errorf("incorrect prompt: expected '-> ', got '%s'", string(out))
+	}
+}
+
+// ------------------------------------------------------------------------------------------------
+func Test_sayWelcome(t *testing.T) {
+	oldStdout := os.Stdout
+
+	r, w, _ := os.Pipe()
+	os.Stdout = w
+
+	sayWelcome()
+
+	_ = w.Close()
+
+	os.Stdout = oldStdout
+
+	out, _ := io.ReadAll(r)
+
+	if !strings.Contains(string(out), "Or (Q)uit : ") {
+		t.Errorf("incorrect prompt: expected to find 'Or (Q)uit : ', got '%s'", string(out))
+	}
+}
+
+// ------------------------------------------------------------------------------------------------
+func Test_sayGoodbye(t *testing.T) {
+	oldStdout := os.Stdout
+
+	r, w, _ := os.Pipe()
+	os.Stdout = w
+
+	sayGoodbye()
+
+	_ = w.Close()
+
+	os.Stdout = oldStdout
+
+	out, _ := io.ReadAll(r)
+
+	if !strings.Contains(string(out), "That was fun,") {
+		t.Errorf("incorrect prompt: expected to find 'That was fun,', got '%s'", string(out))
 	}
 }
