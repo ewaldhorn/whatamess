@@ -171,3 +171,4 @@ languages/kotlin/wasm/BoomBoomBoom/.fleet
 languages/kotlin/web/flylin/build
 languages/go/ebitengine/bouncy/static/compiled.wasm
 languages/go/courses/udemy/intro_to_testing/section3/primeapp/coverage.out
+languages/go/courses/udemy/intro_to_testing/section5/webapp/coverage.out
