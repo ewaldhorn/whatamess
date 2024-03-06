@@ -18,6 +18,7 @@ func Test_application_addIPToContext(t *testing.T) {
 		{"", "", "", false},
 		{"", "", "", true},
 		{"X-Forwarded-For", "192.3.2.1", "", false},
+		{"X-Forwarded-For", "", "", true},
 		{"", "", "hello:world", false},
 	}
 
