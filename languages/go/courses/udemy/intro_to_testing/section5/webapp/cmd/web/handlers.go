@@ -44,7 +44,7 @@ func (app *application) Login(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
 		log.Println(err)
-		http.Error(w, "bad request", http.StatusBadRequest)
+		http.Error(w, "bad request (login)", http.StatusBadRequest)
 		return
 	}
 
