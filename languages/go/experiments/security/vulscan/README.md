@@ -1,0 +1,2 @@
+Run checks with `govulncheck ./...`
+
