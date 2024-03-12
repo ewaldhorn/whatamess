@@ -51,3 +51,12 @@ func TestForm_Required(t *testing.T) {
 		t.Error("post does not have required fields, but it should have")
 	}
 }
+
+func TestForm_Check(t *testing.T) {
+	form := NewForm(nil)
+	form.Check(false, "password", "password is required")
+
+	if form.Valid() {
+		t.Error("Valid() returns false, and it should be true")
+	}
+}
