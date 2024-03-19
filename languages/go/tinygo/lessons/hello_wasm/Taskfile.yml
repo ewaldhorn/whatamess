@@ -1,0 +1,16 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  GREETING: Hello, World!
+
+tasks:
+  default:
+    cmds:
+      - task --list-all
+    silent: true
+  build:
+    cmds:
+      - tinygo build -o static/compiled.wasm -target wasm ./main.go
+    silent: true
