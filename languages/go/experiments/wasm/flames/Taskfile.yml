@@ -9,13 +9,13 @@ tasks:
       - task --list-all
     silent: true
   build:
-    desc: Builds the wasm bundle
+    desc: Compiles the wasm component
     cmds:
       - GOOS=js GOARCH=wasm go build -o ./public/main.wasm ./src/
     silent: true
   run:
-    desc: Compiles the wasm then runs the server on port 9000, open default browser
+    desc: Compiles the wasm then runs the server on port 9000, opens the default browser
     cmds:
-      - GOOS=js GOARCH=wasm go build -o ./public/main.wasm ./src/
+      - task: build
       - http-server ./public/ -p 9000 -o
     silent: true
