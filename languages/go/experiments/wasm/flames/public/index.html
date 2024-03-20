@@ -12,10 +12,35 @@
             go.run(result.instance);
         });
     </script>
+    <style>
+        #mainCanvas {
+            position: fixed;
+            opacity: 0.9;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        .information {
+            position: fixed;
+            padding: 10px;
+            margin: 0px;
+            background: rgba(0, 0, 0, 0.5);
+            color: #FFFFFF;
+            bottom: 0;
+            right: 0;
+        }
+    </style>
 </head>
 
 <body>
-
+    <canvas id="mainCanvas"></canvas>
+    <div class="information">
+        <div id="fps">FPS: 0</div>
+    </div>
 </body>
 
 </html>
