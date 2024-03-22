@@ -1,0 +1,23 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  SRC_FOLDER: src
+
+tasks:
+  default:
+    desc: Lists available tasks
+    cmds:
+      - task --list-all
+    silent: true
+  build:
+    desc: Builds the project
+    cmds:
+      - echo NOT USED
+    silent: true
+  run:
+    desc: Runs the project
+    cmds:
+      - go run {{.SRC_FOLDER}}/main.go
+    silent: true
