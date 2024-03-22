@@ -17,7 +17,6 @@ func Test_application_handlers(t *testing.T) {
 		{"not found", "/thisIsNotAvailable", http.StatusNotFound},
 	}
 
-	var app application
 	routes := app.routes()
 
 	testServer := httptest.NewTLSServer(routes)

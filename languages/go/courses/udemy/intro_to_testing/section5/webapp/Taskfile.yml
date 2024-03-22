@@ -27,6 +27,11 @@ tasks:
     cmds:
       - go test -cover ./cmd/web
     silent: true
+  test:
+    desc: Runs all the tests (server/client/etc)
+    cmds:
+      - task: testserver
+    silent: true
   coverreportserver:
     desc: Shows test coverage report for the Server component
     cmds:
