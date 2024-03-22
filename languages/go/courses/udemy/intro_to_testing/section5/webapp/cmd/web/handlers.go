@@ -8,8 +8,10 @@ import (
 	"path"
 )
 
-const pathToTemplates = "./templates/"
-const pathToPages = pathToTemplates + "pages"
+// need to keep as vars, since tests need to adjust the relative path location(s)
+var pathToTemplates = "./templates/"
+var pathToPages = pathToTemplates + "pages"
+
 const baseLayoutTemplate = "base.layout.gohtml"
 
 // ------------------------------------------------------------------------------------------------

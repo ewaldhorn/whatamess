@@ -23,6 +23,7 @@ func Test_application_handlers(t *testing.T) {
 	defer testServer.Close()
 
 	pathToTemplates = "./../../templates/"
+	pathToPages = pathToTemplates + "pages"
 
 	for _, test := range tests {
 		rsp, err := testServer.Client().Get(testServer.URL + test.url)
