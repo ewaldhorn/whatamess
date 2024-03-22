@@ -175,3 +175,4 @@ languages/go/courses/udemy/intro_to_testing/section5/webapp/coverage.out
 languages/go/experiments/wasm/flames/public/main.wasm
 languages/go/experiments/wasm/bouncy/public/main.wasm
 languages/go/tinygo/lessons/hello_wasm/static/compiled.wasm
+languages/go/experiments/templates/text/.idea
