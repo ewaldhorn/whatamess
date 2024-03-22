@@ -8,11 +8,13 @@ import (
 	"path"
 )
 
-var pathToTemplates = "./templates/"
+const pathToTemplates = "./templates/"
+const pathToPages = pathToTemplates + "pages"
+const baseLayoutTemplate = "base.layout.gohtml"
 
 // ------------------------------------------------------------------------------------------------
 func (app *application) Home(w http.ResponseWriter, r *http.Request) {
-	_ = app.render(w, r, "pages/home.page.gohtml", &TemplateData{})
+	_ = app.render(w, r, "home.page.gohtml", &TemplateData{})
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -23,9 +25,10 @@ type TemplateData struct {
 
 // ------------------------------------------------------------------------------------------------
 func (app *application) render(w http.ResponseWriter, r *http.Request, pageTemplate string, data *TemplateData) error {
-	parsedTemplate, err := template.ParseFiles(path.Join(pathToTemplates, pageTemplate))
+	parsedTemplate, err := template.ParseFiles(path.Join(pathToPages, pageTemplate), path.Join(pathToPages, baseLayoutTemplate))
 	if err != nil {
 		http.Error(w, "Error - Bad Request", http.StatusBadRequest)
+		println(err.Error())
 		return err
 	}
 
