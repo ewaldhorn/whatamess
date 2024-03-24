@@ -38,8 +38,26 @@ func main() {
 		},
 	}
 
+	// all dogs template
 	var tmplFile = "pets.tmpl"
 	tmpl, err := template.New(tmplFile).ParseFiles(tmplFile)
+	if err != nil {
+		panic(err)
+	}
+	err = tmpl.Execute(os.Stdout, dogs)
+	if err != nil {
+		panic(err)
+	}
+
+	// now for the lastPet template
+	println("\n---------- Last Pet")
+
+	functionMap := template.FuncMap{
+		"dec": func(i int) int { return i - 1 },
+	}
+
+	tmplFile = "lastPet.tmpl"
+	tmpl, err = template.New(tmplFile).Funcs(functionMap).ParseFiles(tmplFile)
 	if err != nil {
 		panic(err)
 	}
