@@ -4,6 +4,8 @@ import (
 	"os"
 	"strings"
 	"text/template"
+
+	htmlTemplate "html/template"
 )
 
 type Pet struct {
@@ -80,6 +82,25 @@ func main() {
 		panic(err)
 	}
 	err = tmpl.Execute(f, dogs)
+	if err != nil {
+		panic(err)
+	}
+	err = f.Close()
+	if err != nil {
+		panic(err)
+	}
+
+	// now write HTML using the html/template structure to show it's safe
+	tmplFile = "petsHtml.tmpl"
+	tmplH, err := htmlTemplate.New(tmplFile).Funcs(functionMap).ParseFiles(tmplFile)
+	if err != nil {
+		panic(err)
+	}
+	f, err = os.Create("pets_safe.html")
+	if err != nil {
+		panic(err)
+	}
+	err = tmplH.Execute(f, dogs)
 	if err != nil {
 		panic(err)
 	}

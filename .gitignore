@@ -177,3 +177,4 @@ languages/go/experiments/wasm/bouncy/public/main.wasm
 languages/go/tinygo/lessons/hello_wasm/static/compiled.wasm
 languages/go/experiments/templates/text/.idea
 languages/go/experiments/templates/text/pets.html
+languages/go/experiments/templates/text/pets_safe.html
