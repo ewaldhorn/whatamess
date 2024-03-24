@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"strings"
 	"text/template"
 )
 
@@ -53,7 +54,8 @@ func main() {
 	println("\n---------- Last Pet")
 
 	functionMap := template.FuncMap{
-		"dec": func(i int) int { return i - 1 },
+		"dec":     func(i int) int { return i - 1 },
+		"replace": strings.ReplaceAll,
 	}
 
 	tmplFile = "lastPet.tmpl"
