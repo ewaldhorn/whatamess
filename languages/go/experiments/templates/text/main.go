@@ -17,7 +17,7 @@ type Pet struct {
 func main() {
 	dogs := []Pet{
 		{
-			Name:   "Jujube",
+			Name:   "<script>alert(\"Gotcha!\");</script>Jujube",
 			Sex:    "Female",
 			Intact: false,
 			Age:    "10 months",
@@ -64,6 +64,26 @@ func main() {
 		panic(err)
 	}
 	err = tmpl.Execute(os.Stdout, dogs)
+	if err != nil {
+		panic(err)
+	}
+
+	// now write HTML using the text/template structure to show it's unsafe
+	tmplFile = "petsHtml.tmpl"
+	tmpl, err = template.New(tmplFile).Funcs(functionMap).ParseFiles(tmplFile)
+	if err != nil {
+		panic(err)
+	}
+	var f *os.File
+	f, err = os.Create("pets.html")
+	if err != nil {
+		panic(err)
+	}
+	err = tmpl.Execute(f, dogs)
+	if err != nil {
+		panic(err)
+	}
+	err = f.Close()
 	if err != nil {
 		panic(err)
 	}
