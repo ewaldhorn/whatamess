@@ -7,14 +7,28 @@ vars:
 
 tasks:
   default:
+    desc: Lists available tasks
     cmds:
       - task --list-all
     silent: true
   run:
+    desc: Runs the main file
     cmds:
       - go run {{.ROOT}}/main.go
     silent: true
   test:
+    desc: Runs all tests
     cmds:
       - go test ./{{.ROOT}}/...
+    silent: true
+  testcoverage:
+    desc: Runs all tests with code coverage
+    cmds:
+      - go test -cover ./{{.ROOT}}/...
+    silent: true
+  coveragereport:
+    desc: Shows test coverage report
+    cmds:
+      - go test -coverprofile=coverage.out ./{{.ROOT}}/...
+      - go tool cover -html=coverage.out
     silent: true

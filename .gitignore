@@ -178,3 +178,4 @@ languages/go/tinygo/lessons/hello_wasm/static/compiled.wasm
 languages/go/experiments/templates/text/.idea
 languages/go/experiments/templates/text/pets.html
 languages/go/experiments/templates/text/pets_safe.html
+languages/go/experiments/iso8583/coverage.out
