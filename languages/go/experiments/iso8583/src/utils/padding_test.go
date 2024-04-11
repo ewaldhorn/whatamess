@@ -12,6 +12,7 @@ func Test_padLeft(t *testing.T) {
 	}{
 		{name: "pad with zeroes", input: "1", wantedLength: 5, padWith: "0", expectedResult: "00001"},
 		{name: "do nothing", input: "123", wantedLength: 3, padWith: "0", expectedResult: "123"},
+		{name: "pad with underscores", input: "123", wantedLength: 8, padWith: "_", expectedResult: "_____123"},
 	}
 
 	for _, test := range tests {
