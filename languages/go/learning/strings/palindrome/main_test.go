@@ -8,7 +8,7 @@ func Test_isPalindrome(t *testing.T) {
 		input    string
 		expected bool
 	}{
-		{name: "mom", input: "mom", expected: true},
+		{name: "lol", input: "lol", expected: true},
 		{name: "topspot", input: "topspot", expected: true},
 		{name: "nope", input: "nope", expected: false},
 	}
