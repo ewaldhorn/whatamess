@@ -8,9 +8,9 @@ func Test_isPalindrome(t *testing.T) {
 		input    string
 		expected bool
 	}{
-		{name: "lol", input: "lol", expected: true},
-		{name: "topspot", input: "topspot", expected: true},
-		{name: "nope", input: "nope", expected: false},
+		{name: "true: lol", input: "lol", expected: true},
+		{name: "true: topspot", input: "topspot", expected: true},
+		{name: "false: nope", input: "nope", expected: false},
 	}
 
 	for _, test := range tests {
