@@ -8,15 +8,28 @@ func check(input int) string {
 
 	if isThrees && isFives {
 		return "Fizz Buzz"
-	}
-
-	if isThrees {
+	} else if isThrees {
 		return "Fizz"
-	}
-
-	if isFives {
+	} else if isFives {
 		return "Buzz"
+	} else {
+		return fmt.Sprintf("%d", input)
 	}
+}
 
-	return fmt.Sprintf("%d", input)
+// use a switch instead of if/else
+func checkWithSwitch(input int) string {
+	isThrees := input%3 == 0
+	isFives := input%5 == 0
+
+	switch {
+	case isThrees && isFives:
+		return "Fizz Buzz"
+	case isThrees:
+		return "Fizz"
+	case isFives:
+		return "Buzz"
+	default:
+		return fmt.Sprintf("%d", input)
+	}
 }
