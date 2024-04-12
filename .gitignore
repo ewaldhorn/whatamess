@@ -179,3 +179,4 @@ languages/go/experiments/templates/text/.idea
 languages/go/experiments/templates/text/pets.html
 languages/go/experiments/templates/text/pets_safe.html
 languages/go/experiments/iso8583/coverage.out
+languages/go/learning/fuzzing/hello_fuzzing/src/testdata

@@ -21,3 +21,8 @@ tasks:
     cmds:
       - go test ./src/...
     silent: true
+  fuzz:
+    desc: Runs fuzzed tests
+    cmds:
+      - go test ./src/... -fuzz=Fuzz
+    silent: true
