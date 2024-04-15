@@ -21,3 +21,10 @@ tasks:
     cmds:
       - go test ./src/...
     silent: true
+  package:
+    desc: Zips the lamba, ready for deployment
+    cmds:
+      - task build
+      - rm -f production/archive.zip
+      - zip -r production/archive.zip production/main
+    silent: true
