@@ -1,0 +1,23 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  GREETING: Hello, World!
+
+tasks:
+  default:
+    desc: Lists all available tasks
+    cmds:
+      - task --list-all
+    silent: true
+  build:
+    desc: Builds the lambda
+    cmds:
+      - GOOS=linux go build -o production/ ./src/main.go
+    silent: true
+  test:
+    desc: Tests the lambda
+    cmds:
+      - go test ./src/...
+    silent: true
