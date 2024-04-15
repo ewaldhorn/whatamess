@@ -184,3 +184,4 @@ languages/go/interviews/questions/fizzbuzz/.zed/settings.json
 languages/go/aws/simple_lambda/production
 languages/go/aws/simple_lambda/.idea
 languages/go/aws/simple_lambda/.aws-sam/temp-template.yaml
+languages/go/aws/hello_sam/sam-app/.aws-sam

@@ -1,0 +1,29 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  SRC: hello-world
+
+tasks:
+  default:
+    desc: List all the available tasks
+    cmds:
+      - task --list-all
+    silent: true
+  sambuild:
+    desc: Runs the 'sam build' command
+    cmds:
+      - sam build
+    silent: true
+  gotest:
+    desc: Runs Go tests
+    dir: ./{{.SRC}}/
+    cmds:
+      - go test ./...
+    silent: true
+  test:
+    desc: Runs a local test via sam
+    cmds:
+      - sam local invoke
+    silent: true
