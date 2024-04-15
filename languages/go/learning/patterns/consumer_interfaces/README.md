@@ -1,0 +1,1 @@
+# Consumer Pattern in Go
