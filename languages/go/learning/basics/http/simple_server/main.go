@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 // -------------------------------------------------------------------------------------------------
@@ -12,6 +14,11 @@ func handleHTTPRequests(w http.ResponseWriter, r *http.Request) {
 
 // -------------------------------------------------------------------------------------------------
 func main() {
-	http.HandleFunc("/", handleHTTPRequests)
+	router := mux.NewRouter()
+	router.HandleFunc("/", handleHTTPRequests)
+
+	fs := http.FileServer(http.Dir("static/"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
+
 	http.ListenAndServe(":9000", nil)
 }
