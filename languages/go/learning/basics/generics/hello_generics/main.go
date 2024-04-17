@@ -25,7 +25,11 @@ func sumOfFloats(input *[]float32) float32 {
 }
 
 // -------------------------------------------------------------------------------------------------
-func sumOf[T int | float32](input *[]T) T {
+type AcceptedNumbers interface {
+	int | float32
+}
+
+func sumOf[T AcceptedNumbers](input *[]T) T {
 	var total T
 
 	for _, val := range *input {
