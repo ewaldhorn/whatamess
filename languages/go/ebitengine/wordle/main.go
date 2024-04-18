@@ -3,6 +3,7 @@ package main
 import (
 	"image/color"
 	"log"
+	"math/rand"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/examples/resources/fonts"
@@ -28,9 +29,20 @@ var (
 	answer          string
 )
 
+// -------------------------------------------------------------------------------------------------
+func pickRandomWordFromDictionary() string {
+	return dictionary[rand.Intn(len(dictionary)-1)]
+}
+
+// -------------------------------------------------------------------------------------------------
+func setupNewGame() {
+	answer = pickRandomWordFromDictionary()
+}
+
 // =========================================================================================== MAIN
 func main() {
-	loadDictionary()
+	parseDictionary(loadDictionaryFromDisk())
+	setupNewGame()
 
 	tt, fontErr := opentype.Parse(fonts.MPlus1pRegular_ttf)
 	if fontErr != nil {
