@@ -50,17 +50,21 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			screen.DrawImage(block, drawOptions)
 
 			if grid[x+(y*columns)] != "" {
-				msg := fmt.Sprintf("%s", strings.ToUpper(grid[x+(y*columns)]))
-				textOptions := &text.DrawOptions{}
-				textOptions.GeoM.Translate(float64(x*85+32), float64(y*85+15))
-				textOptions.ColorScale.ScaleWithColor(fontColour)
-				textFace := &text.GoTextFace{Source: mPlusNormalFont, Size: fontSize}
-				text.Draw(screen, msg, textFace, textOptions)
+				drawText(screen, fmt.Sprintf("%s", strings.ToUpper(grid[x+(y*columns)])), float64(x*85+32), float64(y*85+15), fontColour, fontSize)
 			}
 		}
 	}
 
 	ebitenutil.DebugPrint(screen, "And here we are!")
+}
+
+// -------------------------------------------------------------------------------------------------
+func drawText(screen *ebiten.Image, msg string, x float64, y float64, color color.Color, size float64) {
+	textOptions := &text.DrawOptions{}
+	textOptions.GeoM.Translate(x, y)
+	textOptions.ColorScale.ScaleWithColor(color)
+	fontFace := &text.GoTextFace{Source: mPlusNormalFont, Size: size}
+	text.Draw(screen, msg, fontFace, textOptions)
 }
 
 // -------------------------------------------------------------------------------------------------
