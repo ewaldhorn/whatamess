@@ -43,13 +43,6 @@ func setupNewGame() {
 func main() {
 	parseDictionary(loadDictionaryFromDisk())
 	setupNewGame()
-	check[13] = 2
-	check[20] = 1
-	check[28] = 3
-	grid[11] = "a"
-	grid[13] = "b"
-	grid[20] = "c"
-	grid[28] = "D"
 
 	// load the font
 	fontSource, fontErr := text.NewGoTextFaceSource(bytes.NewReader(fonts.MPlus1pRegular_ttf))

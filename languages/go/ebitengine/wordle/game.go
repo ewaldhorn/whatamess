@@ -50,7 +50,12 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			screen.DrawImage(block, drawOptions)
 
 			if grid[x+(y*columns)] != "" {
-				drawText(screen, fmt.Sprintf("%s", strings.ToUpper(grid[x+(y*columns)])), float64(x*85+32), float64(y*85+15), fontColour, fontSize)
+				drawText(screen,
+					fmt.Sprintf("%s", strings.ToUpper(grid[x+(y*columns)])),
+					float64(x*85+32),
+					float64(y*85+15),
+					fontColour,
+					fontSize)
 			}
 		}
 	}

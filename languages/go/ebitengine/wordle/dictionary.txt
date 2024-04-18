@@ -15,6 +15,8 @@ tease
 flunk
 heart
 beard
+-- This next one is too short
+peek
 spoon
 dryer
 drain

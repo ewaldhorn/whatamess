@@ -6,6 +6,8 @@ import (
 	"strings"
 )
 
+const expectedWordLength = 5
+
 // -------------------------------------------------------------------------------------------------
 func loadDictionaryFromDisk() []byte {
 	content, err := os.ReadFile(dictionaryFile)
@@ -24,8 +26,9 @@ func parseDictionary(content []byte) []string {
 		entries := strings.Split(string(content), "\n")
 
 		for _, e := range entries {
-			if !strings.Contains(e, "--") {
-				dictionary = append(dictionary, e)
+			tmp := strings.TrimSpace(e)
+			if !strings.Contains(tmp, "--") && len(tmp) == expectedWordLength {
+				dictionary = append(dictionary, tmp)
 			}
 		}
 	}
