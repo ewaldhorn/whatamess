@@ -5,12 +5,13 @@ import (
 	"log"
 
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
+	"github.com/hajimehoshi/ebiten/v2/examples/resources/fonts"
 	"golang.org/x/image/font"
+	"golang.org/x/image/font/opentype"
 )
 
 var (
-	fontSize        int = 32
+	fontSize        float64 = 24.0
 	mPlusNormalFont font.Face
 	bkg             = color.White
 	lightGrey       = color.RGBA{194, 197, 198, 255}
@@ -27,23 +28,23 @@ var (
 	answer          string
 )
 
-type Game struct{}
-
-func (g *Game) Update() error {
-	return nil
-}
-
-func (g *Game) Draw(screen *ebiten.Image) {
-	ebitenutil.DebugPrint(screen, "Hello, World!")
-}
-
-func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
-	return 320, 240
-}
-
+// =========================================================================================== MAIN
 func main() {
-	ebiten.SetWindowSize(640, 480)
-	ebiten.SetWindowTitle("Hello, World!")
+	loadDictionary()
+
+	tt, fontErr := opentype.Parse(fonts.MPlus1pRegular_ttf)
+	if fontErr != nil {
+		log.Fatal("unable to parse font", fontErr)
+	}
+
+	myFont, fontErr := opentype.NewFace(tt, &opentype.FaceOptions{Size: fontSize, DPI: screenDpi, Hinting: font.HintingFull})
+	if fontErr != nil {
+		log.Fatal("unable to load font", fontErr)
+	}
+	_ = myFont
+
+	ebiten.SetWindowSize(windowWidth, windowHeight)
+	ebiten.SetWindowTitle(windowTitle)
 	if err := ebiten.RunGame(&Game{}); err != nil {
 		log.Fatal(err)
 	}
