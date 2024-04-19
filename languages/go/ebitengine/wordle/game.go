@@ -13,11 +13,34 @@ import (
 
 // -------------------------------------------------------------------------------------------------
 type Game struct {
-	runes []rune
+	pressedKeys []ebiten.Key
+	runes       []rune
 }
 
 // -------------------------------------------------------------------------------------------------
 func (g *Game) Update() error {
+	if !winner {
+		g.pressedKeys = inpututil.AppendJustPressedKeys(g.pressedKeys[:0])
+
+		edge = (location+1)%5 == 0
+
+		if len(g.pressedKeys) > 0 {
+			pressedKeyString := g.pressedKeys[0].String()
+
+			if strings.Contains(alphabet, pressedKeyString) && pressedKeyString != "" && location >= 0 && location < (rows*columns) {
+				grid[location] = pressedKeyString
+				if !edge {
+					location += 1
+				}
+			}
+
+			if edge && pressedKeyString == "Enter" && location < (blockCount-1) && grid[location] != "" {
+				location += 1
+			} else if pressedKeyString == "Enter" && location == (blockCount-1) {
+				println("At", location, " all done!")
+			}
+		}
+	}
 	return nil
 }
 
@@ -85,7 +108,7 @@ func suppressRepeatingKey(key ebiten.Key) bool {
 	)
 
 	duration := inpututil.KeyPressDuration(key)
-
+	println("Duration is", duration)
 	if duration == 1 {
 		return true
 	}

@@ -8,6 +8,7 @@ const (
 	screenDpi      float64 = 72.0
 	rows           int     = 6
 	columns        int     = 5
-	alphabet       string  = "abcdefghijklmnopqrstuvwxyz"
+	blockCount     int     = rows * columns
+	alphabet       string  = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	dictionaryFile string  = "dictionary.txt"
 )
