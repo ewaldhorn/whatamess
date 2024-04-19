@@ -28,7 +28,7 @@ func parseDictionary(content []byte) []string {
 		for _, e := range entries {
 			tmp := strings.TrimSpace(e)
 			if !strings.Contains(tmp, "--") && len(tmp) == expectedWordLength {
-				dictionary = append(dictionary, tmp)
+				dictionary = append(dictionary, strings.ToUpper(tmp))
 			}
 		}
 	}

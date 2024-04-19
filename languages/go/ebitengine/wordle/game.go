@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/hajimehoshi/ebiten/v2/text/v2"
 	"github.com/hajimehoshi/ebiten/v2/vector"
@@ -16,6 +15,19 @@ import (
 type Game struct {
 	pressedKeys []ebiten.Key
 	runes       []rune
+}
+
+// -------------------------------------------------------------------------------------------------
+func reviewPositions() {
+	tmp := strings.Split(answer, "")
+
+	for i := range 5 {
+		if grid[location-i] == tmp[4-i] {
+			check[location-i] = 1
+		} else if strings.Contains(answer, grid[location-i]) {
+			check[location-i] = 2
+		}
+	}
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -36,9 +48,12 @@ func (g *Game) Update() error {
 			}
 
 			if edge && pressedKeyString == "Enter" && location < (blockCount-1) && grid[location] != "" {
+				println("Letters:", grid[location-4], grid[location-3], grid[location-2], grid[location-1], grid[location])
+				reviewPositions()
 				location += 1
 			} else if pressedKeyString == "Enter" && location == (blockCount-1) {
 				println("At", location, " all done!")
+				reviewPositions()
 				isPlaying = false
 			}
 		}
@@ -68,14 +83,14 @@ func (g *Game) Draw(screen *ebiten.Image) {
 				block.Fill(lightGrey)
 				fontColour = color.Black
 			}
-			// todo: show the active block, aka cursor block
 
 			drawOptions := &ebiten.DrawImageOptions{}
 			drawOptions.GeoM.Translate(float64(x*85+10), float64(y*85+10))
 			screen.DrawImage(block, drawOptions)
 
+			// show active block
 			if isPlaying && x+(y*columns) == location {
-				vector.StrokeRect(screen, float32(x*85+10), float32(y*85+10), float32(blockSize), float32(blockSize), 1.0, color.Black, true)
+				vector.StrokeRect(screen, float32(x*85+10), float32(y*85+10), float32(blockSize), float32(blockSize), 2.0, grey, true)
 			}
 
 			if grid[x+(y*columns)] != "" {
@@ -88,8 +103,6 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			}
 		}
 	}
-
-	ebitenutil.DebugPrint(screen, "And here we are!")
 }
 
 // -------------------------------------------------------------------------------------------------

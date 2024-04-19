@@ -28,7 +28,7 @@ func Test_parseDictionaryBadInput(t *testing.T) {
 		t.Fatalf("error. expected len(1), got len(%d)\n", len(output))
 	}
 
-	if output[0] != "input" {
-		t.Fatalf("error: expected 'input', got '%s'\n", output)
+	if output[0] != "INPUT" {
+		t.Fatalf("error: expected 'INPUT', got '%s'\n", output)
 	}
 }
