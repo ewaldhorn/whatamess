@@ -25,7 +25,7 @@ var (
 	dictionary       []string
 	check            [rows * columns]int
 	location         = 0
-	winner           = false
+	isWinner         = false
 	isPlaying        = true
 	answer           string
 )
@@ -38,6 +38,7 @@ func pickRandomWordFromDictionary() string {
 // -------------------------------------------------------------------------------------------------
 func setupNewGame() {
 	answer = pickRandomWordFromDictionary()
+	println(answer)
 }
 
 // =========================================================================================== MAIN

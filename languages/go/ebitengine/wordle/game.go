@@ -18,7 +18,8 @@ type Game struct {
 }
 
 // -------------------------------------------------------------------------------------------------
-func reviewPositions() {
+func reviewPositions() bool {
+	hasWon := true
 	tmp := strings.Split(answer, "")
 
 	for i := range 5 {
@@ -26,13 +27,19 @@ func reviewPositions() {
 			check[location-i] = 1
 		} else if strings.Contains(answer, grid[location-i]) {
 			check[location-i] = 2
+			hasWon = false
+		} else {
+			check[location-i] = 3
+			hasWon = false
 		}
 	}
+
+	return hasWon
 }
 
 // -------------------------------------------------------------------------------------------------
 func (g *Game) Update() error {
-	if !winner {
+	if !isWinner && isPlaying {
 		g.pressedKeys = inpututil.AppendJustPressedKeys(g.pressedKeys[:0])
 
 		edge = (location+1)%5 == 0
@@ -49,13 +56,22 @@ func (g *Game) Update() error {
 
 			if edge && pressedKeyString == "Enter" && location < (blockCount-1) && grid[location] != "" {
 				println("Letters:", grid[location-4], grid[location-3], grid[location-2], grid[location-1], grid[location])
-				reviewPositions()
+				isWinner = reviewPositions()
 				location += 1
 			} else if pressedKeyString == "Enter" && location == (blockCount-1) {
 				println("At", location, " all done!")
-				reviewPositions()
+				isWinner = reviewPositions()
+				location += 1
 				isPlaying = false
 			}
+		}
+	} else {
+		if isWinner {
+			println("WINNER!!")
+			isPlaying = false
+		} else {
+			println("NOPE!!")
+			isPlaying = false
 		}
 	}
 	return nil
@@ -101,6 +117,22 @@ func (g *Game) Draw(screen *ebiten.Image) {
 					fontColour,
 					fontSize)
 			}
+		}
+	}
+
+	if !isPlaying {
+		if isWinner {
+			tries := location / 5
+			var tryWord string
+			if tries > 1 {
+				tryWord = "tries"
+			} else {
+				tryWord = "try"
+			}
+
+			drawText(screen, fmt.Sprintf("Done in %d %s!", tries, tryWord), float64(10), float64(520), color.Black, fontSize)
+		} else {
+			drawText(screen, "Done. Try again!", float64(10), float64(520), color.Black, fontSize)
 		}
 	}
 }
