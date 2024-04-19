@@ -22,7 +22,7 @@ func loadDictionaryFromDisk() []byte {
 // -------------------------------------------------------------------------------------------------
 func parseDictionary(content []byte) []string {
 	// we need at least one word to bother unpacking things
-	if len(content) > 5 {
+	if len(content) > 4 {
 		entries := strings.Split(string(content), "\n")
 
 		for _, e := range entries {

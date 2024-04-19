@@ -26,6 +26,7 @@ var (
 	check            [rows * columns]int
 	location         = 0
 	winner           = false
+	isPlaying        = true
 	answer           string
 )
 

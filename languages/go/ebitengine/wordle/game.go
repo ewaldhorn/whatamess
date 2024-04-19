@@ -9,6 +9,7 @@ import (
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/hajimehoshi/ebiten/v2/text/v2"
+	"github.com/hajimehoshi/ebiten/v2/vector"
 )
 
 // -------------------------------------------------------------------------------------------------
@@ -24,7 +25,7 @@ func (g *Game) Update() error {
 
 		edge = (location+1)%5 == 0
 
-		if len(g.pressedKeys) > 0 {
+		if isPlaying && len(g.pressedKeys) > 0 {
 			pressedKeyString := g.pressedKeys[0].String()
 
 			if strings.Contains(alphabet, pressedKeyString) && pressedKeyString != "" && location >= 0 && location < (rows*columns) {
@@ -38,6 +39,7 @@ func (g *Game) Update() error {
 				location += 1
 			} else if pressedKeyString == "Enter" && location == (blockCount-1) {
 				println("At", location, " all done!")
+				isPlaying = false
 			}
 		}
 	}
@@ -71,6 +73,10 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			drawOptions := &ebiten.DrawImageOptions{}
 			drawOptions.GeoM.Translate(float64(x*85+10), float64(y*85+10))
 			screen.DrawImage(block, drawOptions)
+
+			if isPlaying && x+(y*columns) == location {
+				vector.StrokeRect(screen, float32(x*85+10), float32(y*85+10), float32(blockSize), float32(blockSize), 1.0, color.Black, true)
+			}
 
 			if grid[x+(y*columns)] != "" {
 				drawText(screen,
