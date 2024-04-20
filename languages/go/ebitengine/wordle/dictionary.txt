@@ -14,6 +14,9 @@ teale
 tease
 flunk
 heart
+snuck
+sneak
+snort
 beard
 -- This next one is too short
 peek
@@ -22,6 +25,7 @@ peek
 spoon
 dryer
 drain
+paper
 brain
 sleet
 -- Another comment
