@@ -8,6 +8,14 @@ plead
 pleat
 plume
 barks
+staff
+stare
+stale
+femur
+plank
+pluck
+prune
+pupil
 spark
 teale
 -- Just a comment
