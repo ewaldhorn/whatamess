@@ -3,7 +3,7 @@
 version: "3"
 
 vars:
-  GREETING: Hello, World!
+  GO_WASM_DIR: "./public_golang/"
 
 tasks:
   default:
@@ -21,3 +21,13 @@ tasks:
     cmds:
       - go test .
     silent: true
+  build_wasm:
+    desc: Builds the WASM target using Go
+    cmds:
+      - env GOOS=js GOARCH=wasm go build -o public_golang/wordleish.wasm .
+    silent: true
+  run_wasm:
+    desc: Runs the Go wasm application
+    dir: "{{.GO_WASM_DIR}}"
+    cmds:
+      - http-server . -p 9000 -o
