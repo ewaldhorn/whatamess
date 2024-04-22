@@ -21,14 +21,7 @@ var (
 	yellow           = color.RGBA{205, 179, 93, 255}
 	green            = color.RGBA{96, 166, 101, 255}
 	fontColour       = color.Black
-	edge             = false
-	grid             [rows * columns]string
 	dictionary       []string
-	check            [rows * columns]int
-	location         = 0
-	isWinner         = false
-	isPlaying        = true
-	answer           string
 )
 
 // -------------------------------------------------------------------------------------------------
@@ -37,20 +30,10 @@ func pickRandomWordFromDictionary() string {
 }
 
 // -------------------------------------------------------------------------------------------------
-func setupNewGame() {
-	answer = pickRandomWordFromDictionary()
-	grid = [rows * columns]string{}
-	check = [rows * columns]int{}
-	location = 0
-	isWinner = false
-	isPlaying = true
-	println(answer)
-}
 
 // =========================================================================================== MAIN
 func main() {
 	parseDictionary(loadDictionaryFromDisk())
-	setupNewGame()
 
 	// load the font
 	fontSource, fontErr := text.NewGoTextFaceSource(bytes.NewReader(fonts.MPlus1pRegular_ttf))
@@ -61,7 +44,7 @@ func main() {
 
 	ebiten.SetWindowSize(windowWidth, windowHeight)
 	ebiten.SetWindowTitle(windowTitle)
-	if err := ebiten.RunGame(&Game{}); err != nil {
+	if err := ebiten.RunGame(NewGame()); err != nil {
 		log.Fatal(err)
 	}
 }

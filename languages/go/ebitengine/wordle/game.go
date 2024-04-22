@@ -14,22 +14,35 @@ import (
 // -------------------------------------------------------------------------------------------------
 type Game struct {
 	pressedKeys []ebiten.Key
-	runes       []rune
+	edge        bool
+	location    int
+	grid        [rows * columns]string
+	answer      string
+	check       [rows * columns]int
+	isWinner    bool
+	isPlaying   bool
+}
+
+// ----------------
+func NewGame() *Game {
+	game := Game{}
+	game.resetGame()
+	return &game
 }
 
 // -------------------------------------------------------------------------------------------------
-func reviewPositions() bool {
+func (g *Game) reviewPositions() bool {
 	hasWon := true
-	tmp := strings.Split(answer, "")
+	tmp := strings.Split(g.answer, "")
 
 	for i := range 5 {
-		if grid[location-i] == tmp[4-i] {
-			check[location-i] = 1
-		} else if strings.Contains(answer, grid[location-i]) {
-			check[location-i] = 2
+		if g.grid[g.location-i] == tmp[4-i] {
+			g.check[g.location-i] = 1
+		} else if strings.Contains(g.answer, g.grid[g.location-i]) {
+			g.check[g.location-i] = 2
 			hasWon = false
 		} else {
-			check[location-i] = 3
+			g.check[g.location-i] = 3
 			hasWon = false
 		}
 	}
@@ -38,44 +51,55 @@ func reviewPositions() bool {
 }
 
 // -------------------------------------------------------------------------------------------------
+func (g *Game) resetGame() {
+	g.grid = [rows * columns]string{}
+	g.location = 0
+	g.answer = pickRandomWordFromDictionary()
+	g.check = [rows * columns]int{}
+	g.isWinner = false
+	g.isPlaying = true
+
+	println(g.answer)
+}
+
+// -------------------------------------------------------------------------------------------------
 func (g *Game) Update() error {
-	if !isWinner && isPlaying {
+	if !g.isWinner && g.isPlaying {
 		g.pressedKeys = inpututil.AppendJustPressedKeys(g.pressedKeys[:0])
 
-		edge = (location+1)%5 == 0
+		g.edge = (g.location+1)%5 == 0
 
-		if isPlaying && len(g.pressedKeys) > 0 {
+		if g.isPlaying && len(g.pressedKeys) > 0 {
 			pressedKeyString := g.pressedKeys[0].String()
 
-			if strings.Contains(alphabet, pressedKeyString) && pressedKeyString != "" && location >= 0 && location < (rows*columns) {
-				grid[location] = pressedKeyString
-				if !edge {
-					location += 1
+			if strings.Contains(alphabet, pressedKeyString) && pressedKeyString != "" && g.location >= 0 && g.location < (rows*columns) {
+				g.grid[g.location] = pressedKeyString
+				if !g.edge {
+					g.location += 1
 				}
 			}
 
-			if edge && pressedKeyString == "Enter" && location < (blockCount-1) && grid[location] != "" {
-				println("Letters:", grid[location-4], grid[location-3], grid[location-2], grid[location-1], grid[location])
-				isWinner = reviewPositions()
-				location += 1
-			} else if pressedKeyString == "Enter" && location == (blockCount-1) {
-				println("At", location, " all done!")
-				isWinner = reviewPositions()
-				location += 1
-				isPlaying = false
+			if g.edge && pressedKeyString == "Enter" && g.location < (blockCount-1) && g.grid[g.location] != "" {
+				g.isWinner = g.reviewPositions()
+				g.location += 1
+			} else if pressedKeyString == "Enter" && g.location == (blockCount-1) {
+				println("At", g.location, " all done!")
+				g.isWinner = g.reviewPositions()
+				g.location += 1
+				g.isPlaying = false
 			}
 		}
 	} else {
-		if isWinner {
-			isPlaying = false
+		if g.isWinner {
+			g.isPlaying = false
 		} else {
-			isPlaying = false
+			g.isPlaying = false
 		}
 		g.pressedKeys = inpututil.AppendJustPressedKeys(g.pressedKeys[:0])
 		if len(g.pressedKeys) > 0 {
 			pressedKeyString := g.pressedKeys[0].String()
 			if pressedKeyString == "Enter" {
-				setupNewGame()
+				g.resetGame()
 			}
 		}
 	}
@@ -90,7 +114,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	for x := 0; x < columns; x++ {
 		for y := 0; y < rows; y++ {
 			block := ebiten.NewImage(blockSize, blockSize)
-			switch check[x+(y*columns)] {
+			switch g.check[x+(y*columns)] {
 			case 1:
 				block.Fill(green)
 				fontColour = color.White
@@ -110,13 +134,13 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			screen.DrawImage(block, drawOptions)
 
 			// show active block
-			if isPlaying && x+(y*columns) == location {
+			if g.isPlaying && x+(y*columns) == g.location {
 				vector.StrokeRect(screen, float32(x*85+10), float32(y*85+10), float32(blockSize), float32(blockSize), 2.0, grey, true)
 			}
 
-			if grid[x+(y*columns)] != "" {
+			if g.grid[x+(y*columns)] != "" {
 				drawText(screen,
-					fmt.Sprintf("%s", strings.ToUpper(grid[x+(y*columns)])),
+					fmt.Sprintf("%s", strings.ToUpper(g.grid[x+(y*columns)])),
 					float64(x*85+32),
 					float64(y*85+15),
 					fontColour,
@@ -125,9 +149,9 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		}
 	}
 
-	if !isPlaying {
-		if isWinner {
-			tries := location / 5
+	if !g.isPlaying {
+		if g.isWinner {
+			tries := g.location / 5
 			var tryWord string
 			if tries > 1 {
 				tryWord = "tries"
@@ -158,24 +182,6 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 }
 
 // -------------------------------------------------------------------------------------------------
-func suppressRepeatingKey(key ebiten.Key) bool {
-	const (
-		delay    = 30
-		interval = 3
-	)
-
-	duration := inpututil.KeyPressDuration(key)
-	println("Duration is", duration)
-	if duration == 1 {
-		return true
-	}
-	if duration >= delay && (duration-delay&interval == 0) {
-		return true
-	}
-
-	return false
-}
-
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
