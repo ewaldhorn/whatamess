@@ -13,6 +13,7 @@ import (
 
 var (
 	fontSize         float64 = 48.0
+	messageFontSize  float64 = 24.0
 	mPlusNormalFont  *text.GoTextFaceSource
 	backgroundColour = color.White
 	lightGrey        = color.RGBA{194, 197, 198, 255}
@@ -38,6 +39,11 @@ func pickRandomWordFromDictionary() string {
 // -------------------------------------------------------------------------------------------------
 func setupNewGame() {
 	answer = pickRandomWordFromDictionary()
+	grid = [rows * columns]string{}
+	check = [rows * columns]int{}
+	location = 0
+	isWinner = false
+	isPlaying = true
 	println(answer)
 }
 

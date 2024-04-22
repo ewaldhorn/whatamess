@@ -67,11 +67,16 @@ func (g *Game) Update() error {
 		}
 	} else {
 		if isWinner {
-			println("WINNER!!")
 			isPlaying = false
 		} else {
-			println("NOPE!!")
 			isPlaying = false
+		}
+		g.pressedKeys = inpututil.AppendJustPressedKeys(g.pressedKeys[:0])
+		if len(g.pressedKeys) > 0 {
+			pressedKeyString := g.pressedKeys[0].String()
+			if pressedKeyString == "Enter" {
+				setupNewGame()
+			}
 		}
 	}
 	return nil
@@ -130,10 +135,11 @@ func (g *Game) Draw(screen *ebiten.Image) {
 				tryWord = "try"
 			}
 
-			drawText(screen, fmt.Sprintf("Done in %d %s!", tries, tryWord), float64(10), float64(520), color.Black, fontSize)
+			drawText(screen, fmt.Sprintf("Done in %d %s!", tries, tryWord), float64(10), float64(520), color.Black, messageFontSize)
 		} else {
-			drawText(screen, "Done. Try again!", float64(10), float64(520), color.Black, fontSize)
+			drawText(screen, "Oops. Try again?", float64(10), float64(520), color.Black, messageFontSize)
 		}
+		drawText(screen, "Press ENTER to play again.", float64(10), float64(550), color.Black, messageFontSize)
 	}
 }
 
