@@ -12,6 +12,9 @@ func main() {
 	checkArgCount()
 	left, right := getArgNumbers()
 	fmt.Printf("The sum of %d and %d is %d.\n", left, right, left+right)
+
+	altLeft, altRight := getArgNumbersAlt()
+	fmt.Printf("The sum of %d and %d is %d.\n", altLeft, altRight, altLeft+altRight)
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -42,4 +45,25 @@ func getArgNumbers() (int, int) {
 	}
 
 	return left, right
+}
+
+// ------------------------------------------------------------------------------------------------
+func getArgNumbersAlt() (int, int) {
+	var leftVal, rightVal = 0, 0
+
+	if left, err := strconv.Atoi(os.Args[1]); err != nil {
+		fmt.Printf("could not parse '%s' as an integer", os.Args[1])
+		os.Exit(2)
+	} else {
+		leftVal = left
+	}
+
+	if right, err := strconv.Atoi(os.Args[2]); err != nil {
+		fmt.Printf("could not parse '%s' as an integer", os.Args[2])
+		os.Exit(2)
+	} else {
+		rightVal = right
+	}
+
+	return leftVal, rightVal
 }
