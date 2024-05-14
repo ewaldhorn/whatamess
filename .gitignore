@@ -186,3 +186,4 @@ languages/go/aws/simple_lambda/.idea
 languages/go/aws/simple_lambda/.aws-sam/temp-template.yaml
 languages/go/aws/hello_sam/sam-app/.aws-sam
 languages/go/ebitengine/wordle/public_golang/wordleish.wasm
+languages/assemblyscript/fibonacci/fib.wasm
