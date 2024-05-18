@@ -1,6 +1,9 @@
 package main
 
+var game Game
+
 func main() {
 	loadDictionary()
-	reportDictionary()
+	game = NewGame()
+	game.printGameStatus()
 }

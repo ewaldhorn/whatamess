@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math/rand"
 	"os"
 )
 
@@ -31,4 +32,9 @@ func reportDictionary() {
 	for pos, entry := range dictionary {
 		fmt.Printf("%2d: %s\n", pos+1, entry)
 	}
+}
+
+// -------------------------------------------------------------------- getRandomWordFromDictionary
+func getRandomWordFromDictionary() string {
+	return dictionary[rand.Intn(len(dictionary))]
 }
