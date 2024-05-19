@@ -24,7 +24,9 @@ func NewGame() Game {
 // --------------------------------------------------------------------------- printRevealedLetters
 func (game Game) printRevealedLetters() {
 	for _, ch := range game.hiddenWord {
-		if game.guessedLetters[ch] == true {
+		if ch == ' ' {
+			fmt.Print("  ")
+		} else if game.guessedLetters[ch] == true {
 			fmt.Printf("%c ", ch)
 		} else {
 			fmt.Print("_ ")
