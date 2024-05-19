@@ -40,6 +40,7 @@ func (game Game) printGameStatus() {
 	fmt.Println(strings.Repeat("-_-_-_-_-_-_", 5))
 	fmt.Println()
 	if game.guesses > 0 {
+		fmt.Println(hangmanGraphics[game.guesses])
 		fmt.Println(game.guesses, " guesses used.")
 	}
 	fmt.Print("Target word: ")
