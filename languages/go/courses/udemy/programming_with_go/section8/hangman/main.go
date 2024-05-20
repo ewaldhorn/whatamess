@@ -9,4 +9,5 @@ func main() {
 
 	game = NewGame()
 	game.printGameStatus()
+	game.letUserGuess()
 }

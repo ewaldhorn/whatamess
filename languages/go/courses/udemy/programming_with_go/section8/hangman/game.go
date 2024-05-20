@@ -49,3 +49,19 @@ func (game Game) printGameStatus() {
 	game.printRevealedLetters()
 	fmt.Println()
 }
+
+// ----------------------------------------------------------------------------------- letUserGuess
+func (game Game) letUserGuess() {
+	fmt.Print("\nTake a guess: ")
+
+	var userGuess string
+	_, err := fmt.Scanln(&userGuess)
+
+	userGuess = strings.TrimSpace(userGuess) // remove spaces etc.
+
+	if err != nil || len(userGuess) != 1 {
+		fmt.Println("Please enter one letter from a..z.")
+	} else {
+		// ok we have a potential guess
+	}
+}
