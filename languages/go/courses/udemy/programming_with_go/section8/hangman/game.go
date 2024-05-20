@@ -42,7 +42,8 @@ func (game Game) printGameStatus() {
 
 	if game.guesses > 0 {
 		fmt.Println(hangmanGraphics[game.guesses])
-		fmt.Println(game.guesses, " guesses used.")
+		fmt.Println(game.guesses, "guesses used.")
+		fmt.Println()
 	}
 
 	fmt.Print("Target word: ")
@@ -51,17 +52,58 @@ func (game Game) printGameStatus() {
 }
 
 // ----------------------------------------------------------------------------------- letUserGuess
-func (game Game) letUserGuess() {
+func (game *Game) letUserGuess() bool {
 	fmt.Print("\nTake a guess: ")
 
 	var userGuess string
 	_, err := fmt.Scanln(&userGuess)
 
-	userGuess = strings.TrimSpace(userGuess) // remove spaces etc.
+	userGuess = strings.ToLower(strings.TrimSpace(userGuess)) // remove spaces, make lower case
 
-	if err != nil || len(userGuess) != 1 {
-		fmt.Println("Please enter one letter from a..z.")
+	if err != nil || len(userGuess) != 1 && userGuess != "quit" && userGuess[0] >= 'a' && userGuess[0] <= 'z' {
+		fmt.Println("Please enter one letter from a..z, or 'quit' to, well, quit!")
 	} else {
 		// ok we have a potential guess
+		if userGuess == "quit" {
+			return true
+		}
+
+		guess := userGuess[0]
+
+		if strings.Contains(game.hiddenWord, string(guess)) {
+			game.guessedLetters[rune(guess)] = true
+		} else {
+			game.guesses += 1
+		}
 	}
+
+	return false
+}
+
+// ----------------------------------------------------------------------------------- checkForAWin
+func (game Game) checkForAWin() bool {
+	hasWon := true
+
+	for _, ch := range game.hiddenWord {
+		if game.guessedLetters[ch] == false {
+			hasWon = false
+			break
+		}
+	}
+
+	if hasWon {
+		fmt.Println("\nYowsers! You made it in", game.guesses, "guesses!")
+	}
+
+	return hasWon
+}
+
+// ---------------------------------------------------------------------------------- checkForALoss
+func (game Game) checkForALoss() bool {
+	if game.guesses >= 9 {
+		game.printGameStatus()
+		fmt.Println("\nOh no, you didn't make it!")
+		return true
+	}
+	return false
 }

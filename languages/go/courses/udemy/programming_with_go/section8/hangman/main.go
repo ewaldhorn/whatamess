@@ -8,6 +8,13 @@ func main() {
 	loadHangmanGraphics()
 
 	game = NewGame()
-	game.printGameStatus()
-	game.letUserGuess()
+
+	isQuitting := false
+
+	for isQuitting == false {
+		game.printGameStatus()
+		isQuitting = game.letUserGuess()
+		isQuitting = isQuitting || game.checkForAWin()
+		isQuitting = isQuitting || game.checkForALoss()
+	}
 }
