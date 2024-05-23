@@ -188,3 +188,4 @@ languages/go/aws/hello_sam/sam-app/.aws-sam
 languages/go/ebitengine/wordle/public_golang/wordleish.wasm
 languages/assemblyscript/fibonacci/fib.wasm
 languages/go/courses/udemy/programming_with_go/section5/point_in_rect/.idea
+languages/go/fyne/bouncies/wasm
