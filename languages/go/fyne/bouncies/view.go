@@ -7,9 +7,9 @@ import (
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
-	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 	"github.com/StephaneBunel/bresenham"
+	"golang.org/x/image/colornames"
 )
 
 const iso = 1
@@ -30,7 +30,7 @@ func newMetaballsWidget(m *ensemble) *metaballsWidget {
 
 func (mw *metaballsWidget) animate() {
 	go func() {
-		for range time.Tick(time.Millisecond * 40) {
+		for range time.Tick(time.Millisecond * 80) {
 			mw.model.move()
 			mw.Refresh()
 		}
@@ -42,7 +42,7 @@ func (mw *metaballsWidget) CreateRenderer() fyne.WidgetRenderer {
 }
 
 func (mw *metaballsWidget) draw(w, h int) image.Image {
-	fgcolor := theme.ForegroundColor()
+	fgcolor := colornames.White
 	img := image.NewRGBA(image.Rect(0, 0, w, h))
 	size := float32(max(w, h))
 	g := int(math.Ceil(float64(size) / 128))

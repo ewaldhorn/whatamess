@@ -4,5 +4,5 @@ Website = "https://www.nofuss.co.za/"
   Icon = "Icon.png"
   Name = "Bouncies"
   ID = "za.co.nofuss.bouncies"
-  Version = "0.0.1"
-  Build = 5
+  Version = "0.0.2"
+  Build = 8
