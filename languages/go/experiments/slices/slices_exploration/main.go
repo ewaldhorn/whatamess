@@ -1,12 +1,42 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"reflect"
+	"unsafe"
+)
 
 func main() {
 	fmt.Println("Playing with slices")
 	watSlice()
 	makeSlices()
 	sliceSize()
+	sliceAndDice()
+	appendGotcha()
+	useAppendToRemoveElementsFromSlice()
+}
+
+func useAppendToRemoveElementsFromSlice() {
+	fmt.Println("\nUse append to remove elements from slices")
+	// yeah, you can "append" to remove elements from a slice
+	// s = s[x:] remove from the top
+	// s = s[:len(s)-x] remove from the bottom
+	// s = append(s[:x], s[len(s)-x:]...) remove from the middle
+	s1 := []int{1, 2, 3, 4, 5, 6}
+	fmt.Println("s1:", s1)
+
+	s1 = s1[2:] // remove first two elements
+	fmt.Println("s1: ", s1, "(removed first two elements)")
+
+	s1 = []int{1, 2, 3, 4, 5, 6}
+	fmt.Println("\ns1:", s1, "(reset to original)")
+	s1 = s1[:len(s1)-2] // remove last two elements
+	fmt.Println("s1: ", s1, "(removed last two elements)")
+
+	s1 = []int{1, 2, 3, 4, 5, 6}
+	fmt.Println("\ns1:", s1, "(reset to original)")
+	s1 = append(s1[:2], s1[len(s1)-2:]...) // remove middle two elements
+	fmt.Println("s1: ", s1, "(removed middle two elements)")
 }
 
 func watSlice() {
@@ -46,13 +76,26 @@ func makeSlices() {
 }
 
 func sliceAndDice() {
+	fmt.Println()
 	// s := a[start:end] includes start, excludes end, indexing starts at 0
 	a := [...]int{1, 2, 3} // array [3]int {1,2,3}
 	s1 := a[:2]            // slice []int{1,2} (from 0..1)
-	s2 := a[1:]            // slice []int{2,3} (from 1..end)
-	s3 := a[1:2]           // slice []int{2} (from 1..1)
+	s2 := a[1:]            // slice []int{2,3} (from 1..end)  will have same start as s3
+	s3 := a[1:2]           // slice []int{2} (from 1..1) will have same start as s2
 
-	fmt.Println(s1, s2, s3)
+	fmt.Print("s1:")
+	printSliceStructInformation(s1)
+
+	fmt.Print("s2:")
+	printSliceStructInformation(s2)
+
+	fmt.Print("s3:")
+	printSliceStructInformation(s3)
+}
+
+func printSliceStructInformation[S ~[]E, E any](s S) {
+	sh := (*reflect.SliceHeader)(unsafe.Pointer(&s))
+	fmt.Printf("%#v\n", sh)
 }
 
 func sliceSize() {
@@ -89,5 +132,21 @@ func sliceSize() {
 	fmt.Printf("s1 len: %d, cap: %d\n", len(s1), cap(s1))
 	fmt.Println("s1:", s1)
 
-	fmt.Println("Seems like array size doubles...")
+	fmt.Println("Seems like small array size doubles...")
+}
+
+func appendGotcha() {
+	fmt.Println("\nSlice appending gotcha")
+	s1 := []int{1, 2, 3}
+	tail := s1[1:]
+	fmt.Println("s1  :", s1)
+	fmt.Println("tail:", tail)
+
+	fmt.Println("Appending to tail")
+
+	tail = append(tail, 4, 5, 6)
+
+	fmt.Println("s1  :", s1)
+	fmt.Println("tail:", tail)
+
 }
