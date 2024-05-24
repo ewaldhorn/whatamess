@@ -14,6 +14,32 @@ func main() {
 	sliceAndDice()
 	appendGotcha()
 	useAppendToRemoveElementsFromSlice()
+	testRemoveFromSlice()
+}
+
+// safely(ish) remove an element at index from a slice
+func removeFromSlice(index int, s []int) []int {
+	local := append(make([]int, 0, len(s)), s...)
+	return append(local[:index], local[index+1:]...)
+}
+
+func testRemoveFromSlice() {
+	fmt.Println("\nTest removing from slice, do not affect original")
+	s1 := []int{1, 2, 3, 4, 5, 6, 7, 8}
+	fmt.Println("s1:", s1)
+	fmt.Println("Removing element #4 (5)")
+	s2 := removeFromSlice(4, s1)
+
+	fmt.Println("s1:", s1)
+	fmt.Println("s2:", s2)
+
+	fmt.Println("\nTest removing from slice, affect original")
+	s1 = []int{1, 2, 3, 4, 5, 6, 7, 8}
+	fmt.Println("s1:", s1)
+	fmt.Println("Removing element #4 (5)")
+	s1 = removeFromSlice(4, s1)
+
+	fmt.Println("s1:", s1)
 }
 
 func useAppendToRemoveElementsFromSlice() {
