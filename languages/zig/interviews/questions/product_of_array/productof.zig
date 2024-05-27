@@ -37,6 +37,7 @@ test "basic array" {
 
     const result = try productOfArrayExceptSelf(allocator, &my_array);
     defer allocator.free(result); // remember to free the owned slice eventually
+    // std.debug.print("\narray:{any}\n", .{result});
 
     try expect(result.len == 4);
     try expect(result[0] == 24);
@@ -46,13 +47,26 @@ test "basic array" {
 }
 
 // ------------------------------------------------------------------------------------------------
+test "basic array, simplified testing" {
+    const expected = [_]i32{ 24, 12, 8, 6 };
+
+    const result = try productOfArrayExceptSelf(allocator, &[_]i32{ 1, 2, 3, 4 });
+    defer allocator.free(result); // remember to free the owned slice eventually
+
+    try expect(result.len == expected.len);
+
+    for (0.., expected) |pos, _| {
+        try expect(result[pos] == expected[pos]);
+    }
+}
+
+// ------------------------------------------------------------------------------------------------
 test "inverse of basic array" {
     const my_array = [_]i32{ 4, 3, 2, 1 };
     const expected = [_]i32{ 6, 8, 12, 24 };
 
     const result = try productOfArrayExceptSelf(allocator, &my_array);
     defer allocator.free(result); // remember to free the owned slice eventually
-    std.debug.print("\narray:{any}\n", .{result});
 
     try expect(result.len == expected.len);
 
