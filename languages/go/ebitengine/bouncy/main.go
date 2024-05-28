@@ -4,7 +4,6 @@ import (
 	"image/color"
 	"log"
 	"math/rand"
-	"time"
 
 	"github.com/hajimehoshi/ebiten/v2"
 )
@@ -12,7 +11,7 @@ import (
 const (
 	screenWidth  = 800
 	screenHeight = 600
-	count        = 2000
+	count        = 20
 )
 
 type Entity struct {
@@ -40,6 +39,7 @@ func (s *Entity) Update() {
 	} else {
 		s.xPos -= 1
 	}
+
 	if s.yDir {
 		s.yPos += 1
 	} else {
@@ -106,7 +106,6 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 }
 
 func main() {
-	rand.Seed(time.Now().UnixNano())
 	ebiten.SetWindowSize(screenWidth, screenHeight)
 	ebiten.SetWindowTitle("Bouncy (Ebitengine Experiment)")
 	if err := ebiten.RunGame(NewGame()); err != nil {
