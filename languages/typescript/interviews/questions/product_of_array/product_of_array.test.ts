@@ -1,6 +1,11 @@
 import { expect, test, describe } from "bun:test";
-import { productExceptSelfBasic, productExceptSelfImproved, productExceptSelfMapped } from "./product_of_array";
+import {
+  productExceptSelfBasic,
+  productExceptSelfImproved,
+  productExceptSelfMapped,
+} from "./product_of_array";
 
+//-------------------------------------------------------------------------------------------------
 describe("product of array", () => {
   test("[1,2,3,4]", () => {
     let expected = [24, 12, 8, 6];
@@ -14,6 +19,7 @@ describe("product of array", () => {
   });
 });
 
+//-------------------------------------------------------------------------------------------------
 describe("product of array improved", () => {
   test("[1,2,3,4]", () => {
     let expected = [24, 12, 8, 6];
@@ -27,6 +33,7 @@ describe("product of array improved", () => {
   });
 });
 
+//-------------------------------------------------------------------------------------------------
 describe("product of array using map", () => {
   test("[1,2,3,4]", () => {
     let expected = [24, 12, 8, 6];

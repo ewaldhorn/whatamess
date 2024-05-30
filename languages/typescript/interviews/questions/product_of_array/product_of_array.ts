@@ -1,3 +1,4 @@
+// ------------------------------------------------------------------------- productExceptSelfBasic
 export function productExceptSelfBasic(numbers: number[]): number[] {
   const count = numbers.length;
   const result: number[] = new Array();
@@ -22,6 +23,7 @@ export function productExceptSelfBasic(numbers: number[]): number[] {
   return result;
 }
 
+// ---------------------------------------------------------------------- productExceptSelfImproved
 export function productExceptSelfImproved(numbers: number[]): number[] {
   const count = numbers.length;
   const result = new Array<number>(count);
@@ -48,8 +50,17 @@ export function productExceptSelfImproved(numbers: number[]): number[] {
   return result;
 }
 
+// ------------------------------------------------------------------------ productExceptSelfMapped
 export function productExceptSelfMapped(numbers: number[]): number[] {
-  return numbers.map(
-    (_, i) => numbers.reduce((pre, val, j) => pre * (i === j ? 1 : val), 1)).map(
-      (v) => { if (v == -0) { return 0 } else { return v } });
+  return numbers
+    .map((_, i) =>
+      numbers.reduce((pre, val, j) => pre * (i === j ? 1 : val), 1),
+    )
+    .map((v) => {
+      if (v == -0) {
+        return 0;
+      } else {
+        return v;
+      }
+    });
 }
