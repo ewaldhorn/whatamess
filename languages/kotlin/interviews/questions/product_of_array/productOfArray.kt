@@ -9,8 +9,12 @@ fun main() {
     expected = arrayOf(0, 0, 9, 0, 0)
     result = productExceptSelfBasic(input)
     println("Content matched: ${expected.contentEquals(result)}")
+
+    result = productExceptSelfBetter(input)
+    println("Content matched: ${expected.contentEquals(result)}")
 }
 
+// ------------------------------------------------------------------------- productExceptSelfBasic
 fun productExceptSelfBasic(numbers: Array<Int>): Array<Int> {
     val result = IntArray(numbers.size)
 
@@ -24,6 +28,25 @@ fun productExceptSelfBasic(numbers: Array<Int>): Array<Int> {
         }
 
         result[outer] = tmp
+    }
+
+    return result.toTypedArray()
+}
+
+// ------------------------------------------------------------------------ productExceptSelfBetter
+fun productExceptSelfBetter(numbers: Array<Int>): Array<Int> {
+    val result = IntArray(numbers.size) { 1 }
+
+    var tmp = 1
+    for (left in 0..numbers.size - 1) {
+        result[left] = tmp
+        tmp *= numbers[left]
+    }
+
+    tmp = 1
+    for (right in (numbers.size - 1) downTo 0) {
+        result[right] *= tmp
+        tmp *= numbers[right]
     }
 
     return result.toTypedArray()
