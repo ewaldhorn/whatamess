@@ -1,0 +1,24 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  GREETING: Hello, World!
+
+tasks:
+  default:
+    desc: Lists all available tasks.
+    cmds:
+      - task --list-all
+    silent: true
+  build:
+    desc: Builds the project.
+    cmds:
+      - kotlinc productOfArray.kt -include-runtime -d productOfArray.jar
+    silent: true
+  run:
+    desc: Builds and runs the project.
+    cmds:
+      - task build
+      - java -jar productOfArray.jar
+    silent: true
