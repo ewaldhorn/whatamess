@@ -1,5 +1,10 @@
 package main
 
+import (
+	"fmt"
+	"strings"
+)
+
 // first create a new type so that we can pass a function effect to the Map fuction
 type mappingFunction[E any] func(E) E
 
@@ -14,4 +19,10 @@ func Map[E any](collection []E, apply mappingFunction[E]) []E {
 
 	// return modified collection
 	return result
+}
+
+// ------------------------------------------------------------------------------------------- main
+func main() {
+	s := []string{"C", "a", "n", " ", "y", "o", "u", " ", "s", "e", "e", "?"}
+	fmt.Println(Map(s, strings.ToUpper))
 }
