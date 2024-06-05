@@ -66,3 +66,23 @@ func Test_filtering_all_a_s(t *testing.T) {
 		}
 	}
 }
+
+// ---------------------------------------------------------------------------- Test_generic_filter
+func Test_generic_filter(t *testing.T) {
+
+	tests := []struct {
+		name     string
+		input    []int16
+		expected []int16
+	}{
+		{name: "simple", input: []int16{1, 2, 3, 4, 5, 6}, expected: []int16{2, 4, 6}},
+		{name: "easy", input: []int16{2, 2, 3, 4, 5, 6}, expected: []int16{2, 2, 4, 6}},
+	}
+
+	for nr, test := range tests {
+		result := Filter(test.input, isEven)
+		if !slices.Equal(result, test.expected) {
+			t.Fatalf("test %d failed with %v instead of %v\n", nr, result, test.expected)
+		}
+	}
+}
