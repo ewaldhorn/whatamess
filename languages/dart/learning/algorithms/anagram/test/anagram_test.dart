@@ -3,6 +3,10 @@ import 'package:test/test.dart';
 
 void main() {
   group("anagrams", () {
+    test("empty strings : true", () {
+      expect(isAnagram("", ""), true);
+    });
+
     test("one,two : false", () {
       expect(isAnagram("one", "two"), false);
     });
@@ -13,6 +17,10 @@ void main() {
 
     test("two,wot : true", () {
       expect(isAnagram("two", "wot"), true);
+    });
+
+    test("potato,peel : false", () {
+      expect(isAnagram("potato", "peel"), false);
     });
 
     test("loop, pool : true", () {
