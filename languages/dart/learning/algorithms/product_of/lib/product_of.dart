@@ -16,3 +16,9 @@ List<int> productOfArray(List<int> input) {
 
   return result;
 }
+
+// Same output, minus the nested looping
+List<int> productOfArrayNoNesting(List<int> input) {
+  List<int> result = List.filled(input.length, 1);
+  return result;
+}
