@@ -26,5 +26,18 @@ void main() {
     test("loop, pool : true", () {
       expect(isAnagram("loop", "pool"), true);
     });
+
+    test("solo, solos : false", () {
+      expect(isAnagram("solo", "solos"), false);
+    });
+    test("racecar, fastcar : false", () {
+      expect(isAnagram("racecar", "fastcar"), false);
+    });
+    test("petrol, patrol : false", () {
+      expect(isAnagram("petrol", "patrol"), false);
+    });
+    test("spud,puds : true", () {
+      expect(isAnagram("spud", "puds"), true);
+    });
   });
 }
