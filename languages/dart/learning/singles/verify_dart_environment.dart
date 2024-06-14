@@ -26,3 +26,29 @@ int fibonacci(int n) {
   if (n == 0 || n == 1) return n;
   return fibonacci(n - 1) + fibonacci(n - 2);
 }
+
+// ----------------------------------------------------------- class FlightData
+const DefaultReserve = 3;
+const DefaultSeatingCapacity = 25;
+
+class FlightData {
+  String description;
+  DateTime? departureTime;
+  int seatingCapacity;
+  int reserveCapacity;
+
+  int get passengerCapacity => seatingCapacity - reserveCapacity;
+
+  // ------------------------------------------------------------- constructors
+  FlightData(this.description, this.departureTime, this.seatingCapacity,
+      this.reserveCapacity);
+
+  FlightData.withDefaultReserve(description, departureTime, seatingCapacity)
+      : this(description, departureTime, seatingCapacity, DefaultReserve);
+
+  FlightData.withDefaults(description, departuretime)
+      : this(
+            description, departuretime, DefaultSeatingCapacity, DefaultReserve);
+
+  // ------------------------------------------------------------------ methods
+}
