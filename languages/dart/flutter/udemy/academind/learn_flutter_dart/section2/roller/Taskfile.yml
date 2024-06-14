@@ -7,7 +7,7 @@ vars:
 
 tasks:
   default:
-    desc: "Lists available tasks"
+    desc: Lists available tasks
     cmds:
       - echo
       - echo "==============================="
@@ -17,4 +17,8 @@ tasks:
       - task --list-all
       - echo
     silent: true
-
+  run:
+    desc: Runs the web app
+    cmds:
+      - flutter run -d chrome
+    silent: true
