@@ -6,11 +6,15 @@
 // ----------------------------------------------------------------------- main
 void main() {
   print('Hello, Dart!');
+  print('');
 
   var someItems = ['Item 1', 'Another item', 'The last item'];
   listItems(someItems);
 
+  print('');
   print('The 9th Fibonacci number is: ${fibonacci(9)}');
+
+  flightDataFun();
 }
 
 // ------------------------------------------------------------------ listItems
@@ -27,10 +31,19 @@ int fibonacci(int n) {
   return fibonacci(n - 1) + fibonacci(n - 2);
 }
 
-// ----------------------------------------------------------- class FlightData
+// -------------------------------------------------------------- flightDataFun
+void flightDataFun() {
+  print('');
+
+  var tmp = FlightData.withDefaults("A new flight", DateTime.now());
+  tmp.report();
+}
+
+// ------------------------------------------------------------------ constants
 const DefaultReserve = 3;
 const DefaultSeatingCapacity = 25;
 
+// ----------------------------------------------------------- class FlightData
 class FlightData {
   String description;
   DateTime? departureTime;
@@ -51,4 +64,10 @@ class FlightData {
             description, departuretime, DefaultSeatingCapacity, DefaultReserve);
 
   // ------------------------------------------------------------------ methods
+  void report() {
+    print('Flight "$description" has room for $passengerCapacity passengers.');
+    if (departureTime != null) {
+      print('It leaves at $departureTime');
+    }
+  }
 }
