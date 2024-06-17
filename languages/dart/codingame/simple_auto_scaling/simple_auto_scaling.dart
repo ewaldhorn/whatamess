@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 
 String readLineSync() {
   String? s = stdin.readLineSync();
@@ -12,25 +11,37 @@ void main() {
     int S = int.parse(inputs[0]); // number of services
     int M = int.parse(inputs[1]); // number of lines to parse after this next one
 
-    var services = new List<int>.filled(5, 0);
+    var services = new List<int>.filled(S, 0);
+    var current = new List<int>.filled(S, 0);
+
     inputs = readLineSync().split(' '); // max capacity per service
 
     for (int i = 0; i < S; i++) {
         services[i] = int.parse(inputs[i]);
     }
-    
+
+    stderr.write("${services}\n");
+
     for (int i = 0; i < M; i++) {
         inputs = readLineSync().split(' ');
         for (int j = 0; j < S; j++) {
-            
             int clients = int.parse(inputs[j]);
+            var requiredServices = (clients / services[j].toDouble()).ceil();
+
+            if (current[j] > requiredServices) {
+              stdout.write('${requiredServices-current[j]}');
+              current[j] -= current[j]-requiredServices;
+            } else if (current[j] < requiredServices) {
+              stdout.write('${requiredServices-current[j]}');
+              current[j] += requiredServices - current[j];
+            } else {
+              stdout.write('0');
+            }
+
+            if (j < S-1) {
+              stdout.write(' ');
+            }
         }
-    }
-    for (int i = 0; i < M; i++) {
-
-        // Write an answer using print()
-        // To debug: stderr.writeln('Debug messages...');
-
-        print('Number of services to start / stop');
+        print('');
     }
 }
