@@ -1,0 +1,29 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  GREETING: "| Patterns and Records CodeLab |"
+
+tasks:
+  default:
+    desc: Lists available tasks
+    cmds:
+      - echo
+      - echo "================================"
+      - echo "{{.GREETING}}"
+      - echo "================================"
+      - echo 
+      - task --list-all
+      - echo
+    silent: true
+  run:
+    desc: Runs the web app
+    cmds:
+      - flutter run -d chrome
+    silent: true
+  runmac:
+    desc: Runs the Mac desktop app
+    cmds:
+      - flutter run -d macos
+    silent: true
