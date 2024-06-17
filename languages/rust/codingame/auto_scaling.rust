@@ -1,0 +1,62 @@
+use std::io;
+
+macro_rules! parse_input {
+    ($x:expr, $t:ident) => ($x.trim().parse::<$t>().unwrap())
+}
+
+fn main() {
+    let mut input_line = String::new();
+    io::stdin().read_line(&mut input_line).unwrap();
+    let inputs = input_line.split(" ").collect::<Vec<_>>();
+    let s = parse_input!(inputs[0], usize);
+    let m = parse_input!(inputs[1], i32);
+    
+    let mut inputs = String::new();
+    io::stdin().read_line(&mut inputs).unwrap();
+    let mut max_clients : Vec<i32> = Vec::new();
+    let mut current : Vec<i32> = Vec::new();
+    let mut instances : Vec<Vec<i32>> = Vec::new();
+
+    for i in inputs.split_whitespace() {
+        let maxclients = parse_input!(i, i32);
+        max_clients.push(maxclients);
+        current.push(0);
+        instances.push(vec![0; s]);
+    }
+   
+    for i in 0..m as usize {
+        let mut inputs = String::new();
+        io::stdin().read_line(&mut inputs).unwrap();
+        
+        let mut vpos :usize = 0;
+        
+        instances.push(vec![0; s]);
+        for j in inputs.split_whitespace() {
+            let clients = parse_input!(j, i32);
+            if clients > (max_clients[vpos] * current[vpos]) {
+                let diff = ((clients as f32 - (max_clients[vpos] as f32 * current[vpos] as f32)) / max_clients[vpos] as f32).ceil();
+                
+                instances[i][vpos] = diff as i32;
+                current[vpos] += diff as i32;
+            } else if clients < (max_clients[vpos] * current[vpos]) {
+                let diff = (((max_clients[vpos] as f32 * current[vpos] as f32) - clients as f32) / max_clients[vpos] as f32).floor();
+                instances[i][vpos] = -1 * (diff as i32);
+                current[vpos] -= diff as i32;
+
+                if clients > 0 && current[vpos] <= 0 {
+                    current[vpos] = 1;
+                    instances[i][vpos] += 1;
+                }
+            } else {
+                instances[i][vpos] = 0;
+            }
+            vpos += 1;
+        }
+    }
+
+    for i in 0..m as usize {
+        let a = instances[i].iter().fold(String::new(), |acc, &arg| acc + &arg.to_string() + " ");
+        println!("{}", a.trim());
+    }
+}
+
