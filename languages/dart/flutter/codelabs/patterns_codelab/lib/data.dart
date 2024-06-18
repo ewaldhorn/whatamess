@@ -5,11 +5,39 @@ class Document {
   Document() : _json = jsonDecode(documentJson);
 
   // getter that returns a record
+  // use pattern matching to find values
   (String, {DateTime modified}) get metadata {
-    const title = 'My Document';
-    final now = DateTime.now();
+    if (_json
+        case {
+          'metadata': {'title': String title, 'modified': String localModified}
+        }) {
+      return (title, modified: DateTime.parse(localModified));
+    } else {
+      throw const FormatException('Unexpected JSON');
+    }
+  }
 
-    return (title, modified: now);
+  List<Block> getBlocks() {
+    if (_json case {'blocks': List blocksJson}) {
+      return [for (final blockJson in blocksJson) Block.fromJson(blockJson)];
+    } else {
+      throw const FormatException('Unexpected JSON format');
+    }
+  }
+}
+
+// matches on type and text, doesn't care about checked
+class Block {
+  final String type;
+  final String text;
+  Block(this.type, this.text);
+
+  factory Block.fromJson(Map<String, dynamic> json) {
+    if (json case {'type': final type, 'text': final text}) {
+      return Block(type, text);
+    } else {
+      throw const FormatException('Unexpected JSON format');
+    }
   }
 }
 
