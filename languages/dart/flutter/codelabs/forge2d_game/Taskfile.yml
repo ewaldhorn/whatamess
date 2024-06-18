@@ -22,8 +22,8 @@ tasks:
     cmds:
       - flutter run -d chrome
     silent: true
-  runmac:
-    desc: Runs the Mac desktop app
+  runandroid:
+    desc: Runs the Android app
     cmds:
-      - flutter run -d macos
+      - flutter run -d android
     silent: true
