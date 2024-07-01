@@ -14,13 +14,8 @@ void main() {
 
 List createList(int howMany) {
   var rnd = Random();
-  List numbers = List.empty(growable: true);
 
-  for (var i = 0; i < howMany; i++) {
-    numbers.add(rnd.nextInt(250));
-  }
-
-  return numbers;
+  return List.generate(howMany, (_) => rnd.nextInt(250));
 }
 
 void displayList(String description, List numbers) {
