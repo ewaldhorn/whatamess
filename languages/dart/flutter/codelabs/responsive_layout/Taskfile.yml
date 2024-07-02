@@ -1,0 +1,39 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  FOLDER: responsive_layout
+
+tasks:
+  default:
+    desc: Lists available tasks
+    cmds:
+      - task --list-all
+    silent: true
+  run:
+    desc: Runs the MacOS desktop app
+    cmds:
+      - flutter run -d macos
+      # - flutter run -d chrome --web-renderer canvaskit
+    silent: true
+  runweb:
+    cmds:
+      - flutter run -d chrome
+      # - flutter run -d chrome --web-renderer canvaskit
+    silent: true
+  buildforweb:
+    cmds:
+      - flutter build web --release --wasm --base-href "/toys/{{.FOLDER}}/"
+      # - flutter build web --release --web-renderer canvaskit
+    silent: true
+  buildforandroid:
+    desc: Builds an Android APK in release mode
+    cmds:
+      - flutter build apk --split-debug-info="./debuginfo/"
+    silent: true
+  buildappbundle:
+    desc: Builds an Android App Bundle
+    cmds:
+      - flutter build appbundle 
+    silent: true
