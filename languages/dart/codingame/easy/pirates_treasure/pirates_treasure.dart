@@ -46,7 +46,7 @@ void main() {
             // check if we are on an edge or not
             if (x == 0 || x == W - 1 || y == 0 || y == H - 1) {
               x = xPos;
-              y - yPos;
+              y = yPos;
               found = true;
             }
           }
