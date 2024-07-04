@@ -11,6 +11,11 @@ tasks:
     cmds:
       - task --list-all
     silent: true
+  generators:
+    desc: Run the code generators for RiverPod etc.
+    cmds:
+      - dart run build_runner watch -d
+    silent: true
   run:
     desc: Runs the MacOS desktop app
     cmds:
