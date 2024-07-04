@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:generate_crossword/widgets/crossword_widget.dart';
 
 import '../providers/word_list_provider.dart';
 
@@ -11,6 +12,7 @@ class CrosswordGeneratorApp extends StatelessWidget {
     return _EagerInitialization(
       child: Scaffold(
         appBar: AppBar(
+          actions: [_CrosswordGeneratorMenu()],
           titleTextStyle: TextStyle(
             color: Theme.of(context).colorScheme.primary,
             fontSize: 16,
@@ -18,29 +20,7 @@ class CrosswordGeneratorApp extends StatelessWidget {
           ),
           title: const Text('Crossword Generator'),
         ),
-        body: SafeArea(
-          child: Consumer(
-            builder: (context, ref, _) {
-              final wordListAsync = ref.watch(wordListProvider);
-              return wordListAsync.when(
-                data: (wordList) => ListView.builder(
-                  itemCount: wordList.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(wordList.elementAt(index)),
-                    );
-                  },
-                ),
-                error: (error, stackTrace) => Center(
-                  child: Text('$error'),
-                ),
-                loading: () => const Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            },
-          ),
-        ),
+        body: const SafeArea(child: CrosswordWidget()),
       ),
     );
   }
@@ -55,4 +35,24 @@ class _EagerInitialization extends ConsumerWidget {
     ref.watch(wordListProvider);
     return child;
   }
+}
+
+class _CrosswordGeneratorMenu extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) => MenuAnchor(
+        menuChildren: [
+          for (final entry in CrosswordSize.values)
+            MenuItemButton(
+              onPressed: () => ref.read(sizeProvider.notifier).setSize(entry),
+              leadingIcon: entry == ref.watch(sizeProvider)
+                  ? const Icon(Icons.radio_button_checked_outlined)
+                  : const Icon(Icons.radio_button_unchecked_outlined),
+              child: Text(entry.label),
+            ),
+        ],
+        builder: (context, controller, child) => IconButton(
+          onPressed: () => controller.open(),
+          icon: const Icon(Icons.settings),
+        ),
+      );
 }
