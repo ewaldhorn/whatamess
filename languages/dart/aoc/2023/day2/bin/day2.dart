@@ -1,10 +1,6 @@
 // ----------------------------------------------------------------------- main
 import 'dart:io';
 
-const maxRed = 12;
-const maxGreen = 13;
-const maxBlue = 14;
-
 void main(List<String> arguments) async {
   if (arguments.isEmpty) {
     print('Please specify an input file.');
@@ -30,43 +26,42 @@ Future<int> parseFile(String filename) async {
 // ------------------------------------------------------------------ parseLine
 int parseLine(String line) {
   int colonIndex = line.indexOf(':');
-  String gamePart = line.substring(0, colonIndex);
-  String gameNumber = gamePart.substring(gamePart.indexOf(' ') + 1);
   List<String> resultsPart = line.substring(colonIndex + 2).split(';');
 
-  // print('Game Part: [$gamePart] [$gameNumber] - Results: [$resultsPart]');
-
-  for (final result in resultsPart) {
-    if (!isPossibleResult(result)) {
-      return 0;
-    }
-  }
-
-  return int.parse(gameNumber);
+  return calculateLeastNumbersNeeded(resultsPart);
 }
 
-// ----------------------------------------------------------- isPossibleResult
-bool isPossibleResult(String result) {
-  List<String> parts = result.trim().split(',');
+// ------------------------------------------------ calculateLeastNumbersNeeded
+int calculateLeastNumbersNeeded(List<String> results) {
+  int maxRed = 0;
+  int maxGreen = 0;
+  int maxBlue = 0;
 
-  for (final part in parts) {
-    List<String> detail = part.trim().split(' ');
+  for (final result in results) {
+    List<String> parts = result.trim().split(',');
 
-    switch (detail[1]) {
-      case 'red':
-        if (int.parse(detail[0]) > maxRed) {
-          return false;
-        }
-      case 'green':
-        if (int.parse(detail[0]) > maxGreen) {
-          return false;
-        }
-      case 'blue':
-        if (int.parse(detail[0]) > maxBlue) {
-          return false;
-        }
+    for (final part in parts) {
+      List<String> detail = part.trim().split(' ');
+
+      switch (detail[1]) {
+        case 'red':
+          int tmpRed = int.parse(detail[0]);
+          if (tmpRed > maxRed) {
+            maxRed = tmpRed;
+          }
+        case 'green':
+          int tmpGreen = int.parse(detail[0]);
+          if (tmpGreen > maxGreen) {
+            maxGreen = tmpGreen;
+          }
+        case 'blue':
+          int tmpBlue = int.parse(detail[0]);
+          if (tmpBlue > maxBlue) {
+            maxBlue = tmpBlue;
+          }
+      }
     }
   }
 
-  return true;
+  return maxRed * maxGreen * maxBlue;
 }
