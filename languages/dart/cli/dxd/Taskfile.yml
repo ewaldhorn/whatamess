@@ -1,0 +1,18 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  FILENAME: README.md
+
+tasks:
+  default:
+    desc: Lists available commands
+    cmds:
+      - task --list-all
+    silent: true
+  run:
+    desc: Runs dxd against README.md
+    cmds:
+      - dart run dxd {{.FILENAME}}
+    silent: true
