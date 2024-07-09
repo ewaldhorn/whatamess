@@ -16,3 +16,8 @@ tasks:
     cmds:
       - dart run dxd {{.FILENAME}}
     silent: true
+  build:
+    desc: Builds a platform-native binary
+    cmds:
+      - dart compile exe bin/dxd.dart
+    silent: true

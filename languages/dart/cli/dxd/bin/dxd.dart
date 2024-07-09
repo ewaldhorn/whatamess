@@ -5,6 +5,7 @@ import 'package:dxd/help.dart';
 
 const hex = 16;
 
+// ----------------------------------------------------------------------- main
 void main(List<String> arguments) async {
   var path = getFileName(arguments);
 
@@ -15,6 +16,7 @@ void main(List<String> arguments) async {
   }
 }
 
+// --------------------------------------------------------- readAndDisplayFile
 void readAndDisplayFile(String path) async {
   var file = File(path);
   var counter = 0;
