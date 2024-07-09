@@ -20,30 +20,39 @@ void readAndDisplayFile(String path) async {
   var counter = 0;
 
   final content = await file.readAsBytes();
-  stdout.write("${0.toRadixString(hex).padLeft(8, '0')}: ");
 
-  var tmp = "";
+  StringBuffer countBuffer =
+      StringBuffer("${0.toRadixString(hex).padLeft(8, '0')}: ");
+  StringBuffer hexCodeBuffer = StringBuffer();
+  StringBuffer charBuffer = StringBuffer();
 
   for (var ch in content) {
-    stdout.write(ch.toRadixString(hex).padLeft(2, '0').toUpperCase());
+    hexCodeBuffer.write(ch.toRadixString(hex).padLeft(2, '0').toUpperCase());
     counter += 1;
 
-    // TODO: Refine to account for last line as well
     if (ch >= '!'.codeUnitAt(0) && ch <= '~'.codeUnitAt(0)) {
-      tmp += String.fromCharCode(ch);
+      charBuffer.writeCharCode(ch);
     } else {
-      tmp += '.';
+      charBuffer.write('.');
     }
 
     if (counter % 2 == 0) {
-      stdout.write(' ');
+      hexCodeBuffer.write(' ');
     }
 
     if (counter % 16 == 0) {
-      stdout.write('  $tmp');
-      stdout.write(
-          '\n${counter.toRadixString(hex).padLeft(8, "0").toUpperCase()}: ');
-      tmp = "";
+      stdout.writeln(
+          '$countBuffer ${hexCodeBuffer.toString().padRight(40, " ")}  $charBuffer');
+      countBuffer.clear();
+      countBuffer.write(
+          '${counter.toRadixString(hex).padLeft(8, "0").toUpperCase()}: ');
+      hexCodeBuffer.clear();
+      charBuffer.clear();
     }
+  }
+
+  if (hexCodeBuffer.isNotEmpty) {
+    stdout.writeln(
+        '$countBuffer ${hexCodeBuffer.toString().padRight(40, " ")}  $charBuffer');
   }
 }
