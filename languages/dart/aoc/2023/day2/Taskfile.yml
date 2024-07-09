@@ -1,0 +1,23 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  TEST_FILE: test_data.txt
+  DATA_FILE: data.txt
+
+tasks:
+  default:
+    desc: Lists available tasks
+    cmds:
+      - task --list-all
+    silent: true
+  run:
+    desc: Runs the code against the problem input
+    cmds:
+      - dart run day2 {{.DATA_FILE}}
+    silent: true
+  test:
+    desc: Runs the code against a test data file
+    cmds:
+      - dart run day2 {{.TEST_FILE}}
