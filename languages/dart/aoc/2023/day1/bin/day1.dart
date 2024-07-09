@@ -25,23 +25,23 @@ Future<int> parseFile(String filename) async {
 
 // ------------------------------------------------------------------ parseLine
 int parseLine(String line) {
-  int left = -1, right = -1;
+  String? left, right;
 
   int len = line.length - 1;
   int zeroChar = '0'.codeUnitAt(0);
   int nineChar = '9'.codeUnitAt(0);
 
   for (var i = 0; i < line.length; i++) {
-    if (left < 0 &&
+    if (left == null &&
         line[i].codeUnitAt(0) >= zeroChar &&
         line[i].codeUnitAt(0) <= nineChar) {
-      left = int.parse(line[i]);
+      left = line[i];
     }
 
-    if (right < 0 &&
+    if (right == null &&
         line[len - i].codeUnitAt(0) >= zeroChar &&
         line[len - i].codeUnitAt(0) <= nineChar) {
-      right = int.parse(line[len - i]);
+      right = line[len - i];
     }
   }
 
