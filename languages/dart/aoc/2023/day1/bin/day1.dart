@@ -16,9 +16,7 @@ Future<int> parseFile(String filename) async {
 
   await File(filename).readAsLines().then((lines) {
     for (var line in lines) {
-      if (line.isNotEmpty) {
-        total += parseLine(line);
-      }
+      total += parseLine(line);
     }
   });
 
@@ -27,6 +25,25 @@ Future<int> parseFile(String filename) async {
 
 // ------------------------------------------------------------------ parseLine
 int parseLine(String line) {
-  int total = 1;
-  return total;
+  int left = -1, right = -1;
+
+  int len = line.length - 1;
+  int zeroChar = '0'.codeUnitAt(0);
+  int nineChar = '9'.codeUnitAt(0);
+
+  for (var i = 0; i < line.length; i++) {
+    if (left < 0 &&
+        line[i].codeUnitAt(0) >= zeroChar &&
+        line[i].codeUnitAt(0) <= nineChar) {
+      left = int.parse(line[i]);
+    }
+
+    if (right < 0 &&
+        line[len - i].codeUnitAt(0) >= zeroChar &&
+        line[len - i].codeUnitAt(0) <= nineChar) {
+      right = int.parse(line[len - i]);
+    }
+  }
+
+  return int.parse('$left$right');
 }
