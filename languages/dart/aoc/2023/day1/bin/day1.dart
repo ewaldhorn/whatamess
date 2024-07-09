@@ -1,5 +1,26 @@
 import 'dart:io';
 
+Map<String, String> validNumbers = {
+  '1': '1',
+  '2': '2',
+  '3': '3',
+  '4': '4',
+  '5': '5',
+  '6': '6',
+  '7': '7',
+  '8': '8',
+  '9': '9',
+  'one': '1',
+  'two': '2',
+  'three': '3',
+  'four': '4',
+  'five': '5',
+  'six': '6',
+  'seven': '7',
+  'eight': '8',
+  'nine': '9'
+};
+
 // ----------------------------------------------------------------------- main
 void main(List<String> arguments) async {
   if (arguments.isEmpty) {
@@ -27,22 +48,24 @@ Future<int> parseFile(String filename) async {
 int parseLine(String line) {
   String? left, right;
 
-  int len = line.length - 1;
-  int zeroChar = '0'.codeUnitAt(0);
-  int nineChar = '9'.codeUnitAt(0);
-
+  // left
   for (var i = 0; i < line.length; i++) {
-    if (left == null &&
-        line[i].codeUnitAt(0) >= zeroChar &&
-        line[i].codeUnitAt(0) <= nineChar) {
-      left = line[i];
-    }
+    var tmp = line.substring(i);
+    validNumbers.forEach((k, v) {
+      if (left == null && tmp.startsWith(k)) {
+        left = v;
+      }
+    });
+  }
 
-    if (right == null &&
-        line[len - i].codeUnitAt(0) >= zeroChar &&
-        line[len - i].codeUnitAt(0) <= nineChar) {
-      right = line[len - i];
-    }
+  // right
+  for (var i = line.length; i > 0; i--) {
+    var tmp = line.substring(0, i);
+    validNumbers.forEach((k, v) {
+      if (right == null && tmp.endsWith(k)) {
+        right = v;
+      }
+    });
   }
 
   return int.parse('$left$right');

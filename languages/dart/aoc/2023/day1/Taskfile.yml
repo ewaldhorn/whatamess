@@ -3,7 +3,7 @@
 version: '3'
 
 vars:
-  TEST_FILE: test_data.txt
+  TEST_FILE: test_data_words.txt
   DATA_FILE: data.txt
 
 tasks:
