@@ -34,7 +34,7 @@ int parseLine(String line) {
   String gameNumber = gamePart.substring(gamePart.indexOf(' ') + 1);
   List<String> resultsPart = line.substring(colonIndex + 2).split(';');
 
-  print('Game Part: [$gamePart] [$gameNumber] - Results: [$resultsPart]');
+  // print('Game Part: [$gamePart] [$gameNumber] - Results: [$resultsPart]');
 
   for (final result in resultsPart) {
     if (!isPossibleResult(result)) {
@@ -47,5 +47,26 @@ int parseLine(String line) {
 
 // ----------------------------------------------------------- isPossibleResult
 bool isPossibleResult(String result) {
+  List<String> parts = result.trim().split(',');
+
+  for (final part in parts) {
+    List<String> detail = part.trim().split(' ');
+
+    switch (detail[1]) {
+      case 'red':
+        if (int.parse(detail[0]) > maxRed) {
+          return false;
+        }
+      case 'green':
+        if (int.parse(detail[0]) > maxGreen) {
+          return false;
+        }
+      case 'blue':
+        if (int.parse(detail[0]) > maxBlue) {
+          return false;
+        }
+    }
+  }
+
   return true;
 }
