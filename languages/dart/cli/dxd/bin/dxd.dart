@@ -27,13 +27,13 @@ void readAndDisplayFile(String path) async {
   StringBuffer charBuffer = StringBuffer();
 
   for (var ch in content) {
-    hexCodeBuffer.write(ch.toRadixString(hex).padLeft(2, '0').toUpperCase());
     counter += 1;
+    hexCodeBuffer.write(ch.toRadixString(hex).padLeft(2, '0').toUpperCase());
 
     if (ch >= '!'.codeUnitAt(0) && ch <= '~'.codeUnitAt(0)) {
       charBuffer.writeCharCode(ch);
     } else {
-      charBuffer.write('.');
+      charBuffer.write(' ');
     }
 
     if (counter % 2 == 0) {
@@ -51,6 +51,7 @@ void readAndDisplayFile(String path) async {
     }
   }
 
+  // might have residual characters, display them
   if (hexCodeBuffer.isNotEmpty) {
     stdout.writeln(
         '$countBuffer ${hexCodeBuffer.toString().padRight(40, " ")}  $charBuffer');
