@@ -22,13 +22,20 @@ Future<int> parseFile(String filename) async {
 
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
-        stdout.write(lines[y][x]);
+        if (isSymbol(lines, x, y)) {
+          stdout.write(lines[y][x]);
+        }
       }
       print('');
     }
   });
 
   return total;
+}
+
+// ------------------------------------------------------------------- isSymbol
+bool isSymbol(List<String> list, int x, int y) {
+  return !(validNumbers.contains(list[y][x]) || list[y][x] == '.');
 }
 
 // -------------------------------------------------------- findAdjacentNumbers
