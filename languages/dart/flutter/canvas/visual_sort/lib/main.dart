@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Visual Sorter',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
@@ -137,7 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _position = 0;
       _comparePosition = 1;
       _isSorting = true;
-      _sortTimer = Timer.periodic(const Duration(milliseconds: 100), (t) {
+      _sortTimer = Timer.periodic(const Duration(milliseconds: 20), (t) {
         if (_isSorting) {
           walkPosition();
         } else {
