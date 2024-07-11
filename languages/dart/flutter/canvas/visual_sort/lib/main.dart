@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter Visual Sorter',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
         useMaterial3: true,
@@ -39,14 +39,20 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: const Center(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            SizedBox(
+            const SizedBox(
               height: 300,
               child: NumberChart(),
-            )
+            ),
+            const SizedBox(height: 16),
+            TextButton(
+              onPressed: () {},
+              child: const Text('Reset',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+            ),
           ],
         ),
       ),
