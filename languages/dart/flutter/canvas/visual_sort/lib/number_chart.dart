@@ -19,7 +19,7 @@ class _NumberChartState extends State<NumberChart> {
 
     // generate a list of 50 random numbers
     final numbers = List.generate(50, (_) {
-      return 1 + _r.nextInt(100);
+      return 2 + _r.nextInt(100);
     });
 
     setState(() {
@@ -35,7 +35,9 @@ class _NumberChartState extends State<NumberChart> {
 }
 
 class NumberChartPainter extends CustomPainter {
-  NumberChartPainter(List<int> numbers);
+  final List<int> numbers;
+
+  NumberChartPainter(this.numbers);
 
   static double borderSize = 10.0;
 
@@ -49,12 +51,39 @@ class NumberChartPainter extends CustomPainter {
     final drawableHeight = size.height - (2 * borderSize);
     final drawableWidth = size.width - (2 * borderSize);
 
+    // final hd = drawableHeight / 100;
+    final wd = drawableWidth / numbers.length;
+    final colWidth = wd - 1;
+
+    _drawOutline(canvas, borderSize, drawableWidth, drawableHeight);
+
     final paint = Paint()..color = Colors.deepOrange;
-    canvas.drawCircle(Offset(size.width / 2, size.height / 2), 50, paint);
+
+    for (int i = 0; i < numbers.length; i++) {
+      final startOffset =
+          Offset(borderSize + (wd * i), drawableHeight + borderSize);
+      final endOffset = Offset((borderSize + colWidth) + (wd * i),
+          borderSize + (drawableHeight * (numbers[i] / 100)));
+      final rect = Rect.fromPoints(startOffset, endOffset);
+      canvas.drawRect(rect, paint);
+    }
   }
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     return true;
+  }
+
+  void _drawOutline(
+      Canvas canvas, double borderSize, double width, double height) {
+    final center = Offset(borderSize + (width / 2), borderSize + (height / 2));
+    final rect = Rect.fromCenter(
+        center: center, width: width + borderSize, height: height + borderSize);
+    canvas.drawRect(
+        rect,
+        Paint()
+          ..color = const Color.fromARGB(255, 122, 121, 121)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 2.0);
   }
 }
