@@ -2,12 +2,12 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:built_collection/built_collection.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 import '../model.dart' as model;
 import '../utils.dart';
-part 'word_list_provider.g.dart';
 
 /// A provider for the wordlist to use when generating the crossword.
 @riverpod
@@ -18,7 +18,7 @@ Future<BuiltSet<String>> wordList(WordListRef ref) async {
   // be removed.
 
   final re = RegExp(r'^[a-z]+$');
-  final words = await rootBundle.loadString('assets/sowpods.txt');
+  final words = await rootBundle.loadString('assets/words.txt');
   return const LineSplitter().convert(words).toBuiltSet().rebuild((b) => b
     ..map((word) => word.toLowerCase().trim())
     ..where((word) => word.length > 2)
@@ -75,11 +75,21 @@ Stream<model.Crossword> crossword(CrosswordRef ref) async* {
             _random.nextBool() ? model.Direction.across : model.Direction.down;
         final location = model.Location.at(
             _random.nextInt(size.width), _random.nextInt(size.height));
+        try {
+          var candidate = await compute(// Edit from here.
+              ((String, model.Direction, model.Location) wordToAdd) {
+            final (word, direction, location) = wordToAdd;
+            return crossword.addWord(
+                word: word, direction: direction, location: location);
+          }, (word, direction, location));
 
-        crossword = crossword.addWord(
-            word: word, direction: direction, location: location);
-        yield crossword;
-        await Future.delayed(const Duration(milliseconds: 100));
+          if (candidate != null) {
+            crossword = candidate;
+            yield crossword;
+          }
+        } catch (e) {
+          debugPrint('Error running isolate: $e');
+        } // To here.
       }
 
       yield crossword;

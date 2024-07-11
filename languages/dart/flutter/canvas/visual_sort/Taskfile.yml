@@ -2,12 +2,17 @@
 
 version: "3"
 
+vars:
+  TARGET: chrome
+
 tasks:
   default:
+    desc: Lists all available tasks
     cmds:
       - task --list-all
     silent: true
   run:
+    desc: Runs the app on the '{{.TARGET}}' target
     cmds:
-      - flutter run -d chrome
+      - flutter run -d {{.TARGET}}
     silent: true

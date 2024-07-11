@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 
 class NumberChartPainter extends CustomPainter {
   final List<int> numbers;
-  final int position;
+  final int position, comparePosition;
 
-  NumberChartPainter(this.numbers, {this.position = -1});
+  NumberChartPainter(this.numbers,
+      {this.position = -1, this.comparePosition = 0});
 
   static double borderSize = 10.0;
 
@@ -27,6 +28,7 @@ class NumberChartPainter extends CustomPainter {
 
     final paint = Paint()..color = const Color.fromARGB(255, 255, 123, 83);
     final highlightPaint = Paint()..color = Colors.blue;
+    final comparePaint = Paint()..color = Colors.green;
 
     final fontSize = _fontSizeFor(drawableWidth);
 
@@ -38,7 +40,14 @@ class NumberChartPainter extends CustomPainter {
           borderSize +
               (drawableHeight - (drawableHeight * (numbers[i] / 100))));
       final rect = Rect.fromPoints(startOffset, endOffset);
-      canvas.drawRect(rect, (i == position) ? highlightPaint : paint);
+
+      if (i == position) {
+        canvas.drawRect(rect, highlightPaint);
+      } else if (i == comparePosition && position > -1) {
+        canvas.drawRect(rect, comparePaint);
+      } else {
+        canvas.drawRect(rect, paint);
+      }
       _drawTextCentered(canvas, rect.bottomCenter, '${numbers[i]}', fontSize);
     }
   }

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -34,8 +35,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  bool isBusy = false;
+  bool _canSort = false;
+  bool _canReset = false;
+  bool _isSorting = false;
+  Timer? _sortTimer;
   int _position = -1;
+  int _comparePosition = 1;
   final _r = Random();
   late List<int> _numbers;
 
@@ -45,6 +50,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
     // generate a list of 50 random numbers
     initNumbersList();
+  }
+
+  @override
+  void dispose() {
+    _sortTimer?.cancel();
+    super.dispose();
   }
 
   // --------------------------------------------------------------------------
@@ -57,6 +68,10 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _numbers = numbers;
       _position = -1;
+      _comparePosition = 1;
+      _canSort = true;
+      _canReset = true;
+      _isSorting = false;
     });
   }
 
@@ -77,6 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: NumberChart(
                 numbers: _numbers,
                 position: _position,
+                comparePosition: _comparePosition,
               ),
             ),
             const SizedBox(height: 16),
@@ -84,25 +100,12 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextButton(
-                  onPressed: isBusy
-                      ? null
-                      : () {
-                          setState(() {
-                            isBusy = true;
-                          });
-                        },
+                  onPressed: _canSort ? _startButtonPressed : null,
                   child: const Text('Start',
                       style: TextStyle(fontWeight: FontWeight.bold)),
                 ),
                 TextButton(
-                  onPressed: isBusy
-                      ? () {
-                          initNumbersList();
-                          setState(() {
-                            isBusy = false;
-                          });
-                        }
-                      : null,
+                  onPressed: _canReset ? _resetButtonPressed : null,
                   child: const Text('Reset',
                       style: TextStyle(fontWeight: FontWeight.bold)),
                 ),
@@ -112,5 +115,63 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  // --------------------------------------------------------------------------
+  void _startButtonPressed() {
+    setState(() {
+      _canSort = false;
+      _canReset = false;
+    });
+    startSorting();
+  }
+
+  // --------------------------------------------------------------------------
+  void _resetButtonPressed() {
+    initNumbersList();
+  }
+
+  // --------------------------------------------------------------------------
+  void startSorting() {
+    setState(() {
+      _position = 0;
+      _comparePosition = 1;
+      _isSorting = true;
+      _sortTimer = Timer.periodic(const Duration(milliseconds: 100), (t) {
+        if (_isSorting) {
+          walkPosition();
+        } else {
+          _sortTimer?.cancel();
+          _canReset = true;
+        }
+      });
+    });
+  }
+
+  // --------------------------------------------------------------------------
+  void walkPosition() {
+    if (_position < _numbers.length && _comparePosition < _numbers.length) {
+      setState(() {
+        if (_numbers[_position] > _numbers[_comparePosition]) {
+          int tmp = _numbers[_position];
+          _numbers[_position] = _numbers[_comparePosition];
+          _numbers[_comparePosition] = tmp;
+        }
+
+        if (_comparePosition == _numbers.length - 1) {
+          _position += 1;
+          _comparePosition = _position + 1;
+        } else {
+          _comparePosition += 1;
+        }
+      });
+    } else {
+      setState(() {
+        _position = -1;
+        _canReset = true;
+        _canSort = true;
+        _sortTimer?.cancel();
+      });
+    }
   }
 }
