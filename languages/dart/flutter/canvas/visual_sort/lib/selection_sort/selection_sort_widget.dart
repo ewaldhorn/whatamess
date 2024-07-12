@@ -5,21 +5,20 @@ import 'package:flutter/material.dart';
 
 import '../number_chart/number_chart.dart';
 
-class BubbleSorter extends StatefulWidget {
-  const BubbleSorter({super.key});
+class SelectionSorter extends StatefulWidget {
+  const SelectionSorter({super.key});
 
   @override
-  State<BubbleSorter> createState() => _BubbleSorterState();
+  State<SelectionSorter> createState() => _SelectionSorterState();
 }
 
-class _BubbleSorterState extends State<BubbleSorter> {
+class _SelectionSorterState extends State<SelectionSorter> {
   bool _canSort = false;
   bool _canReset = false;
   bool _isSorting = false;
-  bool _haveSwapped = false;
   Timer? _sortTimer;
   int _position = -1;
-  int _comparePosition = 0;
+  int _comparePosition = 1;
   final _r = Random();
   late List<int> _numbers;
 
@@ -47,11 +46,10 @@ class _BubbleSorterState extends State<BubbleSorter> {
     setState(() {
       _numbers = numbers;
       _position = -1;
-      _comparePosition = 0;
+      _comparePosition = 1;
       _canSort = true;
       _canReset = true;
       _isSorting = false;
-      _haveSwapped = false;
     });
   }
 
@@ -64,7 +62,7 @@ class _BubbleSorterState extends State<BubbleSorter> {
           height: 300,
           child: NumberChart(
             numbers: _numbers,
-            position: (_position >= 0) ? _numbers.length - _position : -1,
+            position: _position,
             comparePosition: _comparePosition,
           ),
         ),
@@ -106,12 +104,10 @@ class _BubbleSorterState extends State<BubbleSorter> {
   void startSorting() {
     setState(() {
       _position = 0;
-      _comparePosition = 0;
+      _comparePosition = 1;
       _isSorting = true;
-      _haveSwapped = false;
       _sortTimer = Timer.periodic(const Duration(milliseconds: 20), (t) {
         if (_isSorting) {
-          _haveSwapped = true;
           walkPosition();
         } else {
           _sortTimer?.cancel();
@@ -123,20 +119,17 @@ class _BubbleSorterState extends State<BubbleSorter> {
 
   // --------------------------------------------------------------------------
   void walkPosition() {
-    if (_position < _numbers.length && _haveSwapped) {
+    if (_position < _numbers.length && _comparePosition < _numbers.length) {
       setState(() {
-        _haveSwapped = false;
-
-        if (_numbers[_comparePosition] > _numbers[_comparePosition + 1]) {
-          _haveSwapped = true;
-          int tmp = _numbers[_comparePosition];
-          _numbers[_comparePosition] = _numbers[_comparePosition + 1];
-          _numbers[_comparePosition + 1] = tmp;
+        if (_numbers[_position] > _numbers[_comparePosition]) {
+          int tmp = _numbers[_position];
+          _numbers[_position] = _numbers[_comparePosition];
+          _numbers[_comparePosition] = tmp;
         }
 
-        if (_comparePosition > _numbers.length - _position - 3) {
+        if (_comparePosition == _numbers.length - 1) {
           _position += 1;
-          _comparePosition = 0;
+          _comparePosition = _position + 1;
         } else {
           _comparePosition += 1;
         }
@@ -146,9 +139,6 @@ class _BubbleSorterState extends State<BubbleSorter> {
         _position = -1;
         _canReset = true;
         _canSort = true;
-        _haveSwapped = false;
-        _comparePosition = 0;
-        _position = -1;
         _sortTimer?.cancel();
       });
     }

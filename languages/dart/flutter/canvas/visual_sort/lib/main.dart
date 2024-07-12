@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:visual_sort/bubble_sort/bubble_sort_widget.dart';
 
+import 'selection_sort/selection_sort_widget.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -41,7 +43,15 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: const Center(
-        child: BubbleSorter(),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              BubbleSorter(),
+              SizedBox(height: 32),
+              SelectionSorter(),
+            ],
+          ),
+        ),
       ),
     );
   }
