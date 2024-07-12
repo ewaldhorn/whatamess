@@ -46,8 +46,10 @@ class _MyHomePageState extends State<MyHomePage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              Text('Bubble Sort'),
               BubbleSorter(),
               SizedBox(height: 32),
+              Text('Selection Sort'),
               SelectionSorter(),
             ],
           ),

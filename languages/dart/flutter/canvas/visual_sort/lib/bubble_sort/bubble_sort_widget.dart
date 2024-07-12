@@ -27,7 +27,6 @@ class _BubbleSorterState extends State<BubbleSorter> {
   void initState() {
     super.initState();
 
-    // generate a list of 50 random numbers
     initNumbersList();
   }
 
@@ -40,7 +39,7 @@ class _BubbleSorterState extends State<BubbleSorter> {
   // --------------------------------------------------------------------------
   // reset the numbers list, set the sorting position back to -1
   void initNumbersList() {
-    final numbers = List.generate(50, (_) {
+    final numbers = List.generate(100, (_) {
       return 1 + _r.nextInt(100);
     });
 

@@ -39,7 +39,7 @@ class _SelectionSorterState extends State<SelectionSorter> {
   // --------------------------------------------------------------------------
   // reset the numbers list, set the sorting position back to -1
   void initNumbersList() {
-    final numbers = List.generate(50, (_) {
+    final numbers = List.generate(100, (_) {
       return 1 + _r.nextInt(100);
     });
 
