@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:visual_sort/bubblesort_widget.dart';
+import 'package:visual_sort/bubble_sort/bubble_sort_widget.dart';
 
 void main() {
   runApp(const MyApp());

@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import 'number_chart.dart';
+import '../number_chart/number_chart.dart';
 
 class BubbleSorter extends StatefulWidget {
   const BubbleSorter({super.key});
