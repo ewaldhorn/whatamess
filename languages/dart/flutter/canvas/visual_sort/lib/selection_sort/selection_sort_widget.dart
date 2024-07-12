@@ -106,7 +106,7 @@ class _SelectionSorterState extends State<SelectionSorter> {
       _position = 0;
       _comparePosition = 1;
       _isSorting = true;
-      _sortTimer = Timer.periodic(const Duration(milliseconds: 20), (t) {
+      _sortTimer = Timer.periodic(const Duration(milliseconds: 10), (t) {
         if (_isSorting) {
           walkPosition();
         } else {

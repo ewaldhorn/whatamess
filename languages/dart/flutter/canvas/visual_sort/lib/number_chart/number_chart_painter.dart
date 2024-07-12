@@ -57,10 +57,10 @@ class NumberChartPainter extends CustomPainter {
     double fontSize = 4;
 
     if (width >= 1400) {
-      fontSize = 10;
+      fontSize = 8;
     } else if (width >= 1200) {
       fontSize = 8;
-    } else if (width >= 800) {
+    } else if (width >= 900) {
       fontSize = 6;
     }
 

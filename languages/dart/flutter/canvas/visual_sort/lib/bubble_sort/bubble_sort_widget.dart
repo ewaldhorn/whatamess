@@ -108,7 +108,7 @@ class _BubbleSorterState extends State<BubbleSorter> {
       _comparePosition = 0;
       _isSorting = true;
       _haveSwapped = false;
-      _sortTimer = Timer.periodic(const Duration(milliseconds: 20), (t) {
+      _sortTimer = Timer.periodic(const Duration(milliseconds: 10), (t) {
         if (_isSorting) {
           _haveSwapped = true;
           walkPosition();
