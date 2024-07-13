@@ -1,8 +1,10 @@
 import 'package:web/web.dart' as web;
+import 'dart:js_interop' as js;
 
 web.HTMLLIElement newLI(String itemText) =>
     (web.document.createElement('li') as web.HTMLLIElement)..text = itemText;
 
+// ----------------------------------------------------------------------- main
 void main() {
   final now = DateTime.now();
   final element = web.document.querySelector('#output') as web.HTMLDivElement;
@@ -13,9 +15,12 @@ void main() {
   for (final item in thingsTodo()) {
     output?.appendChild(newLI(item));
   }
+
   alignImageProperly();
+  addHeader();
 }
 
+// ----------------------------------------------------------------- thingsToDo
 Iterable<String> thingsTodo() sync* {
   const actions = ['Walk', 'Wash', 'Feed'];
   const pets = ['cats', 'dogs'];
@@ -27,6 +32,11 @@ Iterable<String> thingsTodo() sync* {
       }
     }
   }
+}
+
+// ----------------------------------------------------------------- consoleLog
+void consoleLog(String str) {
+  web.console.log(str.toJS);
 }
 
 // --------------------------------------------------------- alignImageProperly
@@ -41,4 +51,13 @@ void alignImageProperly() {
     ..style.setProperty("display", "block")
     ..style.setProperty("margin-right", "auto")
     ..style.setProperty("margin-left", "auto");
+}
+
+// ------------------------------------------------------------------ addHeader
+addHeader() {
+  var heading = web.HTMLHeadingElement.h3();
+  heading.text = "Animal Names";
+
+  var dogsDiv = web.document.querySelector('.dogs') as web.HTMLDivElement;
+  dogsDiv.insertBefore(heading, dogsDiv.childNodes.item(0));
 }
