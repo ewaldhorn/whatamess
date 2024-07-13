@@ -3,7 +3,7 @@
 version: "3"
 
 vars:
-  GREETING: Hello, World!
+  PROJECT_FOLDER: web
 
 tasks:
   default:
@@ -14,10 +14,10 @@ tasks:
   run:
     desc: Runs the webdev server
     cmds:
-      - webdev serve web:9000
+      - webdev serve {{.PROJECT_FOLDER}}:9000
     silent: true
   build:
     desc: Builds production code
     cmds:
-      - webdev build --output web:build
+      - webdev build --output {{.PROJECT_FOLDER}}:build
     silent: true
