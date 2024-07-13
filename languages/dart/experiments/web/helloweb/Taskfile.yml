@@ -14,5 +14,10 @@ tasks:
   run:
     desc: Runs the webdev server
     cmds:
-      - webdev serve
+      - webdev serve web:9000
+    silent: true
+  build:
+    desc: Builds production code
+    cmds:
+      - webdev build --output web:build
     silent: true
