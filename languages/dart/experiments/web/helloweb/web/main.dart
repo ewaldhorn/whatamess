@@ -13,6 +13,7 @@ void main() {
   for (final item in thingsTodo()) {
     output?.appendChild(newLI(item));
   }
+  alignImageProperly();
 }
 
 Iterable<String> thingsTodo() sync* {
@@ -26,4 +27,18 @@ Iterable<String> thingsTodo() sync* {
       }
     }
   }
+}
+
+// --------------------------------------------------------- alignImageProperly
+// set the parent width to 100%
+// set the image to be displayed in a block with auto margins
+void alignImageProperly() {
+  var el = web.document.querySelector('#tears') as web.HTMLImageElement;
+  var parent = el.parentElement as web.HTMLBodyElement;
+  parent.style.setProperty('width', '100%');
+
+  el
+    ..style.setProperty("display", "block")
+    ..style.setProperty("margin-right", "auto")
+    ..style.setProperty("margin-left", "auto");
 }
