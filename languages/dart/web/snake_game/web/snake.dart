@@ -12,7 +12,7 @@ class Snake {
   // -------------------------------------------------------------- Constructor
   Snake(int initialLength) {
     _body = List<({int x, int y})>.generate(initialLength, (index) {
-      ({int x, int y}) part = (x: index, y: 0);
+      ({int x, int y}) part = (x: 6 - index, y: 2);
       return part;
     });
   }
