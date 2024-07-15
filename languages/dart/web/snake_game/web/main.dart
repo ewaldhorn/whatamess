@@ -52,5 +52,5 @@ void main() {
   snake.changeDirection(Snake.down);
   snake.reportDirection();
 
-  drawCell((x: 10, y: 10), "salmon");
+  drawCell(snake.head, "salmon");
 }

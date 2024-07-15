@@ -11,8 +11,13 @@ class Snake {
 
   // -------------------------------------------------------------- Constructor
   Snake(int initialLength) {
-    _body = [];
+    _body = List<({int x, int y})>.generate(initialLength, (index) {
+      ({int x, int y}) part = (x: index, y: 0);
+      return part;
+    });
   }
+
+  ({int x, int y}) get head => _body.first;
 
   // ---------------------------------------------------------- changeDirection
   void changeDirection(({int x, int y}) newDirection) {
