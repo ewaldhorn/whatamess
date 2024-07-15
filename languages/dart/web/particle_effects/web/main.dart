@@ -3,6 +3,10 @@ import 'package:web/web.dart' as web;
 late web.HTMLCanvasElement mainCanvas;
 late web.CanvasRenderingContext2D context2d;
 
+// ---------------------------------------------------------------------- Types
+typedef Position = ({int x, int y});
+typedef Size = ({int w, int h});
+
 // ----------------------------------------------------------------- setHeading
 void setHeading() {
   final headingElement =
@@ -28,19 +32,16 @@ void setupVariables() {
 // ----------------------------------------------------------------- drawSquare
 void drawSquare(
   web.CanvasRenderingContext2D ctx,
-  (int, int) startXY,
-  (int, int) sizeWH,
+  Position start,
+  Size size,
 ) {
-  final (x, y) = startXY;
-  final (w, h) = sizeWH;
-
   ctx.beginPath();
   ctx
-    ..moveTo(x, y)
-    ..lineTo(x + w, y)
-    ..lineTo(x + w, y + h)
-    ..lineTo(x, y + h)
-    ..lineTo(x, y)
+    ..moveTo(start.x, start.y)
+    ..lineTo(start.x + size.w, start.y)
+    ..lineTo(start.x + size.w, start.y + size.h)
+    ..lineTo(start.x, start.y + size.h)
+    ..lineTo(start.x, start.y)
     ..stroke();
 }
 
@@ -51,7 +52,7 @@ void fillCanvasWithPyramid(
   final midY = canvas.height ~/ 2;
 
   for (int i = 1; i < midX; i += 3) {
-    drawSquare(ctx, (midX - i, midY - i), (i * 2, i * 2));
+    drawSquare(ctx, (x: midX - i, y: midY - i), (w: i * 2, h: i * 2));
   }
 }
 
