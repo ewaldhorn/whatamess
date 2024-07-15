@@ -1,5 +1,5 @@
 import 'package:web/web.dart' as web;
-import 'types.dart';
+import '../types.dart';
 
 // ----------------------------------------------------------------- drawSquare
 void drawSquare(
