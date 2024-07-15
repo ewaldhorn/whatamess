@@ -1,0 +1,27 @@
+class Snake {
+  // --------------------------------------------------------------- Directions
+  static const ({int x, int y}) left = (x: -1, y: 0);
+  static const ({int x, int y}) right = (x: 1, y: 0);
+  static const ({int x, int y}) up = (x: 0, y: -1);
+  static const ({int x, int y}) down = (x: 0, y: 1);
+
+  // --------------------------------------------------------- Class properties
+  ({int x, int y}) _direction = right;
+  late List<({int x, int y})> _body;
+
+  // -------------------------------------------------------------- Constructor
+  Snake(int initialLength) {
+    _body = [];
+  }
+
+  // ---------------------------------------------------------- changeDirection
+  void changeDirection(({int x, int y}) newDirection) {
+    _direction = newDirection;
+  }
+
+  // ---------------------------------------------------------- reportDirection
+  // used for debugging snake movement
+  void reportDirection() {
+    print('I\'m going $_direction');
+  }
+}
