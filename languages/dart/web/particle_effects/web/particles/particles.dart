@@ -17,8 +17,8 @@ class Particle {
   double ease = r.nextDouble() * 0.1 + 0.005;
 
   Particle(this.effect, this.x, this.y, this.color, this.size)
-      : originX = x,
-        originY = y;
+      : originY = y,
+        originX = x;
 
   draw() {
     effect.ctx.fillStyle = color;
@@ -62,7 +62,7 @@ class Effect {
   convertToParticles() {
     particles.clear();
     var imageData =
-        ctx.getImageData(50, 50, canvasWidth - 50, canvasHeight - 50);
+        ctx.getImageData(70, 70, canvasWidth - 140, canvasHeight - 140);
     final localImageData = imageData.data.toDart;
 
     for (int y = 0; y < imageData.height; y += gap) {
@@ -74,7 +74,7 @@ class Effect {
           final int green = localImageData[idx + 1];
           final int blue = localImageData[idx + 2];
           final color = 'rgb($red,$green,$blue)'.toJS;
-          particles.add(Particle(this, x, y, color, gap));
+          particles.add(Particle(this, x, y, color, gap - 1));
         }
       }
     }

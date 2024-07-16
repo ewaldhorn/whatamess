@@ -48,7 +48,6 @@ void inputListener(js.JSObject something) {
 
 // ----------------------------------------------------------------- renderData
 void renderData() {
-  context2d.clearRect(10, 10, mainCanvas.width - 10, mainCanvas.height - 10);
   effect?.wrapText(inputField.value);
 }
 
@@ -60,7 +59,7 @@ bool hasLooped = false;
 
 @js.JS('Function')
 void animate(num value) {
-  context2d.clearRect(50, 50, mainCanvas.width - 50, mainCanvas.height - 50);
+  context2d.clearRect(10, 10, mainCanvas.width - 20, mainCanvas.height - 20);
 
   if (hasLooped) {
     context2d.fillStyle = 'darkred'.toJS;
