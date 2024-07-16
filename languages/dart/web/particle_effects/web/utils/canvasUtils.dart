@@ -34,13 +34,38 @@ void fillCanvasWithPyramid(
 void drawText(
   web.CanvasRenderingContext2D ctx,
   String text,
-  Position position,
-) {
+  Position position, {
+  String alignment = 'center',
+  num lineWidth = 1,
+}) {
   ctx.fillStyle = 'white'.toJS;
   ctx.strokeStyle = 'green'.toJS;
-  ctx.lineWidth = 2;
+  ctx.textAlign = alignment;
+  ctx.lineWidth = lineWidth;
   ctx.font = '50px Georgia';
 
   ctx.fillText(text, position.x, position.y);
   ctx.strokeText(text, position.x, position.y);
+}
+
+// ------------------------------------------------------------ drawCenterLines
+void drawCenterLines(web.CanvasRenderingContext2D ctx, Size size) {
+  final midX = size.w ~/ 2;
+  final midY = size.h ~/ 2;
+
+  ctx.strokeStyle = 'white'.toJS;
+  ctx.lineWidth = 1;
+  ctx.setLineDash([1.toJS, 0.toJS, 0.toJS, 1.toJS, 0.toJS].toJS);
+
+  ctx.beginPath();
+  ctx.moveTo(0, midY);
+  ctx.lineTo(size.w, midY);
+  ctx.closePath();
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(midX, 0);
+  ctx.lineTo(midX, size.h);
+  ctx.closePath();
+  ctx.stroke();
 }
