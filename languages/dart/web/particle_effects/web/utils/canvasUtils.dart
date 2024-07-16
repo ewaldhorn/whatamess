@@ -1,6 +1,7 @@
 import 'dart:js_interop';
 
 import 'package:web/web.dart' as web;
+import 'stringUtils.dart';
 import '../types.dart';
 
 // ----------------------------------------------------------------- drawSquare
@@ -36,11 +37,13 @@ void drawText(
   String text,
   Position position, {
   String alignment = 'center',
+  String baseline = 'middle',
   num lineWidth = 1,
 }) {
   ctx.fillStyle = 'white'.toJS;
   ctx.strokeStyle = 'green'.toJS;
   ctx.textAlign = alignment;
+  ctx.textBaseline = baseline;
   ctx.lineWidth = lineWidth;
   ctx.font = '50px Georgia';
 
@@ -48,12 +51,33 @@ void drawText(
   ctx.strokeText(text, position.x, position.y);
 }
 
+// ------------------------------------------------------------ drawWrappedText
+void drawWrappedText(
+  web.CanvasRenderingContext2D ctx,
+  String text,
+  Position position, {
+  String alignment = 'center',
+  String baseline = 'middle',
+  num lineWidth = 1,
+  int maxCharacters = 20,
+  int gap = 45,
+}) {
+  List<String> strings = lineSplitter(text, maxLen: maxCharacters);
+
+  final int startY = position.y - ((strings.length ~/ 2) * gap);
+
+  for (int i = 0; i < strings.length; i++) {
+    drawText(ctx, strings[i], (x: position.x, y: startY + (i * gap)),
+        alignment: alignment);
+  }
+}
+
 // ------------------------------------------------------------ drawCenterLines
 void drawCenterLines(web.CanvasRenderingContext2D ctx, Size size) {
   final midX = size.w ~/ 2;
   final midY = size.h ~/ 2;
 
-  ctx.strokeStyle = 'white'.toJS;
+  ctx.strokeStyle = 'grey'.toJS;
   ctx.lineWidth = 1;
   ctx.setLineDash([1.toJS, 0.toJS, 0.toJS, 1.toJS, 0.toJS].toJS);
 

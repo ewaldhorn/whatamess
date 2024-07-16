@@ -1,4 +1,5 @@
 import 'package:web/web.dart' as web;
+import 'dart:js_interop';
 
 import 'utils/canvasUtils.dart';
 import 'utils/domUtils.dart';
@@ -30,6 +31,19 @@ void setupVariables() {
 
   inputField = web.document.getElementById('textInput') as web.HTMLInputElement;
   inputField.focus();
+  inputField.addEventListener('keyup', inputListener.toJS);
+}
+
+// -------------------------------------------------------------- inputListener
+void inputListener(JSObject something) {
+  renderData();
+}
+
+// ----------------------------------------------------------------- renderData
+void renderData() {
+  context2d.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
+  drawWrappedText(context2d, inputField.value,
+      (x: mainCanvas.width ~/ 2, y: mainCanvas.height ~/ 2));
 }
 
 // ----------------------------------------------------------------------- main
@@ -37,5 +51,8 @@ void main() {
   setHeading();
   insertHRBefore('output');
   setupVariables();
-  fillCanvasWithPyramid(mainCanvas, context2d);
+  // fillCanvasWithPyramid(mainCanvas, context2d);
+  // drawCenterLines(context2d, (w: mainCanvas.width, h: mainCanvas.height));
+  drawWrappedText(context2d, 'Enter your message',
+      (x: mainCanvas.width ~/ 2, y: mainCanvas.height ~/ 2));
 }
