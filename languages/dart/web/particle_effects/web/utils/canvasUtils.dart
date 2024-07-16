@@ -95,3 +95,22 @@ void drawCenterLines(web.CanvasRenderingContext2D ctx, Size size) {
   ctx.closePath();
   ctx.stroke();
 }
+
+// ------------------------------------------------------------- createTextGradient
+web.CanvasGradient createTextGradient(
+    web.CanvasRenderingContext2D ctx, Size size) {
+  var gradient = ctx.createLinearGradient(0, 0, size.w, size.h);
+
+  gradient
+    ..addColorStop(0.1, 'white')
+    ..addColorStop(0.2, 'yellow')
+    ..addColorStop(0.3, 'orange')
+    ..addColorStop(0.4, 'white')
+    ..addColorStop(0.5, 'yellow')
+    ..addColorStop(0.6, 'orange')
+    ..addColorStop(0.7, 'white')
+    ..addColorStop(0.8, 'yellow')
+    ..addColorStop(0.9, 'orange');
+
+  return gradient;
+}
