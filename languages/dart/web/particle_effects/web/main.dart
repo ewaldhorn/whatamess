@@ -9,6 +9,7 @@ import 'particles/particles.dart';
 late web.HTMLCanvasElement mainCanvas;
 late web.CanvasRenderingContext2D context2d;
 late web.HTMLInputElement inputField;
+late web.CanvasGradient gradient;
 
 int score = 0;
 int gameFrame = 0;
@@ -35,6 +36,9 @@ void setupVariables() {
   inputField = web.document.getElementById('textInput') as web.HTMLInputElement;
   inputField.focus();
   inputField.addEventListener('keyup', inputListener.toJS);
+
+  gradient = createTextGradient(
+      context2d, (w: mainCanvas.width, h: mainCanvas.height));
 }
 
 // -------------------------------------------------------------- inputListener
@@ -44,14 +48,51 @@ void inputListener(js.JSObject something) {
 
 // ----------------------------------------------------------------- renderData
 void renderData() {
-  context2d.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
+  context2d.clearRect(10, 10, mainCanvas.width - 10, mainCanvas.height - 10);
   effect?.wrapText(inputField.value);
 }
 
 // -------------------------------------------------------------------- animate
+int xPos = 0, yPos = 0;
+int xDir = 1, yDir = 0;
+final int rectWidth = 5;
+bool hasLooped = false;
 
 @js.JS('Function')
 void animate(num value) {
+  if (hasLooped) {
+    context2d.fillStyle = 'darkred'.toJS;
+  } else {
+    context2d.fillStyle = gradient;
+  }
+
+  context2d.fillRect(xPos, yPos, rectWidth, rectWidth);
+
+  xPos += xDir;
+  yPos += yDir;
+
+  if (xPos >= mainCanvas.width - rectWidth && yPos <= 0) {
+    xDir = 0;
+    yDir = 1;
+  }
+
+  if (yPos >= mainCanvas.height - rectWidth &&
+      xPos >= mainCanvas.width - rectWidth) {
+    yDir = 0;
+    xDir = -1;
+  }
+
+  if (xPos <= 0 && yPos >= mainCanvas.height - rectWidth) {
+    yDir = -1;
+    xDir = 0;
+  }
+
+  if (xPos <= 0 && yPos <= 0) {
+    xDir = 1;
+    yDir = 0;
+    hasLooped = !hasLooped;
+  }
+
   web.window.requestAnimationFrame(animate.toJS);
 }
 
