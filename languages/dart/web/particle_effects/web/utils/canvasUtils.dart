@@ -1,3 +1,5 @@
+import 'dart:js_interop';
+
 import 'package:web/web.dart' as web;
 import '../types.dart';
 
@@ -26,4 +28,19 @@ void fillCanvasWithPyramid(
   for (int i = 1; i < midX; i += 3) {
     drawSquare(ctx, (x: midX - i, y: midY - i), (w: i * 2, h: i * 2));
   }
+}
+
+// ------------------------------------------------------------------- drawText
+void drawText(
+  web.CanvasRenderingContext2D ctx,
+  String text,
+  Position position,
+) {
+  ctx.fillStyle = 'white'.toJS;
+  ctx.strokeStyle = 'green'.toJS;
+  ctx.lineWidth = 2;
+  ctx.font = '50px Georgia';
+
+  ctx.fillText(text, position.x, position.y);
+  ctx.strokeText(text, position.x, position.y);
 }
