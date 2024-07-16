@@ -43,7 +43,27 @@ void inputListener(JSObject something) {
 void renderData() {
   context2d.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
   drawWrappedText(context2d, inputField.value,
-      (x: mainCanvas.width ~/ 2, y: mainCanvas.height ~/ 2));
+      (x: mainCanvas.width ~/ 2, y: mainCanvas.height ~/ 2),
+      fillStyle: createTextGradient());
+}
+
+// ------------------------------------------------------------- createTextGradient
+web.CanvasGradient createTextGradient() {
+  var gradient =
+      context2d.createLinearGradient(0, 0, mainCanvas.width, mainCanvas.height);
+
+  gradient
+    ..addColorStop(0.1, 'white')
+    ..addColorStop(0.2, 'yellow')
+    ..addColorStop(0.3, 'orange')
+    ..addColorStop(0.4, 'white')
+    ..addColorStop(0.5, 'yellow')
+    ..addColorStop(0.6, 'orange')
+    ..addColorStop(0.7, 'white')
+    ..addColorStop(0.8, 'yellow')
+    ..addColorStop(0.9, 'orange');
+
+  return gradient;
 }
 
 // ----------------------------------------------------------------------- main

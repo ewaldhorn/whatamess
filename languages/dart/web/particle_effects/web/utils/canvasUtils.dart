@@ -39,8 +39,9 @@ void drawText(
   String alignment = 'center',
   String baseline = 'middle',
   num lineWidth = 1,
+  JSAny? fillStyle,
 }) {
-  ctx.fillStyle = 'white'.toJS;
+  ctx.fillStyle = fillStyle ?? 'white'.toJS;
   ctx.strokeStyle = 'green'.toJS;
   ctx.textAlign = alignment;
   ctx.textBaseline = baseline;
@@ -59,8 +60,9 @@ void drawWrappedText(
   String alignment = 'center',
   String baseline = 'middle',
   num lineWidth = 1,
-  int maxCharacters = 20,
+  int maxCharacters = 30,
   int gap = 45,
+  JSAny? fillStyle,
 }) {
   List<String> strings = lineSplitter(text, maxLen: maxCharacters);
 
@@ -68,7 +70,7 @@ void drawWrappedText(
 
   for (int i = 0; i < strings.length; i++) {
     drawText(ctx, strings[i], (x: position.x, y: startY + (i * gap)),
-        alignment: alignment);
+        alignment: alignment, fillStyle: fillStyle);
   }
 }
 
