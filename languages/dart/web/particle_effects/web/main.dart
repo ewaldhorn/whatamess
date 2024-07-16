@@ -60,6 +60,8 @@ bool hasLooped = false;
 
 @js.JS('Function')
 void animate(num value) {
+  context2d.clearRect(50, 50, mainCanvas.width - 50, mainCanvas.height - 50);
+
   if (hasLooped) {
     context2d.fillStyle = 'darkred'.toJS;
   } else {
@@ -93,6 +95,9 @@ void animate(num value) {
     hasLooped = !hasLooped;
   }
 
+  effect?.wrapText(inputField.value);
+  effect?.render();
+
   web.window.requestAnimationFrame(animate.toJS);
 }
 
@@ -108,5 +113,6 @@ void main() {
 
   effect = Effect(context2d, mainCanvas.width, mainCanvas.height);
   effect?.wrapText(inputField.value);
+  effect?.render();
   web.window.requestAnimationFrame(animate.toJS);
 }
