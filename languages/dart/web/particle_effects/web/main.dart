@@ -107,8 +107,6 @@ void main() {
   setupVariables();
   // fillCanvasWithPyramid(mainCanvas, context2d);
   // drawCenterLines(context2d, (w: mainCanvas.width, h: mainCanvas.height));
-  drawWrappedText(context2d, 'Enter your message',
-      (x: mainCanvas.width ~/ 2, y: mainCanvas.height ~/ 2));
 
   effect = Effect(context2d, mainCanvas.width, mainCanvas.height);
   effect?.wrapText(inputField.value);

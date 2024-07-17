@@ -53,7 +53,8 @@ class Effect {
 
   // ----------------------------------------------------------------- wrapText
   wrapText(String text) {
-    drawWrappedText(ctx, text, (x: canvasWidth ~/ 2, y: canvasHeight ~/ 2),
+    drawWrappedText(
+        ctx, text, (x: canvasWidth ~/ 2, y: canvasHeight - (canvasHeight ~/ 3)),
         fillStyle: gradient);
     convertToParticles();
   }
@@ -74,7 +75,7 @@ class Effect {
           final int green = localImageData[idx + 1];
           final int blue = localImageData[idx + 2];
           final color = 'rgb($red,$green,$blue)'.toJS;
-          particles.add(Particle(this, x, y, color, gap - 1));
+          particles.add(Particle(this, x + 70, y - 150, color, gap - 1));
         }
       }
     }
