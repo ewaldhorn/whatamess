@@ -59,7 +59,7 @@ bool hasLooped = false;
 
 @js.JS('Function')
 void animate(num value) {
-  context2d.clearRect(10, 10, mainCanvas.width - 20, mainCanvas.height - 20);
+  context2d.clearRect(6, 6, mainCanvas.width - 12, mainCanvas.height - 12);
 
   if (hasLooped) {
     context2d.fillStyle = 'darkred'.toJS;
