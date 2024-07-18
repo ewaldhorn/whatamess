@@ -3,7 +3,7 @@
 version: "3"
 
 vars:
-  PORT: 9090
+  PORT: 8080
 
 tasks:
   default:
@@ -16,3 +16,13 @@ tasks:
     cmds:
       - PORT={{.PORT}} dart run bin/server.dart
     silent: true
+  buildimage:
+    desc: Builds the podman image
+    cmds:
+      - podman build -t my-dart-backend .
+    silent: true
+  runimage:
+    desc: Runs the server image
+    cmds:
+      - podman run -d -p {{.PORT}}:{{.PORT}} my-dart-backend
+    silent: false
