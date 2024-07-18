@@ -6,6 +6,7 @@ import 'pages/pages.dart' as pages;
 // ----------------------------------------------------------- Configure routes
 final router = Router(notFoundHandler: pages.oopsHandler)
   ..get('/', pages.homePageHandler)
+  ..get('/users/list', pages.getUsers)
   ..get('/echo/<message>', pages.echoHandler);
 
 // ------------------------------------ Configure a pipeline that logs requests
