@@ -1,1 +1,0 @@
-zig build-exe src/math.zig -target wasm32-freestanding -fno-entry --export=add -femit-bin=output/math.wasm

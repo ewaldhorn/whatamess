@@ -1,1 +1,0 @@
-zig build-lib src/main.zig -target wasm32-freestanding-musl -rdynamic -femit-bin=output/main.wasm -O ReleaseFast

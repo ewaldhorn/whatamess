@@ -1,1 +1,0 @@
-zig build -Doptimize=ReleaseFast
