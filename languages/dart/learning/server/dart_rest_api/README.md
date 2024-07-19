@@ -47,3 +47,15 @@ You should see the logging printed in the first terminal:
 2021-05-06T15:47:04.620417  0:00:00.000158 GET     [200] /
 2021-05-06T15:47:08.392928  0:00:00.001216 GET     [200] /echo/I_love_Dart
 ```
+
+## Running with Podman
+
+Refer to the `taskfile.yml` file, or simply run Task (https://taskfile.dev/)
+
+## Globe.dev
+
+Can also be deployed on http://globe.dev/
+
+- Install `dart pub global activate globe_cli`
+- Login `globe login`
+- Publish `globe deploy --prod`
