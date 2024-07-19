@@ -1,8 +1,17 @@
 import 'package:web/web.dart' as web;
 
+// -------------------------------------------------------------------- Globals
+final List<String> fruits = ['💰', '🥝', '😵', '🍓', '🍒', '🍉', '🍋', '🍍'];
+
+// ------------------------------------------------------------------- initHelp
+void initHelp() {
+  final helpElement =
+      web.document.getElementById('help') as web.HTMLParagraphElement;
+
+  helpElement.innerText = fruits.join(' ');
+}
+
+// ----------------------------------------------------------------------- main
 void main() {
-  final now = DateTime.now();
-  final element = web.document.querySelector('#output') as web.HTMLDivElement;
-  element.text = 'The time is ${now.hour}:${now.minute} '
-      'and your Dart web app is running!';
+  initHelp();
 }
