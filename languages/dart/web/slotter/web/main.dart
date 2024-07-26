@@ -15,8 +15,14 @@ void initHelp() {
 
 // ----------------------------------------------------------------- setupSlots
 void setupSlots() {
-  final slotsElement =
-      web.document.querySelector('.slots') as web.HTMLDivElement;
+  final slotsList =
+      web.document.querySelectorAll('.slot') as List<web.HTMLDivElement>;
+
+  for (var element in slotsList) {
+    final fruit = element.querySelector('.fruit') as web.HTMLDivElement;
+    final duration = 0.5;
+    fruit.style.transform = "translateY(0)";
+  }
 }
 
 // -------------------------------------------------------- setupButtonHandlers
@@ -39,6 +45,9 @@ void handleSpinClicked(web.Event event) {
 void handleClearClicked(web.Event event) {
   web.console.log('Clear'.toJS);
 }
+
+// ------------------------------------------------------------------ clearGame
+void clearGame(bool firstClear, {int groups = 1, int duration = 1}) {}
 
 // ----------------------------------------------------------------------- main
 void main() {
