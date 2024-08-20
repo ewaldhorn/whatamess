@@ -199,3 +199,5 @@ languages/dart/flutter/codelabs/forge2d_game/.vscode
 languages/dart/cli/dxd/bin/dxd.exe
 languages/dart/experiments/web/helloweb/build
 languages/dart/web/particle_effects/build
+languages/csharp/learning/BlazorApp/bin
+languages/csharp/learning/BlazorApp/obj
