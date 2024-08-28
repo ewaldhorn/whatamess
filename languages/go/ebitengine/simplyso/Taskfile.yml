@@ -15,11 +15,13 @@ tasks:
     desc: Removes the '{{.OUTPUT_FOLDER}}' folder
     cmds:
       - rm -rf {{.OUTPUT_FOLDER}}
+    silent: true
   setupexecjs:
     desc: Copies the wasm_exec.js file to the '{{.OUTPUT_FOLDER}}' folder
     cmds:
-      - mkdir -p
+      - mkdir -p {{.OUTPUT_FOLDER}}
       - cp $(go env GOROOT)/misc/wasm/wasm_exec.js {{.OUTPUT_FOLDER}}
+    silent: true
   runwasm:
     desc: Runs the project in WASM
     cmds:
@@ -30,3 +32,4 @@ tasks:
     cmds:
       - mkdir -p bin
       - env GOOS=js GOARCH=wasm go build -o {{.OUTPUT_FOLDER}}simplyso.wasm simplyso
+    silent: true
