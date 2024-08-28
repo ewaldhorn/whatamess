@@ -23,6 +23,12 @@ tasks:
       - cp $(go env GOROOT)/misc/wasm/wasm_exec.js {{.OUTPUT_FOLDER}}
       - cp ./html/* {{.OUTPUT_FOLDER}}
     silent: true
+  run:
+    desc: Runs the files in the {{.OUTPUT_FOLDER}} folder
+    dir: "{{.OUTPUT_FOLDER}}"
+    cmds:
+      - http-server . -p 9000 -o -c-1
+    silent: true
   runwasm:
     desc: Runs the project in WASM
     cmds:
@@ -34,4 +40,10 @@ tasks:
       - mkdir -p bin
       - task setupexecjs
       - env GOOS=js GOARCH=wasm go build -o {{.OUTPUT_FOLDER}}simplyso.wasm simplyso
+    silent: true
+  buildproduction:
+    desc: Builds a production WASM binary, minus debug information
+    cmds:
+      - task setupexecjs
+      - env GOOS=js GOARCH=wasm go build -ldflags="-s -w" -o {{.OUTPUT_FOLDER}}simplyso.wasm simplyso
     silent: true
