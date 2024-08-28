@@ -100,7 +100,7 @@ func (g *Game) AddBullet(b *Bullet) {
 
 // ----------------------------------------------------------------------------
 func (g *Game) Reset() {
-	g.player = NewPlayer()
+	g.player = NewPlayer(g)
 	g.meteors = nil
 	g.bullets = nil
 	g.score = 0
@@ -117,10 +117,11 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 // ======================================================================= main
 func main() {
 	g := &Game{
-		player:           NewPlayer(),
 		meteorSpawnTimer: NewTimer(meteorSpawnTime),
 		baseVelocity:     baseMeteorVelocity,
 		velocityTimer:    NewTimer(meteorSpeedUpTime)}
+
+	g.player = NewPlayer(g)
 
 	err := ebiten.RunGame(g)
 	if err != nil {
