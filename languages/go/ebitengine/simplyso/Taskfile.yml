@@ -24,7 +24,7 @@ tasks:
       - cp ./html/* {{.OUTPUT_FOLDER}}
     silent: true
   run:
-    desc: Runs the files in the {{.OUTPUT_FOLDER}} folder
+    desc: Runs the files in the {{.OUTPUT_FOLDER}} folder as-is, no build steps envoked
     dir: "{{.OUTPUT_FOLDER}}"
     cmds:
       - http-server . -p 9000 -o -c-1
