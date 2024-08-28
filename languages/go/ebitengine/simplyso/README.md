@@ -1,6 +1,6 @@
 # SimplySo Experimental Ebitengine Game
 
-Just playing with Go and Ebitengine a bit.
+Just playing with Go and Ebitengine a bit, following the insightful tutorial at [ThreeDots.tech](https://threedots.tech/post/making-games-in-go/).
 
 ## Game assets
 

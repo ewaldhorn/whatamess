@@ -23,6 +23,11 @@ tasks:
       - cp $(go env GOROOT)/misc/wasm/wasm_exec.js {{.OUTPUT_FOLDER}}
       - cp ./html/* {{.OUTPUT_FOLDER}}
     silent: true
+  test:
+    desc: Runs the desktop project
+    cmds:
+      - go run .
+    silent: true
   run:
     desc: Runs the files in the {{.OUTPUT_FOLDER}} folder as-is, no build steps envoked
     dir: "{{.OUTPUT_FOLDER}}"
