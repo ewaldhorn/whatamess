@@ -1,0 +1,32 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  OUTPUT_FOLDER: ./bin/
+
+tasks:
+  default:
+    desc: Lists available tasks
+    cmds:
+      - task --list-all
+    silent: true
+  clean:
+    desc: Removes the '{{.OUTPUT_FOLDER}}' folder
+    cmds:
+      - rm -rf {{.OUTPUT_FOLDER}}
+  setupexecjs:
+    desc: Copies the wasm_exec.js file to the '{{.OUTPUT_FOLDER}}' folder
+    cmds:
+      - mkdir -p
+      - cp $(go env GOROOT)/misc/wasm/wasm_exec.js {{.OUTPUT_FOLDER}}
+  runwasm:
+    desc: Runs the project in WASM
+    cmds:
+      - go run github.com/hajimehoshi/wasmserve@latest -http :9000 .
+    silent: true
+  buildwasm:
+    desc: Builds the WASM project
+    cmds:
+      - mkdir -p bin
+      - env GOOS=js GOARCH=wasm go build -o {{.OUTPUT_FOLDER}}simplyso.wasm simplyso
