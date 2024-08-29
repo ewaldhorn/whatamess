@@ -2,11 +2,10 @@ package main
 
 import (
 	"fmt"
-	"image/color"
 	"time"
 
 	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/text"
+	"github.com/hajimehoshi/ebiten/v2/text/v2"
 )
 
 // ----------------------------------------------------------------------------
@@ -90,7 +89,10 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		b.Draw(screen)
 	}
 
-	text.Draw(screen, fmt.Sprintf("%06d", g.score), ScoreFont, ScreenWidth/2-100, 50, color.White)
+	textDrawOptions := text.DrawOptions{}
+	textDrawOptions.GeoM.Translate(ScreenWidth/2-100, 50)
+
+	text.Draw(screen, fmt.Sprintf("%06d", g.score), text.NewGoXFace(ScoreFont), &textDrawOptions)
 }
 
 // ----------------------------------------------------------------------------
@@ -114,8 +116,9 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 	return ScreenWidth, ScreenHeight
 }
 
-// ======================================================================= main
+// ----------------------------------------------------------------------------
 func main() {
+
 	g := &Game{
 		meteorSpawnTimer: NewTimer(meteorSpawnTime),
 		baseVelocity:     baseMeteorVelocity,
