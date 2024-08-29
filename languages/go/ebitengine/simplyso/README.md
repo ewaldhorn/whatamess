@@ -2,6 +2,10 @@
 
 Just playing with Go and Ebitengine a bit, following the insightful tutorial at [ThreeDots.tech](https://threedots.tech/post/making-games-in-go/).
 
+## Liberties taken
+
+I modified the code a tad and also updated how fonts are used.
+
 ## Game assets
 
 By Kenny, of course!
