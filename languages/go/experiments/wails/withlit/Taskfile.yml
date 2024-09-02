@@ -16,3 +16,24 @@ tasks:
     cmds:
       - wails dev
     silent: true
+  clean:
+    desc: Cleans the 'bin' directory
+    cmds:
+      - rm -rf build/bin
+    silent: true
+  buildmac:
+    desc: Builds MacOS app
+    cmds:
+      - wails build -clean -trimpath -platform darwin/universal
+    silent: true
+  buildwin:
+    desc: Builds Windows app
+    cmds:
+      - wails build -clean -trimpath -platform windows/amd64
+    silent: true
+  buildall:
+    desc: Builds Mac and Windows apps
+    cmds:
+      - task buildmac
+      - task buildwin
+    silent: true
