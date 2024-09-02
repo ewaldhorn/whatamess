@@ -1,0 +1,18 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  GREETING: Hello, World!
+
+tasks:
+  default:
+    desc: Lists options
+    cmds:
+      - task --list-all
+    silent: true
+  run:
+    desc: Runs the local project
+    cmds:
+      - wails dev
+    silent: true
