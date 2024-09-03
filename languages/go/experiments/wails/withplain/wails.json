@@ -1,0 +1,10 @@
+{
+  "name": "withplain",
+  "outputfilename": "withplain",
+  "frontend:install": "",
+  "frontend:build": "",
+  "author": {
+    "name": "Ewald Horn",
+    "email": "ewaldhorn@gmail.com"
+  }
+}
