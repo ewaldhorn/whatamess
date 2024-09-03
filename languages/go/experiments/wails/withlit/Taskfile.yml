@@ -24,12 +24,12 @@ tasks:
   buildmac:
     desc: Builds MacOS app
     cmds:
-      - wails build -clean -trimpath -platform darwin/universal
+      - wails build -trimpath -platform darwin/universal
     silent: true
   buildwin:
     desc: Builds Windows app
     cmds:
-      - wails build -clean -trimpath -platform windows/amd64
+      - wails build -trimpath -platform windows/amd64
     silent: true
   buildall:
     desc: Builds Mac and Windows apps
