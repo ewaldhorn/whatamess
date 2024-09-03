@@ -3,3 +3,7 @@ html {
   color: black;
   margin: 50px;
 }
+
+random-picker [role="status"] {
+  color: gray;
+}

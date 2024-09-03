@@ -28,6 +28,7 @@ customElements.define(
     showNotification(msg) {
       let notification = document.createElement("div");
       notification.setAttribute("aria-live", "polite");
+      notification.setAttribute("role", "status");
 
       this.form.append(notification);
 
@@ -37,7 +38,7 @@ customElements.define(
 
       setTimeout(function () {
         notification.remove();
-      }, 4000);
+      }, 3000);
     }
 
     /**
