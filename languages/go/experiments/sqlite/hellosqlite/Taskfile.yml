@@ -1,0 +1,19 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  DATABASE_FILE: hellolite.db
+  SEED_DIRECTORY: initfiles
+  AGENTS_SEED_FILE: agents_seed.json
+
+tasks:
+  default:
+    cmds:
+      - task --list-all
+    silent: true
+  resetdb:
+    cmds:
+      - rm -f {{.DATABASE_FILE}}
+      - sqlite-utils insert {{.DATABASE_FILE}} agents "./{{.SEED_DIRECTORY}}/{{.AGENTS_SEED_FILE}}"
+    silent: true
