@@ -1,16 +1,14 @@
-{
-  "agents": [
-    {
-      "id": 1,
-      "name": "Cassandra",
-      "time": "2024-09-04T16:35:01Z",
-      "score": 11
-    },
-    {
-      "id": 2,
-      "name": "Steve",
-      "time": "2024-09-04T16:35:03Z",
-      "score": 10
-    }
-  ]
-}
+[
+  {
+    "id": 1,
+    "name": "Cassandra",
+    "time": "2024-09-04T16:35:01Z",
+    "score": 11
+  },
+  {
+    "id": 2,
+    "name": "Steve",
+    "time": "2024-09-04T16:35:03Z",
+    "score": 10
+  }
+]

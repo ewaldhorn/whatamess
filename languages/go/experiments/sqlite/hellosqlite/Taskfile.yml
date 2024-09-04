@@ -16,6 +16,6 @@ tasks:
   resetdb:
     cmds:
       - rm -f {{.DATABASE_FILE}}
-      - sqlite-utils insert {{.DATABASE_FILE}} agents "./{{.SEED_DIRECTORY}}/{{.AGENTS_SEED_FILE}}"
-      - sqlite-utils insert {{.DATABASE_FILE}} regions "./{{.SEED_DIRECTORY}}/{{.REGIONS_SEED_FILE}}"
+      - sqlite-utils insert {{.DATABASE_FILE}} agents "./{{.SEED_DIRECTORY}}/{{.AGENTS_SEED_FILE}}" --pk=id
+      - sqlite-utils insert {{.DATABASE_FILE}} regions "./{{.SEED_DIRECTORY}}/{{.REGIONS_SEED_FILE}}" --pk=id
     silent: true

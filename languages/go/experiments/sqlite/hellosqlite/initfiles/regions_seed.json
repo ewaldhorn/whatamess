@@ -1,16 +1,14 @@
-{
-  "regions": [
-    {
-      "id": 1,
-      "name": "Riverside"
-    },
-    {
-      "id": 2,
-      "name": "Bramley"
-    },
-    {
-      "id": 3,
-      "name": "Desteria"
-    }
-  ]
-}
+[
+  {
+    "id": 1,
+    "name": "Riverside"
+  },
+  {
+    "id": 2,
+    "name": "Bramley"
+  },
+  {
+    "id": 3,
+    "name": "Desteria"
+  }
+]
