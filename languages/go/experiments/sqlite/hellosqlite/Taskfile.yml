@@ -6,6 +6,7 @@ vars:
   DATABASE_FILE: hellolite.db
   SEED_DIRECTORY: initfiles
   AGENTS_SEED_FILE: agents_seed.json
+  REGIONS_SEED_FILE: regions_seed.json
 
 tasks:
   default:
@@ -16,4 +17,5 @@ tasks:
     cmds:
       - rm -f {{.DATABASE_FILE}}
       - sqlite-utils insert {{.DATABASE_FILE}} agents "./{{.SEED_DIRECTORY}}/{{.AGENTS_SEED_FILE}}"
+      - sqlite-utils insert {{.DATABASE_FILE}} regions "./{{.SEED_DIRECTORY}}/{{.REGIONS_SEED_FILE}}"
     silent: true
