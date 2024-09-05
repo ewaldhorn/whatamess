@@ -10,12 +10,23 @@ vars:
 
 tasks:
   default:
+    desc: Lists available tasks
     cmds:
       - task --list-all
     silent: true
+  backup:
+    desc: Dumps the database as SQL commands to the terminal. Pipe to a file if you need to
+    cmds:
+      - sqlite-utils dump {{.DATABASE_FILE}}
   resetdb:
+    desc: Resets the database to the initial, seeded stage. Removes all data
     cmds:
       - rm -f {{.DATABASE_FILE}}
       - sqlite-utils insert {{.DATABASE_FILE}} agents "./{{.SEED_DIRECTORY}}/{{.AGENTS_SEED_FILE}}" --pk=id
       - sqlite-utils insert {{.DATABASE_FILE}} regions "./{{.SEED_DIRECTORY}}/{{.REGIONS_SEED_FILE}}" --pk=id
+    silent: true
+  listagents:
+    desc: Lists all the agents in the database
+    cmds:
+      - sqlite-utils {{.DATABASE_FILE}} "select * from agents" --table
     silent: true
