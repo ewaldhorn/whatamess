@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-// ------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 func TestForm_Has(t *testing.T) {
 	form := NewForm(nil)
 
@@ -28,7 +28,7 @@ func TestForm_Has(t *testing.T) {
 	}
 }
 
-// ------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 func TestForm_Required(t *testing.T) {
 	r := httptest.NewRequest("POST", "/some_url", nil)
 	form := NewForm(r.PostForm)
@@ -54,7 +54,7 @@ func TestForm_Required(t *testing.T) {
 	}
 }
 
-// ------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 func TestForm_Check(t *testing.T) {
 	form := NewForm(nil)
 	form.Check(false, "password", "password is required")
@@ -64,7 +64,7 @@ func TestForm_Check(t *testing.T) {
 	}
 }
 
-// ------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 func TestForm_ErrorGet(t *testing.T) {
 	form := NewForm(nil)
 	form.Check(false, "password", "password is required")

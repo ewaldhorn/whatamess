@@ -14,20 +14,24 @@ var pathToPages = pathToTemplates + "pages"
 
 const baseLayoutTemplate = "base.layout.gohtml"
 
-// ------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 func (app *application) Home(w http.ResponseWriter, r *http.Request) {
 	_ = app.render(w, r, "home.page.gohtml", &TemplateData{})
 }
 
-// ------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 type TemplateData struct {
 	IP   string
 	Data map[string]any
 }
 
-// ------------------------------------------------------------------------------------------------
-func (app *application) render(w http.ResponseWriter, r *http.Request, pageTemplate string, data *TemplateData) error {
-	parsedTemplate, err := template.ParseFiles(path.Join(pathToPages, pageTemplate), path.Join(pathToPages, baseLayoutTemplate))
+// ----------------------------------------------------------------------------
+func (app *application) render(w http.ResponseWriter,
+	r *http.Request,
+	pageTemplate string,
+	data *TemplateData) error {
+	parsedTemplate, err := template.ParseFiles(path.Join(pathToPages, pageTemplate),
+		path.Join(pathToPages, baseLayoutTemplate))
 	if err != nil {
 		http.Error(w, "Error - Bad Request", http.StatusBadRequest)
 		println(err.Error())
@@ -44,7 +48,7 @@ func (app *application) render(w http.ResponseWriter, r *http.Request, pageTempl
 	return nil
 }
 
-// ------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 func (app *application) Login(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
