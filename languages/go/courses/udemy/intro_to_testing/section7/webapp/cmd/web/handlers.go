@@ -26,7 +26,8 @@ type TemplateData struct {
 }
 
 // ----------------------------------------------------------------------------
-func (app *application) render(w http.ResponseWriter,
+func (app *application) render(
+	w http.ResponseWriter,
 	r *http.Request,
 	pageTemplate string,
 	data *TemplateData) error {
