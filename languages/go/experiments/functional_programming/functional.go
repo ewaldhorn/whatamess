@@ -51,11 +51,12 @@ func IsDivisiblebyTwo(num int) bool {
 func main() {
 	numbers := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 
-	fmt.Println("We start with :", numbers)
-	fmt.Println("Doubled (Map) :", Map(numbers, doubleUp))                         // calling a mapping function
-	fmt.Println("Tripled (Map) :", Map(numbers, func(s int) int { return s * 3 })) // anonymous mapping function
-	fmt.Println("We still have :", numbers)
-	fmt.Println("Evens (Filter):", Filter(numbers, IsDivisiblebyTwo))
-	fmt.Println("Odds (Filter) :", Filter(numbers, func(in int) bool { return in%2 != 0 }))
-	fmt.Println("We still have :", numbers)
+	fmt.Println("We start with  :", numbers)
+	fmt.Println("Doubled (Map)  :", Map(numbers, doubleUp))                         // calling a mapping function
+	fmt.Println("Tripled (Map)  :", Map(numbers, func(s int) int { return s * 3 })) // anonymous mapping function
+	fmt.Println("We still have  :", numbers)
+	fmt.Println("Evens (Filter) :", Filter(numbers, IsDivisiblebyTwo))
+	fmt.Println("Odds (Filter 2):", Filter(numbers, func(num int) bool { return !IsDivisiblebyTwo(num) }))
+	fmt.Println("Odds (Filter)  :", Filter(numbers, func(in int) bool { return in%2 != 0 }))
+	fmt.Println("We still have  :", numbers)
 }
