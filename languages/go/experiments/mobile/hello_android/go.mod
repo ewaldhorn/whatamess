@@ -1,11 +1,14 @@
 module ohmyandroid
 
-go 1.20
+go 1.22.0
 
-require golang.org/x/mobile v0.0.0-20230531173138-3c911d8e3eda
+toolchain go1.23.1
+
+require golang.org/x/mobile v0.0.0-20240909163608-642950227fb3
 
 require (
 	golang.org/x/exp v0.0.0-20190731235908-ec7cb31e5a56 // indirect
-	golang.org/x/image v0.0.0-20190802002840-cff245a6509b // indirect
-	golang.org/x/sys v0.0.0-20220722155257-8c9f86f7a55f // indirect
+	golang.org/x/exp/shiny v0.0.0-20240909161429-701f63a606c0 // indirect
+	golang.org/x/image v0.20.0 // indirect
+	golang.org/x/sys v0.25.0 // indirect
 )
