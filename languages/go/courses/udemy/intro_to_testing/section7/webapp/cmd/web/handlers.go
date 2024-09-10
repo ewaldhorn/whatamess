@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"path"
+	"time"
 )
 
 // need to keep as vars, since tests need to adjust the relative path location(s)
@@ -16,7 +17,16 @@ const baseLayoutTemplate = "base.layout.gohtml"
 
 // ----------------------------------------------------------------------------
 func (app *application) Home(w http.ResponseWriter, r *http.Request) {
-	_ = app.render(w, r, "home.page.gohtml", &TemplateData{})
+	var templateData = make(map[string]any)
+
+	if app.Session.Exists(r.Context(), "test") {
+		msg := app.Session.GetString(r.Context(), "test")
+		templateData["test"] = msg
+	} else {
+		app.Session.Put(r.Context(), "test", "Hit this page at "+time.Now().UTC().String())
+	}
+
+	_ = app.render(w, r, "home.page.gohtml", &TemplateData{Data: templateData})
 }
 
 // ----------------------------------------------------------------------------

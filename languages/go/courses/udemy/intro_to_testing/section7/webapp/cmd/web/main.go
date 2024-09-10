@@ -17,11 +17,10 @@ func main() {
 	const port = "9000"
 
 	app := application{}
-	mux := app.routes()
 	app.Session = getSession()
 
 	log.Print("Starting server on:", port)
-	err := http.ListenAndServe(string(":"+port), mux)
+	err := http.ListenAndServe(string(":"+port), app.routes())
 	if err != nil {
 		log.Fatal(err)
 	}
