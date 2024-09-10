@@ -4,38 +4,21 @@ import (
 	"log"
 
 	"github.com/hajimehoshi/ebiten/v2"
-
-	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 )
 
 // ----------------------------------------------------------------------------
+var FPS int = 1
+
 const (
 	SCREEN_WIDTH  int = 1024
 	SCREEN_HEIGHT int = 768
 )
 
 // ----------------------------------------------------------------------------
-type Game struct{}
-
-// ----------------------------------------------------------------------------
-func (g *Game) Update() error {
-	return nil
-}
-
-// ----------------------------------------------------------------------------
-func (g *Game) Draw(screen *ebiten.Image) {
-	ebitenutil.DebugPrint(screen, "Hello Ebiten!")
-}
-
-// ----------------------------------------------------------------------------
-func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
-	return SCREEN_WIDTH, SCREEN_HEIGHT
-}
-
-// ----------------------------------------------------------------------------
 func main() {
-	ebiten.SetWindowSize(1024, 768)
+	ebiten.SetWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT)
 	ebiten.SetWindowTitle("Mapper Experiment")
+	ebiten.SetTPS(1)
 
 	err := ebiten.RunGame(&Game{})
 
