@@ -5,45 +5,74 @@ import (
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
+	"github.com/hajimehoshi/ebiten/v2/vector"
 )
 
 // ----------------------------------------------------------------------------
 type Game struct {
-	count int
+	count       int
+	bouncers    []Bouncer
+	pressedKeys []ebiten.Key
+	lineWidth   float32
 }
 
-func updateCounter(g *Game) {
-	g.count += 1
+// ----------------------------------------------------------------------------
+func (g *Game) initBouncers() {
+	g.bouncers = make([]Bouncer, g.count)
 
-	if g.count > 250 {
-		g.count = 1
-		ebiten.SetTPS(1)
+	for bouncerPosition := range g.bouncers {
+		tmpBouncer := Bouncer{}
+		tmpBouncer.init()
+		g.bouncers[bouncerPosition] = tmpBouncer
 	}
-
-	if g.count == 10 {
-		ebiten.SetTPS(10)
-	}
-
-	if g.count == 40 {
-		ebiten.SetTPS(25)
-	}
-
-	if g.count == 140 {
-		ebiten.SetTPS(60)
-	}
-
 }
 
 // ----------------------------------------------------------------------------
 func (g *Game) Update() error {
-	updateCounter(g)
+	g.pressedKeys = inpututil.AppendPressedKeys(g.pressedKeys[:0])
+
+	for _, key := range g.pressedKeys {
+		switch key.String() {
+		case "ArrowDown":
+			if g.lineWidth > 0.5 {
+				g.lineWidth -= 0.25
+			}
+		case "ArrowUp":
+			if g.lineWidth < 50.0 {
+				g.lineWidth += 0.25
+			}
+		}
+	}
+
+	for pos, bouncer := range g.bouncers {
+		bouncer.update()
+		g.bouncers[pos] = bouncer
+	}
+
 	return nil
 }
 
 // ----------------------------------------------------------------------------
 func (g *Game) Draw(screen *ebiten.Image) {
-	str := fmt.Sprintf("Hello Ebiten. We are at %d now.", g.count)
+	str := fmt.Sprintf("We are at roughly %.0f FPS, more or less.", ebiten.ActualFPS())
 	ebitenutil.DebugPrint(screen, str)
+
+	for i := 1; i < len(g.bouncers); i++ {
+		vector.StrokeLine(screen,
+			float32(g.bouncers[i-1].positionX),
+			float32(g.bouncers[i-1].positionY),
+			float32(g.bouncers[i].positionX),
+			float32(g.bouncers[i].positionY),
+			g.lineWidth,
+			g.bouncers[i].colour, true)
+	}
+
+	lastBouncer := g.bouncers[len(g.bouncers)-1]
+	vector.StrokeLine(screen,
+		float32(lastBouncer.positionX), float32(lastBouncer.positionY),
+		float32(g.bouncers[0].positionX), float32(g.bouncers[0].positionY),
+		g.lineWidth, lastBouncer.colour, true)
 }
 
 // ----------------------------------------------------------------------------
