@@ -30,17 +30,17 @@ func (g *Game) initBouncers() {
 
 // ----------------------------------------------------------------------------
 func (g *Game) Update() error {
-	g.pressedKeys = inpututil.AppendPressedKeys(g.pressedKeys[:0])
+	g.pressedKeys = inpututil.AppendJustPressedKeys(g.pressedKeys[:0])
 
 	for _, key := range g.pressedKeys {
 		switch key.String() {
 		case "ArrowDown":
-			if g.lineWidth > 0.5 {
-				g.lineWidth -= 0.25
+			if g.lineWidth > 0.20 {
+				g.lineWidth -= 0.10
 			}
 		case "ArrowUp":
 			if g.lineWidth < 50.0 {
-				g.lineWidth += 0.25
+				g.lineWidth += 0.10
 			}
 		}
 	}
@@ -55,7 +55,7 @@ func (g *Game) Update() error {
 
 // ----------------------------------------------------------------------------
 func (g *Game) Draw(screen *ebiten.Image) {
-	str := fmt.Sprintf("We are at roughly %.0f FPS, more or less.", ebiten.ActualFPS())
+	str := fmt.Sprintf("We are at roughly %.0f FPS, more or less. (Line: %0.2f)", ebiten.ActualFPS(), g.lineWidth)
 	ebitenutil.DebugPrint(screen, str)
 
 	for i := 1; i < len(g.bouncers); i++ {
