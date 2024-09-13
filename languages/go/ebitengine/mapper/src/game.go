@@ -30,24 +30,26 @@ func (g *Game) initBouncers() {
 
 // ----------------------------------------------------------------------------
 func (g *Game) Update() error {
-	g.pressedKeys = inpututil.AppendJustPressedKeys(g.pressedKeys[:0])
+	if ebiten.IsFocused() {
+		g.pressedKeys = inpututil.AppendJustPressedKeys(g.pressedKeys[:0])
 
-	for _, key := range g.pressedKeys {
-		switch key.String() {
-		case "ArrowDown":
-			if g.lineWidth > 0.20 {
-				g.lineWidth -= 0.10
-			}
-		case "ArrowUp":
-			if g.lineWidth < 50.0 {
-				g.lineWidth += 0.10
+		for _, key := range g.pressedKeys {
+			switch key.String() {
+			case "ArrowDown":
+				if g.lineWidth > 0.20 {
+					g.lineWidth -= 0.10
+				}
+			case "ArrowUp":
+				if g.lineWidth < 50.0 {
+					g.lineWidth += 0.10
+				}
 			}
 		}
-	}
 
-	for pos, bouncer := range g.bouncers {
-		bouncer.update()
-		g.bouncers[pos] = bouncer
+		for pos, bouncer := range g.bouncers {
+			bouncer.update()
+			g.bouncers[pos] = bouncer
+		}
 	}
 
 	return nil
@@ -55,7 +57,7 @@ func (g *Game) Update() error {
 
 // ----------------------------------------------------------------------------
 func (g *Game) Draw(screen *ebiten.Image) {
-	str := fmt.Sprintf("We are at roughly %.0f FPS, more or less. (Line: %0.2f)", ebiten.ActualFPS(), g.lineWidth)
+	str := fmt.Sprintf("We are at roughly %.0f FPS, more or less. (Line: %0.2f) Focus: %t", ebiten.ActualFPS(), g.lineWidth, ebiten.IsFocused())
 	ebitenutil.DebugPrint(screen, str)
 
 	for i := 1; i < len(g.bouncers); i++ {
