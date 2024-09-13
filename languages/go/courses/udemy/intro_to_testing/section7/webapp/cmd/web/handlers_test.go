@@ -55,29 +55,64 @@ func Test_application_handlers(t *testing.T) {
 }
 
 // ----------------------------------------------------------------------------
-func Test_Home(t *testing.T) {
-	// create request to get home page
-	req, _ := http.NewRequest("GET", "/", nil)
-	req = addContextAndSessionToRequest(req, app)
+// func Test_Home(t *testing.T) {
+// 	// create request to get home page
+// 	req, _ := http.NewRequest("GET", "/", nil)
+// 	req = addContextAndSessionToRequest(req, app)
 
-	responseRecorder := httptest.NewRecorder()
+// 	responseRecorder := httptest.NewRecorder()
 
-	handler := http.HandlerFunc(app.Home)
-	handler.ServeHTTP(responseRecorder, req)
+// 	handler := http.HandlerFunc(app.Home)
+// 	handler.ServeHTTP(responseRecorder, req)
 
-	// check response values is as expected
-	if responseRecorder.Code != http.StatusOK {
-		t.Errorf("Test_Home returned wrong status code. Expected %d, got %d", http.StatusOK, responseRecorder.Code)
+// 	// check response values is as expected
+// 	if responseRecorder.Code != http.StatusOK {
+// 		t.Errorf("Test_Home returned wrong status code. Expected %d, got %d", http.StatusOK, responseRecorder.Code)
+// 	}
+
+// 	requestBody, err := io.ReadAll(responseRecorder.Body)
+// 	if err != nil {
+// 		t.Errorf("Reading request body errored. %s", err.Error())
+// 	}
+
+// 	const lookFor = "<small>From Session:"
+
+// 	if !strings.Contains(string(requestBody), lookFor) {
+// 		t.Errorf("Could not find `%s` in the body", lookFor)
+// 	}
+// }
+
+// ----------------------------------------------------------------------------
+func Test_Home_Improved(t *testing.T) {
+	var tests = []struct {
+		name         string
+		putInSession string
+		expectedHTML string
+	}{
+		{"first visit", "", "<small>From Session:"},
+		{"second visit", "look at me", "<small>From Session: look at me"},
 	}
 
-	requestBody, err := io.ReadAll(responseRecorder.Body)
-	if err != nil {
-		t.Errorf("Reading request body errored. %s", err.Error())
-	}
+	for _, test := range tests {
+		req, _ := http.NewRequest("GET", "/", nil)
+		req = addContextAndSessionToRequest(req, app)
+		_ = app.Session.Destroy(req.Context())
 
-	const lookFor = "<small>From Session:"
+		if test.putInSession != "" {
+			app.Session.Put(req.Context(), "test", test.putInSession)
+		}
 
-	if !strings.Contains(string(requestBody), lookFor) {
-		t.Errorf("Could not find `%s` in the body", lookFor)
+		responseRecorder := httptest.NewRecorder()
+		handler := http.HandlerFunc(app.Home)
+		handler.ServeHTTP(responseRecorder, req)
+
+		if responseRecorder.Code != http.StatusOK {
+			t.Errorf("Test_Home_Improved returned status code %d instead of %d", responseRecorder.Code, http.StatusOK)
+		}
+
+		body, _ := io.ReadAll(responseRecorder.Body)
+		if !strings.Contains(string(body), test.expectedHTML) {
+			t.Errorf("(%s) Did not find '%s' in response body", test.name, test.expectedHTML)
+		}
 	}
 }
