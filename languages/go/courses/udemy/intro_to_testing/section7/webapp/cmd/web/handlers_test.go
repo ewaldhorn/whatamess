@@ -85,3 +85,19 @@ func Test_Home_Improved(t *testing.T) {
 		}
 	}
 }
+
+// ----------------------------------------------------------------------------
+func Test_Render_Bad_Template(t *testing.T) {
+	// set up path to a bad template in the testdata directory
+	pathToTemplates = "./testdata/"
+	pathToPages = pathToTemplates + "pages"
+
+	req, _ := http.NewRequest("GET", "/", nil)
+	req = addContextAndSessionToRequest(req, app)
+	responseRecorder := httptest.NewRecorder()
+
+	err := app.render(responseRecorder, req, "bad.page.gohtml", &TemplateData{})
+	if err == nil {
+		t.Errorf("Expected an error from the template, none was received")
+	}
+}
