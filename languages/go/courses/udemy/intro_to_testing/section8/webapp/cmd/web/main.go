@@ -30,6 +30,7 @@ func main() {
 	if err != nil {
 		log.Fatal("Database connection failed:", err)
 	}
+	defer dbConnection.Close()
 
 	app.DB = db.PostgresConn{DB: dbConnection}
 

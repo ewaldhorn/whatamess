@@ -89,6 +89,10 @@ func Test_Home_Improved(t *testing.T) {
 // ----------------------------------------------------------------------------
 func Test_Render_Bad_Template(t *testing.T) {
 	// set up path to a bad template in the testdata directory
+	// keep a copy around to restore later
+	tmpPathToTemplates := pathToTemplates
+	tmpPathToPages := pathToPages
+
 	pathToTemplates = "./testdata/"
 	pathToPages = pathToTemplates + "pages"
 
@@ -100,4 +104,8 @@ func Test_Render_Bad_Template(t *testing.T) {
 	if err == nil {
 		t.Errorf("Expected an error from the template, none was received")
 	}
+
+	// restore page and template paths
+	pathToTemplates = tmpPathToTemplates
+	pathToPages = tmpPathToPages
 }
