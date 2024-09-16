@@ -1,0 +1,16 @@
+//kage:unit pixels
+package main
+
+/*
+Various vector operations:
+
+	vec4(1) // creates a vector with 4 components, all set to 1
+	vec4(0, 0, 16, 32)[3] // access the last component of a vec4 with normal indexing
+	vec4(0.5, 0.5, 1.0, 1.0).rgb // gets a vec3 with the r, g, and b components from the vec4
+	vec3(32, 44.0, 0).xy // fields can't only be accessed as rgba, but also xyzw or stpq
+	vec2(3, 5).yxx // you can even mix up the order or repeat fields!
+*/
+
+func Fragment(_ vec4, _ vec2, _ vec4) vec4 {
+	return vec4(1, 0, 0, 1)
+}
