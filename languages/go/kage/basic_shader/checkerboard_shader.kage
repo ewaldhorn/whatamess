@@ -1,0 +1,14 @@
+//kage:unit pixels
+package main
+
+const CellSize = 16
+
+// checkerboard effect shader
+func Fragment(targetCoords vec4, _ vec2, _ vec4) vec4 {
+	xy := floor(targetCoords.x/CellSize) + floor(targetCoords.y/CellSize)
+	if mod(xy, 2) == 0 {
+		return vec4(1)
+	} else {
+		return vec4(0, 0, 0, 1)
+	}
+}
