@@ -11,6 +11,11 @@ Various vector operations:
 	vec2(3, 5).yxx // you can even mix up the order or repeat fields!
 */
 
-func Fragment(_ vec4, _ vec2, _ vec4) vec4 {
-	return vec4(1, 0, 0, 1)
+func Fragment(targetCoords vec4, _ vec2, _ vec4) vec4 {
+	if targetCoords.x < 256 {
+		return vec4(1) // white
+	} else {
+		return vec4(vec3(0), 1) // black
+		// ^ most people just return vec4(0, 0, 0, 1), but now you know this also works
+	}
 }
