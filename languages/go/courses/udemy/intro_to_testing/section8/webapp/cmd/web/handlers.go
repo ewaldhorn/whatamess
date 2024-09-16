@@ -72,7 +72,9 @@ func (app *application) Login(w http.ResponseWriter, r *http.Request) {
 	form.Required("email", "password")
 
 	if !form.Valid() {
-		fmt.Fprintf(w, "failed validation")
+		// redirect to login page with an error message
+		app.Session.Put(r.Context(), "error", "Login failed.")
+		http.Redirect(w, r, "/", http.StatusSeeOther)
 		return
 	}
 
@@ -81,10 +83,26 @@ func (app *application) Login(w http.ResponseWriter, r *http.Request) {
 
 	user, err := app.DB.GetUserByEmail(email)
 	if err != nil {
-		log.Println(err)
+		// redirect to login page with an error message
+		app.Session.Put(r.Context(), "error", "Login failed.")
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
 	}
 
-	log.Println(user)
+	// authenticate password
+	fmt.Println(user, password)
 
-	fmt.Fprintf(w, "We have [%s]:[%s]", email, password)
+	// prevent fixation attack
+	_ = app.Session.RenewToken(r.Context())
+
+	// store success in Session
+	app.Session.Put(r.Context(), "flash", "Login succeeded.")
+	// redirect to app
+	http.Redirect(w, r, "/user/profile", http.StatusSeeOther)
+
+}
+
+// ----------------------------------------------------------------------------
+func (app *application) Profile(w http.ResponseWriter, r *http.Request) {
+	_ = app.render(w, r, "profile.page.gohtml", &TemplateData{})
 }
