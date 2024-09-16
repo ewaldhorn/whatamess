@@ -6,27 +6,31 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
-//go:embed shader.kage
+//go:embed circle_shader.kage
 var shaderProgram []byte
 
 func main() {
 	// compile the shader
 	shader, err := ebiten.NewShader(shaderProgram)
-	if err != nil { panic(err) }
+	if err != nil {
+		panic(err)
+	}
 
 	// create game struct
-	game := &Game{ shader: shader }
+	game := &Game{shader: shader}
 
 	// configure window and run game
 	ebiten.SetWindowTitle("intro/invoke-shader")
 	ebiten.SetWindowSize(512, 512)
 	err = ebiten.RunGame(game)
-	if err != nil { panic(err) }
+	if err != nil {
+		panic(err)
+	}
 }
 
 // Struct implementing the ebiten.Game interface.
 type Game struct {
-	shader *ebiten.Shader
+	shader   *ebiten.Shader
 	vertices [4]ebiten.Vertex
 }
 
@@ -62,6 +66,11 @@ func (self *Game) Draw(screen *ebiten.Image) {
 	// it when needed. it's also possible to reuse the options
 	// in many cases, here we are keeping it straight-forward)
 	var shaderOpts ebiten.DrawTrianglesShaderOptions
+	shaderOpts.Uniforms = make(map[string]interface{})
+	shaderOpts.Uniforms["Center"] = []float32{
+		float32(screen.Bounds().Dx()) / 2,
+		float32(screen.Bounds().Dy()) / 2,
+	}
 
 	// draw shader
 	indices := []uint16{0, 1, 2, 2, 1, 3} // map vertices to triangles
