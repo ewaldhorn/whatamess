@@ -1,8 +1,8 @@
 //kage:unit pixels
 package main
 
-var Center vec2 // uniform: circle center coords
-const Radius = 80.0
+var Center vec2  // uniform: circle center coords
+var Radius float // uniform: circle radius
 
 func Fragment(targetCoords vec4, _ vec2, _ vec4) vec4 {
 	distToCenter := distance(Center, targetCoords.xy)

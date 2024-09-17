@@ -17,7 +17,7 @@ func main() {
 	}
 
 	// create game struct
-	game := &Game{shader: shader}
+	game := &Game{shader: shader, circleRadius: 4.0, direction: 2.0}
 
 	// configure window and run game
 	ebiten.SetWindowTitle("intro/invoke-shader")
@@ -30,8 +30,10 @@ func main() {
 
 // Struct implementing the ebiten.Game interface.
 type Game struct {
-	shader   *ebiten.Shader
-	vertices [4]ebiten.Vertex
+	shader       *ebiten.Shader
+	vertices     [4]ebiten.Vertex
+	circleRadius float32
+	direction    float32
 }
 
 // Assume a fixed layout.
@@ -40,7 +42,15 @@ func (self *Game) Layout(_, _ int) (int, int) {
 }
 
 // No logic to update.
-func (self *Game) Update() error { return nil }
+func (self *Game) Update() error {
+	self.circleRadius += self.direction
+
+	if self.circleRadius < 6 || self.circleRadius > 120 {
+		self.direction *= -1
+	}
+
+	return nil
+}
 
 // Core drawing function from where we call DrawTrianglesShader.
 func (self *Game) Draw(screen *ebiten.Image) {
@@ -71,6 +81,7 @@ func (self *Game) Draw(screen *ebiten.Image) {
 		float32(screen.Bounds().Dx()) / 2,
 		float32(screen.Bounds().Dy()) / 2,
 	}
+	shaderOpts.Uniforms["Radius"] = self.circleRadius
 
 	// draw shader
 	indices := []uint16{0, 1, 2, 2, 1, 3} // map vertices to triangles
