@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"path"
 	"time"
+	"webapp/pkg/data"
 )
 
 // need to keep as vars, since tests need to adjust the relative path location(s)
@@ -31,8 +32,11 @@ func (app *application) Home(w http.ResponseWriter, r *http.Request) {
 
 // ----------------------------------------------------------------------------
 type TemplateData struct {
-	IP   string
-	Data map[string]any
+	IP    string
+	Data  map[string]any
+	Error string
+	Flash string
+	User  data.User
 }
 
 // ----------------------------------------------------------------------------
@@ -40,7 +44,7 @@ func (app *application) render(
 	w http.ResponseWriter,
 	r *http.Request,
 	pageTemplate string,
-	data *TemplateData) error {
+	templateData *TemplateData) error {
 	parsedTemplate, err := template.ParseFiles(path.Join(pathToPages, pageTemplate),
 		path.Join(pathToPages, baseLayoutTemplate))
 	if err != nil {
@@ -49,9 +53,11 @@ func (app *application) render(
 		return err
 	}
 
-	data.IP = app.ipFromContext(r.Context())
+	templateData.IP = app.ipFromContext(r.Context())
+	templateData.Error = app.Session.PopString(r.Context(), "error")
+	templateData.Flash = app.Session.PopString(r.Context(), "flash")
 
-	err = parsedTemplate.Execute(w, data)
+	err = parsedTemplate.Execute(w, templateData)
 	if err != nil {
 		return err
 	}
