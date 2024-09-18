@@ -97,7 +97,7 @@ func (app *application) Login(w http.ResponseWriter, r *http.Request) {
 	// authenticate password
 	if !app.authenticate(r, user, password) {
 		app.Session.Put(r.Context(), "error", "Login failed.")
-		http.Redirect(w, r, HOME_URL, http.StatusUnauthorized)
+		http.Redirect(w, r, HOME_URL, http.StatusSeeOther)
 		return
 	}
 
