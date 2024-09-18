@@ -125,6 +125,30 @@ func Test_app_Login(t *testing.T) {
 			expectedStatusCode: http.StatusSeeOther,
 			expectedLocation:   "/user/profile",
 		},
+		{
+			name:               "invalid login - wrong password",
+			postedData:         url.Values{"email": {"admin@example.com"}, "password": {"secrets"}},
+			expectedStatusCode: http.StatusSeeOther,
+			expectedLocation:   "/",
+		},
+		{
+			name:               "invalid login - no password",
+			postedData:         url.Values{"email": {"admin@example.com"}},
+			expectedStatusCode: http.StatusSeeOther,
+			expectedLocation:   "/",
+		},
+		{
+			name:               "invalid login - no email",
+			postedData:         url.Values{"password": {"secret"}},
+			expectedStatusCode: http.StatusSeeOther,
+			expectedLocation:   "/",
+		},
+		{
+			name:               "invalid login - no such user",
+			postedData:         url.Values{"email": {"wntwrk@example.com"}, "password": {"sucker"}},
+			expectedStatusCode: http.StatusSeeOther,
+			expectedLocation:   "/",
+		},
 	}
 
 	for _, test := range tests {
