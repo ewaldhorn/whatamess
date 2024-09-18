@@ -108,7 +108,6 @@ func (app *application) Login(w http.ResponseWriter, r *http.Request) {
 	app.Session.Put(r.Context(), "flash", "Login succeeded.")
 	// redirect to app
 	http.Redirect(w, r, "/user/profile", http.StatusSeeOther)
-
 }
 
 // ----------------------------------------------------------------------------

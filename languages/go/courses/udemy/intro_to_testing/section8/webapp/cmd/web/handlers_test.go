@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"strings"
 	"testing"
 )
@@ -108,4 +109,47 @@ func Test_Render_Bad_Template(t *testing.T) {
 	// restore page and template paths
 	pathToTemplates = tmpPathToTemplates
 	pathToPages = tmpPathToPages
+}
+
+// ----------------------------------------------------------------------------
+func Test_app_Login(t *testing.T) {
+	var tests = []struct {
+		name               string
+		postedData         url.Values
+		expectedStatusCode int
+		expectedLocation   string
+	}{
+		{
+			name:               "valid login",
+			postedData:         url.Values{"email": {"admin@example.com"}, "password": {"secret"}},
+			expectedStatusCode: http.StatusSeeOther,
+			expectedLocation:   "/user/profile",
+		},
+	}
+
+	for _, test := range tests {
+		req, err := http.NewRequest("POST", "/login", strings.NewReader(test.postedData.Encode()))
+		if err != nil {
+			t.Errorf("unexpected error: %s ", err.Error())
+		}
+
+		req = addContextAndSessionToRequest(req, app)
+		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+		requestRecorder := httptest.NewRecorder()
+		handler := http.HandlerFunc(app.Login)
+		handler.ServeHTTP(requestRecorder, req)
+
+		if requestRecorder.Code != test.expectedStatusCode {
+			t.Errorf("error in test '%s'. Got %d, expected %d", test.name, requestRecorder.Code, test.expectedStatusCode)
+		}
+
+		actualLocation, err := requestRecorder.Result().Location()
+		if err != nil {
+			t.Errorf("unable to retrieve location for '%s'", test.name)
+		}
+
+		if actualLocation.String() != test.expectedLocation {
+			t.Errorf("location for '%s' is '%s' instead of '%s'", test.name, actualLocation.String(), test.expectedLocation)
+		}
+	}
 }
