@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -80,7 +79,7 @@ func (app *application) Login(w http.ResponseWriter, r *http.Request) {
 	if !form.Valid() {
 		// redirect to login page with an error message
 		app.Session.Put(r.Context(), "error", "Login failed.")
-		http.Redirect(w, r, "/", http.StatusSeeOther)
+		http.Redirect(w, r, HOME_URL, http.StatusSeeOther)
 		return
 	}
 
@@ -91,12 +90,16 @@ func (app *application) Login(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		// redirect to login page with an error message
 		app.Session.Put(r.Context(), "error", "Login failed.")
-		http.Redirect(w, r, "/", http.StatusSeeOther)
+		http.Redirect(w, r, HOME_URL, http.StatusSeeOther)
 		return
 	}
 
 	// authenticate password
-	fmt.Println(user, password)
+	if !app.authenticate(r, user, password) {
+		app.Session.Put(r.Context(), "error", "Login failed.")
+		http.Redirect(w, r, HOME_URL, http.StatusUnauthorized)
+		return
+	}
 
 	// prevent fixation attack
 	_ = app.Session.RenewToken(r.Context())
@@ -111,4 +114,14 @@ func (app *application) Login(w http.ResponseWriter, r *http.Request) {
 // ----------------------------------------------------------------------------
 func (app *application) Profile(w http.ResponseWriter, r *http.Request) {
 	_ = app.render(w, r, "profile.page.gohtml", &TemplateData{})
+}
+
+// ----------------------------------------------------------------------------
+func (app *application) authenticate(r *http.Request, user *data.User, password string) bool {
+	if valid, err := user.PasswordMatches(password); err != nil || !valid {
+		return false
+	}
+
+	app.Session.Put(r.Context(), "user", user)
+	return true
 }

@@ -1,9 +1,11 @@
 package main
 
 import (
+	"encoding/gob"
 	"flag"
 	"log"
 	"net/http"
+	"webapp/pkg/data"
 	"webapp/pkg/db"
 
 	"github.com/alexedwards/scs/v2"
@@ -17,8 +19,15 @@ type application struct {
 }
 
 // ----------------------------------------------------------------------------
+const (
+	HOME_URL = "/"
+	PORT     = "9000"
+)
+
+// ----------------------------------------------------------------------------
 func main() {
-	const port = "9000"
+	// register custom types that will be placed in Sessions
+	gob.Register(data.User{})
 
 	app := application{}
 
@@ -36,9 +45,9 @@ func main() {
 
 	app.Session = getSession()
 
-	log.Print("Starting server on:", port)
+	log.Print("Starting server on:", PORT)
 
-	err = http.ListenAndServe(string(":"+port), app.routes())
+	err = http.ListenAndServe(string(":"+PORT), app.routes())
 	if err != nil {
 		log.Fatal(err)
 	}
