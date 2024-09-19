@@ -15,10 +15,15 @@ func (app *application) routes() http.Handler {
 	mux.Use(app.addIPToContext)
 	mux.Use(app.Session.LoadAndSave)
 
-	// general routes
+	// general open routes
 	mux.Get("/", app.Home)
 	mux.Post("/login", app.Login)
-	mux.Get("/user/profile", app.Profile)
+
+	// authenticated routes
+	mux.Route("/user", func(r chi.Router) {
+		mux.Use(app.auth)
+		mux.Get("/profile", app.Profile)
+	})
 
 	// static assets
 	fileServer := http.FileServer(http.Dir("./static/"))
