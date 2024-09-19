@@ -21,8 +21,8 @@ func (app *application) routes() http.Handler {
 
 	// authenticated routes
 	mux.Route("/user", func(r chi.Router) {
-		mux.Use(app.auth)
-		mux.Get("/profile", app.Profile)
+		r.Use(app.auth)
+		r.Get("/profile", app.Profile)
 	})
 
 	// static assets

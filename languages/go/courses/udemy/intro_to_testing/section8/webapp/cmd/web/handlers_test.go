@@ -26,12 +26,15 @@ func addContextAndSessionToRequest(req *http.Request, app application) *http.Req
 // ----------------------------------------------------------------------------
 func Test_application_handlers(t *testing.T) {
 	var tests = []struct {
-		name               string
-		url                string
-		expectedStatusCode int
+		name                    string
+		url                     string
+		expectedStatusCode      int
+		expectedURL             string
+		expectedFirstStatusCode int
 	}{
-		{"home", "/", http.StatusOK},
-		{"not found", "/thisIsNotAvailable", http.StatusNotFound},
+		{"home", "/", http.StatusOK, HOME_URL, http.StatusOK},
+		{"not found", "/thisIsNotAvailable", http.StatusNotFound, "/thisIsNotAvailable", http.StatusNotFound},
+		{"profile", "/user/profile", http.StatusUnauthorized, "/", http.StatusUnauthorized},
 	}
 
 	routes := app.routes()
@@ -49,6 +52,7 @@ func Test_application_handlers(t *testing.T) {
 		if rsp.StatusCode != test.expectedStatusCode {
 			t.Errorf("%s failed with a status code of %d, expected %d", test.name, rsp.StatusCode, test.expectedStatusCode)
 		}
+
 	}
 }
 
