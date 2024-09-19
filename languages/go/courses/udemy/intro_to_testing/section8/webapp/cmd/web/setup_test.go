@@ -18,6 +18,7 @@ func TestMain(m *testing.M) {
 
 	conStr := "host=localhost port=5432 user=postgres password=postgres dbname=users sslmode=disable timezone=UCT+2 connect_timeout=5"
 	app.DSN = conStr
+
 	dbConnection, err := app.connectToDatabase()
 	if err != nil {
 		log.Fatal("TEST: Database connection failed:", err)
