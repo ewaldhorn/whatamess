@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"crypto/tls"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -34,13 +35,24 @@ func Test_application_handlers(t *testing.T) {
 	}{
 		{"home", "/", http.StatusOK, HOME_URL, http.StatusOK},
 		{"not found", "/thisIsNotAvailable", http.StatusNotFound, "/thisIsNotAvailable", http.StatusNotFound},
-		{"profile", "/user/profile", http.StatusUnauthorized, "/", http.StatusUnauthorized},
+		{"profile", "/user/profile", http.StatusUnauthorized, "/user/profile", http.StatusUnauthorized},
 	}
 
 	routes := app.routes()
 
 	testServer := httptest.NewTLSServer(routes)
 	defer testServer.Close()
+
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+
+	client := &http.Client{
+		Transport: tr,
+		CheckRedirect: func(req *http.Request, via []*http.Request) error {
+			return http.ErrUseLastResponse
+		},
+	}
 
 	for _, test := range tests {
 		rsp, err := testServer.Client().Get(testServer.URL + test.url)
@@ -53,6 +65,14 @@ func Test_application_handlers(t *testing.T) {
 			t.Errorf("%s failed with a status code of %d, expected %d", test.name, rsp.StatusCode, test.expectedStatusCode)
 		}
 
+		if rsp.Request.URL.Path != test.expectedURL {
+			t.Errorf("%s failed with path '%s' vs expected path '%s'", test.name, rsp.Request.URL.Path, test.expectedURL)
+		}
+
+		resp2, _ := client.Get(testServer.URL + test.url)
+		if resp2.StatusCode != test.expectedFirstStatusCode {
+			t.Errorf("%s: expected first returned status code to be %d but got %d", test.name, test.expectedFirstStatusCode, resp2.StatusCode)
+		}
 	}
 }
 
