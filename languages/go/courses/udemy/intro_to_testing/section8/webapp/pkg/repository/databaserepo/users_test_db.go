@@ -2,6 +2,8 @@ package databaserepo
 
 import (
 	"database/sql"
+	"errors"
+	"time"
 	"webapp/pkg/data"
 )
 
@@ -37,14 +39,18 @@ func (m *TestingDBRepo) GetUser(id int) (*data.User, error) {
 // ----------------------------------------------------------------------------
 // GetUserByEmail returns one user by email address
 func (m *TestingDBRepo) GetUserByEmail(email string) (*data.User, error) {
-	var user = data.User{
-		ID:        1,
-		FirstName: "Bob",
-		LastName:  "Nope",
-		Email:     "bob@nope.com",
+	if email == "admin@example.com" {
+		return &data.User{
+			ID:        1,
+			Email:     "admin@example.com",
+			Password:  "$2a$14$ajq8Q7fbtFRQvXpdCq7Jcuy.Rx1h/L4J60Otx.gyNLbAYctGMJ9tK",
+			IsAdmin:   1,
+			CreatedAt: time.Now(),
+			UpdatedAt: time.Now(),
+		}, nil
 	}
 
-	return &user, nil
+	return nil, errors.New("Unknown user")
 }
 
 // ----------------------------------------------------------------------------

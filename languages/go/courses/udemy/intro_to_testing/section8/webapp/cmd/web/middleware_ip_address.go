@@ -19,7 +19,7 @@ func (app *application) ipFromContext(ctx context.Context) string {
 // ------------------------------------------------------------------------------------------------
 func (app *application) addIPToContext(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		var ctx = context.Background()
+		var ctx context.Context
 
 		// get ip as accurately as possible
 		ip, err := getIP(r)
