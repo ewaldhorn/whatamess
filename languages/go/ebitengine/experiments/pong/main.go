@@ -83,6 +83,10 @@ func (g *Game) Update() error {
 func (g *Game) Reset() {
 	g.ball.X = 0
 	g.ball.Y = 0
+	if g.score > g.highScore {
+		g.highScore = g.score
+	}
+
 	g.score = 0
 }
 
