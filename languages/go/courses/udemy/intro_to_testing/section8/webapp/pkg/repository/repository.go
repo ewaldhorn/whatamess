@@ -14,5 +14,5 @@ type DatabaseRepo interface {
 	DeleteUser(id int) error
 	InsertUser(user data.User) (int, error)
 	ResetPassword(id int, password string) error
-	InsertUserImage(img data.UserImage) (int, err)
+	InsertUserImage(img data.UserImage) (int, error)
 }
