@@ -64,7 +64,12 @@ func TestMain(m *testing.M) {
 		_ = pool.Purge(resource)
 		log.Fatalf("could not connect to the database: %s", err)
 	}
+
 	// set up database with tables etc.
+	err = createTables()
+	if err != nil {
+		log.Fatalf("error creating tables: %s", err)
+	}
 
 	// run tests
 	code := m.Run()
@@ -73,4 +78,23 @@ func TestMain(m *testing.M) {
 
 	// all done
 	os.Exit(code)
+}
+
+// ----------------------------------------------------------------------------
+func createTables() error {
+	// attempt to read the script
+	sqlScript, err := os.ReadFile("./testdata/users.sql")
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	// try to execute it
+	_, err = testDB.Exec(string(sqlScript))
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	return nil
 }
