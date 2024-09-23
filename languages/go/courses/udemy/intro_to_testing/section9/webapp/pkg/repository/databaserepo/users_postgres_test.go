@@ -14,6 +14,7 @@ import (
 	"github.com/ory/dockertest/v3/docker"
 )
 
+// ----------------------------------------------------------------------------
 var (
 	host     = "localhost"
 	user     = "postgres"
@@ -27,6 +28,7 @@ var resource *dockertest.Resource
 var pool *dockertest.Pool
 var testDB *sql.DB
 
+// ----------------------------------------------------------------------------
 func TestMain(m *testing.M) {
 	// connect to docker, fail if docker is not running
 	tmpPool, err := dockertest.NewPool("")
@@ -45,11 +47,13 @@ func TestMain(m *testing.M) {
 		PortBindings: map[docker.Port][]docker.PortBinding{"5432": {{HostIP: "0.0.0.0", HostPort: port}}}}
 
 	// get docker image
-	resource, err := pool.RunWithOptions(&options)
+	tmpResource, err := pool.RunWithOptions(&options)
 	if err != nil {
-		_ = pool.Purge(resource)
+		_ = pool.Purge(tmpResource)
 		log.Fatalf("could not start resource: %s", err)
 	}
+
+	resource = tmpResource
 
 	// start and wait for image
 	if err := pool.Retry(func() error {

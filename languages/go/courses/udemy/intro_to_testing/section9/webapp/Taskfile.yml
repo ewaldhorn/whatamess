@@ -12,9 +12,10 @@ tasks:
       - task --list-all
     silent: true
   lint:
-    desc: Runs the golangci-lint tool
+    desc: Runs the golangci-lint and staticheck tools
     cmds:
       - golangci-lint run
+      - staticcheck ./...
     silent: true
   server:
     desc: Starts the server component

@@ -50,7 +50,7 @@ func (m *TestingDBRepo) GetUserByEmail(email string) (*data.User, error) {
 		}, nil
 	}
 
-	return nil, errors.New("Unknown user")
+	return nil, errors.New("unknown user")
 }
 
 // ----------------------------------------------------------------------------
