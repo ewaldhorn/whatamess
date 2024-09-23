@@ -25,7 +25,12 @@ tasks:
   testserver:
     desc: Tests the server component
     cmds:
-      - go test ./cmd/web
+      - go test -v ./cmd/web
+    silent: true
+  testpkg:
+    desc: Tests the pkg components
+    cmds:
+      - go test -v ./pkg/...
     silent: true
   testservercoverage:
     desc: Tests the server component code coverage
@@ -36,6 +41,7 @@ tasks:
     desc: Runs all the tests (server/client/etc)
     cmds:
       - task: testserver
+      - task: testpkg
     silent: true
   coverreportserver:
     desc: Shows test coverage report for the Server component
