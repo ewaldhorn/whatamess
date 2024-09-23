@@ -2,13 +2,13 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"strings"
 	"todoapp/src/models"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/data/binding"
 	"fyne.io/fyne/v2/widget"
 )
 
@@ -55,27 +55,33 @@ func createTodoListSection() fyne.CanvasObject {
 		models.NewTodo("Some other things"),
 	}
 
-	return widget.NewList(
-		// func that returns the number of items in the list
-		func() int {
-			return len(data)
-		},
+	todos := binding.NewUntypedList()
+	for _, t := range data {
+		todos.Append(t)
+	}
+
+	return widget.NewListWithData(
+		todos,
 		// func that returns the component structure of the List Item
 		func() fyne.CanvasObject {
 			return container.NewBorder(nil, nil, nil, widget.NewCheck("", func(b bool) {}), widget.NewLabel(""))
 		},
 		// func that is called for each item in the list and allows
 		// you to show the content on the previously defined ui structure
-		func(idx widget.ListItemID, canvasObject fyne.CanvasObject) {
-			container, success := canvasObject.(*fyne.Container)
-			if success != true {
-				log.Println("Error creating container.")
-			}
-
+		// func that is called for each item in the list and allows
+		// but this time we get the actual DataItem we need to cast
+		func(di binding.DataItem, object fyne.CanvasObject) {
+			container, _ := object.(*fyne.Container)
+			// ideally we should check `ok` for each one of those casting
+			// but we know that they are those types for sure
 			label := container.Objects[0].(*widget.Label)
-			checkBox := container.Objects[1].(*widget.Check)
-			label.SetText(data[idx].Description)
-			checkBox.SetChecked(data[idx].Done)
+			checkbox := container.Objects[1].(*widget.Check)
+
+			diu, _ := di.(binding.Untyped).Get()
+			todo := diu.(models.Todo)
+
+			label.SetText(todo.Description)
+			checkbox.SetChecked(todo.Done)
 		})
 }
 
