@@ -29,10 +29,12 @@ var testDB *sql.DB
 
 func TestMain(m *testing.M) {
 	// connect to docker, fail if docker is not running
-	pool, err := dockertest.NewPool("")
+	tmpPool, err := dockertest.NewPool("")
 	if err != nil {
 		log.Fatalf("unable to connect to Docker instance: %s", err)
 	}
+
+	pool = tmpPool
 
 	// set up docker options
 	options := dockertest.RunOptions{
