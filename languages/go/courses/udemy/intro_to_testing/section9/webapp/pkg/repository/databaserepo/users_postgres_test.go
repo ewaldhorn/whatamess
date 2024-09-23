@@ -75,6 +75,9 @@ func TestMain(m *testing.M) {
 	code := m.Run()
 
 	// clean up
+	if err := pool.Purge(resource); err != nil {
+		log.Fatalf("could not purge resources: %s", err)
+	}
 
 	// all done
 	os.Exit(code)
@@ -97,4 +100,12 @@ func createTables() error {
 	}
 
 	return nil
+}
+
+// ----------------------------------------------------------------------------
+func Test_PingDB(t *testing.T) {
+	err := testDB.Ping()
+	if err != nil {
+		t.Error("unable to ping database")
+	}
 }
