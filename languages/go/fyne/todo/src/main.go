@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"strings"
 	"todoapp/src/models"
 
@@ -61,12 +62,20 @@ func createTodoListSection() fyne.CanvasObject {
 		},
 		// func that returns the component structure of the List Item
 		func() fyne.CanvasObject {
-			return widget.NewLabel("template")
+			return container.NewBorder(nil, nil, nil, widget.NewCheck("", func(b bool) {}), widget.NewLabel(""))
 		},
 		// func that is called for each item in the list and allows
 		// you to show the content on the previously defined ui structure
-		func(i widget.ListItemID, o fyne.CanvasObject) {
-			o.(*widget.Label).SetText(data[i].Description)
+		func(idx widget.ListItemID, canvasObject fyne.CanvasObject) {
+			container, success := canvasObject.(*fyne.Container)
+			if success != true {
+				log.Println("Error creating container.")
+			}
+
+			label := container.Objects[0].(*widget.Label)
+			checkBox := container.Objects[1].(*widget.Check)
+			label.SetText(data[idx].Description)
+			checkBox.SetChecked(data[idx].Done)
 		})
 }
 
