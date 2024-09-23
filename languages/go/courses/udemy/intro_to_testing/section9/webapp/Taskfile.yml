@@ -1,0 +1,45 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  GREETING: Hello, World!
+
+tasks:
+  default:
+    desc: Lists all available tasks
+    cmds:
+      - task --list-all
+    silent: true
+  lint:
+    desc: Runs the golangci-lint tool
+    cmds:
+      - golangci-lint run
+    silent: true
+  server:
+    desc: Starts the server component
+    cmds:
+      - go run ./cmd/web
+    silent: true
+    ignore_error: true
+  testserver:
+    desc: Tests the server component
+    cmds:
+      - go test ./cmd/web
+    silent: true
+  testservercoverage:
+    desc: Tests the server component code coverage
+    cmds:
+      - go test -cover ./cmd/web
+    silent: true
+  test:
+    desc: Runs all the tests (server/client/etc)
+    cmds:
+      - task: testserver
+    silent: true
+  coverreportserver:
+    desc: Shows test coverage report for the Server component
+    cmds:
+      - go test -coverprofile=coverage.out ./cmd/web
+      - go tool cover -html=coverage.out
+    silent: true
