@@ -9,6 +9,7 @@ import (
 func main() {
 	justBasicSlice()
 	sliceOfSlice()
+	removingElements()
 }
 
 // ----------------------------------------------------------------------------
@@ -65,4 +66,15 @@ func sliceOfSlice() {
 	numbers[len(numbers)-1] = 11
 	fmt.Printf("There are %d elements in numbers (%v).\n", len(numbers), numbers)
 	fmt.Printf("LastThree now contains %d elements (%v)\n", len(lastThree), lastThree)
+}
+
+// ----------------------------------------------------------------------------
+func removingElements() {
+	printHeader("Removing elements:")
+	items := []string{"beans", "pasta", "rice", "chicken", "sweetcorn"}
+
+	fmt.Println("We have    :", items)
+	fmt.Println("Let's remove 'chicken'")
+	items = append(items[:3], items[4:]...)
+	fmt.Println("We now have:", items)
 }
