@@ -30,3 +30,8 @@ tasks:
     cmds:
       - sqlite-utils {{.DATABASE_FILE}} "select * from agents" --table
     silent: true
+  run:
+    desc: Runs the application
+    cmds:
+      - go run .
+    silent: true
