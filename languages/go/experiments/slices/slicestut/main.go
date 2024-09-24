@@ -42,5 +42,27 @@ func sliceOfSlice() {
 	printHeader("Slices of Slices:")
 	numbers := []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
 
+	fmt.Println("Numbers:", numbers)
 	fmt.Printf("There are %d elements in numbers.\n", len(numbers))
+	fmt.Println("Slice from position 3:6", numbers[3:6]) // 3,4,5  end is excluded
+	fmt.Println("First five elements are (method1)", numbers[0:5])
+	fmt.Println("First five elements are (method2)", numbers[:5])
+	fmt.Println("Last element is", numbers[len(numbers)-1:])
+	fmt.Println("Last 3 elements are", numbers[len(numbers)-3:])
+
+	lastThree := numbers[len(numbers)-3:]
+
+	fmt.Println("LastThree:", lastThree)
+	fmt.Printf("LastThree contains %d elements\n", len(lastThree))
+
+	fmt.Println("Adding '10' to the slice")
+	lastThree = append(lastThree, 10)
+
+	fmt.Printf("LastThree now contains %d elements (%v)\n", len(lastThree), lastThree)
+	fmt.Printf("There are %d elements in numbers (%v).\n", len(numbers), numbers)
+
+	fmt.Println("Changing last item in numbers to 11")
+	numbers[len(numbers)-1] = 11
+	fmt.Printf("There are %d elements in numbers (%v).\n", len(numbers), numbers)
+	fmt.Printf("LastThree now contains %d elements (%v)\n", len(lastThree), lastThree)
 }
