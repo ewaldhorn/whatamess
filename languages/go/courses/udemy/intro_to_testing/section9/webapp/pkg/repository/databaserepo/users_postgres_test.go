@@ -222,3 +222,39 @@ func TestPostgresDBRepo_GetUserByEmail(t *testing.T) {
 		t.Errorf("received a user unexpectedly for shorty@stuff.com: ID %d", usr.ID)
 	}
 }
+
+// ----------------------------------------------------------------------------
+func TestPostgresDBRepo_UpdateUser(t *testing.T) {
+	user, err := testRepo.GetUser(2)
+	if err != nil {
+		t.Errorf("unable to get user with id 2: %s", err)
+	}
+
+	user.FirstName = "Ronald"
+	err = testRepo.UpdateUser(*user)
+	if err != nil {
+		t.Errorf("unable to update user: %s", err)
+	}
+
+	user, err = testRepo.GetUser(2)
+	if err != nil {
+		t.Errorf("unable to read updated user with ID 2: %s", err)
+	}
+
+	if user.FirstName != "Ronald" {
+		t.Errorf("error updating user record, changes not persisted")
+	}
+}
+
+// ----------------------------------------------------------------------------
+func TestProgresDBRepo_DeleteUser(t *testing.T) {
+	err := testRepo.DeleteUser(2)
+	if err != nil {
+		t.Errorf("error deleting user ID 2: %s", err)
+	}
+
+	_, err = testRepo.GetUser(2)
+	if err == nil {
+		t.Errorf("expected an error getting user with ID 2.")
+	}
+}
