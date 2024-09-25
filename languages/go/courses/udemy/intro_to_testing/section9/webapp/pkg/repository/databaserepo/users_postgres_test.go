@@ -258,3 +258,35 @@ func TestProgresDBRepo_DeleteUser(t *testing.T) {
 		t.Errorf("expected an error getting user with ID 2.")
 	}
 }
+
+// ----------------------------------------------------------------------------
+func TestPostgresDBRepo_ResetPassword(t *testing.T) {
+	err := testRepo.ResetPassword(1, "seeker")
+	if err != nil {
+		t.Errorf("unexpected error during password reset: %s", err)
+	}
+
+	user, err := testRepo.GetUser(1)
+	if err != nil {
+		t.Errorf("failed to load user with id 1: %s", err)
+	}
+
+	matches, err := user.PasswordMatches("seeker")
+	if err != nil {
+		t.Errorf("error matching passwords: %s", err)
+	}
+
+	if !matches {
+		t.Error("expected passwords to match")
+	}
+
+	err = testRepo.ResetPassword(2, "dope")
+	if err != nil {
+		t.Error("expected an error resetting password for non-existent user")
+	}
+}
+
+// ----------------------------------------------------------------------------
+func TestPostgresDBRepo_InsertUserImage(t *testing.T) {
+
+}
