@@ -142,3 +142,49 @@ func TestPostgresDBRepo_InsertUser(t *testing.T) {
 		t.Errorf("database is supposed to be empty, received id %d, expected 1", id)
 	}
 }
+
+// ----------------------------------------------------------------------------
+func TestPostgresDBRepo_AllUsers(t *testing.T) {
+	users, err := testRepo.AllUsers()
+	if err != nil {
+		t.Errorf("failed to get all users: %s", err)
+	}
+
+	if len(users) != 1 {
+		t.Errorf("received more users than the expected 1: %d", len(users))
+	}
+
+	if users[0].FirstName != "Charlie" {
+		t.Errorf("username %s is not 'Charlie'", users[0].FirstName)
+	}
+
+	testUser := data.User{
+		FirstName: "Ron",
+		LastName:  "Ronsom",
+		Email:     "ron@whale.com",
+		Password:  "secret",
+		IsAdmin:   0,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}
+
+	_, _ = testRepo.InsertUser(testUser)
+
+	users, err = testRepo.AllUsers()
+	if err != nil {
+		t.Errorf("failed to get all users: %s", err)
+	}
+
+	if len(users) != 2 {
+		t.Errorf("received more users than the expected 2: %d", len(users))
+	}
+
+	if users[0].FirstName != "Charlie" {
+		t.Errorf("username %s is not 'Charlie'", users[0].FirstName)
+	}
+
+	if users[1].FirstName != "Ron" {
+		t.Errorf("username %s is not 'Ron'", users[0].FirstName)
+	}
+
+}
