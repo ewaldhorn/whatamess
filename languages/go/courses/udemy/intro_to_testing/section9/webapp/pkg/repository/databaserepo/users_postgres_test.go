@@ -188,3 +188,37 @@ func TestPostgresDBRepo_AllUsers(t *testing.T) {
 	}
 
 }
+
+// ----------------------------------------------------------------------------
+func TestPostgresDBRepo_GetUser(t *testing.T) {
+	usr, err := testRepo.GetUser(1)
+	if err != nil {
+		t.Errorf("unexpected error: %s", err)
+	}
+
+	if usr.Email != "harpoon@whale.com" {
+		t.Errorf("user 1 has the wrong email address (%s), expected \"harpoon@whale.com\"", usr.Email)
+	}
+
+	usr, err = testRepo.GetUser(3)
+	if err == nil {
+		t.Errorf("expected an error when trying to find user 3, got a user with email: %s", usr.Email)
+	}
+}
+
+// ----------------------------------------------------------------------------
+func TestPostgresDBRepo_GetUserByEmail(t *testing.T) {
+	usr, err := testRepo.GetUserByEmail("ron@whale.com")
+	if err != nil {
+		t.Errorf("unexpected error: %s", err)
+	}
+
+	if usr.ID != 2 {
+		t.Errorf("user has the wrong ID (%d), expected 2.", usr.ID)
+	}
+
+	usr, err = testRepo.GetUserByEmail("shorty@stuff.com")
+	if err == nil {
+		t.Errorf("received a user unexpectedly for shorty@stuff.com: ID %d", usr.ID)
+	}
+}
