@@ -23,6 +23,16 @@ tasks:
       - go run ./cmd/web
     silent: true
     ignore_error: true
+  startdb:
+    desc: Brings up the Docker instance
+    cmds:
+      - docker compose up -d
+    silent: true
+  stopdb:
+    desc: Stops the Docker instance
+    cmds:
+      - docker compose down
+    silent: true
   testserver:
     desc: Tests the server component
     cmds:
