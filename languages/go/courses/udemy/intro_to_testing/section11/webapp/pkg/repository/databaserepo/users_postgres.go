@@ -244,11 +244,18 @@ func (m *PostgresDBRepo) InsertUserImage(i data.UserImage) (int, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
 	defer cancel()
 
+	// remove any (possibly) previous profile images before adding the new one
+	removeStmt := `delete from user_images where user_id = $1`
+	_, err := m.DB.ExecContext(ctx, removeStmt, i.UserID)
+	if err != nil {
+		return 0, err
+	}
+
 	var newID int
 	stmt := `insert into user_images (user_id, file_name, created_at, updated_at)
 		values ($1, $2, $3, $4) returning id`
 
-	err := m.DB.QueryRowContext(ctx, stmt,
+	err = m.DB.QueryRowContext(ctx, stmt,
 		i.UserID,
 		i.FileName,
 		time.Now(),

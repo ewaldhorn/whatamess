@@ -6,6 +6,11 @@
             <h1 class="mt-3">Profile Page</h1>
             <hr>
             <!-- do we show a profile pic or not -->
+            {{if ne .User.ProfilePic.FileName ""}}
+              <img class="img-fluid" style="max-width: 300px;" src="/static/img/{{.User.ProfilePic.FileName}}" alt="profile">
+            {{else}}
+              <p>No profile picture provided</p>
+            {{end}}
             <hr>
             <form action="/user/upload-profile-pic" method="post" enctype="multipart/form-data">
               <label for="formFile" class="form-label">Choose an image</label>
