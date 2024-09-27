@@ -61,6 +61,10 @@ func (app *application) render(
 	templateData.Error = app.Session.PopString(r.Context(), "error")
 	templateData.Flash = app.Session.PopString(r.Context(), "flash")
 
+	if app.Session.Exists(r.Context(), "user") {
+		templateData.User = app.Session.Get(r.Context(), "user").(data.User)
+	}
+
 	err = parsedTemplate.Execute(w, templateData)
 	if err != nil {
 		return err
