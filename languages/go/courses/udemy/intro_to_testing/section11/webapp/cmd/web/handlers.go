@@ -133,11 +133,39 @@ func (app *application) authenticate(r *http.Request, user *data.User, password 
 // ----------------------------------------------------------------------------
 func (app *application) UploadProfilePic(w http.ResponseWriter, r *http.Request) {
 	// get file from request
+	files, err := app.UploadFiles(r, "./static/img")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
 	// get user from session
+	user := app.Session.Get(r.Context(), "user").(data.User)
+
 	// create a data.UserImage variable
+	var newUserImage = data.UserImage{
+		UserID:   user.ID,
+		FileName: files[0].OriginalFilename,
+	}
+
 	// insert image into database
+	_, err = app.DB.InsertUserImage(newUserImage)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
 	// refresh user in session since there's a new profile image
+	updatedUser, err := app.DB.GetUser(user.ID)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	app.Session.Put(r.Context(), "user", updatedUser)
+
 	// redirect to profile page
+	http.Redirect(w, r, "/user/profile", http.StatusSeeOther)
 }
 
 // ----------------------------------------------------------------------------
