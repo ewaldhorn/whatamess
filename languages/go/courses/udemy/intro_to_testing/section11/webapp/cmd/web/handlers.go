@@ -1,10 +1,14 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
+	"io"
 	"log"
 	"net/http"
+	"os"
 	"path"
+	"path/filepath"
 	"time"
 	"webapp/pkg/data"
 )
@@ -14,6 +18,7 @@ var pathToTemplates = "./templates/"
 var pathToPages = pathToTemplates + "pages"
 
 const baseLayoutTemplate = "base.layout.gohtml"
+const MAX_UPLOAD_SIZE int64 = 1024 * 1024 * 5
 
 // ----------------------------------------------------------------------------
 func (app *application) Home(w http.ResponseWriter, r *http.Request) {
@@ -123,4 +128,67 @@ func (app *application) authenticate(r *http.Request, user *data.User, password 
 
 	app.Session.Put(r.Context(), "user", user)
 	return true
+}
+
+// ----------------------------------------------------------------------------
+func (app *application) UploadProfilePic(w http.ResponseWriter, r *http.Request) {
+	// get file from request
+	// get user from session
+	// create a data.UserImage variable
+	// insert image into database
+	// refresh user in session since there's a new profile image
+	// redirect to profile page
+}
+
+// ----------------------------------------------------------------------------
+type UploadedFile struct {
+	OriginalFilename string
+	FileSize         int64
+}
+
+// ----------------------------------------------------------------------------
+func (app *application) UploadFiles(r *http.Request, uploadDir string) ([]*UploadedFile, error) {
+	var uploadedFiles []*UploadedFile
+
+	err := r.ParseMultipartForm(MAX_UPLOAD_SIZE)
+	if err != nil {
+		return nil, fmt.Errorf("the uploaded file is too big and must be under %d bytes", MAX_UPLOAD_SIZE)
+	}
+
+	for _, fHeaders := range r.MultipartForm.File {
+		for _, hdr := range fHeaders {
+			uploadedFiles, err = func(uploadedFiles []*UploadedFile) ([]*UploadedFile, error) {
+				var uploadedFile UploadedFile
+
+				infile, err := hdr.Open()
+				if err != nil {
+					return nil, err
+				}
+				defer infile.Close()
+
+				uploadedFile.OriginalFilename = hdr.Filename
+
+				var outfile *os.File
+				defer outfile.Close()
+
+				if outfile, err = os.Create(filepath.Join(uploadDir, uploadedFile.OriginalFilename)); err != nil {
+					return nil, err
+				} else {
+					fileSize, err := io.Copy(outfile, infile)
+					if err != nil {
+						return nil, err
+					}
+					uploadedFile.FileSize = fileSize
+				}
+				uploadedFiles = append(uploadedFiles, &uploadedFile)
+				return uploadedFiles, nil
+			}(uploadedFiles)
+
+			if err != nil {
+				return uploadedFiles, err
+			}
+		}
+	}
+
+	return uploadedFiles, nil
 }
