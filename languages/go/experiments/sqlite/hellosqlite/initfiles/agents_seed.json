@@ -4,20 +4,23 @@
     "name": "Cassandra",
     "time": "2024-09-04T16:35:01Z",
     "email": "cas@mymail.com",
-    "score": 11
+    "score": 11,
+    "region": 1
   },
   {
     "id": 2,
     "name": "Steve",
     "time": "2024-09-04T16:35:03Z",
     "email": "steve@mymail.com",
-    "score": 10
+    "score": 10,
+    "region": 1
   },
   {
     "id": 3,
     "name": "Bob",
     "time": "2024-09-04T16:38:11Z",
     "email": "bob.furgus@mymail.com",
-    "score": 12
+    "score": 12,
+    "region": 3
   }
 ]
