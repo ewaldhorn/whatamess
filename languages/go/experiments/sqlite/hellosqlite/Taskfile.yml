@@ -35,3 +35,9 @@ tasks:
     cmds:
       - go run .
     silent: true
+  lint:
+    desc: Runs the golangci-lint and staticheck tools
+    cmds:
+      - golangci-lint run
+      - staticcheck ./...
+    silent: true
