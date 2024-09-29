@@ -26,6 +26,7 @@ func ListAllAgents(db *sql.DB) {
 		log.Fatal(err)
 	}
 	defer rows.Close()
+
 	for rows.Next() {
 		var id int
 		var name string
@@ -36,6 +37,7 @@ func ListAllAgents(db *sql.DB) {
 		}
 		fmt.Println(id, name, score)
 	}
+
 	err = rows.Err()
 	if err != nil {
 		log.Fatal(err)
