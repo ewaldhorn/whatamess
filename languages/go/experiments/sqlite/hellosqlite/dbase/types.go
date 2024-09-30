@@ -36,6 +36,7 @@ func ReadNewAgentFromCLI() (*Agent, error) {
 	newAgent := Agent{
 		name:  strings.TrimSpace(name),
 		email: strings.TrimSpace(email),
+		score: 0,
 	}
 
 	return &newAgent, nil

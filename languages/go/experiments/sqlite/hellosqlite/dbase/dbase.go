@@ -43,3 +43,13 @@ func ListAllAgents(db *sql.DB) {
 		log.Fatal(err)
 	}
 }
+
+// ----------------------------------------------------------------------------
+func AddAgent(db *sql.DB, newAgent Agent) {
+	stmt, err := db.Prepare("INSERT INTO agents (id, name, email, score) VALUES (?,?,?,?)")
+	if err != nil {
+		log.Fatal(err)
+	}
+	stmt.Exec(nil, newAgent.name, newAgent.email, newAgent.score)
+	defer stmt.Close()
+}
