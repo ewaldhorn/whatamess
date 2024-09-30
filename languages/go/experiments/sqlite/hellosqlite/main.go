@@ -35,7 +35,12 @@ func handleMenuSelection(options []wmenu.Opt, db *sql.DB) {
 	case 1:
 		dbase.ListAllAgents(db)
 	case 2:
-		fmt.Println("Add an agent")
+		agent, err := dbase.ReadNewAgentFromCLI()
+		if err != nil {
+			fmt.Println("Error reading data: ", err)
+		} else {
+			fmt.Println("Should add: ", agent)
+		}
 	case 3:
 		fmt.Println("Update an agent")
 	default:
