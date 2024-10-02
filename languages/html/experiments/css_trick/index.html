@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Trick</title>
+    <style>
+        .box-model {
+            background-image:
+                linear-gradient(#8db6c2, #8db6c2),
+                linear-gradient(#c4cf8b, #c4cf8b),
+                linear-gradient(#fddc9b, #fddc9b);
+            background-clip:
+                content-box,
+                padding-box,
+                border-box;
+
+            padding: 40px;
+            margin: 40px;
+            border: 40px solid transparent;
+            outline: 40px solid #f9cc9f;
+
+            display: grid;
+            place-items: center;
+        }
+
+        @property --angle-to-the-dangle {
+            syntax: "<angle>";
+            initial-value: 0deg;
+            inherits: true;
+        }
+
+        button {
+            background-image:
+                linear-gradient(oklch(59% 56% 259deg),
+                    oklch(59% 56% 259deg)),
+                conic-gradient(from var(--angle-to-the-dangle),
+                    oklch(59% 56% 259deg) 0deg,
+                    white 20deg,
+                    oklch(59% 56% 259deg) 40deg);
+            background-clip: padding-box, border-box;
+            background-position: center center;
+            background-size: 170px 500px;
+            animation: rotateColors 2s linear infinite;
+            border-radius: 12px;
+            color: white;
+            padding: 1rem 2rem;
+            font-size: 1.5rem;
+            border: 2px solid transparent;
+        }
+
+        @keyframes rotateColors {
+            0% {
+                --angle-to-the-dangle: 0deg;
+            }
+
+            100% {
+                --angle-to-the-dangle: 360deg;
+            }
+        }
+
+        body {
+            height: 100vh;
+            margin: 0;
+            display: grid;
+            place-items: center;
+            font-family: system-ui;
+            background: #222;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box-model" id="demo">
+        I'm in a box.
+    </div>
+    <p>
+        <button>Buy Now</button>
+    </p>
+    <p>
+        <small>Stolen from <a
+                href="https://frontendmasters.com/blog/backgrounds-for-the-box-model-and-why-it-can-be-useful/">Frontend
+                Masters</a></small>
+    </p>
+</body>
+
+</html>
