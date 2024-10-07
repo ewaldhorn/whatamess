@@ -3,7 +3,7 @@
 version: "3"
 
 vars:
-  GREETING: Hello, World!
+  CMD_DIRECTORY: ./cmd/web
 
 tasks:
   default:
@@ -20,7 +20,7 @@ tasks:
   server:
     desc: Starts the server component
     cmds:
-      - go run ./cmd/web
+      - go run {{.CMD_DIRECTORY}}
     silent: true
     ignore_error: true
   startdb:
@@ -36,7 +36,7 @@ tasks:
   testserver:
     desc: Tests the server component
     cmds:
-      - go test -v ./cmd/web
+      - go test -v {{.CMD_DIRECTORY}}
     silent: true
   testpkg:
     desc: Tests the pkg components
@@ -46,7 +46,7 @@ tasks:
   testservercoverage:
     desc: Tests the server component code coverage
     cmds:
-      - go test -cover ./cmd/web
+      - go test -cover {{.CMD_DIRECTORY}}
     silent: true
   test:
     desc: Runs all the tests (server/client/etc)
@@ -57,6 +57,6 @@ tasks:
   coverreportserver:
     desc: Shows test coverage report for the Server component
     cmds:
-      - go test -coverprofile=coverage.out ./cmd/web
+      - go test -coverprofile=coverage.out {{.CMD_DIRECTORY}}
       - go tool cover -html=coverage.out
     silent: true
