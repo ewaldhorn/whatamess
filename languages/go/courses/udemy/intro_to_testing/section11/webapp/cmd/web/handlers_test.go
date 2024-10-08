@@ -3,11 +3,18 @@ package main
 import (
 	"context"
 	"crypto/tls"
+	"fmt"
+	"image"
+	"image/png"
 	"io"
+	"mime/multipart"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"os"
+	"path"
 	"strings"
+	"sync"
 	"testing"
 )
 
@@ -199,5 +206,72 @@ func Test_app_Login(t *testing.T) {
 		if actualLocation.String() != test.expectedLocation {
 			t.Errorf("location for '%s' is '%s' instead of '%s'", test.name, actualLocation.String(), test.expectedLocation)
 		}
+	}
+}
+
+// ----------------------------------------------------------------------------
+func Test_app_UploadFiles(t *testing.T) {
+	// setup pipes for IO
+	readPipe, writePipe := io.Pipe()
+	writer := multipart.NewWriter(writePipe)
+
+	// create a waitgroup and add '1' to it
+	waitGroup := &sync.WaitGroup{}
+	waitGroup.Add(1)
+
+	// simulate uploading a file with a goroutine
+	go simulatePNGFileUpload("./testdata/img.png", writer, t, waitGroup)
+
+	// read from the pipe
+	request := httptest.NewRequest("POST", "/", readPipe)
+	request.Header.Add("Content-Type", writer.FormDataContentType())
+
+	// call UploadFiles
+	uploadedFiles, err := app.UploadFiles(request, "./testdata/uploads/")
+	if err != nil {
+		t.Error("error uploading file", err)
+	}
+
+	uploadedFilePath := fmt.Sprintf("./testdata/uploads/%s", uploadedFiles[0].OriginalFilename)
+	// run tests - basically, make sure the file got uploaded
+	if _, err := os.Stat(uploadedFilePath); os.IsNotExist(err) {
+		t.Errorf("expected file to exist: %s", err.Error())
+	}
+
+	// clean up by removing the uploaded file so the next test does not pass by accident
+	err = os.Remove(uploadedFilePath)
+	if err != nil {
+		t.Error(err)
+	}
+}
+
+// ----------------------------------------------------------------------------
+func simulatePNGFileUpload(fileToUpload string, writer *multipart.Writer, t *testing.T, waitGroup *sync.WaitGroup) {
+	defer writer.Close()
+	defer waitGroup.Done()
+
+	// create form data field nammed 'file' with the filename as the value
+	part, err := writer.CreateFormFile("file", path.Base(fileToUpload))
+	if err != nil {
+		t.Error("error creating form data field", err)
+	}
+
+	// open the file to upload
+	file, err := os.Open(fileToUpload)
+	if err != nil {
+		t.Error("error opening file", err)
+	}
+	defer file.Close()
+
+	// decode the image
+	decodedImage, _, err := image.Decode(file)
+	if err != nil {
+		t.Error("error decoding image", err)
+	}
+
+	// now write the decoded image to the IO writer
+	err = png.Encode(part, decodedImage)
+	if err != nil {
+		t.Error("error writing file to writer", err)
 	}
 }
