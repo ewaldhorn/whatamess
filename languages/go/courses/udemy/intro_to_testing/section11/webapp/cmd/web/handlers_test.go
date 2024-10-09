@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"context"
 	"crypto/tls"
 	"fmt"
@@ -16,6 +17,7 @@ import (
 	"strings"
 	"sync"
 	"testing"
+	"webapp/pkg/data"
 )
 
 // ----------------------------------------------------------------------------
@@ -243,6 +245,8 @@ func Test_app_UploadFiles(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
+
+	waitGroup.Wait()
 }
 
 // ----------------------------------------------------------------------------
@@ -274,4 +278,49 @@ func simulatePNGFileUpload(fileToUpload string, writer *multipart.Writer, t *tes
 	if err != nil {
 		t.Error("error writing file to writer", err)
 	}
+}
+
+// ----------------------------------------------------------------------------
+func Test_app_UploadProfilePicture(t *testing.T) {
+	var oldPathToProfilePics = pathToProfilePics
+	pathToProfilePics = "./testdata/uploads"
+	filePath := "./testdata/img.png"
+	fieldName := "file"
+
+	body := new(bytes.Buffer)
+
+	multipartWriter := multipart.NewWriter(body)
+
+	file, err := os.Open(filePath)
+	if err != nil {
+		t.Error(err)
+	}
+
+	writer, err := multipartWriter.CreateFormFile(fieldName, filePath)
+	if err != nil {
+		t.Error(err)
+	}
+
+	if _, err := io.Copy(writer, file); err != nil {
+		t.Fatal(err)
+	}
+
+	multipartWriter.Close()
+
+	req := httptest.NewRequest(http.MethodPost, "/upload", body)
+	req = addContextAndSessionToRequest(req, app)
+	app.Session.Put(req.Context(), "user", data.User{ID: 1})
+	req.Header.Add("Content-Type", multipartWriter.FormDataContentType())
+
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(app.UploadProfilePic)
+	handler.ServeHTTP(rr, req)
+
+	if rr.Code != http.StatusSeeOther {
+		t.Errorf("wrong status code received: %d", rr.Code)
+	}
+
+	_ = os.Remove("./testdata/uploads/img.png")
+
+	pathToProfilePics = oldPathToProfilePics
 }

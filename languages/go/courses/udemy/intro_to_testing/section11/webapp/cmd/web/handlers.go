@@ -16,6 +16,7 @@ import (
 // need to keep as vars, since tests need to adjust the relative path location(s)
 var pathToTemplates = "./templates/"
 var pathToPages = pathToTemplates + "pages"
+var pathToProfilePics = "./static/img"
 
 const baseLayoutTemplate = "base.layout.gohtml"
 const MAX_UPLOAD_SIZE int64 = 1024 * 1024 * 5
@@ -137,7 +138,7 @@ func (app *application) authenticate(r *http.Request, user *data.User, password 
 // ----------------------------------------------------------------------------
 func (app *application) UploadProfilePic(w http.ResponseWriter, r *http.Request) {
 	// get file from request
-	files, err := app.UploadFiles(r, "./static/img")
+	files, err := app.UploadFiles(r, pathToProfilePics)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
