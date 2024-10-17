@@ -1,0 +1,62 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  CMD_DIRECTORY: ./cmd/web
+
+tasks:
+  default:
+    desc: Lists all available tasks
+    cmds:
+      - task --list-all
+    silent: true
+  lint:
+    desc: Runs the golangci-lint and staticheck tools
+    cmds:
+      - golangci-lint run
+      - staticcheck ./...
+    silent: true
+  server:
+    desc: Starts the server component
+    cmds:
+      - go run {{.CMD_DIRECTORY}}
+    silent: true
+    ignore_error: true
+  startdb:
+    desc: Brings up the Docker instance
+    cmds:
+      - docker compose up -d
+    silent: true
+  stopdb:
+    desc: Stops the Docker instance
+    cmds:
+      - docker compose down
+    silent: true
+  testserver:
+    desc: Tests the server component
+    cmds:
+      - go test -v {{.CMD_DIRECTORY}}
+    silent: true
+  testpkg:
+    desc: Tests the pkg components
+    cmds:
+      - go test -v -tags=integration ./pkg/...
+    silent: true
+  testservercoverage:
+    desc: Tests the server component code coverage
+    cmds:
+      - go test -cover {{.CMD_DIRECTORY}}
+    silent: true
+  test:
+    desc: Runs all the tests (server/client/etc)
+    cmds:
+      - task: testserver
+      - task: testpkg
+    silent: true
+  coverreportserver:
+    desc: Shows test coverage report for the Server component
+    cmds:
+      - go test -coverprofile=coverage.out {{.CMD_DIRECTORY}}
+      - go tool cover -html=coverage.out
+    silent: true
