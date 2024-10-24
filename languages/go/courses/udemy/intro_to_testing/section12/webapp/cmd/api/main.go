@@ -2,7 +2,9 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
+	"net/http"
 	"webapp/pkg/repository"
 	"webapp/pkg/repository/databaserepo"
 )
@@ -36,4 +38,11 @@ func main() {
 	defer dbConnection.Close()
 
 	app.DB = &databaserepo.PostgresDBRepo{DB: dbConnection}
+
+	log.Printf("Starting API on port %d\n", port)
+
+	err = http.ListenAndServe(fmt.Sprintf(":%d", port), app.routes())
+	if err != nil {
+		log.Fatal(err)
+	}
 }
