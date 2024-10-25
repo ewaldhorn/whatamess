@@ -26,7 +26,7 @@ func (app *application) routes() http.Handler {
 
 		mux.Get("/", app.allUsers)
 		mux.Get("/{userID}", app.retrieveUser)
-		mux.Delete("/{userID", app.deleteUser)
+		mux.Delete("/{userID}", app.deleteUser)
 		mux.Put("/", app.createUser)
 		mux.Patch("/", app.updateUser)
 	})
