@@ -3,7 +3,8 @@
 version: "3"
 
 vars:
-  OUTPUT_FOLDER: ./bin/
+  OUTPUT_DIR: ./bin/
+  WASM_DIR: ./wasm/
   PROJECT_NAME: testenv
   PORT: 9000
 
@@ -14,9 +15,10 @@ tasks:
       - task --list-all
     silent: true
   clean:
-    desc: Removes the '{{.OUTPUT_FOLDER}}' folder
+    desc: Removes the '{{.OUTPUT_DIR}}' and '{{.WASM_DIR}}' directories
     cmds:
-      - rm -rf {{.OUTPUT_FOLDER}}
+      - rm -rf {{.OUTPUT_DIR}}
+      - rm -rf {{.WASM_DIR}}
     silent: true
   runwasm:
     desc: Runs the app as a WASM project in the browser on port {{.PORT}}
@@ -36,21 +38,20 @@ tasks:
     silent: true
   runproduction:
     desc: Runs the files in the {{.OUTPUT_FOLDER}} folder as-is, no build steps envoked. On port 9000
-    dir: "{{.OUTPUT_FOLDER}}"
+    dir: "{{.OUTPUT_DIR}}"
     cmds:
       - http-server . -p {{.PORT}} -o -c-1
     silent: true
   buildwasm:
     desc: Builds the WASM project
     cmds:
-      - mkdir -p bin
       - fyne package -os web --name {{.PROJECT_NAME}} --sourceDir ./src/.
     silent: true
   buildproduction:
-    desc: Builds a production WASM binary, minus debug information
+    desc: Builds a production binary, minus debug information, for the current OS
     cmds:
-      - task setupexecjs
-      - env GOOS=js GOARCH=wasm go build -ldflags="-s -w" -o {{.OUTPUT_FOLDER}}{{.PROJECT_NAME}}.wasm ./src/.
+      - mkdir -p bin
+      - env GOOS=js GOARCH=wasm go build -ldflags="-s -w" -o {{.OUTPUT_DIR}}{{.PROJECT_NAME}}.wasm ./src/.
     silent: true
   test:
     desc: Tests the project.
