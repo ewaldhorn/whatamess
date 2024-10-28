@@ -36,22 +36,10 @@ tasks:
       - golangci-lint run
       - staticcheck ./src/...
     silent: true
-  runproduction:
-    desc: Runs the files in the {{.OUTPUT_FOLDER}} folder as-is, no build steps envoked. On port 9000
-    dir: "{{.OUTPUT_DIR}}"
-    cmds:
-      - http-server . -p {{.PORT}} -o -c-1
-    silent: true
   buildwasm:
     desc: Builds the WASM project
     cmds:
       - fyne package -os web --name {{.PROJECT_NAME}} --sourceDir ./src/.
-    silent: true
-  buildproduction:
-    desc: Builds a production binary, minus debug information, for the current OS
-    cmds:
-      - mkdir -p bin
-      - env GOOS=js GOARCH=wasm go build -ldflags="-s -w" -o {{.OUTPUT_DIR}}{{.PROJECT_NAME}}.wasm ./src/.
     silent: true
   test:
     desc: Tests the project.
