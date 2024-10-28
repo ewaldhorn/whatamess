@@ -1,0 +1,65 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  OUTPUT_FOLDER: ./bin/
+  PROJECT_NAME: testenv
+  PORT: 9000
+
+tasks:
+  default:
+    desc: Lists available tasks
+    cmds:
+      - task --list-all
+    silent: true
+  clean:
+    desc: Removes the '{{.OUTPUT_FOLDER}}' folder
+    cmds:
+      - rm -rf {{.OUTPUT_FOLDER}}
+    silent: true
+  runwasm:
+    desc: Runs the app as a WASM project in the browser on port {{.PORT}}
+    cmds:
+      - fyne serve --sourceDir ./src/. --port {{.PORT}}
+    ignore_error: true
+  rundesktop:
+    desc: Runs the desktop project
+    cmds:
+      - go run ./src/.
+    silent: true
+  lint:
+    desc: Runs the golangci-lint and staticcheck tools
+    cmds:
+      - golangci-lint run
+      - staticcheck ./src/...
+    silent: true
+  runproduction:
+    desc: Runs the files in the {{.OUTPUT_FOLDER}} folder as-is, no build steps envoked. On port 9000
+    dir: "{{.OUTPUT_FOLDER}}"
+    cmds:
+      - http-server . -p {{.PORT}} -o -c-1
+    silent: true
+  buildwasm:
+    desc: Builds the WASM project
+    cmds:
+      - mkdir -p bin
+      - fyne package -os web --name {{.PROJECT_NAME}} --sourceDir ./src/.
+    silent: true
+  buildproduction:
+    desc: Builds a production WASM binary, minus debug information
+    cmds:
+      - task setupexecjs
+      - env GOOS=js GOARCH=wasm go build -ldflags="-s -w" -o {{.OUTPUT_FOLDER}}{{.PROJECT_NAME}}.wasm ./src/.
+    silent: true
+  test:
+    desc: Tests the project.
+    cmds:
+      - go test -v ./src/.
+    silent: true
+  coverreport:
+    desc: Shows test coverage report for the app
+    cmds:
+      - go test -coverprofile=coverage.out ./src/.
+      - go tool cover -html=coverage.out
+    silent: true
