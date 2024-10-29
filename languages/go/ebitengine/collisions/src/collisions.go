@@ -1,6 +1,8 @@
 package main
 
 import (
+	"image/color"
+
 	"github.com/hajimehoshi/bitmapfont/v3"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/text/v2"
@@ -26,18 +28,22 @@ func NewCollision() *Collision {
 
 	return &Collision{
 		balls:       newBalls,
-		ebitenImage: ebiten.NewImage(SCREEN_WIDTH, SCREEN_HEIGHT),
+		ebitenImage: ebiten.NewImage(int(SCREEN_WIDTH), int(SCREEN_HEIGHT)),
 	}
 }
 
 // ----------------------------------------------------------------------------
 func (s *Collision) Update() error {
+	for i := range s.balls {
+		s.balls[i].update()
+	}
 
 	return nil
 }
 
 // ----------------------------------------------------------------------------
 func (s *Collision) Draw(screen *ebiten.Image) {
+	s.ebitenImage.Fill(color.Black)
 
 	for _, b := range s.balls {
 		b.draw(s.ebitenImage)
@@ -58,5 +64,5 @@ func (s *Collision) Draw(screen *ebiten.Image) {
 
 // ----------------------------------------------------------------------------
 func (s *Collision) Layout(outsideWidth, outsideHeight int) (int, int) {
-	return SCREEN_WIDTH, SCREEN_HEIGHT
+	return int(SCREEN_WIDTH), int(SCREEN_HEIGHT)
 }

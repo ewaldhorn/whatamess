@@ -19,12 +19,16 @@ type Ball struct {
 
 // ----------------------------------------------------------------------------
 func NewBall(id int) *Ball {
+
+	newXPos := 40 + (rand.Float32() * (SCREEN_WIDTH - 100))
+	newYPos := 40 + (rand.Float32() * (SCREEN_HEIGHT - 100))
+
 	return &Ball{
 		id:     id,
-		xPos:   rand.Float32() * float32(SCREEN_WIDTH),
-		yPos:   rand.Float32() * float32(SCREEN_HEIGHT),
-		xDelta: rand.Float32() * 2.5,
-		yDelta: rand.Float32() * 2.5,
+		xPos:   newXPos,
+		yPos:   newYPos,
+		xDelta: 0.25 + rand.Float32()*2.0,
+		yDelta: 0.25 + rand.Float32()*2.0,
 		radius: 20.0,
 	}
 }
@@ -38,4 +42,22 @@ func (b Ball) draw(screen *ebiten.Image) {
 	}
 
 	vector.DrawFilledCircle(screen, b.xPos, b.yPos, b.radius, colour, true)
+}
+
+// ----------------------------------------------------------------------------
+func (b *Ball) update() {
+	b.xPos += b.xDelta
+	b.yPos += b.yDelta
+	b.checkBounds()
+}
+
+// ----------------------------------------------------------------------------
+func (b *Ball) checkBounds() {
+	if b.xPos <= b.radius || b.xPos >= SCREEN_WIDTH-b.radius {
+		b.xDelta *= -1
+	}
+
+	if b.yPos <= b.radius || b.yPos >= SCREEN_HEIGHT-b.radius {
+		b.yDelta *= -1
+	}
 }
