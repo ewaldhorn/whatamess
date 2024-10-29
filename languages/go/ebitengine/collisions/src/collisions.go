@@ -36,6 +36,7 @@ func NewCollision() *Collision {
 func (s *Collision) Update() error {
 	for i := range s.balls {
 		s.balls[i].update()
+		s.balls[i].checkCollisions(s.balls)
 	}
 
 	return nil

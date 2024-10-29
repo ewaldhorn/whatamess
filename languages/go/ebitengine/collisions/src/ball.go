@@ -2,6 +2,7 @@ package main
 
 import (
 	"image/color"
+	"math"
 	"math/rand"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -46,6 +47,7 @@ func (b Ball) draw(screen *ebiten.Image) {
 
 // ----------------------------------------------------------------------------
 func (b *Ball) update() {
+	b.collided = false
 	b.xPos += b.xDelta
 	b.yPos += b.yDelta
 	b.checkBounds()
@@ -59,5 +61,19 @@ func (b *Ball) checkBounds() {
 
 	if b.yPos <= b.radius || b.yPos >= SCREEN_HEIGHT-b.radius {
 		b.yDelta *= -1
+	}
+}
+
+// ----------------------------------------------------------------------------
+func (b *Ball) checkCollisions(balls []Ball) {
+	for i := range balls {
+		if balls[i].id != b.id {
+			// only bother checking distance from others
+			dist := math.Hypot(float64(b.xPos)-float64(balls[i].xPos), float64(b.yPos)-float64(balls[i].yPos))
+			if dist < float64(b.radius)+float64(balls[i].radius) {
+				b.collided = true
+				break
+			}
+		}
 	}
 }
