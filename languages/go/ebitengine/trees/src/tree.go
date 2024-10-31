@@ -1,8 +1,6 @@
 package main
 
 import (
-	"math"
-
 	"github.com/hajimehoshi/bitmapfont/v3"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/text/v2"
@@ -44,14 +42,6 @@ func (s *Tree) Update() error {
 	}
 
 	return nil
-}
-
-// ----------------------------------------------------------------------------
-func rotateBy(x float32, y float32, len float32, degrees float32) (float32, float32) {
-	newX := x + (len * float32(math.Cos(float64(degrees*math.Pi/180))))
-	newY := y - (len * float32(math.Sin(float64(degrees*math.Pi/180))))
-
-	return newX, newY
 }
 
 // ----------------------------------------------------------------------------
