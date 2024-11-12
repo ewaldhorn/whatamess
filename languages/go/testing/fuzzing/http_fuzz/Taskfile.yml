@@ -1,0 +1,23 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  PORT: 9090
+
+tasks:
+  default:
+    desc: Lists available tasks
+    cmds:
+      - task --list-all
+    silent: true
+  startserver:
+    desc: Starts the server on port {{.PORT}}
+    cmds:
+      - go run ./...
+    silent: true
+  test:
+    desc: Runs the Go tests
+    cmds:
+      - go test -v ./...
+    silent: true
