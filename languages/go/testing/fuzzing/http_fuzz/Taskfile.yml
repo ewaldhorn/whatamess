@@ -21,3 +21,7 @@ tasks:
     cmds:
       - go test -v ./...
     silent: true
+  testfuzz:
+    desc: Runs the Go fuzz tests
+    cmds:
+      - go test -v --fuzz=Fuzz -fuzztime=5s ./...

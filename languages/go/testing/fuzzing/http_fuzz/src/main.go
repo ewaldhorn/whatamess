@@ -15,7 +15,8 @@ func status(w http.ResponseWriter, req *http.Request) {
 
 // ----------------------------------------------------------------------------
 func echoHeaders(w http.ResponseWriter, req *http.Request) {
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(http.StatusSeeOther)
+	w.Header().Set("Content-Type", "application/json")
 	for name, headers := range req.Header {
 		for _, h := range headers {
 			fmt.Fprintf(w, "%v: %v\n", name, h)
