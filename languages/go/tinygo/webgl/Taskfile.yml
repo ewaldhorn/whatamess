@@ -1,0 +1,50 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  OUTPUT_FOLDER: ./bin/
+  PORT: 9000
+  PROJECT_NAME: tinywebgl
+
+tasks:
+  default:
+    desc: Lists available tasks
+    cmds:
+      - task --list-all
+    silent: true
+  clean:
+    desc: Removes the '{{.OUTPUT_FOLDER}}' folder
+    cmds:
+      - rm -rf {{.OUTPUT_FOLDER}}
+    silent: true
+  lint:
+    desc: Runs the golangci-lint tool
+    cmds:
+      - env GOOS=js GOARCH=wasm golangci-lint run
+    silent: true
+  run:
+    desc: Runs the files in the {{.OUTPUT_FOLDER}} folder as-is, no build steps envoked. On port {{.PORT}}
+    dir: "{{.OUTPUT_FOLDER}}"
+    cmds:
+      - http-server . -p {{.PORT}} -o -c-1
+    silent: true
+  setupTinyGoExecJS:
+    desc: Copies the TinyGo wasm_exec.js and html files to the '{{.OUTPUT_FOLDER}}' folder
+    cmds:
+      - mkdir -p {{.OUTPUT_FOLDER}}
+      - cp /usr/local/Cellar/tinygo/0.34.0/targets/wasm_exec.js {{.OUTPUT_FOLDER}}
+      - cp ./html/* {{.OUTPUT_FOLDER}}
+    silent: true
+  build:
+    desc: Builds a production WASM binary with TinyGo
+    cmds:
+      - task setupTinyGoExecJS
+      - tinygo build -no-debug -target wasm -o {{.OUTPUT_FOLDER}}{{.PROJECT_NAME}}.wasm ./src/.
+    silent: true
+  debug:
+    desc: Builds a debug WASM binary with TinyGo
+    cmds:
+      - task setupTinyGoExecJS
+      - tinygo build -target wasm -o {{.OUTPUT_FOLDER}}{{.PROJECT_NAME}}.wasm ./src/.
+    silent: true
