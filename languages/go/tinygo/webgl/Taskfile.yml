@@ -33,7 +33,7 @@ tasks:
     desc: Copies the TinyGo wasm_exec.js and html files to the '{{.OUTPUT_FOLDER}}' folder
     cmds:
       - mkdir -p {{.OUTPUT_FOLDER}}
-      - cp /usr/local/Cellar/tinygo/0.34.0/targets/wasm_exec.js {{.OUTPUT_FOLDER}}
+      - cp $(tinygo env TINYGOROOT)/targets/wasm_exec.js {{.OUTPUT_FOLDER}}
       - cp ./html/* {{.OUTPUT_FOLDER}}
     silent: true
   build:

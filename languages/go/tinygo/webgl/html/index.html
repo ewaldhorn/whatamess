@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Sparkles with TinyGo</title>
+    <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+    <style>
+      body {
+        margin: 0;
+        background-color: black;
+        color: #ffffff;
+      }
+
+      main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 90vh;
+        margin: auto;
+      }
+
+      h1 {
+        color: #ffffff;
+        text-align: center;
+        margin: 10 0;
+        padding: 0;
+        font-size: 16pt;
+      }
+
+      a {
+        color: #ffffff;
+        font-size: xx-small;
+      }
+
+      #app {
+        background: #000000;
+      }
+    </style>
+  </head>
+  <body id="body">
+    <h1 id="title">HODL HODL - LOADING...</h1>
+    <main>
+      <span id="fps"></span>
+      <div id="app"></div>
+      <p>
+        <small>
+          Probably best on Chrome -
+          <a href="https://nofuss.co.za/toys/">My other Toys</a>
+        </small>
+      </p>
+    </main>
+
+    <script src="wasm_exec.js"></script>
+    <script>
+      // Polyfill
+      if (!WebAssembly.instantiateStreaming) {
+        WebAssembly.instantiateStreaming = async (resp, importObject) => {
+          const source = await (await resp).arrayBuffer();
+          return await WebAssembly.instantiate(source, importObject);
+        };
+      }
+
+      const go = new Go();
+      WebAssembly.instantiateStreaming(
+        fetch("tinywebgl.wasm"),
+        go.importObject,
+      ).then((result) => {
+        document.getElementById("title").innerText = "TinyGo and WebGL";
+        go.run(result.instance);
+      });
+    </script>
+  </body>
+</html>

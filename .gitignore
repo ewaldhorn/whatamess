@@ -214,3 +214,4 @@ languages/go/courses/udemy/intro_to_testing/section12/webapp/postgres-data
 languages/go/fyne/test_env/wasm
 languages/go/ebitengine/collisions/bin
 languages/go/ebitengine/trees/bin
+languages/go/tinygo/webgl/bin
