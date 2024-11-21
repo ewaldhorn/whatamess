@@ -15,8 +15,9 @@ var oldTime float64
 
 // ----------------------------------------------------------------------------
 func drawFrame(this js.Value, p []js.Value) interface{} {
-	elapsedTime := (p[0].Float() - oldTime) / 1000 // requestAnimationFrame gives us delta time
-	oldTime = p[0].Float()
+	deltaTime := p[0].Float()                   // requestAnimationFrame gives us delta time in ms
+	elapsedTime := (deltaTime - oldTime) / 1000 // convert to elapsed seconds
+	oldTime = deltaTime
 
 	angle += 0.01
 
