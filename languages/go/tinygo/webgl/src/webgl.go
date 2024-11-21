@@ -78,6 +78,6 @@ func clearScreen() {
 
 // ----------------------------------------------------------------------------
 func setupViewport() {
-	glContext.Enable(webgl.DEPTH_TEST)
+	glContext.Enable(webgl.DEPTH_TEST) // don't draw obscured sections
 	glContext.Viewport(0, 0, clientWidth, clientHeight)
 }
