@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/gowebapi/webapi"
 	"github.com/gowebapi/webapi/core/js"
@@ -12,10 +11,12 @@ import (
 
 // ----------------------------------------------------------------------------
 var angle float32
+var oldTime float64
 
 // ----------------------------------------------------------------------------
 func drawFrame(this js.Value, p []js.Value) interface{} {
-	startTime := time.Now()
+	elapsedTime := (p[0].Float() - oldTime) / 1000 // requestAnimationFrame gives us delta time
+	oldTime = p[0].Float()
 
 	angle += 0.01
 
@@ -36,10 +37,9 @@ func drawFrame(this js.Value, p []js.Value) interface{} {
 
 	glContext.DrawElements(webgl.TRIANGLES, indicesCount, webgl.UNSIGNED_SHORT, 0)
 
-	elapsedSeconds := time.Now().Sub(startTime).Seconds()
-	fps := float64(1.0 / elapsedSeconds)
+	fps := 1.0 / elapsedTime
 
-	fpsDisplay := fmt.Sprintf("FPS: %08.2f", fps)
+	fpsDisplay := fmt.Sprintf("FPS: %3.0f", fps)
 	doc := webapi.GetWindow().Document()
 	fpsElem := doc.GetElementById("fps")
 	fpsElem.SetTextContent(&fpsDisplay)
