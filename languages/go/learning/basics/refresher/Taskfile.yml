@@ -14,7 +14,7 @@ tasks:
   run:
     desc: Runs the `main.go` file
     cmds:
-      - go run ./src/main.go
+      - go run ./src/
     silent: true
   lint:
     desc: Runs the golangci-lint and staticcheck tools
