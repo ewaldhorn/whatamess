@@ -215,3 +215,4 @@ languages/go/fyne/test_env/wasm
 languages/go/ebitengine/collisions/bin
 languages/go/ebitengine/trees/bin
 languages/go/tinygo/webgl/bin
+languages/go/learning/basics/refresher/coverage.out
