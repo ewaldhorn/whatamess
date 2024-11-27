@@ -16,3 +16,8 @@ tasks:
     cmds:
       - go run ./{{.SRC_DIR}}/...
     silent: true
+  test:
+    desc: Runs the application tests
+    cmds:
+      - go test -v ./{{.SRC_DIR}}/...
+    silent: true
