@@ -19,13 +19,17 @@ const (
 	INT   = "INT"   // integers
 
 	ASSIGN   = "="
-	DIVIDE   = "/"
+	ASTERISK = "*"
+	BANG     = "!"
+	SLASH    = "/"
 	MINUS    = "-"
-	MULTIPLY = "*"
 	PLUS     = "+"
 
 	COMMA     = ","
 	SEMICOLON = ";"
+
+	LT = "<"
+	GT = ">"
 
 	LPAREN = "("
 	RPAREN = ")"
