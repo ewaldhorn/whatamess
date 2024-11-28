@@ -8,6 +8,7 @@ import (
 // ----------------------------------------------------------------------------
 // Test helpers for working with the lexer.
 // Tests exercise the behavior of tokens and token operations.
+// This shorter test just runs some basic tokenisation operations.
 func Test_SmokeTest_NextToken(t *testing.T) {
 	input := "=+-/*(){},;$!!!<===+-!="
 

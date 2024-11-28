@@ -57,7 +57,7 @@ func (l *Lexer) NextToken() token.Token {
 
 	switch l.ch {
 	case '=':
-		if l.peekChar() == '=' {
+		if l.peekChar() == '=' { // TODO: extract common behaviour out
 			ch := l.ch
 			l.readChar()
 			tok = token.Token{Type: token.EQUALS, Literal: string(ch) + string(l.ch)}
