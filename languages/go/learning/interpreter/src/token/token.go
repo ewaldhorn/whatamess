@@ -25,11 +25,16 @@ const (
 	MINUS    = "-"
 	PLUS     = "+"
 
+	EQUALS    = "=="
+	NOTEQUALS = "!="
+
 	COMMA     = ","
 	SEMICOLON = ";"
 
-	LT = "<"
-	GT = ">"
+	LT  = "<"
+	LTE = "<="
+	GT  = ">"
+	GTE = ">="
 
 	OPAREN = "("
 	CPAREN = ")"

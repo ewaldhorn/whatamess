@@ -6,8 +6,10 @@ import (
 )
 
 // ----------------------------------------------------------------------------
+// Test helpers for working with the lexer.
+// Tests exercise the behavior of tokens and token operations.
 func Test_SmokeTest_NextToken(t *testing.T) {
-	input := "=+-/*(){},;$!!!"
+	input := "=+-/*(){},;$!!!<===+-!="
 
 	tests := []struct {
 		expectedType    token.TokenType
@@ -28,6 +30,11 @@ func Test_SmokeTest_NextToken(t *testing.T) {
 		{token.BANG, "!"},
 		{token.BANG, "!"},
 		{token.BANG, "!"},
+		{token.LTE, "<="},
+		{token.EQUALS, "=="},
+		{token.PLUS, "+"},
+		{token.MINUS, "-"},
+		{token.NOTEQUALS, "!="},
 		{token.EOF, ""},
 	}
 
@@ -63,6 +70,12 @@ func Test_SyntaxTest_NextToken(t *testing.T) {
 	} else {
 		return false;
 	}
+
+	10 == 10;
+	10 != 9;
+
+	5 >= 6;
+	6 <= 5;
 	`
 
 	tests := []struct {
@@ -134,6 +147,22 @@ func Test_SyntaxTest_NextToken(t *testing.T) {
 		{token.FALSE, "false"},
 		{token.SEMICOLON, ";"},
 		{token.CBRACE, "}"},
+		{token.INT, "10"},
+		{token.EQUALS, "=="},
+		{token.INT, "10"},
+		{token.SEMICOLON, ";"},
+		{token.INT, "10"},
+		{token.NOTEQUALS, "!="},
+		{token.INT, "9"},
+		{token.SEMICOLON, ";"},
+		{token.INT, "5"},
+		{token.GTE, ">="},
+		{token.INT, "6"},
+		{token.SEMICOLON, ";"},
+		{token.INT, "6"},
+		{token.LTE, "<="},
+		{token.INT, "5"},
+		{token.SEMICOLON, ";"},
 		{token.EOF, ""},
 	}
 
