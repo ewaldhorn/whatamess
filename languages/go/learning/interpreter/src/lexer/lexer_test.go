@@ -7,7 +7,7 @@ import (
 
 // ----------------------------------------------------------------------------
 func Test_SmokeTest_NextToken(t *testing.T) {
-	input := "=+(){},;%"
+	input := "=+(){},;$"
 
 	tests := []struct {
 		expectedType    token.TokenType
@@ -21,7 +21,7 @@ func Test_SmokeTest_NextToken(t *testing.T) {
 		{token.RBRACE, "}"},
 		{token.COMMA, ","},
 		{token.SEMICOLON, ";"},
-		{token.ILLEGAL, "%"},
+		{token.ILLEGAL, "$"}, // for now, $ is not supported
 		{token.EOF, ""},
 	}
 
