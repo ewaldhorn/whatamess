@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-const NAME = "MonkeyScript Interpreter"
+const NAME = "GiggleScript Interpreter"
 const VERSION = "0.0.1"
 
 // ----------------------------------------------------------------------------

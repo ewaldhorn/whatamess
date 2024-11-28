@@ -7,7 +7,7 @@ import (
 
 // ----------------------------------------------------------------------------
 func Test_SmokeTest_NextToken(t *testing.T) {
-	input := "=+(){},;$"
+	input := "=+-/*(){},;$"
 
 	tests := []struct {
 		expectedType    token.TokenType
@@ -15,6 +15,9 @@ func Test_SmokeTest_NextToken(t *testing.T) {
 	}{
 		{token.ASSIGN, "="},
 		{token.PLUS, "+"},
+		{token.MINUS, "-"},
+		{token.DIVIDE, "/"},
+		{token.MULTIPLY, "*"},
 		{token.LPAREN, "("},
 		{token.RPAREN, ")"},
 		{token.LBRACE, "{"},

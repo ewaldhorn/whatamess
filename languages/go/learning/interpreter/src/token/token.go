@@ -18,8 +18,11 @@ const (
 	IDENT = "IDENT" // identifiers
 	INT   = "INT"   // integers
 
-	ASSIGN = "="
-	PLUS   = "+"
+	ASSIGN   = "="
+	DIVIDE   = "/"
+	MINUS    = "-"
+	MULTIPLY = "*"
+	PLUS     = "+"
 
 	COMMA     = ","
 	SEMICOLON = ";"
