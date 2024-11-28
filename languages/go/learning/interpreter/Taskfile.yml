@@ -21,3 +21,14 @@ tasks:
     cmds:
       - go test -v ./{{.SRC_DIR}}/...
     silent: true
+  coverReport:
+    desc: Shows test coverage report for the app
+    cmds:
+      - go test -coverprofile=coverage.out ./{{.SRC_DIR}}/...
+      - go tool cover -html=coverage.out
+    silent: true
+  updateDependencies:
+    desc: Updates Go dependencies
+    cmds:
+      - go get -u ./{{.SRC_DIR}}/...
+    silent: true
