@@ -7,7 +7,7 @@ import (
 
 // ----------------------------------------------------------------------------
 func Test_SmokeTest_NextToken(t *testing.T) {
-	input := "=+(){},;"
+	input := "=+(){},;%"
 
 	tests := []struct {
 		expectedType    token.TokenType
@@ -21,6 +21,7 @@ func Test_SmokeTest_NextToken(t *testing.T) {
 		{token.RBRACE, "}"},
 		{token.COMMA, ","},
 		{token.SEMICOLON, ";"},
+		{token.ILLEGAL, "%"},
 		{token.EOF, ""},
 	}
 
@@ -43,7 +44,7 @@ func Test_SmokeTest_NextToken(t *testing.T) {
 func Test_SyntaxTest_NextToken(t *testing.T) {
 	input := `let five = 5;
 	let ten = 10;
-	let add = fn(x, y) {
+	let add = func(x, y) {
 		x + y;
 	};
 
@@ -67,8 +68,8 @@ func Test_SyntaxTest_NextToken(t *testing.T) {
 		{token.LET, "let"},
 		{token.IDENT, "add"},
 		{token.ASSIGN, "="},
-		{token.FUNCTION, "fn"},
-		{token.LBRACE, "("},
+		{token.FUNCTION, "func"},
+		{token.LPAREN, "("},
 		{token.IDENT, "x"},
 		{token.COMMA, ","},
 		{token.IDENT, "y"},
@@ -83,12 +84,12 @@ func Test_SyntaxTest_NextToken(t *testing.T) {
 		{token.LET, "let"},
 		{token.IDENT, "result"},
 		{token.ASSIGN, "="},
-		{token.FUNCTION, "add"},
+		{token.IDENT, "add"},
 		{token.LPAREN, "("},
 		{token.IDENT, "five"},
 		{token.COMMA, ","},
-		{token.IDENT, "10"},
-		{token.RPAREN, ""},
+		{token.IDENT, "ten"},
+		{token.RPAREN, ")"},
 		{token.SEMICOLON, ";"},
 		{token.EOF, ""},
 	}

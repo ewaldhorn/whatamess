@@ -1,6 +1,8 @@
 package lexer
 
-import "interpreter/src/token"
+import (
+	"interpreter/src/token"
+)
 
 // ----------------------------------------------------------------------------
 type Lexer struct {
@@ -40,6 +42,8 @@ func (l *Lexer) readChar() {
 func (l *Lexer) NextToken() token.Token {
 	var tok token.Token
 
+	l.skipWhitespace()
+
 	switch l.ch {
 	case '=':
 		tok = newToken(token.ASSIGN, l.ch)
@@ -61,11 +65,62 @@ func (l *Lexer) NextToken() token.Token {
 		tok.Literal = ""
 		tok.Type = token.EOF
 	default:
-		tok = newToken(token.ILLEGAL, l.ch)
+		if isLetter(l.ch) {
+			tok.Literal = l.readIdentifier()
+			tok.Type = token.LookupIdentifier(tok.Literal)
+			return tok
+		} else if isDigit(l.ch) {
+			tok.Type = token.INT
+			tok.Literal = l.readNumber()
+			return tok
+		} else {
+			tok = newToken(token.ILLEGAL, l.ch)
+		}
 	}
 
 	l.readChar()
 	return tok
+}
+
+// ----------------------------------------------------------------------------
+func (l *Lexer) readIdentifier() string {
+	position := l.position
+	for isLetter(l.ch) {
+		l.readChar()
+	}
+	return l.input[position:l.position]
+}
+
+// ----------------------------------------------------------------------------
+// TODO: This only reads integers, no floats
+func (l *Lexer) readNumber() string {
+	position := l.position
+	for isDigit(l.ch) {
+		l.readChar()
+	}
+	return l.input[position:l.position]
+}
+
+// ----------------------------------------------------------------------------
+// skipWhitespace skips over any whitespace characters (space, tab, newline,
+// carriage return) in the input by repeatedly calling readChar() until a
+// non-whitespace character is found.
+func (l *Lexer) skipWhitespace() {
+	for l.ch == ' ' || l.ch == '\t' || l.ch == '\n' || l.ch == '\r' {
+		l.readChar()
+	}
+}
+
+// ----------------------------------------------------------------------------
+// isLetter checks that a characters is an acceptable letter/character for
+// use in an identifier.
+func isLetter(ch byte) bool {
+	return 'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '_'
+}
+
+// ----------------------------------------------------------------------------
+func isDigit(ch byte) bool {
+	return '0' <= ch && ch <= '9'
 }
 
 // ----------------------------------------------------------------------------
