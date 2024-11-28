@@ -7,7 +7,7 @@ import (
 
 // ----------------------------------------------------------------------------
 func Test_SmokeTest_NextToken(t *testing.T) {
-	input := "=+-/*(){},;$"
+	input := "=+-/*(){},;$!!!"
 
 	tests := []struct {
 		expectedType    token.TokenType
@@ -18,13 +18,16 @@ func Test_SmokeTest_NextToken(t *testing.T) {
 		{token.MINUS, "-"},
 		{token.SLASH, "/"},
 		{token.ASTERISK, "*"},
-		{token.LPAREN, "("},
-		{token.RPAREN, ")"},
-		{token.LBRACE, "{"},
-		{token.RBRACE, "}"},
+		{token.OPAREN, "("},
+		{token.CPAREN, ")"},
+		{token.OBRACE, "{"},
+		{token.CBRACE, "}"},
 		{token.COMMA, ","},
 		{token.SEMICOLON, ";"},
 		{token.ILLEGAL, "$"}, // for now, $ is not supported
+		{token.BANG, "!"},
+		{token.BANG, "!"},
+		{token.BANG, "!"},
 		{token.EOF, ""},
 	}
 
@@ -54,6 +57,12 @@ func Test_SyntaxTest_NextToken(t *testing.T) {
 	let result=add(five, ten);
 	!-/*5;
 	5 < 10 > 5;
+
+	if (5 < 10) {
+		return true;
+	} else {
+		return false;
+	}
 	`
 
 	tests := []struct {
@@ -74,27 +83,27 @@ func Test_SyntaxTest_NextToken(t *testing.T) {
 		{token.IDENT, "add"},
 		{token.ASSIGN, "="},
 		{token.FUNCTION, "func"},
-		{token.LPAREN, "("},
+		{token.OPAREN, "("},
 		{token.IDENT, "x"},
 		{token.COMMA, ","},
 		{token.IDENT, "y"},
-		{token.RPAREN, ")"},
-		{token.LBRACE, "{"},
+		{token.CPAREN, ")"},
+		{token.OBRACE, "{"},
 		{token.IDENT, "x"},
 		{token.PLUS, "+"},
 		{token.IDENT, "y"},
 		{token.SEMICOLON, ";"},
-		{token.RBRACE, "}"},
+		{token.CBRACE, "}"},
 		{token.SEMICOLON, ";"},
 		{token.LET, "let"},
 		{token.IDENT, "result"},
 		{token.ASSIGN, "="},
 		{token.IDENT, "add"},
-		{token.LPAREN, "("},
+		{token.OPAREN, "("},
 		{token.IDENT, "five"},
 		{token.COMMA, ","},
 		{token.IDENT, "ten"},
-		{token.RPAREN, ")"},
+		{token.CPAREN, ")"},
 		{token.SEMICOLON, ";"},
 		{token.BANG, "!"},
 		{token.MINUS, "-"},
@@ -108,6 +117,23 @@ func Test_SyntaxTest_NextToken(t *testing.T) {
 		{token.GT, ">"},
 		{token.INT, "5"},
 		{token.SEMICOLON, ";"},
+		{token.IF, "if"},
+		{token.OPAREN, "("},
+		{token.INT, "5"},
+		{token.LT, "<"},
+		{token.INT, "10"},
+		{token.CPAREN, ")"},
+		{token.OBRACE, "{"},
+		{token.RETURN, "return"},
+		{token.TRUE, "true"},
+		{token.SEMICOLON, ";"},
+		{token.CBRACE, "}"},
+		{token.ELSE, "else"},
+		{token.OBRACE, "{"},
+		{token.RETURN, "return"},
+		{token.FALSE, "false"},
+		{token.SEMICOLON, ";"},
+		{token.CBRACE, "}"},
 		{token.EOF, ""},
 	}
 

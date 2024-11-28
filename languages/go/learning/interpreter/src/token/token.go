@@ -31,19 +31,29 @@ const (
 	LT = "<"
 	GT = ">"
 
-	LPAREN = "("
-	RPAREN = ")"
-	LBRACE = "{"
-	RBRACE = "}"
+	OPAREN = "("
+	CPAREN = ")"
+	OBRACE = "{"
+	CBRACE = "}"
 
 	FUNCTION = "FUNCTION"
 	LET      = "LET"
+	TRUE     = "TRUE"
+	FALSE    = "FALSE"
+	IF       = "IF"
+	ELSE     = "ELSE"
+	RETURN   = "RETURN"
 )
 
 // ----------------------------------------------------------------------------
 var keywords = map[string]TokenType{
-	"func": FUNCTION,
-	"let":  LET,
+	"else":   ELSE,
+	"false":  FALSE,
+	"func":   FUNCTION,
+	"if":     IF,
+	"let":    LET,
+	"return": RETURN,
+	"true":   TRUE,
 }
 
 // ----------------------------------------------------------------------------
