@@ -8,8 +8,7 @@ import (
 
 // ----------------------------------------------------------------------------
 type Parser struct {
-	l *lexer.Lexer
-
+	lexer     *lexer.Lexer
 	curToken  token.Token
 	peekToken token.Token
 }
@@ -17,7 +16,7 @@ type Parser struct {
 // ----------------------------------------------------------------------------
 func (p *Parser) nextToken() {
 	p.curToken = p.peekToken
-	p.peekToken = p.l.NextToken()
+	p.peekToken = p.lexer.NextToken()
 }
 
 // ----------------------------------------------------------------------------
@@ -27,9 +26,9 @@ func (p *Parser) ParseProgram() *ast.Program {
 
 // ----------------------------------------------------------------------------
 func New(l *lexer.Lexer) *Parser {
-	p := &Parser{l: l}
+	p := &Parser{lexer: l}
 
-	// read two tokens, so cur and peek tokens are set up
+	// read two tokens, so the current and peek tokens are set up
 	p.nextToken()
 	p.nextToken()
 
