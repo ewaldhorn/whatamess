@@ -4,7 +4,15 @@ import "net/http"
 
 // ----------------------------------------------------------------------------
 func (app *application) authenticate(w http.ResponseWriter, r *http.Request) {
+	// read json payload
 
+	// look up user by email
+
+	// check password
+
+	// generate tokens
+
+	// return tokens
 }
 
 // ----------------------------------------------------------------------------
