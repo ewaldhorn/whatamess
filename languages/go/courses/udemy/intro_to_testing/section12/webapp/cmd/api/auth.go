@@ -28,6 +28,9 @@ type Claims struct {
 
 // ----------------------------------------------------------------------------
 func (app *application) getAndVerifyTokenFromHeader(w http.ResponseWriter, r *http.Request) (string, *Claims, error) {
+	// expected incoming header format:
+	// Bearer <token>
+
 	// add header
 	w.Header().Add("Vary", "Authorization")
 
