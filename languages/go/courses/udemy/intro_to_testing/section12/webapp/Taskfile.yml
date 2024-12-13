@@ -5,6 +5,7 @@ version: "3"
 vars:
   CMD_DIRECTORY: ./cmd/web
   API_DIRECTORY: ./cmd/api
+  CONTENT_TYPE: '"Content-Type: application/json"'
 
 tasks:
   default:
@@ -24,6 +25,11 @@ tasks:
       - go run {{.API_DIRECTORY}}
     silent: true
     ignore_error: true
+  getAccessToken:
+    desc: Uses curl to get an access token from the localhost API instance
+    cmds:
+      - curl http://localhost:9090/auth -X POST -H {{.CONTENT_TYPE}} -d '{"email":"admin@example.com","password":"secret"}'
+    silent: true
   server:
     desc: Starts the server component
     cmds:
