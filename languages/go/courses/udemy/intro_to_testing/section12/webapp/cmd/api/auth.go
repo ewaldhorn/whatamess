@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strings"
 	"time"
+	"webapp/pkg/data"
 
 	"github.com/golang-jwt/jwt/v4"
 )
@@ -82,4 +83,34 @@ func (app *application) getAndVerifyTokenFromHeader(w http.ResponseWriter, r *ht
 
 	// finally, return valid token
 	return token, claims, nil
+}
+
+// ----------------------------------------------------------------------------
+func (app *application) generateTokenPair(user *data.User) (TokenPair, error) {
+	// create token
+	token := jwt.New(jwt.SigningMethodHS256)
+
+	// set up with claims
+	claims := token.Claims.(jwt.MapClaims)
+	claims["name"] = fmt.Sprintf("%s %s", user.FirstName, user.LastName)
+	claims["sub"] = fmt.Sprint(user.ID)
+	claims["aud"] = app.Domain
+	claims["iss"] = app.Domain
+
+	if user.IsAdmin == 1 {
+		claims["admin"] = true
+	} else {
+		claims["admin"] = false
+	}
+
+	// set token expirty time
+	claims["exp"] = time.Now().Add(jwtTokenExpiry).Unix()
+
+	// sign token
+	signedAccesToken, err := token.SignedString([]byte(app.JWTSecret))
+	if err != nil {
+		return TokenPair{}, err
+	}
+
+	// create a refresh token
 }
