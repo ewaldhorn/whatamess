@@ -18,17 +18,24 @@ func Test_app_getAndVerifyTokenFromHeader(t *testing.T) {
 		token         string
 		errorExpected bool
 		setHeader     bool
+		issuer        string
 	}{
-		{"valid", fmt.Sprintf("Bearer %s", tokens.Token), false, true},
-		{"valid - expired", fmt.Sprintf("Bearer %s", createExpiredToken()), true, true},
-		{"no header", "", true, true},
-		{"invalid", fmt.Sprintf("Bearer 1%s1", tokens.Token), true, true},
-		{"no bearer", fmt.Sprintf("%s", tokens.Token), true, true},
-		{"bad bearer", fmt.Sprintf("Bearrer %s", tokens.Token), true, true},
-		{"bad header", fmt.Sprintf("Token Bearer %s", tokens.Token), true, true},
+		{"valid", fmt.Sprintf("Bearer %s", tokens.Token), false, true, app.Domain},
+		{"valid - expired", fmt.Sprintf("Bearer %s", createExpiredToken()), true, true, app.Domain},
+		{"no header", "", true, true, app.Domain},
+		{"invalid", fmt.Sprintf("Bearer 1%s1", tokens.Token), true, true, app.Domain},
+		{"no bearer", fmt.Sprintf("%s", tokens.Token), true, true, app.Domain},
+		{"bad bearer", fmt.Sprintf("Bearrer %s", tokens.Token), true, true, app.Domain},
+		{"bad header", fmt.Sprintf("Token Bearer %s", tokens.Token), true, true, app.Domain},
+		{"valid - bad issuer", fmt.Sprintf("Bearer %s", tokens.Token), true, true, "nolansdonuts"},
 	}
 
 	for _, test := range tests {
+		if test.issuer != app.Domain {
+			app.Domain = test.issuer
+			tokens, _ = app.generateTokenPair(&testUser)
+		}
+
 		req, _ := http.NewRequest("GET", "/", nil)
 		if test.setHeader {
 			req.Header.Set("Authorization", test.token)
@@ -44,5 +51,7 @@ func Test_app_getAndVerifyTokenFromHeader(t *testing.T) {
 		if err == nil && test.errorExpected {
 			t.Errorf("%s was supposed to error, it didn't!", test.name)
 		}
+
+		app.Domain = "example.com"
 	}
 }
