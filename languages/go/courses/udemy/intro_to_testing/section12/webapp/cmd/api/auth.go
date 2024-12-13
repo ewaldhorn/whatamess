@@ -13,7 +13,7 @@ import (
 
 // ----------------------------------------------------------------------------
 const jwtTokenExpiry = time.Minute * 15
-const refreshTokenExpirty = time.Hour * 24
+const refreshTokenExpiry = time.Hour * 24
 
 // ----------------------------------------------------------------------------
 type TokenPair struct {
@@ -113,4 +113,22 @@ func (app *application) generateTokenPair(user *data.User) (TokenPair, error) {
 	}
 
 	// create a refresh token
+	refreshToken := jwt.New(jwt.SigningMethodHS256)
+	refreshTokenClaims := refreshToken.Claims.(jwt.MapClaims)
+	refreshTokenClaims["sub"] = fmt.Sprint(user.ID)
+
+	// set refresh expiry, must be after token expiry
+	refreshTokenClaims["exp"] = time.Now().Add(refreshTokenExpiry).Unix()
+
+	// sign refresh token
+	signedRefreshToken, err := token.SignedString([]byte(app.JWTSecret))
+	if err != nil {
+		return TokenPair{}, err
+	}
+
+	tokens := TokenPair{
+		Token: signedAccesToken, RefreshToken: signedRefreshToken,
+	}
+
+	return tokens, nil
 }
