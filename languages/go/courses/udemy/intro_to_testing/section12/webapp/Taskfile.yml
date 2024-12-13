@@ -46,6 +46,10 @@ tasks:
     cmds:
       - docker compose down
     silent: true
+  testapi:
+    desc: Runs the API tests
+    cmds:
+      - go test -v {{.API_DIRECTORY}}
   testserver:
     desc: Tests the server component
     cmds:
