@@ -20,6 +20,12 @@ func Test_app_getAndVerifyTokenFromHeader(t *testing.T) {
 		setHeader     bool
 	}{
 		{"valid", fmt.Sprintf("Bearer %s", tokens.Token), false, true},
+		{"valid - expired", fmt.Sprintf("Bearer %s", createExpiredToken()), true, true},
+		{"no header", "", true, true},
+		{"invalid", fmt.Sprintf("Bearer 1%s1", tokens.Token), true, true},
+		{"no bearer", fmt.Sprintf("%s", tokens.Token), true, true},
+		{"bad bearer", fmt.Sprintf("Bearrer %s", tokens.Token), true, true},
+		{"bad header", fmt.Sprintf("Token Bearer %s", tokens.Token), true, true},
 	}
 
 	for _, test := range tests {
