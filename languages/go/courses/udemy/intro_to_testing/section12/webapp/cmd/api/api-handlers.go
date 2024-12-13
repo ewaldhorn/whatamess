@@ -20,7 +20,7 @@ func (app *application) authenticate(w http.ResponseWriter, r *http.Request) {
 	// read json payload
 	err := app.readJSON(w, r, &credentials)
 	if err != nil {
-		app.errorJSON(w, errors.New("unauthorized"), http.StatusUnauthorized)
+		app.errorJSON(w, errors.New("bad request"), http.StatusBadRequest)
 		return
 	}
 

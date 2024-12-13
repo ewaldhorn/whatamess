@@ -77,6 +77,12 @@ tasks:
       - go test -coverprofile=coverage.out {{.CMD_DIRECTORY}}
       - go tool cover -html=coverage.out
     silent: true
+  coverreportapi:
+    desc: Shows test coverage report for the API component
+    cmds:
+      - go test -coverprofile=coverageapi.out {{.API_DIRECTORY}}
+      - go tool cover -html=coverageapi.out
+    silent: true
   updateDependencies:
     desc: Updates Go dependencies
     cmds:
