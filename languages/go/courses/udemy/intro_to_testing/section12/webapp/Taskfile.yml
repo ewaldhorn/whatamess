@@ -61,10 +61,15 @@ tasks:
     cmds:
       - go test -v -tags=integration ./pkg/...
     silent: true
-  testservercoverage:
+  reportservercoverage:
     desc: Tests the server component code coverage
     cmds:
       - go test -cover {{.CMD_DIRECTORY}}
+    silent: true
+  reportapicoverage:
+    desc: Tests the api component code coverage
+    cmds:
+      - go test -cover {{.API_DIRECTORY}}
     silent: true
   test:
     desc: Runs all the tests (server/client/etc)
