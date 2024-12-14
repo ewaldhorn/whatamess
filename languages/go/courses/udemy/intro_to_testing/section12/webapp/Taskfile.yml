@@ -99,8 +99,13 @@ tasks:
       - go test -coverprofile=coverageapi.out {{.API_DIRECTORY}}
       - go tool cover -html=coverageapi.out
     silent: true
+  checkForDependencyUpdates:
+    desc: Check for dependency updates
+    cmds:
+      - go list -m -u all
+    silent: true
   updateDependencies:
-    desc: Updates Go dependencies
+    desc: Updates all Go dependencies
     cmds:
       - go get -u ./...
     silent: true
