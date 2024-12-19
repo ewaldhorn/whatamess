@@ -14,6 +14,9 @@ func (app *application) routes() http.Handler {
 	mux.Use(middleware.Recoverer)
 	mux.Use(app.enableCORS)
 
+	// default route
+	mux.Get("/", app.defaultRoute)
+
 	// authentication routes
 	mux.Post("/auth", app.authenticate)
 	mux.Post("/refreshToken", app.refreshToken)

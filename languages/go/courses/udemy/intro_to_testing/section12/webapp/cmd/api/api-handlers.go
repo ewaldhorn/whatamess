@@ -15,6 +15,14 @@ type Credentals struct {
 }
 
 // ----------------------------------------------------------------------------
+func (app *application) defaultRoute(w http.ResponseWriter, r *http.Request) {
+	err := app.writeJSON(w, http.StatusOK, "Yellow there!")
+	if err != nil {
+		log.Printf("error returning tokens %v", err)
+	}
+}
+
+// ----------------------------------------------------------------------------
 func (app *application) authenticate(w http.ResponseWriter, r *http.Request) {
 	var credentials Credentals
 	// read json payload
