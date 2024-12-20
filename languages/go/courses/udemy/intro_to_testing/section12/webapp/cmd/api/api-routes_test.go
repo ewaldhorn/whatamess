@@ -9,7 +9,7 @@ import (
 )
 
 // ----------------------------------------------------------------------------
-func Test_application_routes(t *testing.T) {
+func Test_api_routes(t *testing.T) {
 	var registered = []struct {
 		route  string
 		method string
