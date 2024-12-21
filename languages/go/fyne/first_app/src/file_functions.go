@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io"
 
 	"fyne.io/fyne/v2"
@@ -21,9 +22,12 @@ func (dazy *DazyApp) fileOpen() {
 		data, err := io.ReadAll(reader)
 		if err == nil {
 			_ = reader.Close()
+		} else {
 			dialog.ShowError(err, dazy.mainWindow)
+			return
 		}
 		_ = data
+		fmt.Println("File:", reader.URI().String())
 	}, dazy.mainWindow)
 }
 
