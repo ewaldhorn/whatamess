@@ -20,6 +20,9 @@ func (dazy *DazyApp) updateCursorStatus() {
 func (dazy *DazyApp) createMainUI() fyne.CanvasObject {
 	dazy.entry = widget.NewMultiLineEntry()
 	dazy.entry.OnCursorChanged = dazy.updateCursorStatus
+	dazy.entry.OnChanged = func(s string) {
+		dazy.unsavedChanges.Set(true)
+	}
 
 	dazy.cursorRow = widget.NewLabel("1")
 	dazy.cursorCol = widget.NewLabel("1")

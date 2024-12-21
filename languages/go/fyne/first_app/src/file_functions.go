@@ -43,8 +43,10 @@ func (dazy *DazyApp) fileSave() {
 		_, err = writer.Write([]byte(dazy.entry.Text))
 		if err != nil {
 			dialog.ShowError(err, dazy.mainWindow)
+			return
 		}
 		_ = writer.Close()
+		dazy.unsavedChanges.Set(false)
 	}
 }
 
@@ -63,7 +65,9 @@ func (dazy *DazyApp) fileSaveAs() {
 		_, err = writer.Write([]byte(dazy.entry.Text))
 		if err != nil {
 			dialog.ShowError(err, dazy.mainWindow)
+			return
 		}
 		_ = writer.Close()
+		dazy.unsavedChanges.Set(false)
 	}, dazy.mainWindow)
 }

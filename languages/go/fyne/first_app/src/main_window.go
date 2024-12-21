@@ -4,9 +4,13 @@ import (
 	"fyne.io/fyne/v2"
 )
 
+const (
+	APP_TITLE = "Crazy Dazy Text Editor"
+)
+
 // ----------------------------------------------------------------------------
 func (dazy *DazyApp) createMainAppWindow() fyne.Window {
-	newWindow := dazy.app.NewWindow("Crazy Dazy Text Editor")
+	newWindow := dazy.app.NewWindow(APP_TITLE)
 
 	newWindow.SetMaster()
 	newWindow.SetContent(dazy.createMainUI())
