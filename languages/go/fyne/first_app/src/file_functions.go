@@ -5,6 +5,7 @@ import (
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/dialog"
+	"fyne.io/fyne/v2/storage"
 )
 
 // ----------------------------------------------------------------------------
@@ -31,7 +32,38 @@ func (dazy *DazyApp) fileOpen() {
 }
 
 // ----------------------------------------------------------------------------
-func fileSave() {}
+func (dazy *DazyApp) fileSave() {
+	if dazy.savedURI != nil {
+		writer, err := storage.Writer(dazy.savedURI)
+		if err != nil {
+			dialog.ShowError(err, dazy.mainWindow)
+			return
+		}
+
+		_, err = writer.Write([]byte(dazy.entry.Text))
+		if err != nil {
+			dialog.ShowError(err, dazy.mainWindow)
+		}
+		_ = writer.Close()
+	}
+}
 
 // ----------------------------------------------------------------------------
-func fileSaveAs() {}
+func (dazy *DazyApp) fileSaveAs() {
+	dialog.ShowFileSave(func(writer fyne.URIWriteCloser, err error) {
+		if err != nil {
+			dialog.ShowError(err, dazy.mainWindow)
+			return
+		}
+
+		if writer == nil {
+			return
+		}
+
+		_, err = writer.Write([]byte(dazy.entry.Text))
+		if err != nil {
+			dialog.ShowError(err, dazy.mainWindow)
+		}
+		_ = writer.Close()
+	}, dazy.mainWindow)
+}

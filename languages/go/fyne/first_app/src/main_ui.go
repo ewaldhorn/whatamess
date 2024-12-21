@@ -26,7 +26,8 @@ func (dazy *DazyApp) createMainUI() fyne.CanvasObject {
 func (dazy *DazyApp) buildMainToolbar() *widget.Toolbar {
 	return widget.NewToolbar(
 		widget.NewToolbarAction(theme.FolderOpenIcon(), dazy.fileOpen),
-		widget.NewToolbarAction(theme.DocumentSaveIcon(), fileSave),
+		widget.NewToolbarAction(theme.DocumentSaveIcon(), dazy.fileSave),
+		widget.NewToolbarAction(theme.DocumentCreateIcon(), dazy.fileSaveAs),
 		widget.NewToolbarSeparator(),
 		widget.NewToolbarAction(theme.ContentCutIcon(), dazy.textCut),
 		widget.NewToolbarAction(theme.ContentCopyIcon(), dazy.textCopy),
