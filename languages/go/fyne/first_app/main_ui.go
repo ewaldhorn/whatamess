@@ -9,26 +9,27 @@ import (
 )
 
 // ----------------------------------------------------------------------------
-func createMainUI() fyne.CanvasObject {
+func (dazy *DazyApp) createMainUI() fyne.CanvasObject {
 	entry := widget.NewMultiLineEntry()
+
 	cursorRow := widget.NewLabel("1")
 	cursorCol := widget.NewLabel("1")
 
-	toolbar := buildMainToolbar()
+	toolbar := dazy.buildMainToolbar()
 
 	status := container.NewHBox(layout.NewSpacer(), widget.NewLabel("Cursor Row:"), cursorRow, widget.NewLabel("Col:"), cursorCol)
 
-	return container.NewBorder(toolbar, status, nil, nil, container.NewScroll(entry))
+	return container.NewBorder(toolbar, status, nil, nil, entry)
 }
 
 // ----------------------------------------------------------------------------
-func buildMainToolbar() *widget.Toolbar {
+func (dazy *DazyApp) buildMainToolbar() *widget.Toolbar {
 	return widget.NewToolbar(
-		widget.NewToolbarAction(theme.FolderOpenIcon(), open),
-		widget.NewToolbarAction(theme.DocumentSaveIcon(), save),
+		widget.NewToolbarAction(theme.FolderOpenIcon(), dazy.fileOpen),
+		widget.NewToolbarAction(theme.DocumentSaveIcon(), fileSave),
 		widget.NewToolbarSeparator(),
-		widget.NewToolbarAction(theme.ContentCutIcon(), cut),
-		widget.NewToolbarAction(theme.ContentCopyIcon(), copy),
-		widget.NewToolbarAction(theme.ContentPasteIcon(), paste),
+		widget.NewToolbarAction(theme.ContentCutIcon(), textCut),
+		widget.NewToolbarAction(theme.ContentCopyIcon(), textCopy),
+		widget.NewToolbarAction(theme.ContentPasteIcon(), textPaste),
 	)
 }

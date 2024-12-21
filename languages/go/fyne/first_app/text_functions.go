@@ -1,5 +1,5 @@
 package main
 
-func cut()   {}
-func copy()  {}
-func paste() {}
+func textCut()   {}
+func textCopy()  {}
+func textPaste() {}
