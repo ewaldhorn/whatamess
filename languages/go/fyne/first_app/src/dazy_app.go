@@ -3,11 +3,14 @@ package main
 import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
+	"fyne.io/fyne/v2/widget"
 )
 
 type DazyApp struct {
 	app        fyne.App
 	mainWindow fyne.Window
+	entry      *widget.Entry
+	savedURI   fyne.URI
 }
 
 // ----------------------------------------------------------------------------

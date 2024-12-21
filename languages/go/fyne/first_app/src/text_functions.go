@@ -1,5 +1,5 @@
 package main
 
-func textCut()   {}
-func textCopy()  {}
-func textPaste() {}
+func (dazy *DazyApp) textCut()   {}
+func (dazy *DazyApp) textCopy()  {}
+func (dazy *DazyApp) textPaste() {}

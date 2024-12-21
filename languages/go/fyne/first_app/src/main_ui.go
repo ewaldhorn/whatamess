@@ -10,7 +10,7 @@ import (
 
 // ----------------------------------------------------------------------------
 func (dazy *DazyApp) createMainUI() fyne.CanvasObject {
-	entry := widget.NewMultiLineEntry()
+	dazy.entry = widget.NewMultiLineEntry()
 
 	cursorRow := widget.NewLabel("1")
 	cursorCol := widget.NewLabel("1")
@@ -19,7 +19,7 @@ func (dazy *DazyApp) createMainUI() fyne.CanvasObject {
 
 	status := container.NewHBox(layout.NewSpacer(), widget.NewLabel("Cursor Row:"), cursorRow, widget.NewLabel("Col:"), cursorCol)
 
-	return container.NewBorder(toolbar, status, nil, nil, entry)
+	return container.NewBorder(toolbar, status, nil, nil, dazy.entry)
 }
 
 // ----------------------------------------------------------------------------
@@ -28,8 +28,8 @@ func (dazy *DazyApp) buildMainToolbar() *widget.Toolbar {
 		widget.NewToolbarAction(theme.FolderOpenIcon(), dazy.fileOpen),
 		widget.NewToolbarAction(theme.DocumentSaveIcon(), fileSave),
 		widget.NewToolbarSeparator(),
-		widget.NewToolbarAction(theme.ContentCutIcon(), textCut),
-		widget.NewToolbarAction(theme.ContentCopyIcon(), textCopy),
-		widget.NewToolbarAction(theme.ContentPasteIcon(), textPaste),
+		widget.NewToolbarAction(theme.ContentCutIcon(), dazy.textCut),
+		widget.NewToolbarAction(theme.ContentCopyIcon(), dazy.textCopy),
+		widget.NewToolbarAction(theme.ContentPasteIcon(), dazy.textPaste),
 	)
 }
