@@ -1,0 +1,29 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  SRC_DIR: src
+
+tasks:
+  default:
+    cmds:
+      - task --list-all
+    silent: true
+  run:
+    desc: Starts the desktop application
+    cmds:
+      - go run ./{{.SRC_DIR}}/
+    silent: true
+    ignore_error: true
+  lint:
+    desc: Runs the golangci-lint and staticheck tools
+    cmds:
+      - golangci-lint run
+      - staticcheck ./...
+    silent: true
+  updateDependencies:
+    desc: Updates all Go dependencies
+    cmds:
+      - go get -u ./...
+    silent: true
