@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/layout"
@@ -9,15 +11,22 @@ import (
 )
 
 // ----------------------------------------------------------------------------
+func (dazy *DazyApp) updateCursorStatus() {
+	dazy.cursorRow.SetText(fmt.Sprintf("%d", dazy.entry.CursorRow+1))
+	dazy.cursorCol.SetText(fmt.Sprintf("%d", dazy.entry.CursorColumn+1))
+}
+
+// ----------------------------------------------------------------------------
 func (dazy *DazyApp) createMainUI() fyne.CanvasObject {
 	dazy.entry = widget.NewMultiLineEntry()
+	dazy.entry.OnCursorChanged = dazy.updateCursorStatus
 
-	cursorRow := widget.NewLabel("1")
-	cursorCol := widget.NewLabel("1")
+	dazy.cursorRow = widget.NewLabel("1")
+	dazy.cursorCol = widget.NewLabel("1")
 
 	toolbar := dazy.buildMainToolbar()
 
-	status := container.NewHBox(layout.NewSpacer(), widget.NewLabel("Cursor Row:"), cursorRow, widget.NewLabel("Col:"), cursorCol)
+	status := container.NewHBox(layout.NewSpacer(), widget.NewLabel("Cursor Row:"), dazy.cursorRow, widget.NewLabel("Col:"), dazy.cursorCol)
 
 	return container.NewBorder(toolbar, status, nil, nil, dazy.entry)
 }

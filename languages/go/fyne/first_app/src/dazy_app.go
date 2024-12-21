@@ -9,8 +9,11 @@ import (
 type DazyApp struct {
 	app        fyne.App
 	mainWindow fyne.Window
-	entry      *widget.Entry
-	savedURI   fyne.URI
+
+	entry    *widget.Entry
+	savedURI fyne.URI
+
+	cursorRow, cursorCol *widget.Label
 }
 
 // ----------------------------------------------------------------------------
