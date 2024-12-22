@@ -3,6 +3,7 @@
 version: "3"
 
 vars:
+  SRC_DIR: src
   TARGET_FILE: compiled.wasm
 
 tasks:
@@ -14,7 +15,7 @@ tasks:
   build:
     desc: Builds the wasm component
     cmds:
-      - tinygo build -o static/{{.TARGET_FILE}} -target wasm ./main.go
+      - tinygo build -o static/{{.TARGET_FILE}} -target wasm ./{{.SRC_DIR}}/main.go
     silent: true
   run:
     desc: Builds and runs the project
