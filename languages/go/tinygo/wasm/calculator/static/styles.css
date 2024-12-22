@@ -41,6 +41,10 @@ input {
   background: pink;
 }
 
+form#calc {
+  display: none;
+}
+
 form#calc,
 form#calc > input {
   font-size: 20pt;
