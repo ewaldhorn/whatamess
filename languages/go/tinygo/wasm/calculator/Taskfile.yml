@@ -15,7 +15,7 @@ tasks:
   build:
     desc: Builds the wasm component with TinyGo
     cmds:
-      - tinygo build -o static/{{.TARGET_FILE}} -target wasm ./{{.SRC_DIR}}/main.go
+      - tinygo build -o static/{{.TARGET_FILE}} -no-debug -target wasm ./{{.SRC_DIR}}/main.go
     silent: true
   buildGo:
     desc: Builds the wasm component with standard Go (to compare sizes)

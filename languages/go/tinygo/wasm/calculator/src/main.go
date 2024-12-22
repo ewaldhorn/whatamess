@@ -12,10 +12,20 @@ func main() {
 	dom.Show("calc")
 
 	// now get the calculator ready for action
-	dom.SetValue("first-number", "value", "0")
+	dom.SetValue("first-number", "value", "")
 	dom.SetValue("second-number", "value", "0")
 	dom.SetValue("result", "value", "0")
-	performCalculation()
+
+	// set focus on the first number
+	dom.SetFocus("first-number")
+
+	// add listeners for value changes on either input field
+	dom.AddEventListener("first-number", "input", performCalculation)
+	dom.AddEventListener("second-number", "input", performCalculation)
+
+	// prevent the app for closing - it stays running for the life of the webpage
+	ch := make(chan struct{})
+	<-ch
 }
 
 // ----------------------------------------------------------------------------

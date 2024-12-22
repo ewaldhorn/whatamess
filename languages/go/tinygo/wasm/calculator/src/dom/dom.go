@@ -33,6 +33,11 @@ func Show(elem string) {
 }
 
 // ----------------------------------------------------------------------------
+func SetFocus(elem string) {
+	getElementById(elem).Call("focus")
+}
+
+// ----------------------------------------------------------------------------
 func GetString(elem string, value string) string {
 	return getElementValue(elem, value).String()
 }
@@ -53,4 +58,17 @@ func RemoveClass(elem string, class string) {
 	if classList.Call("contains", class).Bool() {
 		classList.Call("remove", class)
 	}
+}
+
+// ----------------------------------------------------------------------------
+func wrapGoFunction(fn func()) func(js.Value, []js.Value) interface{} {
+	return func(_ js.Value, _ []js.Value) interface{} {
+		fn()
+		return nil
+	}
+}
+
+// ----------------------------------------------------------------------------
+func AddEventListener(elem string, event string, fn func()) {
+	getElementById(elem).Call("addEventListener", event, js.FuncOf(wrapGoFunction(fn)))
 }
