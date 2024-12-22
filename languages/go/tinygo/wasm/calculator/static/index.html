@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="wasm_exec_tiny.js"></script>
+    <title>TinyGo and Wasm Calculator</title>
+  </head>
+
+  <body>
+    <script type="module" defer>
+      "use strict";
+
+      const go = new Go(); // Defined in wasm_exec.js
+      const WASM_URL = "compiled.wasm";
+
+      let wasm;
+
+      go.importObject.env = {
+        add: function (x, y) {
+          return x + y;
+        },
+      };
+
+      if ("instantiateStreaming" in WebAssembly) {
+        WebAssembly.instantiateStreaming(fetch(WASM_URL), go.importObject).then(
+          function (obj) {
+            wasm = obj.instance;
+            go.run(wasm);
+          },
+        );
+      } else {
+        fetch(WASM_URL)
+          .then((resp) => resp.arrayBuffer())
+          .then((bytes) =>
+            WebAssembly.instantiate(bytes, go.importObject).then(
+              function (obj) {
+                wasm = obj.instance;
+                go.run(wasm);
+              },
+            ),
+          );
+      }
+    </script>
+  </body>
+</html>

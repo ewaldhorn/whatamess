@@ -1,0 +1,24 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  TARGET_FILE: compiled.wasm
+
+tasks:
+  default:
+    desc: Lists all available tasks
+    cmds:
+      - task --list-all
+    silent: true
+  build:
+    desc: Builds the wasm component
+    cmds:
+      - tinygo build -o static/{{.TARGET_FILE}} -target wasm ./main.go
+    silent: true
+  run:
+    desc: Builds and runs the project
+    cmds:
+      - task: build
+      - http-server ./static/ -p 9000 -o -c-1
+    silent: true
