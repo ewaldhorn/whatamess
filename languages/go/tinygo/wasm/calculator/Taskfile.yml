@@ -20,7 +20,7 @@ tasks:
   buildGo:
     desc: Builds the wasm component with standard Go (to compare sizes)
     cmds:
-      - GOOS=js GOARCH=wasm go build -ldflags="-s -w" -o static/withGo.wasm ./{{.SRC_DIR}}/main.go
+      - GOOS=js GOARCH=wasm go build -ldflags="-s -w" -trimpath -o static/withGo.wasm ./{{.SRC_DIR}}/main.go
     silent: true
   run:
     desc: Builds and runs the project
