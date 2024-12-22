@@ -220,3 +220,4 @@ languages/go/learning/interpreter/coverage.out
 languages/go/courses/udemy/intro_to_testing/section12/webapp/coverage.out
 languages/go/courses/udemy/intro_to_testing/section12/webapp/coverageapi.out
 languages/go/tinygo/wasm/calculator/static/compiled.wasm
+languages/go/tinygo/wasm/calculator/static/withGo.wasm
