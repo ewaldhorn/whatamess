@@ -1,0 +1,111 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  CLI_DIRECTORY: ./cmd/cli
+  CMD_DIRECTORY: ./cmd/web
+  API_DIRECTORY: ./cmd/api
+  CONTENT_TYPE: '"Content-Type: application/json"'
+
+tasks:
+  default:
+    desc: Lists all available tasks
+    cmds:
+      - task --list-all
+    silent: true
+  lint:
+    desc: Runs the golangci-lint and staticheck tools
+    cmds:
+      - golangci-lint run
+      - staticcheck ./...
+    silent: true
+  api:
+    desc: Starts the API component
+    cmds:
+      - go run {{.API_DIRECTORY}}
+    silent: true
+    ignore_error: true
+  getAccessToken:
+    desc: Uses curl to get an access token from the localhost API instance
+    cmds:
+      - curl http://localhost:9090/auth -X POST -H {{.CONTENT_TYPE}} -d '{"email":"admin@example.com","password":"secret"}'
+    silent: true
+  server:
+    desc: Starts the server component
+    cmds:
+      - go run {{.CMD_DIRECTORY}}
+    silent: true
+    ignore_error: true
+  startdb:
+    desc: Brings up the Docker instance
+    cmds:
+      - docker compose up -d
+    silent: true
+  stopdb:
+    desc: Stops the Docker instance
+    cmds:
+      - docker compose down
+    silent: true
+  testapi:
+    desc: Runs the API tests
+    cmds:
+      - go test -v {{.API_DIRECTORY}}
+  testserver:
+    desc: Tests the server component
+    cmds:
+      - go test -v {{.CMD_DIRECTORY}}
+    silent: true
+  testpkg:
+    desc: Tests the pkg components
+    cmds:
+      - go test -v -tags=integration ./pkg/...
+    silent: true
+  reportservercoverage:
+    desc: Tests the server component code coverage
+    cmds:
+      - go test -cover {{.CMD_DIRECTORY}}
+    silent: true
+  reportapicoverage:
+    desc: Tests the api component code coverage
+    cmds:
+      - go test -cover {{.API_DIRECTORY}}
+    silent: true
+  test:
+    desc: Runs all the tests (server/client/etc)
+    cmds:
+      - task: testserver
+      - task: testpkg
+    silent: true
+  generateAuthToken:
+    desc: Generates a valid auth token
+    cmds:
+      - go run ./cmd/cli -action=valid
+    silent: true
+  generateExpiredAuthToken:
+    desc: Generates an expired auth token
+    cmds:
+      - go run ./cmd/cli -action=expired
+    silent: true
+  coverreportserver:
+    desc: Shows test coverage report for the Server component
+    cmds:
+      - go test -coverprofile=coverage.out {{.CMD_DIRECTORY}}
+      - go tool cover -html=coverage.out
+    silent: true
+  coverreportapi:
+    desc: Shows test coverage report for the API component
+    cmds:
+      - go test -coverprofile=coverageapi.out {{.API_DIRECTORY}}
+      - go tool cover -html=coverageapi.out
+    silent: true
+  checkForDependencyUpdates:
+    desc: Check for dependency updates
+    cmds:
+      - go list -m -u all
+    silent: true
+  updateDependencies:
+    desc: Updates all Go dependencies
+    cmds:
+      - go get -u ./...
+    silent: true
