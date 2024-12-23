@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -9,6 +10,7 @@ import (
 	"time"
 	"webapp/pkg/data"
 
+	"github.com/go-chi/chi/v5"
 	"github.com/golang-jwt/jwt/v4"
 )
 
@@ -105,5 +107,41 @@ func Test_app_refreshToken(t *testing.T) {
 			refreshTokenExpiry = oldRefreshTime
 		}
 	}
+}
 
+// ----------------------------------------------------------------------------
+func Test_app_user_handlers(t *testing.T) {
+	tests := []struct {
+		name           string
+		method         string
+		json           string
+		paramID        string
+		handler        http.HandlerFunc
+		expectedStatus int
+	}{
+		{"all users", "GET", "", "", app.allUsers, http.StatusOK},
+	}
+
+	for _, test := range tests {
+		var req *http.Request
+		if test.json == "" {
+			req, _ = http.NewRequest(test.method, "/", nil)
+		} else {
+			req, _ = http.NewRequest(test.method, "/", strings.NewReader(test.json))
+		}
+
+		if test.paramID != "" {
+			chiCtx := chi.NewRouteContext()
+			chiCtx.URLParams.Add("userID", test.paramID)
+			req = req.WithContext(context.WithValue(req.Context(), chi.RouteCtxKey, chiCtx))
+		}
+
+		rr := httptest.NewRecorder()
+		handler := http.HandlerFunc(test.handler)
+		handler.ServeHTTP(rr, req)
+
+		if rr.Code != test.expectedStatus {
+			t.Errorf("%s failed with code %d, expected %d", test.name, rr.Code, test.expectedStatus)
+		}
+	}
 }
