@@ -62,21 +62,31 @@ func (m *TestingDBRepo) GetUserByEmail(email string) (*data.User, error) {
 // ----------------------------------------------------------------------------
 // UpdateUser updates one user in the database
 func (m *TestingDBRepo) UpdateUser(u data.User) error {
-	return nil
+	if u.ID == 1 {
+		return nil
+	}
+
+	return errors.New("update failed")
 }
 
 // ----------------------------------------------------------------------------
 // DeleteUser deletes one user from the database, by id
 func (m *TestingDBRepo) DeleteUser(id int) error {
-	return nil
+	if id == 1 {
+		return nil
+	} else {
+		return errors.New("can't delete user")
+	}
 }
 
 // ----------------------------------------------------------------------------
 // InsertUser inserts a new user into the database, and returns the ID of the newly inserted row
 func (m *TestingDBRepo) InsertUser(user data.User) (int, error) {
-	newID := 2
+	if user.FirstName == "Pete" {
+		return 2, nil
+	}
 
-	return newID, nil
+	return 0, errors.New("could not create user")
 }
 
 // ----------------------------------------------------------------------------

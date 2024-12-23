@@ -120,6 +120,18 @@ func Test_app_user_handlers(t *testing.T) {
 		expectedStatus int
 	}{
 		{"all users", "GET", "", "", app.allUsers, http.StatusOK},
+		{"delete user - valid", "DELETE", "", "1", app.deleteUser, http.StatusNoContent},
+		{"delete user - invalid", "DELETE", "", "2", app.deleteUser, http.StatusBadRequest},
+		{"delete user - bad url param", "DELETE", "", "Q", app.deleteUser, http.StatusBadRequest},
+		{"get user - valid", "GET", "", "1", app.retrieveUser, http.StatusOK},
+		{"get user - invalid", "GET", "", "2", app.retrieveUser, http.StatusBadRequest},
+		{"get user - bad url param", "GET", "", "Red", app.retrieveUser, http.StatusBadRequest},
+		{"update user - valid", "PATCH", `{"id":1}`, "", app.updateUser, http.StatusNoContent},
+		{"update user - invalid", "PATCH", `{"id":2}`, "", app.updateUser, http.StatusBadRequest},
+		{"update user - invalid json", "PATCH", `{id:2}`, "", app.updateUser, http.StatusBadRequest},
+		{"insert user - valid", "PUT", `{"first_name":"Pete"}`, "", app.createUser, http.StatusNoContent},
+		{"insert user - invalid", "PUT", `{"first_name":"Pop"}`, "", app.createUser, http.StatusBadRequest},
+		{"insert user - invalid json", "PUT", `{first_name:"Pete"}`, "", app.createUser, http.StatusBadRequest},
 	}
 
 	for _, test := range tests {
