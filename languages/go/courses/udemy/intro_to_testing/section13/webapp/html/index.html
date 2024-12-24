@@ -97,6 +97,14 @@
       let logout_button = document.getElementById("logout");
 
       // event listeners
+      // ----------------------------------------------------------------------
+      document.addEventListener("DOMContentLoaded", function () {
+        // call refreshTokens, which will attempt to log in the user
+        // if they have a refresh token already.
+        refreshTokens();
+      });
+
+      // ----------------------------------------------------------------------
       login_button.addEventListener("click", function () {
         const payload = {
           email: document.getElementById("email").value,
@@ -126,6 +134,31 @@
           });
       });
 
+      // ----------------------------------------------------------------------
+      function refreshTokens() {
+        // attempt to refresh the access token if the refresh token exists
+        const requestOptions = {
+          method: "GET",
+          credentials: "include",
+        };
+
+        fetch("/web/refresh-token", requestOptions)
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.access_token) {
+              access_token = data.access_token;
+              refresh_token = data.refresh_token;
+              setUI(true);
+            } else {
+              setUI(false);
+            }
+          })
+          .catch((error) => {
+            console.log("User is not logged in yet.");
+          });
+      }
+
+      // ----------------------------------------------------------------------
       function setUI(loggedIn) {
         if (loggedIn) {
           tokens_div.classList.remove("d-none");
