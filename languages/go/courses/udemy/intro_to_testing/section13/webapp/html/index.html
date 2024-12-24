@@ -81,6 +81,68 @@
       </div>
     </div>
 
-    <script></script>
+    <script>
+      // tokens stored in memory
+      let access_token = "";
+      let refresh_token = "";
+
+      // handles to html elements
+      let login_form = document.getElementById("login-form");
+      let login_button = document.getElementById("login");
+      let get_user_button = document.getElementById("getUserBtn");
+      let user_output = document.getElementById("user-output");
+      let tokens_div = document.getElementById("tokens");
+      let tokens_display = document.getElementById("token");
+      let refresh_tokens_display = document.getElementById("refresh");
+      let logout_button = document.getElementById("logout");
+
+      // event listeners
+      login_button.addEventListener("click", function () {
+        const payload = {
+          email: document.getElementById("email").value,
+          password: document.getElementById("password").value,
+        };
+
+        const request_options = {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        };
+
+        fetch("/web/authenticate", request_options)
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.access_token) {
+              access_token = data.access_token;
+              refresh_token = data.refresh_token;
+              setUI(true);
+            }
+          })
+          .catch((error) => {
+            alert(error);
+          });
+      });
+
+      function setUI(loggedIn) {
+        if (loggedIn) {
+          tokens_div.classList.remove("d-none");
+          login_form.classList.add("d-none");
+          logout_button.classList.remove("d-none");
+          tokens_display.innerHTML = access_token;
+          refresh_tokens_display.innerHTML = refresh_token;
+        } else {
+          tokens_div.classList.add("d-none");
+          login_form.classList.remove("d-none");
+          logout_button.classList.add("d-none");
+          document.getElementById("password").value = "";
+          user_output.innerHTML = "Nothing from the server yet...";
+          tokens_display.innerHTML = "---";
+          refresh_tokens_display.innerHTML = "---";
+        }
+      }
+    </script>
   </body>
 </html>

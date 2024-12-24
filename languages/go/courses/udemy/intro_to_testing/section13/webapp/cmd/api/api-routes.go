@@ -17,6 +17,13 @@ func (app *application) routes() http.Handler {
 	// add middleware for serving static html resources
 	mux.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir("./html/"))))
 
+	// web route
+	mux.Route("/web", func(mux chi.Router) {
+		mux.Post("/authenticate", app.authenticate)
+		// refresh
+		// logout
+	})
+
 	// authentication routes
 	mux.Post("/auth", app.authenticate)
 	mux.Post("/refreshToken", app.refreshToken)
