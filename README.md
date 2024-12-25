@@ -1,6 +1,6 @@
-# Just an absolute MESS of experiments
+# Just an absolute smorgasbord of experiments
 
-Best not to look too closely, you will pick up bad habits.
+Best not to look too closely, you might pick up bad habits!
 
 ## PLEASE NOTE
 
