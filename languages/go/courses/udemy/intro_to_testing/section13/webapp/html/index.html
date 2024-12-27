@@ -196,6 +196,31 @@
           refresh_tokens_display.innerHTML = "---";
         }
       }
+
+      // ----------------------------------------------------------------------
+      get_user_button.addEventListener("click", function () {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", "Bearer " + access_token);
+
+        const requestOptions = {
+          method: "GET",
+          headers: myHeaders,
+        };
+
+        fetch("/users/1", requestOptions)
+          .then((response) => response.json(login_form))
+          .then((data) => {
+            if (data) {
+              user_output.innerHTML = JSON.stringify(data, undefined, 4);
+            }
+          })
+          .catch((err) => {
+            user_output.innerHTML = "Log in first!";
+          });
+      });
+
+      // ----------------------------------------------------------------------
     </script>
   </body>
 </html>
