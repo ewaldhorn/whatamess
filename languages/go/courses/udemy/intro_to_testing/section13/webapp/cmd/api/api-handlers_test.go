@@ -200,6 +200,7 @@ func Test_app_refresh_using_cookie(t *testing.T) {
 	}{
 		{"valid cookie", true, testCookie, http.StatusOK},
 		{"invalid cookie", true, badCookie, http.StatusBadRequest},
+		{"no cookie", false, nil, http.StatusUnauthorized},
 	}
 
 	for _, test := range tests {
@@ -215,5 +216,31 @@ func Test_app_refresh_using_cookie(t *testing.T) {
 		if rr.Code != test.expectedStatus {
 			t.Errorf("%s: failed with %d, expected %d", test.name, rr.Code, test.expectedStatus)
 		}
+	}
+}
+
+// ----------------------------------------------------------------------------
+func Test_app_logout_user(t *testing.T) {
+	req, _ := http.NewRequest("GET", "/logout", nil)
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(app.logoutUser)
+	handler.ServeHTTP(rr, req)
+
+	if rr.Code != http.StatusAccepted {
+		t.Errorf("logout failed with %d, expected %d", rr.Code, http.StatusAccepted)
+	}
+
+	foundCookie := false
+	for _, c := range rr.Result().Cookies() {
+		if c.Name == REFRESH_COOKIE_NAME {
+			foundCookie = true
+			if c.Expires.After(time.Now()) {
+				t.Errorf("cookie expiration in the future, should not be: %v", c.Expires.UTC())
+			}
+		}
+	}
+
+	if !foundCookie {
+		t.Errorf("refresh cookie not found!")
 	}
 }
