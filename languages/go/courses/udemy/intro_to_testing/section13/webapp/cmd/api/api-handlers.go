@@ -277,3 +277,21 @@ func (app *application) createUser(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusNoContent)
 }
+
+// ----------------------------------------------------------------------------
+func (app *application) logoutUser(w http.ResponseWriter, r *http.Request) {
+	deleteCookie := http.Cookie{
+		Name:     REFRESH_COOKIE_NAME,
+		Path:     "/",
+		Value:    "",
+		Expires:  time.Unix(0, 0),
+		MaxAge:   -1,
+		SameSite: http.SameSiteStrictMode,
+		Domain:   "localhost",
+		HttpOnly: true,
+		Secure:   true,
+	}
+
+	http.SetCookie(w, &deleteCookie)
+	w.WriteHeader(http.StatusAccepted)
+}

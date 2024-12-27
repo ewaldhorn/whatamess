@@ -221,6 +221,17 @@
       });
 
       // ----------------------------------------------------------------------
+      logout_button.addEventListener("click", function () {
+        access_token = "";
+        refresh_token = "";
+        fetch("/web/logout", { method: "GET" })
+          .then((response) => {
+            setUI(false);
+          })
+          .catch((err) => {
+            user_output.innerHTML = err;
+          });
+      });
     </script>
   </body>
 </html>
