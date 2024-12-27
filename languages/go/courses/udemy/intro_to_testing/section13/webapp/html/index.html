@@ -142,7 +142,7 @@
           credentials: "include",
         };
 
-        fetch("/web/refresh-token", requestOptions)
+        fetch("/web/refreshToken", requestOptions)
           .then((response) => response.json())
           .then((data) => {
             if (data.access_token) {

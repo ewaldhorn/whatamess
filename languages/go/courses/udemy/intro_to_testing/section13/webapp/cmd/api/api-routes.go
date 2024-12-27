@@ -20,7 +20,7 @@ func (app *application) routes() http.Handler {
 	// web route
 	mux.Route("/web", func(mux chi.Router) {
 		mux.Post("/authenticate", app.authenticate)
-		// refresh
+		mux.Get("/refreshToken", app.refreshUsingCookie)
 		// logout
 	})
 
