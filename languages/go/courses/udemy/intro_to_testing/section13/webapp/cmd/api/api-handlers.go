@@ -14,6 +14,9 @@ import (
 )
 
 // ----------------------------------------------------------------------------
+const REFRESH_COOKIE_NAME = "__a_refresher"
+
+// ----------------------------------------------------------------------------
 type Credentals struct {
 	Username string `json:"email"`
 	Password string `json:"password"`
@@ -51,7 +54,7 @@ func (app *application) authenticate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	http.SetCookie(w, &http.Cookie{
-		Name:     "__Host-refresh_token",
+		Name:     REFRESH_COOKIE_NAME,
 		Path:     "/",
 		Value:    tokens.RefreshToken,
 		Expires:  time.Now().Add(refreshTokenExpiry),
@@ -113,7 +116,7 @@ func (app *application) refreshToken(w http.ResponseWriter, r *http.Request) {
 	}
 
 	http.SetCookie(w, &http.Cookie{
-		Name:     "__Host-refresh_token",
+		Name:     REFRESH_COOKIE_NAME,
 		Path:     "/",
 		Value:    tokens.RefreshToken,
 		Expires:  time.Now().Add(refreshTokenExpiry),
@@ -133,7 +136,7 @@ func (app *application) refreshToken(w http.ResponseWriter, r *http.Request) {
 // ----------------------------------------------------------------------------
 func (app *application) refreshUsingCookie(w http.ResponseWriter, r *http.Request) {
 	for _, cookie := range r.Cookies() {
-		if cookie.Name == "__Host-refresh-token" {
+		if cookie.Name == REFRESH_COOKIE_NAME {
 			claims := &Claims{}
 			refreshToken := cookie.Value
 
@@ -171,7 +174,7 @@ func (app *application) refreshUsingCookie(w http.ResponseWriter, r *http.Reques
 			}
 
 			http.SetCookie(w, &http.Cookie{
-				Name:     "__Host-refresh_token",
+				Name:     REFRESH_COOKIE_NAME,
 				Path:     "/",
 				Value:    tokens.RefreshToken,
 				Expires:  time.Now().Add(refreshTokenExpiry),
