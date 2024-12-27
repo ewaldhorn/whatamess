@@ -157,3 +157,63 @@ func Test_app_user_handlers(t *testing.T) {
 		}
 	}
 }
+
+// ----------------------------------------------------------------------------
+func Test_app_refresh_using_cookie(t *testing.T) {
+	testUser := data.User{
+		ID:        1,
+		FirstName: "Admin",
+		LastName:  "Dopey",
+		Email:     "admin@example.com",
+	}
+
+	tokens, _ := app.generateTokenPair(&testUser)
+	testCookie := &http.Cookie{
+		Name:     REFRESH_COOKIE_NAME,
+		Path:     "/",
+		Value:    tokens.RefreshToken,
+		Expires:  time.Now().Add(refreshTokenExpiry),
+		MaxAge:   int(refreshTokenExpiry.Seconds()),
+		SameSite: http.SameSiteStrictMode,
+		Domain:   "localhost",
+		HttpOnly: true,
+		Secure:   true,
+	}
+
+	badCookie := &http.Cookie{
+		Name:     REFRESH_COOKIE_NAME,
+		Path:     "/",
+		Value:    "notavalidtoken",
+		Expires:  time.Now().Add(refreshTokenExpiry),
+		MaxAge:   int(refreshTokenExpiry.Seconds()),
+		SameSite: http.SameSiteStrictMode,
+		Domain:   "localhost",
+		HttpOnly: true,
+		Secure:   true,
+	}
+
+	tests := []struct {
+		name           string
+		addCookie      bool
+		cookie         *http.Cookie
+		expectedStatus int
+	}{
+		{"valid cookie", true, testCookie, http.StatusOK},
+		{"invalid cookie", true, badCookie, http.StatusBadRequest},
+	}
+
+	for _, test := range tests {
+		rr := httptest.NewRecorder()
+		req, _ := http.NewRequest("GET", "/", nil)
+		if test.addCookie {
+			req.AddCookie(test.cookie)
+		}
+
+		handler := http.HandlerFunc(app.refreshUsingCookie)
+		handler.ServeHTTP(rr, req)
+
+		if rr.Code != test.expectedStatus {
+			t.Errorf("%s: failed with %d, expected %d", test.name, rr.Code, test.expectedStatus)
+		}
+	}
+}
