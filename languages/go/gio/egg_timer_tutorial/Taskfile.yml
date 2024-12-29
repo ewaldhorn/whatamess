@@ -4,6 +4,8 @@ version: "3"
 
 vars:
   SRC_DIR: src
+  OUT_DIR: bin
+  OUT_NAME: eggtimer
 
 tasks:
   default:
@@ -15,4 +17,20 @@ tasks:
     desc: Runs the application on the desktop
     cmds:
       - go run ./{{.SRC_DIR}}/.
+    silent: true
+  updateDependencies:
+    desc: Updates Go dependencies
+    cmds:
+      - go get -u ./...
+    silent: true
+  build:
+    desc: Builds the desktop project
+    cmds:
+      - mkdir -p {{.OUT_DIR}}
+      - go build -ldflags="-s -w" -o ./{{.OUT_DIR}}/{{.OUT_NAME}} ./src/.
+    silent: true
+  clean:
+    desc: Removes the '{{.OUT_DIR}}' directory
+    cmds:
+      - rm -rf {{.OUT_DIR}}
     silent: true
