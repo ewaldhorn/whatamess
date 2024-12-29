@@ -13,11 +13,6 @@ tasks:
     cmds:
       - task --list-all
     silent: true
-  buildTinyGo:
-    desc: Builds the wasm component with TinyGo
-    cmds:
-      - tinygo build -o static/{{.TARGET_FILE}} -no-debug -target wasm ./{{.SRC_DIR}}/main.go
-    silent: true
   build:
     desc: Builds the wasm component with Go
     cmds:
@@ -37,11 +32,7 @@ tasks:
     desc: Runs the project tests
     cmds:
       - GOOS=js GOARCH=wasm go test -v ./{{.SRC_DIR}}/.
-  updateWasmExec:
-    desc: Copies the TinyGo wasm_exec.js file to the {{.OUT_DIR}} directory
-    cmds:
-      - cp $(tinygo env TINYGOROOT)/targets/wasm_exec.js ./{{.OUT_DIR}}/wasm_exec_tiny.js
-    silent: true
+    silent: false
   updateDependencies:
     desc: Updates Go dependencies
     cmds:

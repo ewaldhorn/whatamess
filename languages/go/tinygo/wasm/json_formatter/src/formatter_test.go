@@ -3,7 +3,7 @@ package main
 import "testing"
 
 // ----------------------------------------------------------------------------
-func Test_simple_formatting(t *testing.T) {
+func TestSimple_formatting(t *testing.T) {
 	const input = `{"website":"golangbot.com", "tutorials": [{"title": "Strings", "url":"/strings/"}, {"title":"maps", "url":"/maps/"}, {"title": "goroutines","url":"/goroutines/"}]}`
 	const expected = `{
   "website": "golangbot.com",
