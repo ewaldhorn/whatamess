@@ -1,43 +1,31 @@
 package main
 
 import (
-	"smallgo/src/dom"
-	"strconv"
+	"fmt"
+	"syscall/js"
 )
 
 // ----------------------------------------------------------------------------
 func main() {
-	// handle loading status update
-	dom.Hide("loading")
-	dom.Show("calc")
+	js.Global().Set("formatJSON", jsonWrapper())
 
-	// now get the calculator ready for action
-	dom.SetValue("first-number", "value", "")
-	dom.SetValue("second-number", "value", "0")
-	dom.SetValue("result", "value", "0")
-
-	// set focus on the first number
-	dom.SetFocus("first-number")
-
-	// add listeners for value changes on either input field
-	dom.AddEventListener("first-number", "input", performCalculation)
-	dom.AddEventListener("second-number", "input", performCalculation)
-
-	// prevent the app for closing - it stays running for the life of the webpage
-	ch := make(chan struct{})
-	<-ch
+	<-make(chan struct{}) // prevent early exit
 }
 
 // ----------------------------------------------------------------------------
-func performCalculation() {
-	firstNumber, firstNumberErr := strconv.Atoi(dom.GetString("first-number", "value"))
-	secondNumber, secondNumberErr := strconv.Atoi(dom.GetString("second-number", "value"))
-
-	if firstNumberErr == nil && secondNumberErr == nil {
-		dom.SetValue("result", "value", strconv.Itoa(firstNumber+secondNumber))
-		dom.RemoveClass("result", "error")
-	} else {
-		dom.SetValue("result", "value", "ERR")
-		dom.AddClass("result", "error")
-	}
+func jsonWrapper() js.Func {
+	jsonFunc := js.FuncOf(func(this js.Value, args []js.Value) any {
+		if len(args) != 1 {
+			return "Invalid no of arguments passed"
+		}
+		inputJSON := args[0].String()
+		fmt.Printf("input %s\n", inputJSON)
+		pretty, err := prettifyJSON(inputJSON)
+		if err != nil {
+			fmt.Printf("unable to convert to json %s\n", err)
+			return err.Error()
+		}
+		return pretty
+	})
+	return jsonFunc
 }

@@ -13,16 +13,25 @@ tasks:
     cmds:
       - task --list-all
     silent: true
-  build:
+  buildTinyGo:
     desc: Builds the wasm component with TinyGo
     cmds:
       - tinygo build -o static/{{.TARGET_FILE}} -no-debug -target wasm ./{{.SRC_DIR}}/main.go
     silent: true
+  build:
+    desc: Builds the wasm component with Go
+    cmds:
+      - env GOOS=js GOARCH=wasm go build -o {{.OUT_DIR}}/{{.TARGET_FILE}} ./src/.
   run:
     desc: Builds and runs the project
     cmds:
       - task: build
       - http-server ./static/ -p 9000 -o -c-1
+    silent: true
+  setupExecJS:
+    desc: Copies the wasm_exec.js to the '{{.OUT_DIR}}' folder
+    cmds:
+      - cp $(go env GOROOT)/misc/wasm/wasm_exec.js {{.OUT_DIR}}
     silent: true
   test:
     desc: Runs the project tests

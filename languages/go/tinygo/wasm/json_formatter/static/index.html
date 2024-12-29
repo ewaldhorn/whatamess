@@ -1,21 +1,14 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <script src="wasm_exec_tiny.js"></script>
-    <title>TinyGo and Wasm JSON Formatter</title>
+    <script src="wasm_exec.js"></script>
+    <title>Go and Wasm JSON Formatter</title>
     <link href="styles.css" rel="stylesheet" />
   </head>
 
   <body>
     <h1>Golang JSON Formatter</h1>
     <div id="loading">Loading ...</div>
-    <form id="calc">
-      <input type="text" id="first-number" size="2" />
-      +
-      <input type="text" id="second-number" size="2" />
-      =
-      <input type="text" id="result" size="4" readonly />
-    </form>
     <script type="module" defer>
       "use strict";
 
