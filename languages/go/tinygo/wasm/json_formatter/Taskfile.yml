@@ -24,6 +24,10 @@ tasks:
       - task: build
       - http-server ./static/ -p 9000 -o -c-1
     silent: true
+  test:
+    desc: Runs the project tests
+    cmds:
+      - GOOS=js GOARCH=wasm go test -v ./{{.SRC_DIR}}/.
   updateWasmExec:
     desc: Copies the TinyGo wasm_exec.js file to the {{.OUT_DIR}} directory
     cmds:
