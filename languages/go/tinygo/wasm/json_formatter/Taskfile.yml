@@ -4,6 +4,7 @@ version: "3"
 
 vars:
   SRC_DIR: src
+  OUT_DIR: static
   TARGET_FILE: compiled.wasm
 
 tasks:
@@ -22,4 +23,14 @@ tasks:
     cmds:
       - task: build
       - http-server ./static/ -p 9000 -o -c-1
+    silent: true
+  updateWasmExec:
+    desc: Copies the TinyGo wasm_exec.js file to the {{.OUT_DIR}} directory
+    cmds:
+      - cp $(tinygo env TINYGOROOT)/targets/wasm_exec.js ./{{.OUT_DIR}}/wasm_exec_tiny.js
+    silent: true
+  updateDependencies:
+    desc: Updates Go dependencies
+    cmds:
+      - go get -u ./...
     silent: true
