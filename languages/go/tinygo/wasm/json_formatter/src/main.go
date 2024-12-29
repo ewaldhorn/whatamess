@@ -2,11 +2,14 @@ package main
 
 import (
 	"fmt"
+	"smallgo/src/dom"
 	"syscall/js"
 )
 
 // ----------------------------------------------------------------------------
 func main() {
+	dom.Hide("loading")
+	dom.Show("content")
 	js.Global().Set("formatJSON", jsonWrapper())
 
 	<-make(chan struct{}) // prevent early exit

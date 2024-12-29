@@ -9,13 +9,30 @@
   <body>
     <h1>Golang JSON Formatter</h1>
     <div id="loading">Loading ...</div>
+    <div id="content">
+      <textarea id="jsoninput" name="jsoninput" cols="80" rows="20"></textarea>
+      <input
+        id="button"
+        type="submit"
+        name="button"
+        value="pretty json"
+        onclick="json(jsoninput.value)"
+      />
+      <textarea
+        id="jsonoutput"
+        name="jsonoutput"
+        cols="80"
+        rows="20"
+      ></textarea>
+    </div>
+
     <script type="module" defer>
       "use strict";
 
       const go = new Go(); // Defined in wasm_exec.js
       const WASM_URL = "compiled.wasm";
 
-      let wasm;
+      let wasm, json;
 
       go.importObject.env = {
         add: function (x, y) {
@@ -26,6 +43,9 @@
       if ("instantiateStreaming" in WebAssembly) {
         WebAssembly.instantiateStreaming(fetch(WASM_URL), go.importObject).then(
           function (obj) {
+            json = function (input) {
+              jsonoutput.value = formatJSON(input);
+            };
             wasm = obj.instance;
             go.run(wasm);
           },
@@ -36,6 +56,9 @@
           .then((bytes) =>
             WebAssembly.instantiate(bytes, go.importObject).then(
               function (obj) {
+                json = function (input) {
+                  jsonoutput.value = formatJSON(input);
+                };
                 wasm = obj.instance;
                 go.run(wasm);
               },

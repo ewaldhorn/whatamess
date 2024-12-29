@@ -41,15 +41,6 @@ input {
   background: pink;
 }
 
-form#calc {
+#content {
   display: none;
-}
-
-form#calc,
-form#calc > input {
-  font-size: 20pt;
-}
-
-form#calc > input {
-  text-align: center;
 }
