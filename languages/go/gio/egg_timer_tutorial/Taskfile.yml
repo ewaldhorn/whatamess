@@ -1,0 +1,18 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  SRC_DIR: src
+
+tasks:
+  default:
+    desc: Lists available commands
+    cmds:
+      - task --list-all
+    silent: true
+  run:
+    desc: Runs the application on the desktop
+    cmds:
+      - go run ./{{.SRC_DIR}}/.
+    silent: true
