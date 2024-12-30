@@ -45,7 +45,17 @@ tasks:
   stopdb:
     desc: Stops the Docker instance
     cmds:
-      - docker compose down
+      - podman compose down
+    silent: true
+  podstartdb:
+    desc: Brings up the Docker instance
+    cmds:
+      - podman compose up -d
+    silent: true
+  podstopdb:
+    desc: Stops the Docker instance
+    cmds:
+      - podman compose down
     silent: true
   testapi:
     desc: Runs the API tests
