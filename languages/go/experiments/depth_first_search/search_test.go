@@ -28,7 +28,7 @@ func Test_emptyGraph(t *testing.T) {
 }
 
 // ----------------------------------------------------------------------------
-func Test_populatedGraph(t *testing.T) {
+func Test_populatedGraphSingleNode(t *testing.T) {
 	graph := Graph{}
 
 	graph.nodes = append(graph.nodes, makeNewNodeWithDependants("One", "One", "Two", "Three"))
@@ -39,5 +39,35 @@ func Test_populatedGraph(t *testing.T) {
 
 	if result == nil {
 		t.Errorf("failed with nil, expected %s", "One:Two")
+	}
+}
+
+// ----------------------------------------------------------------------------
+func Test_populatedGraph(t *testing.T) {
+	graph := Graph{}
+
+	graph.nodes = append(graph.nodes, makeNewNodeWithDependants("One", "One", "Two", "Three"))
+	graph.nodes = append(graph.nodes, makeNewNodeWithDependants("Two", "One", "Two", "Three", "Four"))
+	graph.nodes = append(graph.nodes, makeNewNodeWithDependants("Three", "One", "Two", "Three", "Four", "Five", "Six"))
+
+	result := graph.DepthFirstSearch("Two:Two")
+
+	if result == nil {
+		t.Errorf("failed with nil, expected %s", "One:Two")
+	}
+}
+
+// ----------------------------------------------------------------------------
+func Test_populatedGraph_NotFound(t *testing.T) {
+	graph := Graph{}
+
+	graph.nodes = append(graph.nodes, makeNewNodeWithDependants("One", "One", "Two", "Three"))
+	graph.nodes = append(graph.nodes, makeNewNodeWithDependants("Two", "One", "Two", "Three", "Four"))
+	graph.nodes = append(graph.nodes, makeNewNodeWithDependants("Three", "One", "Two", "Three", "Four", "Five", "Six"))
+
+	result := graph.DepthFirstSearch("Six:Two")
+
+	if result != nil {
+		t.Errorf("failed with %s, expected nil", result.Name)
 	}
 }

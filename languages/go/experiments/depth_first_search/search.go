@@ -22,3 +22,14 @@ func (n *Node) DepthFirstSearch(searchFor string) *Node {
 	// found nothing
 	return nil
 }
+
+// ----------------------------------------------------------------------------
+func (g *Graph) DepthFirstSearch(searchFor string) *Node {
+	for _, node := range g.nodes {
+		if result := node.DepthFirstSearch(searchFor); result != nil {
+			return result
+		}
+	}
+
+	return nil
+}
