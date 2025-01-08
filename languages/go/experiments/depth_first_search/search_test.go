@@ -17,6 +17,17 @@ func makeNewNodeWithDependants(name string, dependants ...string) *Node {
 }
 
 // ----------------------------------------------------------------------------
+func makePopulatedGraph() *Graph {
+	graph := Graph{}
+
+	graph.nodes = append(graph.nodes, makeNewNodeWithDependants("One", "One", "Two", "Three"))
+	graph.nodes = append(graph.nodes, makeNewNodeWithDependants("Two", "One", "Two", "Three", "Four"))
+	graph.nodes = append(graph.nodes, makeNewNodeWithDependants("Three", "One", "Two", "Three", "Four", "Five", "Six"))
+
+	return &graph
+}
+
+// ----------------------------------------------------------------------------
 func Test_emptyGraph(t *testing.T) {
 	graph := Graph{nodes: []*Node{makeNewNodeWithDependants("Dacia")}}
 
@@ -29,11 +40,7 @@ func Test_emptyGraph(t *testing.T) {
 
 // ----------------------------------------------------------------------------
 func Test_populatedGraphSingleNode(t *testing.T) {
-	graph := Graph{}
-
-	graph.nodes = append(graph.nodes, makeNewNodeWithDependants("One", "One", "Two", "Three"))
-	graph.nodes = append(graph.nodes, makeNewNodeWithDependants("Two", "One", "Two", "Three", "Four"))
-	graph.nodes = append(graph.nodes, makeNewNodeWithDependants("Three", "One", "Two", "Three", "Four", "Five", "Six"))
+	graph := makePopulatedGraph()
 
 	result := graph.nodes[0].DepthFirstSearch("One:Two")
 
@@ -44,11 +51,7 @@ func Test_populatedGraphSingleNode(t *testing.T) {
 
 // ----------------------------------------------------------------------------
 func Test_populatedGraph(t *testing.T) {
-	graph := Graph{}
-
-	graph.nodes = append(graph.nodes, makeNewNodeWithDependants("One", "One", "Two", "Three"))
-	graph.nodes = append(graph.nodes, makeNewNodeWithDependants("Two", "One", "Two", "Three", "Four"))
-	graph.nodes = append(graph.nodes, makeNewNodeWithDependants("Three", "One", "Two", "Three", "Four", "Five", "Six"))
+	graph := makePopulatedGraph()
 
 	result := graph.DepthFirstSearch("Two:Two")
 
@@ -59,11 +62,7 @@ func Test_populatedGraph(t *testing.T) {
 
 // ----------------------------------------------------------------------------
 func Test_populatedGraph_NotFound(t *testing.T) {
-	graph := Graph{}
-
-	graph.nodes = append(graph.nodes, makeNewNodeWithDependants("One", "One", "Two", "Three"))
-	graph.nodes = append(graph.nodes, makeNewNodeWithDependants("Two", "One", "Two", "Three", "Four"))
-	graph.nodes = append(graph.nodes, makeNewNodeWithDependants("Three", "One", "Two", "Three", "Four", "Five", "Six"))
+	graph := makePopulatedGraph()
 
 	result := graph.DepthFirstSearch("Six:Two")
 
