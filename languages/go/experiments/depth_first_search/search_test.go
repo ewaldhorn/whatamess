@@ -28,6 +28,33 @@ func makePopulatedGraph() *Graph {
 }
 
 // ----------------------------------------------------------------------------
+func buildBigWordList() []string {
+	words := make([]string, 0, 15_000)
+	characters := "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+
+	for i := range 100 {
+		for _, ch := range characters {
+			words = append(words, fmt.Sprintf("%c%d", ch, i))
+		}
+	}
+
+	return words
+}
+
+// ----------------------------------------------------------------------------
+func makeMassivePopulatedGraph() *Graph {
+	graph := Graph{}
+
+	words := buildBigWordList()
+
+	for _, word := range words {
+		graph.nodes = append(graph.nodes, makeNewNodeWithDependants(word, words...))
+	}
+
+	return &graph
+}
+
+// ----------------------------------------------------------------------------
 func Test_emptyGraph(t *testing.T) {
 	graph := Graph{nodes: []*Node{makeNewNodeWithDependants("Dacia")}}
 
@@ -68,5 +95,17 @@ func Test_populatedGraph_NotFound(t *testing.T) {
 
 	if result != nil {
 		t.Errorf("failed with %s, expected nil", result.Name)
+	}
+}
+
+// ----------------------------------------------------------------------------
+func Test_populatedGraph_Large(t *testing.T) {
+	graph := makeMassivePopulatedGraph()
+
+	lookFor := "z99:z99"
+	result := graph.DepthFirstSearch(lookFor)
+
+	if result == nil {
+		t.Errorf("failed with nil, expected %s", lookFor)
 	}
 }
