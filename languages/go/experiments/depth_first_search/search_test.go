@@ -89,10 +89,10 @@ func buildBigWordListNoAppend() []string {
 	var builder strings.Builder
 
 	for i := range 100 {
-		for _, ch := range characters {
+		for j, ch := range characters {
 			builder.WriteString(string(ch))
 			builder.WriteString(strconv.Itoa(i))
-			words[pos] = builder.String()
+			words[i*len(characters)+j] = builder.String() // calculate correct offset
 
 			builder.Reset()
 			pos += 1
@@ -224,16 +224,37 @@ func Test_populatedGraph_Large(t *testing.T) {
 }
 
 // ----------------------------------------------------------------------------
-func Test_populdateGraph_LargeOptimised(t *testing.T) {
-	graph := makeMassivePopulatedGraphOptimised()
+func TestBuildBigWordList(t *testing.T) {
+	expectedLength := 100 * 52 // 52 characters in the alphabet (26 uppercase + 26 lowercase)
+	expectedFirstElement := "A0"
+	expectedLastElement := "z99"
 
-	last100 := len(graph.nodes) - 100
+	words := buildBigWordList()
 
-	for i := range last100 {
-		t.Logf("%s, (%d)", graph.nodes[i].Name, len(graph.nodes))
+	if len(words) != expectedLength {
+		t.Errorf("Expected length %d, got %d", expectedLength, len(words))
 	}
 
-	lookFor := "z29:z29"
+	if words[0] != expectedFirstElement {
+		t.Errorf("Expected first element %q, got %q", expectedFirstElement, words[0])
+	}
+
+	if words[len(words)-1] != expectedLastElement {
+		t.Errorf("Expected last element %q, got %q", expectedLastElement, words[len(words)-1])
+	}
+}
+
+// ----------------------------------------------------------------------------
+func Test_populatedGraph_LargeOptimised(t *testing.T) {
+	// graph := makeMassivePopulatedGraphOptimised()
+	graph := makeMassivePopulatedGraph()
+
+	last := len(graph.nodes) - 1
+	lastLast := len(graph.nodes[last].Dependants) - 1
+
+	t.Logf("%s, (%d):  %s, (%d)", graph.nodes[last].Name, len(graph.nodes), graph.nodes[last].Dependants[lastLast], len(graph.nodes[last].Dependants))
+
+	lookFor := "z99:z99"
 	result := graph.DepthFirstSearch(lookFor)
 	if result != nil {
 		t.Errorf("failed with nil, expected %s", lookFor)
