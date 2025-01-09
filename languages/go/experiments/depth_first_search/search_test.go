@@ -19,6 +19,20 @@ func makeNewNodeWithDependants(name string, dependants ...string) *Node {
 }
 
 // ----------------------------------------------------------------------------
+func makeNewNodeWithDependantsOptimised(name string, dependants ...string) *Node {
+	n := &Node{
+		Name:       name,
+		Dependants: make([]*Node, len(dependants)),
+	}
+
+	for idx, s := range dependants {
+		n.Dependants[idx] = &Node{Name: fmt.Sprintf("%s:%s", name, s)}
+	}
+
+	return n
+}
+
+// ----------------------------------------------------------------------------
 func makePopulatedGraph() *Graph {
 	graph := Graph{}
 
@@ -30,6 +44,7 @@ func makePopulatedGraph() *Graph {
 }
 
 // ----------------------------------------------------------------------------
+// Building a wordlist trying to preallocate some memory.
 func buildBigWordList() []string {
 	words := make([]string, 0, 15_000)
 	characters := "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
@@ -44,6 +59,7 @@ func buildBigWordList() []string {
 }
 
 // ----------------------------------------------------------------------------
+// Building the same wordlist, but with no attempt at preallocation
 func buildBigWordListNoPre() []string {
 	var words []string
 	characters := "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
@@ -58,6 +74,7 @@ func buildBigWordListNoPre() []string {
 }
 
 // ----------------------------------------------------------------------------
+// Try to build the wordlist without using append
 func buildBigWordListNoAppend() []string {
 	characters := "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 	sizeNeeded := len(characters) * 100
@@ -96,7 +113,7 @@ func Benchmark_buildBigWordListNoPre(b *testing.B) {
 }
 
 // ----------------------------------------------------------------------------
-// Benchmark the word list building, just for giggles
+// Benchmark the word list building, with minimal appends
 func Benchmark_buildBigWordListNoAppend(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		_ = buildBigWordListNoAppend()
@@ -117,10 +134,30 @@ func makeMassivePopulatedGraph() *Graph {
 }
 
 // ----------------------------------------------------------------------------
+func makeMassivePopulatedGraphOptimised() *Graph {
+
+	words := buildBigWordListNoAppend()
+	graph := Graph{nodes: make([]*Node, len(words))}
+
+	for idx, word := range words {
+		graph.nodes[idx] = makeNewNodeWithDependantsOptimised(word, words...)
+	}
+
+	return &graph
+}
+
+// ----------------------------------------------------------------------------
 // Also benchmark the graph creation function
 func Benchmark_makeMassivePopulatedGraph(b *testing.B) {
 	for range b.N {
 		_ = makeMassivePopulatedGraph()
+	}
+}
+
+// ----------------------------------------------------------------------------
+func Benchmark_makeMassivePopulatedGraphOptimised(b *testing.B) {
+	for range b.N {
+		_ = makeMassivePopulatedGraphOptimised()
 	}
 }
 
