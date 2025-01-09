@@ -222,3 +222,20 @@ func Test_populatedGraph_Large(t *testing.T) {
 		t.Errorf("failed with nil, expected %s", lookFor)
 	}
 }
+
+// ----------------------------------------------------------------------------
+func Test_populdateGraph_LargeOptimised(t *testing.T) {
+	graph := makeMassivePopulatedGraphOptimised()
+
+	last100 := len(graph.nodes) - 100
+
+	for i := range last100 {
+		t.Logf("%s, (%d)", graph.nodes[i].Name, len(graph.nodes))
+	}
+
+	lookFor := "z29:z29"
+	result := graph.DepthFirstSearch(lookFor)
+	if result != nil {
+		t.Errorf("failed with nil, expected %s", lookFor)
+	}
+}
