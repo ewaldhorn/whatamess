@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"strconv"
+	"strings"
 	"testing"
 )
 
@@ -42,6 +44,66 @@ func buildBigWordList() []string {
 }
 
 // ----------------------------------------------------------------------------
+func buildBigWordListNoPre() []string {
+	var words []string
+	characters := "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+
+	for i := range 100 {
+		for _, ch := range characters {
+			words = append(words, fmt.Sprintf("%c%d", ch, i))
+		}
+	}
+
+	return words
+}
+
+// ----------------------------------------------------------------------------
+func buildBigWordListNoAppend() []string {
+	characters := "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+	sizeNeeded := len(characters) * 100
+	words := make([]string, sizeNeeded)
+	pos := 0
+	var builder strings.Builder
+
+	for i := range 100 {
+		for _, ch := range characters {
+			builder.WriteString(string(ch))
+			builder.WriteString(strconv.Itoa(i))
+			words[pos] = builder.String()
+
+			builder.Reset()
+			pos += 1
+		}
+	}
+
+	return words
+}
+
+// ----------------------------------------------------------------------------
+// Benchmark the word list building, just for giggles
+func Benchmark_buildBigWordList(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = buildBigWordList()
+	}
+}
+
+// ----------------------------------------------------------------------------
+// Benchmark the word list building, just for giggles
+func Benchmark_buildBigWordListNoPre(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = buildBigWordListNoPre()
+	}
+}
+
+// ----------------------------------------------------------------------------
+// Benchmark the word list building, just for giggles
+func Benchmark_buildBigWordListNoAppend(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = buildBigWordListNoAppend()
+	}
+}
+
+// ----------------------------------------------------------------------------
 func makeMassivePopulatedGraph() *Graph {
 	graph := Graph{}
 
@@ -52,6 +114,14 @@ func makeMassivePopulatedGraph() *Graph {
 	}
 
 	return &graph
+}
+
+// ----------------------------------------------------------------------------
+// Also benchmark the graph creation function
+func Benchmark_makeMassivePopulatedGraph(b *testing.B) {
+	for range b.N {
+		_ = makeMassivePopulatedGraph()
+	}
 }
 
 // ----------------------------------------------------------------------------
