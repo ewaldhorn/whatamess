@@ -25,8 +25,14 @@ func makeNewNodeWithDependantsOptimised(name string, dependants ...string) *Node
 		Dependants: make([]*Node, len(dependants)),
 	}
 
+	builder := strings.Builder{}
+
 	for idx, s := range dependants {
-		n.Dependants[idx] = &Node{Name: fmt.Sprintf("%s:%s", name, s)}
+		builder.WriteString(name)
+		builder.WriteString(":")
+		builder.WriteString(s)
+		n.Dependants[idx] = &Node{Name: builder.String()}
+		builder.Reset()
 	}
 
 	return n
