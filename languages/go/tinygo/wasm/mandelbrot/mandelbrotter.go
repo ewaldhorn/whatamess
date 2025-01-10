@@ -9,8 +9,8 @@ import (
 
 // ----------------------------------------------------------------------------
 type Mandelbrotter struct {
-	canvas        *tinycanvas.TinyCanvas
-	width, height int
+	canvas                       *tinycanvas.TinyCanvas
+	width, height, maxIterations int
 }
 
 // ----------------------------------------------------------------------------
@@ -18,7 +18,7 @@ type Mandelbrotter struct {
 // It will set up a canvas of "size" pixels by "size" pixels ready for rendering.
 // - size int : the required size of the drawing. Drawings are square.
 func NewMandelbrotter(size int) *Mandelbrotter {
-	brotter := &Mandelbrotter{width: size, height: size}
+	brotter := &Mandelbrotter{width: size, height: size, maxIterations: 255}
 
 	brotter.setup()
 
@@ -52,6 +52,20 @@ func (m *Mandelbrotter) setupRenderFrameCallback() {
 }
 
 // ----------------------------------------------------------------------------
+func (m *Mandelbrotter) draw() {
+	for y := 0; y < m.height; y++ {
+		for x := 0; x < m.width; x++ {
+			cx := float64(x-m.width/2) * 4.0 / float64(m.width)
+			cy := float64(y-m.height/2) * 4.0 / float64(m.height)
+			iter := mandelbrot(cx, cy, m.maxIterations)
+			colour := getColour(iter, m.maxIterations)
+			m.canvas.PutColourPixel(x, y, *colour)
+		}
+	}
+}
+
+// ----------------------------------------------------------------------------
 func (m *Mandelbrotter) Refresh() {
+	m.draw()
 	m.canvas.Render()
 }
