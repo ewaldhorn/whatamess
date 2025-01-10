@@ -230,3 +230,4 @@ languages/go/experiments/binary_search/coverage.out
 languages/go/experiments/depth_first_search/coverage.out
 languages/go/tinygo/wasm/mandelbrot/static/wasm_exec_tiny.js
 languages/go/tinygo/wasm/mandelbrot/static/mandelbrotter.wasm
+languages/go/experiments/mandelbrot/intbased/mandelbrot.png
