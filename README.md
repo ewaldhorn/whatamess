@@ -1,8 +1,8 @@
-# Just an absolute smorgasbord of experiments
+# Just a HEAP of various experiments
 
 Best not to look too closely, you might pick up bad habits!
 
-## PLEASE NOTE
+## PLEASE REMEMBER
 
 These are _experiments_, often in some state of flux. I might
 try something that I am thinking of doing a talk about, or do
