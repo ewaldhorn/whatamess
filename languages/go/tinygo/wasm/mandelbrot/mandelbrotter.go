@@ -3,7 +3,6 @@ package main
 import (
 	"syscall/js"
 
-	"github.com/ewaldhorn/tinycanvas/colour"
 	"github.com/ewaldhorn/tinycanvas/tinycanvas"
 )
 
@@ -11,6 +10,9 @@ import (
 type Mandelbrotter struct {
 	canvas                       *tinycanvas.TinyCanvas
 	width, height, maxIterations int
+	x, y, currentIter            int
+	cx, cy                       float64
+	done                         bool
 }
 
 // ----------------------------------------------------------------------------
@@ -28,13 +30,6 @@ func NewMandelbrotter(size int) *Mandelbrotter {
 // ----------------------------------------------------------------------------
 func (m *Mandelbrotter) setup() {
 	m.setupCanvas()
-
-	for x := range m.width {
-		for y := range m.height {
-			m.canvas.PutColourPixel(x, y, *colour.NewRandomColour())
-		}
-	}
-
 	m.setupRenderFrameCallback()
 }
 
@@ -52,20 +47,34 @@ func (m *Mandelbrotter) setupRenderFrameCallback() {
 }
 
 // ----------------------------------------------------------------------------
-func (m *Mandelbrotter) draw() {
-	for y := 0; y < m.height; y++ {
-		for x := 0; x < m.width; x++ {
-			cx := float64(x-m.width/2) * 4.0 / float64(m.width)
-			cy := float64(y-m.height/2) * 4.0 / float64(m.height)
-			iter := mandelbrot(cx, cy, m.maxIterations)
-			colour := getColour(iter, m.maxIterations)
-			m.canvas.PutColourPixel(x, y, *colour)
-		}
+func (m *Mandelbrotter) step() {
+	if m.y >= m.height {
+		// we are done
+		m.done = true
+		return
 	}
+
+	if m.x >= m.width {
+		m.x = 0
+		m.y += 1
+	}
+
+	m.cx = float64(m.x-m.width/2) * 4.0 / float64(m.width)
+	m.cy = float64(m.y-m.height/2) * 4.0 / float64(m.height)
+	m.currentIter = mandelbrot(m.cx, m.cy, m.maxIterations)
+	colour := getColour(m.currentIter, m.maxIterations)
+	m.canvas.PutColourPixel(m.x, m.y, *colour)
+
+	m.x++
 }
 
 // ----------------------------------------------------------------------------
 func (m *Mandelbrotter) Refresh() {
-	m.draw()
-	m.canvas.Render()
+	if !m.done {
+		for range m.width {
+			m.step()
+		}
+
+		m.canvas.Render()
+	}
 }
