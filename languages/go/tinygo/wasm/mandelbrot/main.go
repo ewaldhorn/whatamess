@@ -18,7 +18,7 @@ func main() {
 
 	// now we should be ready to rock and roll
 	mandelbrotter := NewMandelbrotter()
-	mandelbrotter.Start()
+	mandelbrotter.Refresh()
 
 	// prevent the app for closing - it stays running for the life of the page
 	// if we don't do this, it exits and all future calls into it will fail

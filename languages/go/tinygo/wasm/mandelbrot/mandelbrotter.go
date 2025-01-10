@@ -1,6 +1,9 @@
 package main
 
-import "github.com/ewaldhorn/tinycanvas/tinycanvas"
+import (
+	"github.com/ewaldhorn/tinycanvas/colour"
+	"github.com/ewaldhorn/tinycanvas/tinycanvas"
+)
 
 // ----------------------------------------------------------------------------
 type Mandelbrotter struct {
@@ -11,9 +14,22 @@ type Mandelbrotter struct {
 func NewMandelbrotter() *Mandelbrotter {
 	brotter := &Mandelbrotter{}
 
-	brotter.setupCanvas()
+	brotter.setup()
 
 	return brotter
+}
+
+// ----------------------------------------------------------------------------
+func (m *Mandelbrotter) setup() {
+	m.setupCanvas()
+	width, height := m.canvas.GetDimensions()
+
+	for x := range width {
+		for y := range height {
+			m.canvas.PutColourPixel(x, y, *colour.NewRandomColour())
+		}
+	}
+
 }
 
 // ----------------------------------------------------------------------------
@@ -22,4 +38,6 @@ func (m *Mandelbrotter) setupCanvas() {
 }
 
 // ----------------------------------------------------------------------------
-func (m *Mandelbrotter) Start() {}
+func (m *Mandelbrotter) Refresh() {
+	m.canvas.Render()
+}
