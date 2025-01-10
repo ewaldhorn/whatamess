@@ -1,6 +1,8 @@
 package main
 
 import (
+	"syscall/js"
+
 	"github.com/ewaldhorn/tinycanvas/colour"
 	"github.com/ewaldhorn/tinycanvas/tinycanvas"
 )
@@ -30,11 +32,20 @@ func (m *Mandelbrotter) setup() {
 		}
 	}
 
+	m.setupRenderFrameCallback()
 }
 
 // ----------------------------------------------------------------------------
 func (m *Mandelbrotter) setupCanvas() {
 	m.canvas = tinycanvas.NewTinyCanvas(800, 600)
+}
+
+// ----------------------------------------------------------------------------
+func (m *Mandelbrotter) setupRenderFrameCallback() {
+	js.Global().Set("renderFrame", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		m.Refresh()
+		return nil
+	}))
 }
 
 // ----------------------------------------------------------------------------

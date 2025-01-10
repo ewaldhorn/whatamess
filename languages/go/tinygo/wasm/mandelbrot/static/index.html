@@ -20,18 +20,20 @@
 
       let wasm;
 
+      // Kick of the animation and keep it going
       let animateFunction = () => {
-        refreshCanvasTwo();
+        renderFrame();
         requestAnimationFrame(animateFunction);
       };
 
       // ----------------------------------------------------------------------
+      // Called by the Go Wasm component
       go.importObject.env = {
         setVersion: function () {
           document.getElementById("title").innerHTML = getVersion();
         },
         startAnimation: function () {
-          updateFunction();
+          animateFunction();
         },
       };
 

@@ -8,6 +8,9 @@ import "github.com/ewaldhorn/tinycanvas/dom"
 //export setVersion
 func setVersion()
 
+//export startAnimation
+func startAnimation()
+
 // ----------------------------------------------------------------------------
 // Standard entry point for Go programs
 func main() {
@@ -20,6 +23,7 @@ func main() {
 	mandelbrotter := NewMandelbrotter()
 	mandelbrotter.Refresh()
 
+	startAnimation()
 	// prevent the app for closing - it stays running for the life of the page
 	// if we don't do this, it exits and all future calls into it will fail
 	ch := make(chan struct{})
