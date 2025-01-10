@@ -18,7 +18,7 @@ tasks:
       - go get -u ./...
     silent: true
   build:
-    desc: Builds the demo with TinyGo
+    desc: Builds the project with TinyGo
     cmds:
       - tinygo build -o {{.OUT_DIR}}/{{.WASM_TARGET_FILE}} -no-debug -target wasm .
     silent: true
