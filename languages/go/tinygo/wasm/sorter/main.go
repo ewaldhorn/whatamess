@@ -21,7 +21,7 @@ func main() {
 	dom.Show("controls")
 
 	// now we should be ready to rock and roll
-	sorter := NewSorter(800, 200)
+	sorter := NewSorter(800, 110)
 	sorter.Refresh()
 
 	startAnimation()

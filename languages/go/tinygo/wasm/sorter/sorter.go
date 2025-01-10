@@ -13,6 +13,7 @@ type Sorter struct {
 	canvas             *tinycanvas.TinyCanvas
 	width, height      int
 	barWidth, gapWidth int
+	bottomOffset       int
 	done               bool
 	count              int
 	numbers            []int8
@@ -20,7 +21,7 @@ type Sorter struct {
 
 // ----------------------------------------------------------------------------
 func NewSorter(width, height int) *Sorter {
-	sorter := &Sorter{width: width, height: height, count: 50}
+	sorter := &Sorter{width: width, height: height, bottomOffset: 2, count: 50}
 	sorter.setup()
 	return sorter
 }
@@ -40,7 +41,7 @@ func (s *Sorter) setupRandomNumbers() {
 
 	// calculate the width of each bar, minus the margins
 	// and the gap between bars
-	s.gapWidth = 3
+	s.gapWidth = 2
 	s.barWidth = (s.width - ((s.count - 1) * s.gapWidth)) / s.count
 	// for debugging
 	// dom.Log(fmt.Sprintf("bar: %d, gap: %d", s.barWidth, s.gapWidth))
@@ -65,9 +66,9 @@ func (s *Sorter) step() {
 	s.done = true
 	barColour := colour.NewColour(240, 235, 10, 255)
 	for idx := range s.count {
-		xpos := 5 + (idx * s.barWidth) + (idx * s.gapWidth)
+		xpos := (idx * s.barWidth) + (idx * s.gapWidth) + 1
 		for th := range s.barWidth {
-			s.canvas.ColourLine(xpos+th, s.height-5, xpos+th, 100-int(s.numbers[idx]), *barColour)
+			s.canvas.ColourLine(xpos+th, s.height-s.bottomOffset, xpos+th, (s.height-s.bottomOffset)-int(s.numbers[idx]), *barColour)
 		}
 	}
 }
