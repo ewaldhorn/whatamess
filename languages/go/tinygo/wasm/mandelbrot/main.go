@@ -20,7 +20,7 @@ func main() {
 	dom.Hide("loading")
 
 	// now we should be ready to rock and roll
-	mandelbrotter := NewMandelbrotter()
+	mandelbrotter := NewMandelbrotter(800)
 	mandelbrotter.Refresh()
 
 	startAnimation()
