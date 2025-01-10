@@ -228,3 +228,4 @@ languages/go/tinygo/wasm/json_formatter/static/compiled.wasm
 languages/go/gio/egg_timer_tutorial/bin
 languages/go/experiments/binary_search/coverage.out
 languages/go/experiments/depth_first_search/coverage.out
+languages/go/tinygo/wasm/mandelbrot/static/wasm_exec_tiny.js
