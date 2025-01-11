@@ -17,11 +17,17 @@ type Sorter struct {
 	done               bool
 	count              int
 	numbers            []int8
+	barColour          *colour.Colour
 }
 
 // ----------------------------------------------------------------------------
 func NewSorter(width, height int) *Sorter {
-	sorter := &Sorter{width: width, height: height, bottomOffset: 2, count: 50}
+	sorter := &Sorter{
+		width:        width,
+		height:       height,
+		bottomOffset: 2,
+		count:        50,
+		barColour:    colour.NewColour(240, 235, 10, 255)}
 	sorter.setup()
 	return sorter
 }
@@ -63,14 +69,14 @@ func (s *Sorter) setupRenderFrameCallback() {
 
 // ----------------------------------------------------------------------------
 func (s *Sorter) step() {
-	s.done = true
-	barColour := colour.NewColour(240, 235, 10, 255)
 	for idx := range s.count {
 		xpos := (idx * s.barWidth) + (idx * s.gapWidth) + 1
 		for th := range s.barWidth {
-			s.canvas.ColourLine(xpos+th, s.height-s.bottomOffset, xpos+th, (s.height-s.bottomOffset)-int(s.numbers[idx]), *barColour)
+			s.canvas.ColourLine(xpos+th, s.height-s.bottomOffset, xpos+th, (s.height-s.bottomOffset)-int(s.numbers[idx]), *s.barColour)
 		}
 	}
+
+	s.done = true
 }
 
 // ----------------------------------------------------------------------------

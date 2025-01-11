@@ -2,3 +2,5 @@ github.com/ewaldhorn/tinycanvas v0.0.0-20250109154018-fdf68615ecf6 h1:sCyeogZ526
 github.com/ewaldhorn/tinycanvas v0.0.0-20250109154018-fdf68615ecf6/go.mod h1:UeQrIJdd9gePZ+ShLIstwGhHuhugeR9nzmEvz3pg9wE=
 github.com/ewaldhorn/tinycanvas v0.0.0-20250111090348-66dfad0208ab h1:ebXs96yi7JgAiFMO8ydReMplspeTboRyhPB4kH2U6MI=
 github.com/ewaldhorn/tinycanvas v0.0.0-20250111090348-66dfad0208ab/go.mod h1:UeQrIJdd9gePZ+ShLIstwGhHuhugeR9nzmEvz3pg9wE=
+github.com/ewaldhorn/tinycanvas v0.0.1 h1:IwcLbtlgbY+4mhlQNhG9Y2f1aUmRCZ8DlAoVNJe+514=
+github.com/ewaldhorn/tinycanvas v0.0.1/go.mod h1:UeQrIJdd9gePZ+ShLIstwGhHuhugeR9nzmEvz3pg9wE=
