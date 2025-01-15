@@ -63,7 +63,7 @@ func (m *Mandelbrotter) step() {
 	m.cy = float64(m.y-m.height/2) * 4.0 / float64(m.height)
 	m.currentIter = mandelbrot(m.cx, m.cy, m.maxIterations)
 	colour := getColour(m.currentIter, m.maxIterations)
-	m.canvas.PutColourPixel(m.x, m.y, *colour)
+	m.canvas.ColourPutPixel(m.x, m.y, *colour)
 
 	m.x++
 }
