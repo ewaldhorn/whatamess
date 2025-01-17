@@ -233,3 +233,8 @@ languages/go/tinygo/wasm/mandelbrot/static/mandelbrotter.wasm
 languages/go/experiments/mandelbrot/intbased/mandelbrot.png
 languages/go/tinygo/wasm/sorter/static/sorter.wasm
 languages/go/tinygo/wasm/sorter/static/wasm_exec_tiny.js
+languages/dart/web/hello_web/helloweb/site/main.mjs
+languages/dart/web/hello_web/helloweb/site/main.unopt.wasm
+languages/dart/web/hello_web/helloweb/site/main.unopt.wasm.map
+languages/dart/web/hello_web/helloweb/site/main.wasm
+languages/dart/web/hello_web/helloweb/site/main.wasm.map
