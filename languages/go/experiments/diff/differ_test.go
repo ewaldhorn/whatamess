@@ -10,6 +10,7 @@ func Test_findLCS(t *testing.T) {
 		{name: "Same", left: "ABCDEF", right: "ABCDEF", expected: "ABCDEF"},
 		{name: "Nothing", left: "ABC", right: "DEF", expected: ""},
 		{name: "Just last two", left: "ABCDE", right: "XYZDE", expected: "DE"},
+		{name: "First two", left: "AABCXY", right: "XYDEF", expected: "XY"},
 		{name: "Blank", left: "", right: "", expected: ""},
 		{name: "Some characters", left: "ABCDE", right: "AC", expected: "AC"},
 	}
