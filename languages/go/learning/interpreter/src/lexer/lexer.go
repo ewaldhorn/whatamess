@@ -14,7 +14,7 @@ type Lexer struct {
 
 // ----------------------------------------------------------------------------
 // New creates a new lexer that will process the input string.
-// Returns a pointer to the newly created lexer.
+// Returns a pointer to the newly created lexer
 func New(input string) *Lexer {
 	newLexer := &Lexer{input: input}
 	newLexer.readChar()
@@ -24,7 +24,7 @@ func New(input string) *Lexer {
 
 // ----------------------------------------------------------------------------
 // readChar reads the next character in the input and advances l.position and
-// l.readPosition. When it reaches the end of input, it sets l.ch to 0 (NUL).
+// l.readPosition. When it reaches the end of input, it sets l.ch to 0 (NUL)
 func (l *Lexer) readChar() {
 	if l.readPosition >= len(l.input) {
 		l.ch = 0
@@ -37,7 +37,7 @@ func (l *Lexer) readChar() {
 
 // ----------------------------------------------------------------------------
 // peekChar reads the next character in the input but does not increment the
-// position. When it reaches the end of input, it returns 0 (NUL).
+// position. When it reaches the end of input, it returns 0 (NUL)
 func (l *Lexer) peekChar() byte {
 	if l.readPosition >= len(l.input) {
 		return 0
@@ -49,7 +49,7 @@ func (l *Lexer) peekChar() byte {
 // ----------------------------------------------------------------------------
 // NextToken processes and returns the next token in the input.
 // The token.Token struct contains both the type of token and the
-// literal value associated with it.
+// literal value associated with it
 func (l *Lexer) NextToken() token.Token {
 	var tok token.Token
 
@@ -151,7 +151,7 @@ func (l *Lexer) readNumber() string {
 // ----------------------------------------------------------------------------
 // skipWhitespace skips over any whitespace characters (space, tab, newline,
 // carriage return) in the input by repeatedly calling readChar() until a
-// non-whitespace character is found.
+// non-whitespace character is found
 func (l *Lexer) skipWhitespace() {
 	for l.ch == ' ' || l.ch == '\t' || l.ch == '\n' || l.ch == '\r' {
 		l.readChar()
@@ -160,12 +160,13 @@ func (l *Lexer) skipWhitespace() {
 
 // ----------------------------------------------------------------------------
 // isLetter checks that a characters is an acceptable letter/character for
-// use in an identifier.
+// use in an identifier
 func isLetter(ch byte) bool {
 	return 'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '_'
 }
 
 // ----------------------------------------------------------------------------
+// isDigit will tell us if it's a digit from 0..9
 func isDigit(ch byte) bool {
 	return '0' <= ch && ch <= '9'
 }
