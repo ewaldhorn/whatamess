@@ -32,3 +32,8 @@ tasks:
     cmds:
       - go get -u ./{{.SRC_DIR}}/...
     silent: true
+  vet:
+    desc: Runs Go Vet against the code
+    cmds:
+      - go vet ./{{.SRC_DIR}}/...
+    silent: true
