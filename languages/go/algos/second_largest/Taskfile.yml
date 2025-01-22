@@ -1,0 +1,18 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  SRC_DIR: src
+
+tasks:
+  default:
+    desc: Lists available tasks
+    cmds:
+      - task --list-all
+    silent: true
+  test:
+    desc: Runs project tests
+    cmds:
+      - go test -v ./{{.SRC_DIR}}/...
+    silent: true
