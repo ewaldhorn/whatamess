@@ -5,14 +5,9 @@ import "math"
 // ----------------------------------------------------------------------------
 // Basic implementation
 func getSecondLargestBasic(numbers ...int) int {
-	// empty
-	if len(numbers) == 0 {
+	// empty or just 1
+	if len(numbers) < 2 {
 		return math.MinInt
-	}
-
-	// just one
-	if len(numbers) == 1 {
-		return numbers[0]
 	}
 
 	// give first and second starting values

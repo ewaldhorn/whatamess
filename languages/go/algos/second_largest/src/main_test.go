@@ -12,7 +12,7 @@ func Test_getSecondLargest(t *testing.T) {
 		expected int
 	}{
 		{"empty", []int{}, math.MinInt},
-		{"one", []int{1}, 1},
+		{"one", []int{1}, math.MinInt},
 		{"easy", []int{10, 20, 30, 40, 50}, 40},
 		{"duplicate max", []int{10, 20, 30, 40, 50, 50}, 40},
 		{"sample", []int{10, 5, 8, 12, 19, 6}, 12},
