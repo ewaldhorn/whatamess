@@ -14,5 +14,6 @@ tasks:
   test:
     desc: Runs project tests
     cmds:
+      - clear
       - go test -v ./{{.SRC_DIR}}/...
     silent: true
