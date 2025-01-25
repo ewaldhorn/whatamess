@@ -6,6 +6,7 @@ vars:
   GO_SRC_DIR: src
   PY_SRC_DIR: python
   OUTPUT_DIR: bin
+  LIB_NAME: thelib.so
 
 tasks:
   default:
@@ -20,6 +21,7 @@ tasks:
     desc: Builds the Go library
     cmds:
       - mkdir -p {{.OUTPUT_DIR}}
+      - go build -v -o {{.OUTPUT_DIR}}/{{.LIB_NAME}} -buildmode=c-shared ./{{.GO_SRC_DIR}}/.
     silent: true
   run:
     desc: Runs the Python code
