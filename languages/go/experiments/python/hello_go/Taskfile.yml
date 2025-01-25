@@ -1,0 +1,29 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  GO_SRC_DIR: src
+  PY_SRC_DIR: python
+  OUTPUT_DIR: bin
+
+tasks:
+  default:
+    desc: Lists available tasks
+    cmds:
+      - echo
+      - echo "**********************************************"
+      - task --list-all
+      - echo
+    silent: true
+  build:
+    desc: Builds the Go library
+    cmds:
+      - mkdir -p {{.OUTPUT_DIR}}
+    silent: true
+  run:
+    desc: Runs the Python code
+    dir: "{{.PY_SRC_DIR}}"
+    cmds:
+      - python3 runner.py
+    silent: true
