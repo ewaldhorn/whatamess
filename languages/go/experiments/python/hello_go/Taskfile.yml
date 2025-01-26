@@ -34,3 +34,15 @@ tasks:
     cmds:
       - go test -v ./{{.GO_SRC_DIR}}/...
     silent: true
+  testpython:
+    desc: Runs the Python tests
+    dir: "{{.PY_SRC_DIR}}"
+    cmds:
+      - python3 test.py
+    silent: true
+  test:
+    desc: Runs all the tests
+    cmds:
+      - task testgo
+      - task testpython
+    silent: true
