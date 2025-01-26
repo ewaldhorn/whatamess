@@ -29,3 +29,8 @@ tasks:
     cmds:
       - python3 runner.py
     silent: true
+  testgo:
+    desc: Runs the Go unit tests
+    cmds:
+      - go test -v ./{{.GO_SRC_DIR}}/...
+    silent: true
