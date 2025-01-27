@@ -6,8 +6,8 @@ lib = ctypes.CDLL("../bin/thelib.so")
 lib.CalculateLargeNumber.restype = ctypes.c_longlong
 
 print()
-print(lib.CalculateLargeNumber())
-print("Go says the big number is:", f"{lib.CalculateLargeNumber():,}".replace(",", " "))
+bigNumber = lib.CalculateLargeNumber()
+print("Go says the big number is      :", bigNumber)
 
-print("And this is Python!")
+print("And this is Python saying it is:",f"{bigNumber:,}".replace(",", " "))
 print()
