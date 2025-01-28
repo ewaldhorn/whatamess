@@ -26,3 +26,14 @@ func Test_collatz(t *testing.T) {
 		}
 	}
 }
+
+// ----------------------------------------------------------------------------
+func Test_collatz_looped(t *testing.T) {
+	for i := range 1_000_000 {
+		result := collatz(int64(i + 1))
+		if result != true {
+			t.Errorf("failed at %d", i+1)
+		}
+
+	}
+}
