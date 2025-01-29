@@ -12,7 +12,7 @@ type Player struct {
 
 // ----------------------------------------------------------------------------
 func (p *Player) LoseHealth(amount int) bool {
-	amountLost := amount - rand.Intn(p.luck/2)
+	amountLost := amount - rand.Intn(p.luck)
 
 	if amountLost < 0 {
 		amountLost = 0
@@ -24,11 +24,18 @@ func (p *Player) LoseHealth(amount int) bool {
 		p.health = 0
 	}
 
-	return p.health > 0
+	return p.IsAlive()
 }
 
 // ----------------------------------------------------------------------------
-func (p *Player) RegenerateHealth() {}
+func (p *Player) RegenerateHealth() {
+	regenAmount := rand.Intn(p.luck)
+	p.health += regenAmount
+
+	if p.health > p.maxHealth {
+		p.health = p.maxHealth
+	}
+}
 
 // ----------------------------------------------------------------------------
 func (p *Player) Attack() int {
@@ -44,4 +51,14 @@ func (p *Player) Defend(incoming int) int {
 	}
 
 	return damageTaken
+}
+
+// ----------------------------------------------------------------------------
+func (p *Player) IsAlive() bool {
+	return p.health > 0
+}
+
+// ----------------------------------------------------------------------------
+func (p *Player) NeedsHealth() bool {
+	return p.health < p.maxHealth
 }
