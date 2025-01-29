@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-const roundDelay = 400
+const roundDelay = 500
 
 // ----------------------------------------------------------------------------
 func main() {
