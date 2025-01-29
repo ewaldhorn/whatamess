@@ -44,7 +44,7 @@ func (p *Player) Attack() int {
 
 // ----------------------------------------------------------------------------
 func (p *Player) Defend(incoming int) int {
-	damageTaken := incoming - rand.Intn(p.luck)
+	damageTaken := incoming - rand.Intn(p.luck) - p.defense
 
 	if damageTaken < 0 {
 		damageTaken = 0

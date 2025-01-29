@@ -8,7 +8,7 @@ func createPlayer1() *Player {
 		name:      "Bob",
 		health:    30,
 		maxHealth: 30,
-		attack:    4,
+		attack:    5,
 		defense:   3,
 		luck:      3,
 	}
@@ -20,7 +20,7 @@ func createPlayer2() *Player {
 		name:      "Tax",
 		health:    40,
 		maxHealth: 40,
-		attack:    5,
+		attack:    6,
 		defense:   2,
 		luck:      1,
 	}
