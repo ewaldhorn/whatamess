@@ -2,13 +2,17 @@ package main
 
 import "fmt"
 
+// ----------------------------------------------------------------------------
 func main() {
 	player1 := "Asmongold"
-	fmt.Printf("Player %s has 30 hps\n", player1)
-	fmt.Println("The battle is about to begin!")
+	printPlayerInformation(player1, 30)
 
 	player2 := "Lowko"
-	fmt.Printf("Player %s has 30 hps\n", player2)
-	fmt.Println("The battle is about to begin!")
+	printPlayerInformation(player2, 30)
+}
 
+// ----------------------------------------------------------------------------
+func printPlayerInformation(player string, hps int) {
+	fmt.Printf("Player %s has %d hps\n", player, hps)
+	fmt.Println("The battle is about to begin!")
 }
