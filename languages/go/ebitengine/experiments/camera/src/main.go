@@ -59,15 +59,27 @@ func (g *Game) Update() error {
 
 	if ebiten.IsKeyPressed(ebiten.KeyLeft) {
 		cameraX -= 5
+		if cameraX < 0 {
+			cameraX = 0
+		}
 	}
 	if ebiten.IsKeyPressed(ebiten.KeyRight) {
 		cameraX += 5
+		if cameraX > float64(gameWidth-screenWidth) {
+			cameraX = float64(gameWidth - screenWidth)
+		}
 	}
 	if ebiten.IsKeyPressed(ebiten.KeyUp) {
 		cameraY -= 5
+		if cameraY < 0 {
+			cameraY = 0
+		}
 	}
 	if ebiten.IsKeyPressed(ebiten.KeyDown) {
 		cameraY += 5
+		if cameraY > float64(gameHeight-screenHeight) {
+			cameraY = float64(gameHeight - screenHeight)
+		}
 	}
 
 	g.x += g.xd
