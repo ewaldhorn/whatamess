@@ -13,8 +13,9 @@ import (
 const (
 	screenWidth  = 640
 	screenHeight = 480
-	gameWidth    = 1920
-	gameHeight   = 1080
+	gameWidth    = 2048
+	gameHeight   = 2048
+	cameraJump   = 10
 )
 
 // ----------------------------------------------------------------------------
@@ -58,25 +59,25 @@ func (g *Game) Update() error {
 	}
 
 	if ebiten.IsKeyPressed(ebiten.KeyLeft) {
-		cameraX -= 5
+		cameraX -= cameraJump
 		if cameraX < 0 {
 			cameraX = 0
 		}
 	}
 	if ebiten.IsKeyPressed(ebiten.KeyRight) {
-		cameraX += 5
+		cameraX += cameraJump
 		if cameraX > float64(gameWidth-screenWidth) {
 			cameraX = float64(gameWidth - screenWidth)
 		}
 	}
 	if ebiten.IsKeyPressed(ebiten.KeyUp) {
-		cameraY -= 5
+		cameraY -= cameraJump
 		if cameraY < 0 {
 			cameraY = 0
 		}
 	}
 	if ebiten.IsKeyPressed(ebiten.KeyDown) {
-		cameraY += 5
+		cameraY += cameraJump
 		if cameraY > float64(gameHeight-screenHeight) {
 			cameraY = float64(gameHeight - screenHeight)
 		}
@@ -107,6 +108,35 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	op = &ebiten.DrawImageOptions{}
 	op.GeoM.Translate(g.x-cameraX, g.y-cameraY)
 	screen.DrawImage(g.rect, op)
+
+	// mini-map follows
+	// Draw mini-map
+	miniMapWidth := 200
+	miniMapHeight := 150
+	miniMapX := screenWidth - miniMapWidth - 10
+	miniMapY := screenHeight - miniMapHeight - 10
+
+	// Draw mini-map background
+	miniMapBackground := ebiten.NewImage(miniMapWidth, miniMapHeight)
+	miniMapBackground.Fill(color.RGBA{0, 0, 0, 128})
+	op = &ebiten.DrawImageOptions{}
+	op.GeoM.Translate(float64(miniMapX), float64(miniMapY))
+	screen.DrawImage(miniMapBackground, op)
+
+	// Draw mini-map game world
+	miniMapGameWorld := ebiten.NewImage(gameWidth, gameHeight)
+	miniMapGameWorld.Fill(color.RGBA{0, 0, 0, 128})
+	op = &ebiten.DrawImageOptions{}
+	op.GeoM.Scale(float64(miniMapWidth)/float64(gameWidth), float64(miniMapHeight)/float64(gameHeight))
+	op.GeoM.Translate(float64(miniMapX), float64(miniMapY))
+	screen.DrawImage(miniMapGameWorld, op)
+
+	// Draw mini-map camera rectangle
+	miniMapCameraRect := ebiten.NewImage(int(float64(screenWidth)*float64(miniMapWidth)/float64(gameWidth)), int(float64(screenHeight)*float64(miniMapHeight)/float64(gameHeight)))
+	miniMapCameraRect.Fill(color.RGBA{64, 64, 64, 128})
+	op = &ebiten.DrawImageOptions{}
+	op.GeoM.Translate(float64(miniMapX)+(float64(cameraX)/float64(gameWidth))*float64(miniMapWidth), float64(miniMapY)+(float64(cameraY)/float64(gameHeight))*float64(miniMapHeight))
+	screen.DrawImage(miniMapCameraRect, op)
 }
 
 // ----------------------------------------------------------------------------
