@@ -5,6 +5,7 @@ import (
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
+	"github.com/hajimehoshi/ebiten/v2/vector"
 )
 
 const (
@@ -20,11 +21,21 @@ var (
 )
 
 // ----------------------------------------------------------------------------
-type Game struct{}
+type Game struct {
+	world *ebiten.Image
+	rect  *ebiten.Image
+}
 
 // ----------------------------------------------------------------------------
 func NewGame() *Game {
 	game := &Game{}
+
+	game.rect = ebiten.NewImage(50, 50)
+	game.rect.Fill(color.RGBA{255, 0, 0, 255})
+
+	game.world = ebiten.NewImage(gameWidth, gameHeight)
+	game.world.Fill(color.RGBA{0, 255, 0, 255})
+	vector.DrawFilledCircle(game.world, 800, 600, 100, color.White, true)
 
 	return game
 }
@@ -55,13 +66,12 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	// Draw game world
 	op := &ebiten.DrawImageOptions{}
 	op.GeoM.Translate(-cameraX, -cameraY)
-	screen.DrawImage(ebiten.NewImage(gameWidth, gameHeight).Fill(color.RGBA{0, 255, 0, 255}), op)
+	screen.DrawImage(g.world, op)
 
 	// Draw a rectangle to demonstrate camera movement
 	op = &ebiten.DrawImageOptions{}
 	op.GeoM.Translate(100-cameraX, 100-cameraY)
-	rect := ebiten.NewImage(50, 50).Fill(color.RGBA{255, 0, 0, 255})
-	screen.DrawImage(rect, op)
+	screen.DrawImage(g.rect, op)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
