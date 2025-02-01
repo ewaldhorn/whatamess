@@ -239,3 +239,4 @@ languages/dart/web/hello_web/helloweb/site/main.unopt.wasm.map
 languages/dart/web/hello_web/helloweb/site/main.wasm
 languages/dart/web/hello_web/helloweb/site/main.wasm.map
 languages/go/experiments/python/hello_go/bin
+languages/go/ebitengine/experiments/camera/bin/camera.wasm
