@@ -9,6 +9,7 @@ import (
 	"github.com/hajimehoshi/ebiten/v2/vector"
 )
 
+// ----------------------------------------------------------------------------
 const (
 	screenWidth  = 640
 	screenHeight = 480
@@ -16,6 +17,7 @@ const (
 	gameHeight   = 1080
 )
 
+// ----------------------------------------------------------------------------
 var (
 	cameraX float64 = 0
 	cameraY float64 = 0
@@ -82,6 +84,7 @@ func (g *Game) Update() error {
 	return nil
 }
 
+// ----------------------------------------------------------------------------
 func (g *Game) Draw(screen *ebiten.Image) {
 	// Draw game world
 	op := &ebiten.DrawImageOptions{}
@@ -94,10 +97,12 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	screen.DrawImage(g.rect, op)
 }
 
+// ----------------------------------------------------------------------------
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 	return screenWidth, screenHeight
 }
 
+// ----------------------------------------------------------------------------
 func main() {
 	ebiten.SetWindowSize(screenWidth, screenHeight)
 	ebiten.SetWindowTitle("Camera Example")
