@@ -26,8 +26,20 @@ func displayMemoryStatistics(msg string) {
 	runtime.ReadMemStats(&stats)
 
 	// display the stats we are interested in
-	fmt.Printf("")
-	fmt.Printf("")
-	fmt.Printf("")
-	fmt.Printf("")
+	fmt.Printf("Allocated heap        = %v MiB\n", byteToMegabyte(stats.Alloc))
+	fmt.Printf("Total Allocated       = %v MiB\n", byteToMegabyte(stats.TotalAlloc))
+	fmt.Printf("Total memory reserved = %v MiB\n", byteToMegabyte(stats.Sys))
+	fmt.Printf("Number of GC cycles   = %v\n", stats.NumGC)
+}
+
+// ----------------------------------------------------------------------------
+// byteToMegabyte converts bytes to megabytes by dividing by 1024 twice
+// to get from bytes -> kilobytes -> megabytes
+// Parameters:
+//   - b: number of bytes to convert as uint64
+//
+// Returns:
+//   - uint64 representing the equivalent number of megabytes
+func byteToMegabyte(b uint64) uint64 {
+	return b / 1024 / 1024
 }
