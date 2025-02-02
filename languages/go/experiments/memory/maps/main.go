@@ -27,11 +27,38 @@ func main() {
 	runtime.GC()
 	displayMemoryStatistics("After forcing a garbage collection event")
 
+	// now we make a copy of the map, so there are no references hanging around
+	m = refreshMap(m)
+	runtime.GC()
+	displayMemoryStatistics("After copying map and triggering a GC event")
+
 	// The runtime.KeepAlive() call at the end ensures that the map 'm' is not garbage collected before this point.
 	// Without KeepAlive, the compiler could theoretically determine that 'm' is not used after the deletion loop
 	// and collect it early. By keeping a reference to 'm' until the end, we can accurately observe the memory
 	// impact of the empty but allocated map structure.
 	runtime.KeepAlive(m)
+
+	// Now that we no longer need the map, run another GC
+	runtime.GC()
+	displayMemoryStatistics("One last time after a final GC")
+}
+
+// ----------------------------------------------------------------------------
+// refreshMap creates a new map and copies the contents of the provided map to it.
+// This ensures a completely new map structure is created and returned, effectively
+// making a deep copy of the original map. Used to test memory allocation patterns
+// by creating fresh maps.
+// Parameters:
+//   - m: source map[int]Product to copy from
+//
+// Returns:
+//   - map[int]Product containing a copy of all key/value pairs from the input map
+func refreshMap(m map[int]Product) map[int]Product {
+	newMap := make(map[int]Product)
+	for key, val := range m {
+		newMap[key] = val
+	}
+	return newMap
 }
 
 // ----------------------------------------------------------------------------
