@@ -10,13 +10,21 @@ func main() {
 	m := make(map[int]Product)
 
 	// add some items to the map
-	for i := range 10_000 {
+	for i := range 100_000 {
 		m[i] = *NewProduct(fmt.Sprintf("Product #%d", i+1), fmt.Sprintf("It is number %d in the map", i), i)
 	}
 	displayMemoryStatistics("After first allocation")
 }
 
 // ----------------------------------------------------------------------------
+// displayMemoryStatistics displays various memory usage statistics.
+// It retrieves memory stats from the Go runtime and displays:
+// - Currently allocated heap memory in MiB
+// - Total allocated memory since start in MiB
+// - Total memory reserved by system in MiB
+// - Number of garbage collection cycles completed
+// Parameters:
+//   - msg: string message to display as a heading before the stats
 func displayMemoryStatistics(msg string) {
 	fmt.Println()
 	fmt.Println(msg)
