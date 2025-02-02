@@ -5,15 +5,33 @@ import (
 	"runtime"
 )
 
+const COUNT = 100_000
+
 // ----------------------------------------------------------------------------
 func main() {
 	m := make(map[int]Product)
 
 	// add some items to the map
-	for i := range 100_000 {
+	for i := range COUNT {
 		m[i] = *NewProduct(fmt.Sprintf("Product #%d", i+1), fmt.Sprintf("It is number %d in the map", i), i)
 	}
 	displayMemoryStatistics("After first allocation")
+
+	// now delete all the entries from the map
+	for i := range COUNT {
+		delete(m, i)
+	}
+
+	displayMemoryStatistics("After deleting all the map entries")
+
+	runtime.GC()
+	displayMemoryStatistics("After forcing a garbage collection event")
+
+	// The runtime.KeepAlive() call at the end ensures that the map 'm' is not garbage collected before this point.
+	// Without KeepAlive, the compiler could theoretically determine that 'm' is not used after the deletion loop
+	// and collect it early. By keeping a reference to 'm' until the end, we can accurately observe the memory
+	// impact of the empty but allocated map structure.
+	runtime.KeepAlive(m)
 }
 
 // ----------------------------------------------------------------------------
