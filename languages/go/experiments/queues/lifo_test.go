@@ -4,6 +4,7 @@ import (
 	"testing"
 )
 
+// ====================================================================== TESTS
 func TestLifoPushPop(t *testing.T) {
 	lifo := NewLifo()
 
@@ -28,6 +29,7 @@ func TestLifoPushPop(t *testing.T) {
 	}
 }
 
+// ----------------------------------------------------------------------------
 func TestNewLifo(t *testing.T) {
 	l := NewLifo()
 	if l == nil {
@@ -38,6 +40,7 @@ func TestNewLifo(t *testing.T) {
 	}
 }
 
+// ----------------------------------------------------------------------------
 func Test_LifoPush(t *testing.T) {
 	l := NewLifo()
 	l.Push(1)
@@ -49,6 +52,7 @@ func Test_LifoPush(t *testing.T) {
 	}
 }
 
+// ----------------------------------------------------------------------------
 func Test_LifoPop(t *testing.T) {
 	l := NewLifo()
 	l.Push(1)
@@ -62,6 +66,7 @@ func Test_LifoPop(t *testing.T) {
 	}
 }
 
+// ----------------------------------------------------------------------------
 func Test_LifoPopEmpty(t *testing.T) {
 	l := NewLifo()
 	x := l.Pop()
@@ -70,6 +75,7 @@ func Test_LifoPopEmpty(t *testing.T) {
 	}
 }
 
+// ----------------------------------------------------------------------------
 func Test_LifoMultiplePushAndPop(t *testing.T) {
 	l := NewLifo()
 	l.Push(1)
