@@ -4,6 +4,7 @@ import (
 	"testing"
 )
 
+// ====================================================================== TESTS
 func TestFifoPushPop(t *testing.T) {
 	fifo := NewFifo()
 
@@ -27,6 +28,7 @@ func TestFifoPushPop(t *testing.T) {
 	}
 }
 
+// ----------------------------------------------------------------------------
 func TestFifoEmptyPop(t *testing.T) {
 	fifo := NewFifo()
 
@@ -36,6 +38,7 @@ func TestFifoEmptyPop(t *testing.T) {
 	}
 }
 
+// ----------------------------------------------------------------------------
 func TestNewFifo(t *testing.T) {
 	f := NewFifo()
 	if f == nil {
@@ -46,6 +49,7 @@ func TestNewFifo(t *testing.T) {
 	}
 }
 
+// ----------------------------------------------------------------------------
 func TestPush(t *testing.T) {
 	f := NewFifo()
 	f.Push(1)
@@ -57,6 +61,7 @@ func TestPush(t *testing.T) {
 	}
 }
 
+// ----------------------------------------------------------------------------
 func TestPop(t *testing.T) {
 	f := NewFifo()
 	f.Push(1)
@@ -70,6 +75,7 @@ func TestPop(t *testing.T) {
 	}
 }
 
+// ----------------------------------------------------------------------------
 func TestPopEmpty(t *testing.T) {
 	f := NewFifo()
 	x := f.Pop()
@@ -78,6 +84,7 @@ func TestPopEmpty(t *testing.T) {
 	}
 }
 
+// ----------------------------------------------------------------------------
 func TestMultiplePushAndPop(t *testing.T) {
 	f := NewFifo()
 	f.Push(1)
