@@ -34,3 +34,43 @@ func Test_priorityQueue(t *testing.T) {
 		t.Errorf("Expected length 0, got %d", pq.Len())
 	}
 }
+
+// -------------------------------------------------------------------------
+func Test_PriorityQueue_Len(t *testing.T) {
+	pq := &PriorityQueue{}
+	if pq.Len() != 0 {
+		t.Errorf("Expected length 0, got %d", pq.Len())
+	}
+
+	pq = &PriorityQueue{
+		&Item{value: "task1", priority: 3},
+		&Item{value: "task2", priority: 1},
+		&Item{value: "task3", priority: 2},
+	}
+
+	if pq.Len() != 3 {
+		t.Errorf("Expected length 3, got %d", pq.Len())
+	}
+}
+
+// -------------------------------------------------------------------------
+func Test_PriorityQueue_Less(t *testing.T) {
+	pq := &PriorityQueue{
+		&Item{value: "task1", priority: 3},
+		&Item{value: "task2", priority: 1},
+		&Item{value: "task3", priority: 2},
+	}
+
+	if !pq.Less(0, 1) {
+		t.Errorf("Expected true, got false")
+	}
+	if pq.Less(1, 0) {
+		t.Errorf("Expected false, got true")
+	}
+	if !pq.Less(2, 1) {
+		t.Errorf("Expected true, got false")
+	}
+	if pq.Less(1, 2) {
+		t.Errorf("Expected false, got true")
+	}
+}
