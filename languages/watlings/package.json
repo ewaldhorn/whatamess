@@ -8,7 +8,7 @@
     "test": "vitest --run"
   },
   "devDependencies": {
-    "vitest": "^0.34.1"
+    "vitest": "^3.0.0"
   },
   "dependencies": {
     "wabt": "^1.0.32"
