@@ -1,4 +1,4 @@
-class b extends HTMLElement{constructor(){super();this.attachShadow({mode:"open"})}connectedCallback(){this.render()}render(){this.shadowRoot.innerHTML=`
+class o extends HTMLElement{constructor(){super();this.attachShadow({mode:"open"})}connectedCallback(){this.render()}render(){this.shadowRoot.innerHTML=`
         <style>
             footer {
               display: block;
@@ -41,12 +41,17 @@ class b extends HTMLElement{constructor(){super();this.attachShadow({mode:"open"
               </ul>
             </nav>
           </footer>
-        `}}class c extends HTMLElement{constructor(){super();this.attachShadow({mode:"open"})}connectedCallback(){this.render()}render(){this.shadowRoot.innerHTML=`
+        `}}var c={primaryColour:"#2f2f2f",secondaryColour:"#4f4f4f",textColour:"#cccccc",accentColour:"#66d9ef",borderColour:"#333333",hoverColour:"#5a5a5a",activeColour:"#8f8f8f",disabledColour:"#777777"};class f extends HTMLElement{constructor(){super();this.attachShadow({mode:"open"})}connectedCallback(){this.render()}render(){let r=`
         <style>
+            :host {
+                background-color: ${c.primaryColour};
+                color: ${c.textColour};
+            }
+
             header {
               display: block;
-              background-color: #333;
-              color: #fff;
+              background-color: ${c.accentColor};
+              color: ${c.textColour};
               padding: 20px;
               text-align: center;
             }
@@ -85,4 +90,4 @@ class b extends HTMLElement{constructor(){super();this.attachShadow({mode:"open"
               </ul>
             </nav>
           </header>
-        `}}var i=()=>{customElements.define("nofuss-header",c),customElements.define("nofuss-footer",b)};i();
+        `;this.shadowRoot.innerHTML=r}}var C=()=>{customElements.define("nofuss-header",f),customElements.define("nofuss-footer",o)};C();

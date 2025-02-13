@@ -1,3 +1,5 @@
+import { darkTheme } from "./theme";
+
 export class NoFussHeader extends HTMLElement {
   // --------------------------------------------------------------------------
   constructor() {
@@ -14,10 +16,15 @@ export class NoFussHeader extends HTMLElement {
   render() {
     const headerTemplate = `
         <style>
+            :host {
+                background-color: ${darkTheme.primaryColour};
+                color: ${darkTheme.textColour};
+            }
+
             header {
               display: block;
-              background-color: #333;
-              color: #fff;
+              background-color: ${darkTheme.accentColor};
+              color: ${darkTheme.textColour};
               padding: 20px;
               text-align: center;
             }
