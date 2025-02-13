@@ -49,9 +49,9 @@ export class NoFussFooter extends HTMLElement {
             <p>&copy; 2025 NoFuss Solutions</p>
             <nav>
               <ul>
-                <li><a href="https://nofuss.co.za/">Home</a></li>
-                <li><a href="https://nofuss.co.za/about/">About</a></li>
-                <li><a href="https://nofuss.co.za/contact/">Contact</a></li>
+                <li><a href="https://nofuss.co.za/" target="_blank">Home</a></li>
+                <li><a href="https://nofuss.co.za/about/" target="_blank">About</a></li>
+                <li><a href="https://nofuss.co.za/contact/" target="_blank">Contact</a></li>
               </ul>
             </nav>
           </footer>
