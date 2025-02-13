@@ -1,5 +1,9 @@
 import { NoFussFooter } from "./nofuss_footer.js";
 
-console.log("Okie dokie");
+// ----------------------------------------------------------------------------
+const loadCustomElements = () => {
+  customElements.define("nofuss-footer", NoFussFooter);
+};
 
-customElements.define("nofuss-footer", NoFussFooter);
+// ----------------------------------------------------------------------------
+loadCustomElements();
