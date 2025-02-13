@@ -14,7 +14,6 @@ export class NoFussFooter extends HTMLElement {
   render() {
     const footerTemplate = `
         <style>
-          /* NoFuss Footer Element */
             footer {
               display: block;
               background-color: #333;
@@ -45,6 +44,7 @@ export class NoFussFooter extends HTMLElement {
               text-decoration: none;
             }
           </style>
+
           <footer>
             <p>&copy; 2025 NoFuss Solutions</p>
             <nav>
