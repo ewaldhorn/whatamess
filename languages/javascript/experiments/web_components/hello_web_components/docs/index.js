@@ -1,1 +1,1 @@
-console.log("Okie dokie build is working");
+class o extends HTMLElement{constructor(){super();this.attachShadow({mode:"open"});let t=document.createElement("button");t.textContent="Click me!",this.shadowRoot.appendChild(t)}}console.log("Okie dokie");customElements.define("nofuss-footer",o);
