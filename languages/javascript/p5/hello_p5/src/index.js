@@ -1,6 +1,32 @@
 import p5 from './p5.js';
 
 // ----------------------------------------------------------------------------
+const spices = [
+    "Basil",
+    "Cinnamon",
+    "Ginger",
+    "Turmeric",
+    "Paprika",
+    "Rosemary",
+    "Thyme",
+    "Oregano",
+    "Cumin",
+    "Coriander",
+    "Nutmeg",
+    "Cardamom",
+    "Cayenne Pepper",
+    "Black Pepper",
+    "White Pepper",
+    "Garlic Powder",
+    "Onion Powder",
+    "Cloves",
+    "Star Anise",
+    "Fennel Seeds",
+    "Mustard Seeds",
+    "Dill Weed",
+    "Saffron"
+  ];
+
 const sketch = (p) => {
     let balls = [];
 
@@ -21,6 +47,7 @@ const sketch = (p) => {
             let y = p.random(r, p.height - r); // Initial y position
             let vx = p.random(-4, 4); // Initial x velocity
             let vy = p.random(-4, 4); // Initial y velocity
+            let name = `${spices[i]}`; // Spice name
 
             // Add the ball to the array
             balls.push({
@@ -29,7 +56,8 @@ const sketch = (p) => {
                 vx: vx,
                 vy: vy,
                 r: r,
-                c: c
+                c: c,
+                name: name,
             });
         }
     };
@@ -66,6 +94,11 @@ const sketch = (p) => {
             // Draw ball
             p.fill(balls[i].c);
             p.ellipse(balls[i].x, balls[i].y, balls[i].r * 2);
+
+            // Draw label
+            p.fill(0); // Black text color
+            p.textAlign(p.CENTER, p.CENTER);
+            p.text(balls[i].name, balls[i].x, balls[i].y + balls[i].r + 10);
         }
 
         // Check for collisions between balls
