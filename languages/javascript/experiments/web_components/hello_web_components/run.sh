@@ -1,1 +1,3 @@
-http-server ./docs/ -o -c-1
+# builds and then runs the application
+./builder.sh
+./serve.sh
