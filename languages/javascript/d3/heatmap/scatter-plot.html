@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<div id="container"></div>
+<script src="../lib/d3.v7.js"></script>
+<script type="module">
+    function randomGaussian() {
+        let u = 0, v = 0;
+        while (u === 0) u = Math.random(); //Converting [0,1) to (0,1)
+        while (v === 0) v = Math.random();
+        let num = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+        num = num / 10.0 + 0.5; // Translate to 0 -> 1
+        return num;
+    }
+
+    // Data
+    let herbs = ["Garlic", "Thyme", "Rosemary", "Parsley"];
+    let data = [
+        [1.00, 0.35, 0.25, 0.30],
+        [0.35, 1.00, 0.20, 0.25],
+        [0.25, 0.20, 1.00, 0.20],
+        [0.30, 0.25, 0.20, 1.00]
+    ];
+
+    // Set up SVG
+    let margin = { top: 100, right: 100, bottom: 100, left: 100 };
+    let width = 600 - margin.left - margin.right;
+    let height = 600 - margin.top - margin.bottom;
+
+    let svg = d3.select("body")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+    // Set up scales
+    let xScale = d3.scaleLinear().domain([0, 1]).range([0, width / herbs.length]);
+    let yScale = d3.scaleLinear().domain([0, 1]).range([height / herbs.length, 0]);
+
+    // Create scatter plot matrix
+    for (let i = 0; i < herbs.length; i++) {
+        for (let j = 0; j < herbs.length; j++) {
+            let x = j * (width / herbs.length);
+            let y = i * (height / herbs.length);
+
+            // Add scatter plot
+            let points = [];
+            for (let k = 0; k < 100; k++) {
+                let vx = randomGaussian() * 0.1;
+                let vy = randomGaussian() * 0.1;
+                let correlation = data[i][j];
+                vx *= correlation;
+                vy *= correlation;
+                points.push([xScale(vx + 0.5), yScale(vy + 0.5)]);
+            }
+            svg.selectAll(`.points-${i}-${j}`)
+                .data(points)
+                .enter()
+                .append("circle")
+                .attr("class", `points-${i}-${j}`)
+                .attr("cx", (d) => d[0])
+                .attr("cy", (d) => d[1])
+                .attr("r", 2)
+                .style("fill", "#69b3a2")
+                .style("opacity", 0.5);
+
+            // Add axis labels
+            if (i === herbs.length - 1) {
+                svg.append("text")
+                    .attr("x", x + width / herbs.length / 2)
+                    .attr("y", height / herbs.length + 20)
+                    .attr("text-anchor", "middle")
+                    .text(herbs[j]);
+            }
+            if (j === 0) {
+                svg.append("text")
+                    .attr("x", -20)
+                    .attr("y", y + height / herbs.length / 2)
+                    .attr("text-anchor", "end")
+                    .text(herbs[i]);
+            }
+        }
+    }
+</script>
