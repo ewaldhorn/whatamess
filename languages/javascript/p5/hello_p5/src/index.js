@@ -8,8 +8,8 @@ const sketch = (p) => {
         p.createCanvas(800 , 800);
         p.background(135, 206, 235); // Light blue background
 
-        // Generate a random number of balls between 5 and 8
-        let numBalls = p.floor(p.random(5, 9));
+        // Generate a random number of balls between 5 and 12
+        let numBalls = 1+ p.floor(p.random(5, 12));
 
         // Create the balls
         balls = [];
