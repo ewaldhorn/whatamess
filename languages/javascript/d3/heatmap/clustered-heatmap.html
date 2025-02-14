@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<div id="container"></div>
+<script src="../lib/d3.v7.js"></script>
+<script type="module">
+    // Data
+    let herbs = ["Garlic", "Thyme", "Rosemary", "Parsley"];
+    let data = [
+        [1.00, 0.35, 0.25, 0.30],
+        [0.35, 1.00, 0.20, 0.25],
+        [0.25, 0.20, 1.00, 0.20],
+        [0.30, 0.25, 0.20, 1.00]
+    ];
+
+    // Set up SVG
+    let margin = { top: 100, right: 100, bottom: 100, left: 100 };
+    let width = 600 - margin.left - margin.right;
+    let height = 600 - margin.top - margin.bottom;
+
+    let svg = d3.select("body")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+    // Set up color scale
+    let colorScale = d3.scaleSequential()
+        .domain([0, 1])
+        .interpolator(d3.interpolateBlues);
+
+    // Set up cluster data
+    let clusterData = [];
+    for (let i = 0; i < herbs.length; i++) {
+        for (let j = 0; j < herbs.length; j++) {
+            clusterData.push({ herb1: herbs[i], herb2: herbs[j], value: data[i][j] });
+        }
+    }
+
+    // Cluster data using hierarchical clustering
+    let cluster = d3.cluster()
+        .size([width, height]);
+
+    let root = d3.hierarchy(clusterData, (d) => d.value)
+        .sum((d) => d.value)
+        .sort((a, b) => b.value - a.value);
+
+    cluster(root);
+
+    // Create heatmap
+    let cellSize = width / herbs.length;
+    svg.selectAll("rect")
+        .data(clusterData)
+        .enter()
+        .append("rect")
+        .attr("x", (d) => {
+            let index1 = herbs.indexOf(d.herb1);
+            let index2 = herbs.indexOf(d.herb2);
+            return index2 * cellSize;
+        })
+        .attr("y", (d) => {
+            let index1 = herbs.indexOf(d.herb1);
+            let index2 = herbs.indexOf(d.herb2);
+            return index1 * cellSize;
+        })
+        .attr("width", cellSize)
+        .attr("height", cellSize)
+        .attr("fill", (d) => colorScale(d.value));
+
+    // Add labels
+    svg.selectAll("text")
+        .data(herbs)
+        .enter()
+        .append("text")
+        .attr("x", (d, i) => i * cellSize + cellSize / 2)
+        .attr("y", -20)
+        .attr("text-anchor", "middle")
+        .text((d) => d);
+
+    svg.selectAll("text")
+        .data(herbs)
+        .enter()
+        .append("text")
+        .attr("x", -50)
+        .attr("y", (d, i) => i * cellSize + cellSize / 2)
+        .attr("text-anchor", "end")
+        .text((d) => d);
+</script>
