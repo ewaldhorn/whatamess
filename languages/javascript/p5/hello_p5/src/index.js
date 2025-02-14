@@ -35,13 +35,13 @@ const sketch = (p) => {
         p.background(135, 206, 235); // Light blue background
 
         // Generate a random number of balls 
-        let numBalls = p.floor(p.random(8, 21));
+        let numBalls = p.floor(p.random(5, 10));
 
         // Create the balls
         balls = [];
         for (let i = 0; i < numBalls; i++) {
             // Generate random size, color, and initial position
-            let r = p.random(10, 70); // Radius between 10 and 70
+            let r = p.random(10, 40); // Radius between 10 and 70
             let c = p.color(p.random(255), p.random(255), p.random(255)); // Random color
             let x = p.random(r, p.width - r); // Initial x position
             let y = p.random(r, p.height - r); // Initial y position
