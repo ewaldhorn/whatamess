@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<div id="container"></div>
+<script src="../lib/d3.v7.js"></script>
+<script type="module">
+    // Data
+    let herbs = ["Garlic", "Thyme", "Rosemary", "Parsley"];
+    let data = [
+        [1.00, 0.35, 0.25, 0.30],
+        [0.35, 1.00, 0.20, 0.25],
+        [0.25, 0.20, 1.00, 0.20],
+        [0.30, 0.25, 0.20, 1.00]
+    ];
+
+    // Set up SVG
+    let margin = { top: 100, right: 100, bottom: 100, left: 100 };
+    let width = 600 - margin.left - margin.right;
+    let height = 600 - margin.top - margin.bottom;
+
+    let svg = d3.select("body")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+    // Set up color scale
+    let colorScale = d3.scaleSequential()
+        .domain([0, 1])
+        .interpolator(d3.interpolateBlues);
+
+    // Create heatmap
+    let cellSize = Math.min(width, height) / herbs.length;
+    svg.selectAll("rect")
+        .data(data.flatMap((row, i) => row.map((value, j) => ({ value, x: j, y: i }))))
+        .enter()
+        .append("rect")
+        .attr("x", (d) => d.x * cellSize)
+        .attr("y", (d) => d.y * cellSize)
+        .attr("width", cellSize)
+        .attr("height", cellSize)
+        .attr("fill", (d) => colorScale(d.value));
+
+    // Add labels
+    svg.selectAll("text")
+        .data(herbs)
+        .enter()
+        .append("text")
+        .attr("x", (d, i) => i * cellSize + cellSize / 2)
+        .attr("y", -20)
+        .attr("text-anchor", "middle")
+        .text((d) => d);
+
+    svg.selectAll("text")
+        .data(herbs)
+        .enter()
+        .append("text")
+        .attr("x", -50)
+        .attr("y", (d, i) => i * cellSize + cellSize / 2)
+        .attr("text-anchor", "end")
+        .text((d) => d);
+
+</script>
