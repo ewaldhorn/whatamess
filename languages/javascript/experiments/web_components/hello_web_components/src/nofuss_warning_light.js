@@ -36,7 +36,7 @@ export class NoFussWarningLight extends HTMLElement {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     // Draw the graph
-    ctx.fillStyle = "rgba(0, 0, 255, 0.5)";
+    ctx.fillStyle = this.getFillColour();
     ctx.fillRect(
       5,
       canvas.height - (this.currentVal / this.maxVal) * canvas.height,
@@ -47,5 +47,18 @@ export class NoFussWarningLight extends HTMLElement {
     // Update the shadow DOM
     this.shadowRoot.innerHTML = "";
     this.shadowRoot.appendChild(canvas);
+  }
+
+  // --------------------------------------------------------------------------
+  getFillColour() {
+    const percentage = (this.currentVal / this.maxVal) * 100;
+
+    if (percentage < 50) {
+      return "rgba(255, 0, 0, 0.5)";
+    } else if (percentage < 75) {
+      return "rgba(255, 255, 0, 0.5)";
+    } else {
+      return "rgba(0, 255, 0, 0.5)";
+    }
   }
 }
