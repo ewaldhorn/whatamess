@@ -18,8 +18,8 @@ const sketch = (p) => {
             }
         }
         ball = {
-            x: width / 2,
-            y: height / 2,
+            x: p.width / 2,
+            y: p.height / 2,
             vx: 4,
             vy: 4,
             r: 20,
@@ -41,10 +41,10 @@ const sketch = (p) => {
         // Update and draw ball
         ball.x += ball.vx;
         ball.y += ball.vy;
-        if (ball.x + ball.r > width || ball.x - ball.r < 0) {
+        if (ball.x + ball.r > p.width || ball.x - ball.r < 0) {
             ball.vx *= -1;
         }
-        if (ball.y + ball.r > height || ball.y - ball.r < 0) {
+        if (ball.y + ball.r > p.height || ball.y - ball.r < 0) {
             ball.vy *= -1;
         }
         p.fill(ball.c);
