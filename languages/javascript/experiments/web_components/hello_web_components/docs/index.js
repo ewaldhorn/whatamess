@@ -1,4 +1,4 @@
-class o extends HTMLElement{constructor(){super();this.attachShadow({mode:"open"})}connectedCallback(){this.render()}render(){this.shadowRoot.innerHTML=`
+class b extends HTMLElement{constructor(){super();this.attachShadow({mode:"open"})}connectedCallback(){this.render()}render(){this.shadowRoot.innerHTML=`
         <style>
             footer {
               display: block;
@@ -41,17 +41,17 @@ class o extends HTMLElement{constructor(){super();this.attachShadow({mode:"open"
               </ul>
             </nav>
           </footer>
-        `}}var c={primaryColour:"#2f2f2f",secondaryColour:"#4f4f4f",textColour:"#cccccc",accentColour:"#66d9ef",borderColour:"#333333",hoverColour:"#5a5a5a",activeColour:"#8f8f8f",disabledColour:"#777777"};class f extends HTMLElement{constructor(){super();this.attachShadow({mode:"open"})}connectedCallback(){this.render()}render(){let r=`
+        `}}var f={primaryColour:"#2f2f2f",secondaryColour:"#4f4f4f",textColour:"#cccccc",accentColour:"#66d9ef",borderColour:"#333333",hoverColour:"#5a5a5a",activeColour:"#8f8f8f",disabledColour:"#777777"};class r extends HTMLElement{constructor(){super();this.attachShadow({mode:"open"})}connectedCallback(){this.render()}render(){let o=`
         <style>
             :host {
-                background-color: ${c.primaryColour};
-                color: ${c.textColour};
+                background-color: ${f.primaryColour};
+                color: ${f.textColour};
             }
 
             header {
               display: block;
-              background-color: ${c.accentColor};
-              color: ${c.textColour};
+              background-color: ${f.accentColor};
+              color: ${f.textColour};
               padding: 20px;
               text-align: center;
             }
@@ -90,4 +90,4 @@ class o extends HTMLElement{constructor(){super();this.attachShadow({mode:"open"
               </ul>
             </nav>
           </header>
-        `;this.shadowRoot.innerHTML=r}}var C=()=>{customElements.define("nofuss-header",f),customElements.define("nofuss-footer",o)};C();
+        `;this.shadowRoot.innerHTML=o}}class y extends HTMLElement{constructor(){super();this.attachShadow({mode:"open"}),this.currentVal=0,this.maxVal=100}static get observedAttributes(){return["currentval","maxval"]}attributeChangedCallback(o,C,l){if(o==="currentval")this.currentVal=parseFloat(l);else if(o==="maxval")this.maxVal=parseFloat(l);this.render()}render(){let o=document.createElement("canvas");o.width=35,o.height=100;let C=o.getContext("2d");C.fillStyle="rgba(99,99,99,1)",C.fillRect(0,0,o.width,o.height),C.fillStyle="rgba(0, 0, 255, 0.5)",C.fillRect(5,o.height-this.currentVal/this.maxVal*o.height,25,this.currentVal/this.maxVal*o.height),this.shadowRoot.innerHTML="",this.shadowRoot.appendChild(o)}}var q=()=>{customElements.define("nofuss-header",r),customElements.define("nofuss-footer",b),customElements.define("nofuss-warning-light",y)};q();
