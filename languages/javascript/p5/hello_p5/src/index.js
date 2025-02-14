@@ -38,11 +38,15 @@ const sketch = (p) => {
         p.background(135, 206, 235); // Light blue background
 
         // Draw grid
-        for (let i = 0; i < 10; i++) {
-            for (let j = 0; j < 10; j++) {
+        let gridSize = 40; // Grid cell size
+        let numCols = p.floor(p.width / gridSize);
+        let numRows = p.floor(p.height / gridSize);
+
+        for (let i = 0; i < numCols; i++) {
+            for (let j = 0; j < numRows; j++) {
                 p.noFill();
                 p.stroke(255);
-                p.rect(i * 40, j * 40, 40, 40);
+                p.rect(i * gridSize, j * gridSize, gridSize, gridSize);
             }
         }
 
