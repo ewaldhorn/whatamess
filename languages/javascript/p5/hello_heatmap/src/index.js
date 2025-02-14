@@ -10,7 +10,7 @@ let data = [
 ];
 const sketch = (p) => {
     p.setup = () => {
-        p.createCanvas(600, 600);
+        p.createCanvas(400, 400);
         p.background(255);
         p.noStroke();
         drawHeatmap();
@@ -41,5 +41,47 @@ const sketch = (p) => {
     }
 };
 
+// ---------------------------------------------------------------------------
+const scatterPlot = (p) => {
+     p.setup =()=> {
+        p.createCanvas(800, 800);
+        p.background(255);
+        drawScatterPlotMatrix();
+      }
+      
+      function drawScatterPlotMatrix() {
+        let numHerbs = herbs.length;
+        let cellSize = p.width / numHerbs;
+        
+        for (let i = 0; i < numHerbs; i++) {
+          for (let j = 0; j < numHerbs; j++) {
+            let x = j * cellSize;
+            let y = i * cellSize;
+            
+            // Draw scatter plot
+            p.fill(0);
+            p.noStroke();
+            for (let k = 0; k < 100; k++) {
+              let vx = p.randomGaussian() * 0.1;
+              let vy = p.randomGaussian() * 0.1;
+              let correlation = data[i][j];
+              vx *= correlation;
+              vy *= correlation;
+              p.ellipse(x + cellSize / 2 + vx * cellSize / 2, y + cellSize / 2 + vy * cellSize / 2, 2, 2);
+            }
+            
+            // Add labels
+            p.fill(0);
+            p.textSize(12);
+            p.textAlign(p.CENTER, p.TOP);
+            p.text(herbs[j], x + cellSize / 2, y + 5);
+            p.textAlign(p.LEFT, p.CENTER);
+            p.text(herbs[i], x - 20, y + cellSize / 2);
+          }
+        }
+      }
+}
+
 // ----------------------------------------------------------------------------
 new p5(sketch, "p5-main-canvas");
+new p5(scatterPlot, "p5-scatter-plot");
