@@ -5,11 +5,11 @@ const sketch = (p) => {
     let balls = [];
 
     p.setup = () => {
-        p.createCanvas(800 , 800);
+        p.createCanvas(800, 800);
         p.background(135, 206, 235); // Light blue background
 
-        // Generate a random number of balls between 5 and 12
-        let numBalls = 1+ p.floor(p.random(5, 12));
+        // Generate a random number of balls 
+        let numBalls = p.floor(p.random(8, 21));
 
         // Create the balls
         balls = [];
@@ -45,7 +45,7 @@ const sketch = (p) => {
         for (let i = 0; i < numCols; i++) {
             for (let j = 0; j < numRows; j++) {
                 p.noFill();
-                p.stroke(115,186,215);
+                p.stroke(115, 186, 215);
                 p.rect(i * gridSize, j * gridSize, gridSize, gridSize);
             }
         }
