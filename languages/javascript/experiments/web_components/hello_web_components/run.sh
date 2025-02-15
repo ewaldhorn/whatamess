@@ -1,3 +1,3 @@
 # builds and then runs the application
-./builder.sh
+./build.sh
 ./serve.sh
