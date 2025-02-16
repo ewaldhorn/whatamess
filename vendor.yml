@@ -1,0 +1,4 @@
+# exclude p5.js and related files
+p5.js -linguist-vendored
+p5.sound.js -linguist-vendored
+
