@@ -59,7 +59,7 @@ addEventListener("keydown", (event) => {
     case "Space": {
       let b = new Bullet({
         position: p.getBulletPosition(),
-        velocity: { x: 0, y: -5 },
+        velocity: { x: Math.floor(0.05 * p.velocity.x), y: -5 },
       });
       bullets.push(b);
       event.preventDefault();
