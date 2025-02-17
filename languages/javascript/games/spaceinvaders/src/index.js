@@ -1,5 +1,5 @@
 import { clearGameArea, clearScreen, drawCanvasBorder } from "./canvasutils.js";
-
+import { Player } from "./player.js";
 // ----------------------------------------------------------------------------
 //                                                                      GLOBALS
 const canvas = document.getElementById("canvas");
@@ -11,6 +11,25 @@ canvas.width = innerWidth - 50;
 canvas.height = innerHeight - 100;
 
 // ----------------------------------------------------------------------------
-clearScreen(ctx);
-drawCanvasBorder(ctx);
-clearGameArea(ctx);
+const prepGameScreen = () => {
+  clearScreen(ctx);
+  drawCanvasBorder(ctx);
+  clearGameArea(ctx);
+};
+
+// ----------------------------------------------------------------------------
+// todo : move into a class
+const p = new Player();
+
+// ----------------------------------------------------------------------------
+//                                                                    GAME LOOP
+const gameLoop = () => {
+  clearGameArea(ctx);
+  p.draw(ctx);
+  requestAnimationFrame(gameLoop);
+};
+
+// ----------------------------------------------------------------------------
+//                                                                  ENTRY POINT
+prepGameScreen();
+gameLoop();
