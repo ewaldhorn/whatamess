@@ -4,6 +4,7 @@ import { Player } from "./player.js";
 //                                                                      GLOBALS
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
+let isPlaying = false;
 
 // ----------------------------------------------------------------------------
 //                                                             CONFIGURE CANVAS
@@ -24,10 +25,29 @@ const p = new Player();
 // ----------------------------------------------------------------------------
 //                                                                    GAME LOOP
 const gameLoop = () => {
+  isPlaying = true;
   clearGameArea(ctx);
+  p.update();
   p.draw(ctx);
   requestAnimationFrame(gameLoop);
 };
+
+// ----------------------------------------------------------------------------
+//                                                              EVENT LISTENERS
+addEventListener("keydown", (event) => {
+  switch (event.code) {
+    case "ArrowLeft": {
+      p.goLeft();
+      event.preventDefault();
+      break;
+    }
+    case "ArrowRight": {
+      p.goRight();
+      event.preventDefault();
+      break;
+    }
+  }
+});
 
 // ----------------------------------------------------------------------------
 //                                                                  ENTRY POINT
