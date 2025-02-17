@@ -1,10 +1,13 @@
 export class Player {
   // --------------------------------------------------------------------------
   constructor() {
-    this.position = { x: canvas.width / 2 - 50, y: canvas.height - 110 };
+    this.width = 50;
+    this.height = 50;
+    this.position = {
+      x: canvas.width / 2 - this.width / 2,
+      y: canvas.height - 1,
+    };
     this.velocity = { x: 0, y: 0 };
-    this.width = 100;
-    this.height = 100;
 
     // const image = new Image()
     // image.src = "./images/player.png"
@@ -18,8 +21,14 @@ export class Player {
   // --------------------------------------------------------------------------
   draw(ctx) {
     ctx.fillStyle = "red";
-    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
-    // TODO: Draw an image here instead
+
+    ctx.beginPath();
+    ctx.moveTo(this.position.x, this.position.y);
+    ctx.lineTo(this.position.x + this.width, this.position.y); // left bottom to right
+    ctx.lineTo(this.position.x + this.width / 2, this.position.y - this.height); // to middle
+    ctx.fill();
+
+    // TODO: Consider drawing an image here instead
     // if (this.image) {
     // ctx.drawImage(this.image,this.position.x,this.position.y);
     // }
@@ -27,23 +36,26 @@ export class Player {
 
   // --------------------------------------------------------------------------
   update() {
-    if (
-      this.position.x + this.velocity.x < canvas.width - 100 &&
-      this.position.x + this.velocity.x > 1
-    ) {
-      this.position.x += this.velocity.x;
-    } else {
+    this.position.x += this.velocity.x;
+
+    if (this.position.x > canvas.width - this.width - 1) {
+      this.position.x = canvas.width - this.width - 1;
+      this.velocity.x = Math.floor(-0.5 * this.velocity.x);
+    }
+
+    if (this.position.x < 1) {
+      this.position.x = 1;
       this.velocity.x = Math.floor(-0.5 * this.velocity.x);
     }
   }
 
   // --------------------------------------------------------------------------
   goLeft() {
-    this.velocity.x -= 1;
+    this.velocity.x -= 4;
   }
 
   // --------------------------------------------------------------------------
   goRight() {
-    this.velocity.x += 1;
+    this.velocity.x += 4;
   }
 }
