@@ -1,8 +1,15 @@
+import { clearScreen, drawCanvasBorder } from "./canvasutils.js";
+
 // ----------------------------------------------------------------------------
+//                                                                      GLOBALS
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
+
+// ----------------------------------------------------------------------------
+//                                                             CONFIGURE CANVAS
 canvas.width = innerWidth - 50;
 canvas.height = innerHeight - 100;
 
-ctx.fillStyle = "#000000";
-ctx.fillRect(0, 0, canvas.width, canvas.height);
+// ----------------------------------------------------------------------------
+clearScreen(ctx);
+drawCanvasBorder(ctx);
