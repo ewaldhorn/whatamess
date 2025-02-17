@@ -1,5 +1,19 @@
 export class Player {
   // --------------------------------------------------------------------------
+  /**
+   * @typedef {Object} Point2D Point coordinate (x,y)
+   * @property {number} x
+   * @property {number} y
+   */
+
+  /**
+   * Player class represents the player controlled triangle
+   * @class
+   * @property {number} width Width of player in pixels
+   * @property {number} height Height of player in pixels
+   * @property {Point2D} position Position coordinates
+   * @property {Point2D} velocity Velocity vector
+   */
   constructor() {
     this.width = 50;
     this.height = 50;
@@ -20,7 +34,7 @@ export class Player {
 
   // --------------------------------------------------------------------------
   draw(ctx) {
-    ctx.fillStyle = "red";
+    ctx.fillStyle = "green";
 
     ctx.beginPath();
     ctx.moveTo(this.position.x, this.position.y);
@@ -57,5 +71,13 @@ export class Player {
   // --------------------------------------------------------------------------
   goRight() {
     this.velocity.x += 4;
+  }
+
+  // --------------------------------------------------------------------------
+  getBulletPosition() {
+    return {
+      x: this.position.x + this.width / 2,
+      y: this.position.y - this.height,
+    };
   }
 }
