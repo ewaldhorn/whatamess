@@ -1,4 +1,4 @@
-import { clearScreen, drawCanvasBorder } from "./canvasutils.js";
+import { clearGameArea, clearScreen, drawCanvasBorder } from "./canvasutils.js";
 
 // ----------------------------------------------------------------------------
 //                                                                      GLOBALS
@@ -13,3 +13,4 @@ canvas.height = innerHeight - 100;
 // ----------------------------------------------------------------------------
 clearScreen(ctx);
 drawCanvasBorder(ctx);
+clearGameArea(ctx);

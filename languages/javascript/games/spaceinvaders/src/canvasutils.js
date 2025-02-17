@@ -5,6 +5,12 @@ export const clearScreen = (ctx) => {
 };
 
 // ----------------------------------------------------------------------------
+export const clearGameArea = (ctx) => {
+  ctx.fillStyle = "#000010";
+  ctx.fillRect(1, 1, canvas.width - 2, canvas.height - 2);
+};
+
+// ----------------------------------------------------------------------------
 export const drawCanvasBorder = (ctx) => {
   ctx.strokeStyle = "#444444";
   ctx.lineWidth = 1;
