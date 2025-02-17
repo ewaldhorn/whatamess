@@ -241,3 +241,4 @@ languages/dart/web/hello_web/helloweb/site/main.wasm.map
 languages/go/experiments/python/hello_go/bin
 languages/go/ebitengine/experiments/camera/bin/camera.wasm
 languages/javascript/p5/lava_lamp/static/index.js
+languages/javascript/games/spaceinvaders/static/index.js

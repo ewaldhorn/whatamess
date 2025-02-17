@@ -2,15 +2,24 @@ import p5 from "../../lib/p5.js";
 
 // ----------------------------------------------------------------------------
 const lavaLamp = (p) => {
+  let r = 50;
+  let px = 200;
+  let py = 200;
   // --------------------------------------------------------------------------
   p.setup = () => {
     p.createCanvas(800, 800);
-    p.background(135, 206, 235); // Light blue background
   };
 
   // --------------------------------------------------------------------------
   p.draw = () => {
-    p.background(135, 206, 235); // Light blue background
+    p.background(220);
+    let x = p.mouseX;
+    let y = p.mouseY;
+    p.noFill();
+    p.ellipse(x, y, r * 2, r * 2);
+
+    p.fill(0);
+    p.ellipse(px, py, 5, 5);
   };
 };
 
