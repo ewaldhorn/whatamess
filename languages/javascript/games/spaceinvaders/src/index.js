@@ -64,9 +64,9 @@ addEventListener("keydown", (event) => {
       bullets.push(b);
       event.preventDefault();
     }
-    default: {
-      console.log(event.code);
-    }
+    // default: {
+    //   console.log(event.code);
+    // }
   }
 });
 
