@@ -27,18 +27,19 @@ var bullets = [];
 // ----------------------------------------------------------------------------
 //                                                                    GAME LOOP
 const gameLoop = () => {
-  isPlaying = true;
-  clearGameArea(ctx);
+  if (isPlaying) {
+    clearGameArea(ctx);
 
-  for (let i = 0; i < bullets.length; i++) {
-    bullets[i].draw(ctx);
-    bullets[i].update();
+    for (let i = 0; i < bullets.length; i++) {
+      bullets[i].draw(ctx);
+      bullets[i].update();
+    }
+
+    bullets = bullets.filter((element) => element.isAlive());
+
+    p.update();
+    p.draw(ctx);
   }
-
-  bullets = bullets.filter((element) => element.isAlive());
-
-  p.update();
-  p.draw(ctx);
   requestAnimationFrame(gameLoop);
 };
 
@@ -59,7 +60,7 @@ addEventListener("keydown", (event) => {
     case "Space": {
       let b = new Bullet({
         position: p.getBulletPosition(),
-        velocity: { x: Math.floor(0.05 * p.velocity.x), y: -5 },
+        velocity: { x: Math.floor(0.05 * p.velocity.x), y: -7 },
       });
       bullets.push(b);
       event.preventDefault();
@@ -73,4 +74,5 @@ addEventListener("keydown", (event) => {
 // ----------------------------------------------------------------------------
 //                                                                  ENTRY POINT
 prepGameScreen();
+isPlaying = true;
 gameLoop();
