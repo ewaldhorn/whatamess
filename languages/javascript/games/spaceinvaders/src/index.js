@@ -6,6 +6,7 @@ import {
 import { Enemy } from "./enemy.js";
 import { Player } from "./player.js";
 import { Bullet } from "./bullet.js";
+import { Star } from "./star.js";
 import { showPauseScreen } from "./pause_screen.js";
 // ----------------------------------------------------------------------------
 //                                                                      GLOBALS
@@ -41,6 +42,27 @@ var bullets = [];
 
 /** @type {Enemy[]} */
 var enemies = [];
+
+/** @type {Star[]} */
+var stars = [];
+
+// ----------------------------------------------------------------------------
+const createInitialStars = () => {
+  for (let i = 0; i < 50; i++) {
+    let s = new Star({
+      position: {
+        x: 50 + Math.floor(Math.random() * (canvas.width - 60)),
+        y: 3 + Math.floor(Math.random() * (canvas.height - 60)),
+      },
+      velocity: { x: 0, y: 1 + Math.floor(Math.random() * 2) },
+      colour: "#ffffff",
+    });
+
+    s.colour = s.getRandomColour();
+
+    stars.push(s);
+  }
+};
 
 // ----------------------------------------------------------------------------
 const createFirstEnemies = () => {
@@ -78,6 +100,11 @@ const gameLoop = () => {
     } else {
       clearGameArea(ctx);
       showScore(ctx);
+
+      for (let i = 0; i < stars.length; i++) {
+        stars[i].draw(ctx);
+        stars[i].update();
+      }
 
       for (let i = 0; i < bullets.length; i++) {
         bullets[i].draw(ctx);
@@ -235,5 +262,6 @@ const showIsOverScreen = (ctx) => {
 //                                                                  ENTRY POINT
 prepGameScreen();
 createFirstEnemies();
+createInitialStars();
 isPlaying = true;
 gameLoop();
