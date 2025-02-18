@@ -19,7 +19,7 @@ export class Enemy {
     this.height = 50;
     this.position = {
       x: canvas.width / 2 - this.width / 2,
-      y: 1,
+      y: 2,
     };
     this.velocity = { x: 0, y: 0 };
 
@@ -33,19 +33,12 @@ export class Enemy {
   }
 
   // --------------------------------------------------------------------------
+  /**
+   * @param {CanvasRenderingContext2D=required} ctx - 2D rendering context
+   */
   draw(ctx) {
     ctx.fillStyle = "orange";
-
-    ctx.beginPath();
-    ctx.moveTo(this.position.x, this.position.y);
-    ctx.lineTo(this.position.x + this.width, this.position.y); // left bottom to right
-    ctx.lineTo(this.position.x + this.width / 2, this.position.y - this.height); // to middle
-    ctx.fill();
-
-    // TODO: Consider drawing an image here instead
-    // if (this.image) {
-    // ctx.drawImage(this.image,this.position.x,this.position.y);
-    // }
+    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
   }
 
   // --------------------------------------------------------------------------
@@ -71,6 +64,11 @@ export class Enemy {
   // --------------------------------------------------------------------------
   goRight() {
     this.velocity.x += 4;
+  }
+
+  // --------------------------------------------------------------------------
+  reverseHorizontalDirection() {
+    this.velocity.x *= -1;
   }
 
   // --------------------------------------------------------------------------

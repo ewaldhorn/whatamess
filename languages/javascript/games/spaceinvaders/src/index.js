@@ -3,6 +3,7 @@ import {
   clearScreen,
   drawCanvasBorder,
 } from "./canvas_utils.js";
+import { Enemy } from "./enemy.js";
 import { Player } from "./player.js";
 import { Bullet } from "./bullet.js";
 import { showPauseScreen } from "./pause_screen.js";
@@ -30,9 +31,20 @@ const prepGameScreen = () => {
 };
 
 // ----------------------------------------------------------------------------
-// todo : move into a class
+// todo : move game state into a class
 const p = new Player();
+
+/** @type {Bullet[]} */
 var bullets = [];
+
+/** @type {Enemy[]} */
+var enemies = [];
+
+// ----------------------------------------------------------------------------
+const createFirstEnemies = () => {
+  let enemy = new Enemy();
+  enemies.push(enemy);
+};
 
 // ----------------------------------------------------------------------------
 //                                                                    GAME LOOP
@@ -49,6 +61,11 @@ const gameLoop = () => {
       }
 
       bullets = bullets.filter((element) => element.isAlive());
+
+      for (let i = 0; i < enemies.length; i++) {
+        enemies[i].update();
+        enemies[i].draw(ctx);
+      }
 
       p.update();
       p.draw(ctx);
@@ -96,5 +113,6 @@ addEventListener("keydown", (event) => {
 // ----------------------------------------------------------------------------
 //                                                                  ENTRY POINT
 prepGameScreen();
+createFirstEnemies();
 isPlaying = true;
 gameLoop();
