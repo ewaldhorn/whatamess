@@ -21,23 +21,21 @@ export class Star {
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
 
-    if (this.position.y < 3) {
-      this.position.y = 3;
-    }
+    const boundaryX = 4;
+    const boundaryY = 3;
+    const resetZoneY = canvas.height - boundaryY;
 
-    if (this.position.y > canvas.height - 3) {
-      this.position.y = 3;
+    this.position.x = Math.max(
+      boundaryX,
+      Math.min(this.position.x, canvas.width - 10),
+    );
+    this.position.y = Math.max(boundaryY, this.position.y);
+
+    if (this.position.y > resetZoneY) {
       this.position.x = 50 + Math.floor(Math.random() * (canvas.width - 80));
+      this.position.y = boundaryY;
       this.velocity.y = 1 + Math.floor(Math.random() * 3);
       this.colour = this.getRandomColour();
-    }
-
-    if (this.position.x < 4) {
-      this.position.x = 4;
-    }
-
-    if (this.position.x > canvas.width - 10) {
-      this.position.x = canvas.width - 10;
     }
   }
 
