@@ -22,6 +22,7 @@ export class Enemy {
       y: 2,
     };
     this.velocity = { x: 0, y: 0 };
+    this.lastFired = 0; // controls how often an enemy can shoot
 
     // const image = new Image()
     // image.src = "./images/player.png"
@@ -43,6 +44,12 @@ export class Enemy {
 
   // --------------------------------------------------------------------------
   update() {
+    if (this.velocity.x == 0) {
+      this.velocity.x = 3;
+    } else if (this.velocity.x > 6) {
+      this.reverseHorizontalDirection();
+    }
+
     this.position.x += this.velocity.x;
 
     if (this.position.x > canvas.width - this.width - 1) {
@@ -54,6 +61,13 @@ export class Enemy {
       this.position.x = 1;
       this.velocity.x = Math.floor(-0.5 * this.velocity.x);
     }
+
+    if (this.lastFired >= 150) {
+      this.reverseHorizontalDirection();
+      this.velocity.x = Math.floor(this.velocity.x * 1.1);
+    }
+
+    this.lastFired += 1;
   }
 
   // --------------------------------------------------------------------------
@@ -72,10 +86,16 @@ export class Enemy {
   }
 
   // --------------------------------------------------------------------------
+  canShoot() {
+    return this.lastFired > 150;
+  }
+
+  // --------------------------------------------------------------------------
   getBulletPosition() {
+    this.lastFired = 0;
     return {
       x: this.position.x + this.width / 2,
-      y: this.position.y - this.height,
+      y: this.position.y + this.height,
     };
   }
 }

@@ -65,6 +65,13 @@ const gameLoop = () => {
       for (let i = 0; i < enemies.length; i++) {
         enemies[i].update();
         enemies[i].draw(ctx);
+        if (Math.random() < 0.25 && enemies[i].canShoot()) {
+          let b = new Bullet({
+            position: enemies[i].getBulletPosition(),
+            velocity: { x: Math.floor(0.05 * p.velocity.x), y: 5 },
+          });
+          bullets.push(b);
+        }
       }
 
       p.update();
