@@ -6,6 +6,7 @@ export const showPauseScreen = (ctx) => {
   ctx.font = "36px Arial";
   ctx.textAlign = "left";
   ctx.textBaseline = "middle";
+  ctx.fillStyle = "green";
 
   const text = "- - -  (P)AUSED  - - -";
   const metrics = ctx.measureText(text);

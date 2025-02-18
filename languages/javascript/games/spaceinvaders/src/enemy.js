@@ -67,11 +67,13 @@ export class Enemy {
     if (this.position.x > canvas.width - this.width - 1) {
       this.position.x = canvas.width - this.width - 1;
       this.velocity.x = Math.floor(-0.5 * this.velocity.x);
+      this.gainHealth();
     }
 
     if (this.position.x < 1) {
       this.position.x = 1;
       this.velocity.x = Math.floor(-0.5 * this.velocity.x);
+      this.gainHealth();
     }
 
     if (this.lastFired >= 150) {
@@ -95,6 +97,14 @@ export class Enemy {
   // --------------------------------------------------------------------------
   reverseHorizontalDirection() {
     this.velocity.x *= -1;
+  }
+
+  // --------------------------------------------------------------------------
+  gainHealth() {
+    this.health += 3;
+    if (this.health > this.maxHealth) {
+      this.health = this.maxHealth;
+    }
   }
 
   // --------------------------------------------------------------------------

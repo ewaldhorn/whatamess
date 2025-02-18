@@ -22,8 +22,8 @@ export class Player {
       y: canvas.height - 1,
     };
     this.velocity = { x: 0, y: 0 };
-    this.health = 50;
-    this.maxHealth = 50;
+    this.health = 30;
+    this.maxHealth = 30;
 
     // const image = new Image()
     // image.src = "./images/player.png"
