@@ -44,6 +44,21 @@ var enemies = [];
 const createFirstEnemies = () => {
   let enemy = new Enemy();
   enemies.push(enemy);
+
+  enemy = new Enemy();
+  enemy.position.y += enemy.height + 5;
+  enemy.position.x = 5 + Math.floor((Math.random() * canvas.width) / 2);
+  if (Math.random() < 0.5) {
+    enemy.reverseHorizontalDirection();
+  }
+  enemies.push(enemy);
+
+  enemy = new Enemy();
+  enemy.position.y += enemy.height * 2 + 10;
+  enemy.position.x =
+    canvas.width / 2 + Math.floor((Math.random() * canvas.width) / 4);
+  enemy.reverseHorizontalDirection();
+  enemies.push(enemy);
 };
 
 // ----------------------------------------------------------------------------
