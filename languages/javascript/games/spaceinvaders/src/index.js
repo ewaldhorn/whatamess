@@ -88,6 +88,7 @@ const gameLoop = () => {
             velocity: { x: Math.floor(0.05 * p.velocity.x), y: 5 },
           });
           bullets.push(b);
+          score += 1;
         }
       }
 
@@ -105,7 +106,7 @@ const gameLoop = () => {
             bullets[i].position.x = 0;
             bullets[i].position.y = 0;
             bullets[i].velocity.y = 0;
-            score -= 2;
+            score -= 8;
           }
         }
 
