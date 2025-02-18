@@ -20,6 +20,9 @@ let isPlaying = false;
 let isPaused = false;
 let isOver = false;
 let score = 0;
+let fps = 0;
+let frames = 0;
+let lastTime = performance.now();
 
 // ----------------------------------------------------------------------------
 //                                                             CONFIGURE CANVAS
@@ -100,6 +103,7 @@ const gameLoop = () => {
     } else {
       clearGameArea(ctx);
       showScore(ctx);
+      showFPS(ctx);
 
       for (let i = 0; i < stars.length; i++) {
         stars[i].draw(ctx);
@@ -174,6 +178,17 @@ const gameLoop = () => {
       }
     }
   }
+
+  frames++;
+  const currentTime = performance.now();
+  const timeDiff = currentTime - lastTime;
+
+  if (timeDiff >= 1000) {
+    fps = Math.trunc(frames);
+    frames = 0;
+    lastTime = currentTime;
+  }
+
   requestAnimationFrame(gameLoop);
 };
 
@@ -229,6 +244,23 @@ const showScore = (ctx) => {
   // const textWidth = metrics.width;
 
   ctx.fillText(text, 10, 20);
+};
+
+// ----------------------------------------------------------------------------
+/**
+ * @param {CanvasRenderingContext2D=required} ctx - 2D rendering context
+ */
+const showFPS = (ctx) => {
+  ctx.font = "18px Arial";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "middle";
+  ctx.fillStyle = "green";
+
+  const text = `FPS: ${fps}`;
+  const metrics = ctx.measureText(text);
+  const textWidth = metrics.width;
+
+  ctx.fillText(text, canvas.width - textWidth - 5, 20);
 };
 
 // ----------------------------------------------------------------------------
