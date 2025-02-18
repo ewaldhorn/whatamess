@@ -1,11 +1,17 @@
 import { clearGameArea, clearScreen, drawCanvasBorder } from "./canvasutils.js";
 import { Player } from "./player.js";
 import { Bullet } from "./bullet.js";
+import { showPauseScreen } from "./pause_screen.js";
 // ----------------------------------------------------------------------------
 //                                                                      GLOBALS
+/** @type {HTMLCanvasElement} */
 const canvas = document.getElementById("canvas");
+
+/** @type {CanvasRenderingContext2D} */
 const ctx = canvas.getContext("2d");
+
 let isPlaying = false;
+let isPaused = false;
 
 // ----------------------------------------------------------------------------
 //                                                             CONFIGURE CANVAS
@@ -28,17 +34,21 @@ var bullets = [];
 //                                                                    GAME LOOP
 const gameLoop = () => {
   if (isPlaying) {
-    clearGameArea(ctx);
+    if (isPaused) {
+      showPauseScreen(ctx);
+    } else {
+      clearGameArea(ctx);
 
-    for (let i = 0; i < bullets.length; i++) {
-      bullets[i].draw(ctx);
-      bullets[i].update();
+      for (let i = 0; i < bullets.length; i++) {
+        bullets[i].draw(ctx);
+        bullets[i].update();
+      }
+
+      bullets = bullets.filter((element) => element.isAlive());
+
+      p.update();
+      p.draw(ctx);
     }
-
-    bullets = bullets.filter((element) => element.isAlive());
-
-    p.update();
-    p.draw(ctx);
   }
   requestAnimationFrame(gameLoop);
 };
@@ -64,6 +74,12 @@ addEventListener("keydown", (event) => {
       });
       bullets.push(b);
       event.preventDefault();
+      break;
+    }
+    case "KeyP": {
+      isPaused = !isPaused;
+      event.preventDefault();
+      break;
     }
     // default: {
     //   console.log(event.code);
