@@ -1,0 +1,36 @@
+* {
+  margin: 0;
+}
+
+body {
+  background: #070707;
+  color: #eeeeee;
+}
+
+.gradient-header {
+  background: none;
+  background-clip: none;
+  -webkit-background-clip: none;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: none;
+}
+
+.gradient-header {
+  background: -webkit-linear-gradient(to right, #433d44, #c6e4c6, #433d44);
+  background: linear-gradient(to right, #433d44, #c6e4c6, #433d44);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.canvas-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.game {
+  width: 400px;
+  height: 400px;
+}

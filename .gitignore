@@ -243,3 +243,4 @@ languages/go/ebitengine/experiments/camera/bin/camera.wasm
 languages/javascript/p5/lava_lamp/static/index.js
 languages/javascript/games/spaceinvaders/static/index.js
 languages/javascript/p5/hello_p5/static/index.js
+languages/javascript/floaty/hello/static/index.js
