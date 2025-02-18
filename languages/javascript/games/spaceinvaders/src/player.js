@@ -85,6 +85,11 @@ export class Player {
   }
 
   // --------------------------------------------------------------------------
+  isAlive() {
+    return this.health > 0;
+  }
+
+  // --------------------------------------------------------------------------
   getBulletPosition() {
     return {
       x: this.position.x + this.width / 2,
