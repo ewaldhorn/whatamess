@@ -17,6 +17,7 @@ const ctx = canvas.getContext("2d");
 
 let isPlaying = false;
 let isPaused = false;
+let isOver = false;
 let score = 0;
 
 // ----------------------------------------------------------------------------
@@ -70,6 +71,10 @@ const gameLoop = () => {
   if (isPlaying) {
     if (isPaused) {
       showPauseScreen(ctx);
+    } else if (isOver) {
+      clearGameArea(ctx);
+      showScore(ctx);
+      showIsOverScreen(ctx);
     } else {
       clearGameArea(ctx);
       showScore(ctx);
@@ -135,6 +140,11 @@ const gameLoop = () => {
 
       p.update();
       p.draw(ctx);
+
+      // check if any of the end conditions are true
+      if (p.health <= 0 || enemies.length == 0) {
+        isOver = true;
+      }
     }
   }
   requestAnimationFrame(gameLoop);
@@ -181,7 +191,7 @@ addEventListener("keydown", (event) => {
 /**
  * @param {CanvasRenderingContext2D=required} ctx - 2D rendering context
  */
-export const showScore = (ctx) => {
+const showScore = (ctx) => {
   ctx.font = "18px Arial";
   ctx.textAlign = "left";
   ctx.textBaseline = "middle";
@@ -192,6 +202,20 @@ export const showScore = (ctx) => {
   // const textWidth = metrics.width;
 
   ctx.fillText(text, 10, 20);
+};
+
+// ----------------------------------------------------------------------------
+const showIsOverScreen = (ctx) => {
+  ctx.font = "36px Arial";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "middle";
+  ctx.fillStyle = "yellow";
+
+  let text = "GAME OVER";
+  let metrics = ctx.measureText(text);
+  let textWidth = metrics.width;
+
+  ctx.fillText(text, (canvas.width - textWidth) / 2, canvas.height / 2);
 };
 
 // ----------------------------------------------------------------------------
