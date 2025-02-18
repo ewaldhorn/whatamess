@@ -77,8 +77,6 @@ const gameLoop = () => {
         bullets[i].update();
       }
 
-      bullets = bullets.filter((element) => element.isAlive());
-
       for (let i = 0; i < enemies.length; i++) {
         enemies[i].update();
         enemies[i].draw(ctx);
@@ -94,10 +92,22 @@ const gameLoop = () => {
       // check if bullets intercepted anything
       for (let i = 0; i < bullets.length; i++) {
         // check if a downward moving bullet hit a player
-        //
+        if (bullets[i].velocity.y < 0 && bullets[i].isAlive()) {
+          if (
+            bullets[i].position.x >= p.position.x &&
+            bullets[i].position.x <= p.position.x + p.width &&
+            bullets[i].position.y >= p.position.y &&
+            bullets[i].position.y <= ep.position.y + p.height
+          ) {
+            p.health -= 4;
+            bullets[i].position.x = 0;
+            bullets[i].position.y = 0;
+            bullets[i].velocity.y = 0;
+          }
+        }
 
         // check if an upward moving bullet hit an enemy
-        if (bullets[i].velocity.y > 0) {
+        if (bullets[i].velocity.y > 0 && bullets[i].isAlive()) {
           for (let j = 0; j < enemies.length; j++) {
             if (
               bullets[i].position.x >= enemies[j].position.x &&
@@ -107,11 +117,15 @@ const gameLoop = () => {
               bullets[i].position.y <= enemies[j].position.y + enemies[j].height
             ) {
               enemies[j].health -= 4;
+              bullets[i].position.x = 0;
+              bullets[i].position.y = 0;
+              bullets[i].velocity.y = 0;
             }
           }
         }
       }
 
+      bullets = bullets.filter((element) => element.isAlive());
       enemies = enemies.filter((element) => element.isAlive());
 
       p.update();
