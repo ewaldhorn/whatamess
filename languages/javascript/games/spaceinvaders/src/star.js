@@ -64,11 +64,13 @@ export class Star {
 
   // --------------------------------------------------------------------------
   isAlive() {
+    const { x, y } = this.position;
+    const boundary = 3;
     return (
-      this.position.x > 3 &&
-      this.position.x < canvas.width - 3 &&
-      this.position.y > 3 &&
-      this.position.y < canvas.height - 3
+      x > boundary &&
+      x < canvas.width - boundary &&
+      y > boundary &&
+      y < canvas.height - boundary
     );
   }
 }
