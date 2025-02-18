@@ -1,4 +1,8 @@
-import { clearGameArea, clearScreen, drawCanvasBorder } from "./canvasutils.js";
+import {
+  clearGameArea,
+  clearScreen,
+  drawCanvasBorder,
+} from "./canvas_utils.js";
 import { Player } from "./player.js";
 import { Bullet } from "./bullet.js";
 import { showPauseScreen } from "./pause_screen.js";
@@ -68,11 +72,13 @@ addEventListener("keydown", (event) => {
       break;
     }
     case "Space": {
-      let b = new Bullet({
-        position: p.getBulletPosition(),
-        velocity: { x: Math.floor(0.05 * p.velocity.x), y: -7 },
-      });
-      bullets.push(b);
+      if (!isPaused) {
+        let b = new Bullet({
+          position: p.getBulletPosition(),
+          velocity: { x: Math.floor(0.05 * p.velocity.x), y: -7 },
+        });
+        bullets.push(b);
+      }
       event.preventDefault();
       break;
     }
