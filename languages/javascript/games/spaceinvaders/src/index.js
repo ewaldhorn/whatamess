@@ -215,6 +215,19 @@ const showIsOverScreen = (ctx) => {
   let metrics = ctx.measureText(text);
   let textWidth = metrics.width;
 
+  ctx.fillText(text, (canvas.width - textWidth) / 2, canvas.height / 2 - 50);
+
+  if (p.isAlive()) {
+    ctx.fillStyle = "green";
+    text = "YOU WON";
+  } else {
+    ctx.fillStyle = "red";
+    text = "YOU LOST";
+  }
+
+  metrics = ctx.measureText(text);
+  textWidth = metrics.width;
+
   ctx.fillText(text, (canvas.width - textWidth) / 2, canvas.height / 2);
 };
 
