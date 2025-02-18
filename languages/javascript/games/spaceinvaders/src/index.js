@@ -48,7 +48,7 @@ var stars = [];
 
 // ----------------------------------------------------------------------------
 const createInitialStars = () => {
-  for (let i = 0; i < 50; i++) {
+  for (let i = 0; i < 100; i++) {
     let s = new Star({
       position: {
         x: 50 + Math.floor(Math.random() * (canvas.width - 60)),
