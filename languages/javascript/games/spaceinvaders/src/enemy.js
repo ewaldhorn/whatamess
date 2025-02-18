@@ -23,6 +23,8 @@ export class Enemy {
     };
     this.velocity = { x: 0, y: 0 };
     this.lastFired = 0; // controls how often an enemy can shoot
+    this.health = 20;
+    this.maxHealth = 20;
 
     // const image = new Image()
     // image.src = "./images/player.png"
@@ -40,6 +42,15 @@ export class Enemy {
   draw(ctx) {
     ctx.fillStyle = "orange";
     ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+
+    // health
+    ctx.fillStyle = "green";
+    ctx.fillRect(
+      this.position.x + this.width / 2 - this.health / 2,
+      this.position.y + this.height + 5,
+      this.health,
+      5,
+    );
   }
 
   // --------------------------------------------------------------------------
