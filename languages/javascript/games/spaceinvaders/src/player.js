@@ -22,6 +22,8 @@ export class Player {
       y: canvas.height - 1,
     };
     this.velocity = { x: 0, y: 0 };
+    this.health = 50;
+    this.maxHealth = 50;
 
     // const image = new Image()
     // image.src = "./images/player.png"
@@ -34,13 +36,22 @@ export class Player {
 
   // --------------------------------------------------------------------------
   draw(ctx) {
-    ctx.fillStyle = "green";
+    ctx.fillStyle = "blue";
 
     ctx.beginPath();
     ctx.moveTo(this.position.x, this.position.y);
     ctx.lineTo(this.position.x + this.width, this.position.y); // left bottom to right
     ctx.lineTo(this.position.x + this.width / 2, this.position.y - this.height); // to middle
     ctx.fill();
+
+    // health
+    ctx.fillStyle = "green";
+    ctx.fillRect(
+      this.position.x + this.width / 2 - this.health / 2,
+      this.position.y - this.height - 5,
+      this.health,
+      5,
+    );
 
     // TODO: Consider drawing an image here instead
     // if (this.image) {
