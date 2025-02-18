@@ -4,10 +4,12 @@
  */
 export const showPauseScreen = (ctx) => {
   ctx.font = "36px Arial";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "middle";
+
   const text = "- - -  (P)AUSED  - - -";
   const metrics = ctx.measureText(text);
   const textWidth = metrics.width;
-  ctx.textAlign = "left";
-  ctx.textBaseline = "middle";
+
   ctx.fillText(text, (canvas.width - textWidth) / 2, canvas.height / 2);
 };
