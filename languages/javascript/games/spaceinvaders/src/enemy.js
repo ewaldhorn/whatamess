@@ -25,6 +25,7 @@ export class Enemy {
     this.lastFired = 0; // controls how often an enemy can shoot
     this.health = 20;
     this.maxHealth = 20;
+    this.colour = "orange";
 
     // const image = new Image()
     // image.src = "./images/player.png"
@@ -40,7 +41,7 @@ export class Enemy {
    * @param {CanvasRenderingContext2D=required} ctx - 2D rendering context
    */
   draw(ctx) {
-    ctx.fillStyle = "orange";
+    ctx.fillStyle = this.colour;
     ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
 
     // health

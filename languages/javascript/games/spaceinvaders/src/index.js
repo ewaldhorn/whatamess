@@ -51,6 +51,7 @@ const createFirstEnemies = () => {
   if (Math.random() < 0.5) {
     enemy.reverseHorizontalDirection();
   }
+  enemy.colour = "#cc1156";
   enemies.push(enemy);
 
   enemy = new Enemy();
@@ -58,6 +59,7 @@ const createFirstEnemies = () => {
   enemy.position.x =
     canvas.width / 2 + Math.floor((Math.random() * canvas.width) / 4);
   enemy.reverseHorizontalDirection();
+  enemy.colour = "#44cc56";
   enemies.push(enemy);
 };
 
@@ -88,6 +90,29 @@ const gameLoop = () => {
           bullets.push(b);
         }
       }
+
+      // check if bullets intercepted anything
+      for (let i = 0; i < bullets.length; i++) {
+        // check if a downward moving bullet hit a player
+        //
+
+        // check if an upward moving bullet hit an enemy
+        if (bullets[i].velocity.y > 0) {
+          for (let j = 0; j < enemies.length; j++) {
+            if (
+              bullets[i].position.x >= enemies[j].position.x &&
+              bullets[i].position.x <=
+                enemies[j].position.x + enemies[j].width &&
+              bullets[i].position.y >= enemies[j].position.y &&
+              bullets[i].position.y <= enemies[j].position.y + enemies[j].height
+            ) {
+              enemies[j].health -= 4;
+            }
+          }
+        }
+      }
+
+      enemies = enemies.filter((element) => element.isAlive());
 
       p.update();
       p.draw(ctx);
