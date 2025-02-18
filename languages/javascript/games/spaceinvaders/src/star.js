@@ -43,35 +43,23 @@ export class Star {
 
   // --------------------------------------------------------------------------
   getRandomColour() {
-    let tmp = Math.random() * 100;
+    const tmp = Math.random() * 100;
 
-    if (tmp > 90) {
-      return "#222222";
-    }
-    if (tmp > 80) {
-      return "#333333";
-    }
-    if (tmp > 70) {
-      return "#444444";
-    }
-    if (tmp > 60) {
-      return "#555555";
-    }
-    if (tmp > 50) {
-      return "#225522";
-    }
-    if (tmp > 40) {
-      return "#222255";
-    }
-    if (tmp > 30) {
-      return "#552222";
-    }
+    const colours = [
+      { range: 90, colour: "#222222" },
+      { range: 80, colour: "#333333" },
+      { range: 70, colour: "#444444" },
+      { range: 60, colour: "#555555" },
+      { range: 50, colour: "#228822" },
+      { range: 40, colour: "#222288" },
+      { range: 30, colour: "#882222" },
+      { range: 20, colour: "#881111" },
+      { range: 10, colour: "#333388" },
+      { range: 0, colour: "#999999" },
+    ];
 
-    if (tmp > 20) {
-      return "#551111";
-    }
-
-    return "#aaaaaa";
+    const selectedColour = colours.find((c) => tmp >= c.range);
+    return selectedColour ? selectedColour.colour : "#777777";
   }
 
   // --------------------------------------------------------------------------

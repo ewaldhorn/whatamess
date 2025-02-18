@@ -54,7 +54,7 @@ const createInitialStars = () => {
         x: 50 + Math.floor(Math.random() * (canvas.width - 60)),
         y: 3 + Math.floor(Math.random() * (canvas.height - 60)),
       },
-      velocity: { x: 0, y: 1 + Math.floor(Math.random() * 2) },
+      velocity: { x: 0, y: 1 + Math.floor(Math.random() * 3) },
       colour: "#ffffff",
     });
 
