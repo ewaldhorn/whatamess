@@ -20,21 +20,15 @@ export class Bullet {
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
 
-    if (this.position.y < 3) {
-      this.position.y = 3;
-    }
-
-    if (this.position.y > canvas.height - 3) {
-      this.position.y = canvas.height - 3;
-    }
-
-    if (this.position.x < 3) {
-      this.position.x = 3;
-    }
-
-    if (this.position.x > canvas.width - 3) {
-      this.position.x = canvas.width - 3;
-    }
+    const boundary = 3;
+    this.position.x = Math.max(
+      boundary,
+      Math.min(this.position.x, canvas.width - boundary),
+    );
+    this.position.y = Math.max(
+      boundary,
+      Math.min(this.position.y, canvas.height - boundary),
+    );
   }
 
   // --------------------------------------------------------------------------
