@@ -26,14 +26,6 @@ export class Enemy {
     this.health = 20;
     this.maxHealth = 20;
     this.colour = "orange";
-
-    // const image = new Image()
-    // image.src = "./images/player.png"
-    // image.onload = () => {
-    // this.image = image
-    // this.width = image.width * 0.5; //scale down by 50% for example
-    // this.height = image.height;
-    // }
   }
 
   // --------------------------------------------------------------------------
@@ -101,10 +93,7 @@ export class Enemy {
 
   // --------------------------------------------------------------------------
   gainHealth() {
-    this.health += 3;
-    if (this.health > this.maxHealth) {
-      this.health = this.maxHealth;
-    }
+    this.health = Math.min(this.health + 3, this.maxHealth);
   }
 
   // --------------------------------------------------------------------------
