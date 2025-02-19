@@ -50,7 +50,7 @@ export class Enemy {
   update() {
     if (this.velocity.x == 0) {
       this.velocity.x = 3;
-    } else if (this.velocity.x > 6) {
+    } else if (this.velocity.x > 9) {
       this.reverseHorizontalDirection();
     }
 
@@ -68,7 +68,7 @@ export class Enemy {
       this.gainHealth();
     }
 
-    if (this.lastFired >= 150) {
+    if (this.lastFired >= 200) {
       this.reverseHorizontalDirection();
       this.velocity.x = Math.floor(this.velocity.x * 1.1);
     }

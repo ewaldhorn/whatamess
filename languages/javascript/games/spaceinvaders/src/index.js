@@ -75,8 +75,9 @@ const createFirstEnemies = () => {
   enemy = new Enemy();
   enemy.position.y += enemy.height + 5;
   enemy.position.x = 5 + Math.floor((Math.random() * canvas.width) / 2);
+  enemy.velocity.x = 3;
   if (Math.random() < 0.5) {
-    enemy.reverseHorizontalDirection();
+    enemy.velocity.x = -3;
   }
   enemy.colour = "#cc1156";
   enemies.push(enemy);
@@ -85,8 +86,15 @@ const createFirstEnemies = () => {
   enemy.position.y += enemy.height * 2 + 10;
   enemy.position.x =
     canvas.width / 2 + Math.floor((Math.random() * canvas.width) / 4);
-  enemy.reverseHorizontalDirection();
   enemy.colour = "#44cc56";
+  enemies.push(enemy);
+
+  enemy = new Enemy();
+  enemy.position.y += enemy.height * 3 + 15;
+  enemy.position.x =
+    canvas.width / 2 + Math.floor((Math.random() * canvas.width) / 4);
+  enemy.colour = "#882299";
+  enemy.velocity.x = -2;
   enemies.push(enemy);
 };
 
@@ -207,13 +215,13 @@ addEventListener("keydown", (event) => {
       break;
     }
     case "Space": {
-      if (!isPaused) {
+      if (!isPaused && score >= 3) {
         let b = new Bullet({
           position: p.getBulletPosition(),
-          velocity: { x: Math.floor(0.05 * p.velocity.x), y: -7 },
+          velocity: { x: Math.floor(0.1 * p.velocity.x), y: -7 },
         });
         bullets.push(b);
-        score -= 1;
+        score -= 3;
       }
       event.preventDefault();
       break;
