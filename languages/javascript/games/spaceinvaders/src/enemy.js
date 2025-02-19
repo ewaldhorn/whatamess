@@ -64,13 +64,13 @@ export class Enemy {
 
     if (this.position.x < 1) {
       this.position.x = 1;
-      this.velocity.x = Math.floor(-0.5 * this.velocity.x);
+      this.velocity.x = Math.floor(-0.75 * this.velocity.x);
       this.gainHealth();
     }
 
     if (this.lastFired >= 200) {
       this.reverseHorizontalDirection();
-      this.velocity.x = Math.floor(this.velocity.x * 1.1);
+      this.velocity.x = Math.floor(this.velocity.x * 1.2);
     }
 
     this.lastFired += 1;

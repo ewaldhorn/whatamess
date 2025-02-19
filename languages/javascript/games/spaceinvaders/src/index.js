@@ -23,6 +23,7 @@ let score = 0;
 let fps = 0;
 let frames = 0;
 let lastTime = performance.now();
+let hintCounter = 0;
 
 // ----------------------------------------------------------------------------
 //                                                             CONFIGURE CANVAS
@@ -109,6 +110,8 @@ const gameLoop = () => {
       showScore(ctx);
       showIsOverScreen(ctx);
     } else {
+      hintCounter += 1;
+
       clearGameArea(ctx);
       showScore(ctx);
       showFPS(ctx);
@@ -168,7 +171,7 @@ const gameLoop = () => {
               bullets[i].position.x = 0;
               bullets[i].position.y = 0;
               bullets[i].velocity.y = 0;
-              score += 11;
+              score += 6;
             }
           }
         }
@@ -183,6 +186,14 @@ const gameLoop = () => {
       // check if any of the end conditions are true
       if (p.health <= 0 || enemies.length == 0) {
         isOver = true;
+      }
+
+      if (hintCounter < 500) {
+        showNeedPoints(ctx);
+      }
+
+      if (hintCounter > 510) {
+        hintCounter = 510;
       }
     }
   }
@@ -269,6 +280,23 @@ const showFPS = (ctx) => {
   const textWidth = metrics.width;
 
   ctx.fillText(text, canvas.width - textWidth - 5, 20);
+};
+
+// ----------------------------------------------------------------------------
+/**
+ * @param {CanvasRenderingContext2D=required} ctx - 2D rendering context
+ */
+const showNeedPoints = (ctx) => {
+  ctx.font = "24px Arial";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "middle";
+  ctx.fillStyle = "green";
+
+  const text = `Bullets cost 3 points - dodge incoming bullets to get points`;
+  const metrics = ctx.measureText(text);
+  const textWidth = metrics.width;
+
+  ctx.fillText(text, (canvas.width - textWidth) / 2, canvas.height / 2);
 };
 
 // ----------------------------------------------------------------------------
