@@ -16,8 +16,22 @@ body {
 }
 
 .gradient-header {
-  background: -webkit-linear-gradient(to right, #433d44, #c6e4c6, #433d44);
-  background: linear-gradient(to right, #433d44, #c6e4c6, #433d44);
+  background: -webkit-linear-gradient(
+    to right,
+    #773d44,
+    #c6e4c6,
+    #773d44,
+    #c6e4c6,
+    #773d44
+  );
+  background: linear-gradient(
+    to right,
+    #773d44,
+    #c6e4c6,
+    #773d44,
+    #c6e4c6,
+    #773d44
+  );
   -webkit-background-clip: text;
   background-clip: text;
 }
