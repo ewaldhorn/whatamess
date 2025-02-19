@@ -96,13 +96,7 @@ class Star {
   }
 }
 
-var mode = "load";
-var restartTimer = null;
-var restartDelay = 2500;
-var waveTimer = null;
-var waveDelay = 2500;
-var winTimer = null;
-var winDelay = 2500;
+let mustClearScreen = true;
 
 var stars = new Stars();
 
@@ -116,59 +110,28 @@ async function init() {
 
 function update() {
   stars.update();
-
-  if (mode === "start" && btnp()) {
-    mode = "wave";
-  } else if (mode === "wave" && !waveTimer) {
-    waveTimer = setTimeout(() => {
-      waveTimer = null;
-      mode = "game";
-    }, waveDelay);
-  } else if (mode === "over" && !restartTimer) {
-    restartTimer = setTimeout(() => {
-      restartTimer = null;
-      mode = "start";
-    }, restartDelay);
-  } else if (mode === "win" && !winTimer) {
-    winTimer = setTimeout(() => {
-      winTimer = null;
-      mode = "start";
-    }, winDelay);
-  } else if (mode === "game") {
-  }
 }
 
 function draw() {
-  cls();
+  if (mustClearScreen) {
+    cls();
+  }
 
   stars.draw();
 
-  if (mode === "load") {
-    text("Loading...", 45, 56);
-  } else if (mode === "start") {
-    text("Press any key to start", 15, 56);
-    text("Dev by assertchris", 15, 96, 5);
-    text("Font by kenney", 15, 104, 5);
-  } else if (mode === "wave") {
-    text(`Wave`, 45, 56);
-  } else if (mode === "over") {
-    text("Game over", 45, 56);
-  } else if (mode === "win") {
-    text("You win!", 45, 56);
-  } else if (mode === "game") {
+  // Clear the screen
+  if (btnp("c")) {
+    cls();
   }
 
-  // DEBUG
-  if (btnp("i")) {
-    mode = "win";
-  }
-
-  // DEBUG
+  // Toggle overwrite or not
   if (btnp("o")) {
-    mode = "over";
+    mustClearScreen = !mustClearScreen;
   }
 }
 
+// ----------------------------------------------------------------------------
+//                                                                  ENTRY POINT
 engine.start({
   sprites,
   sounds,
