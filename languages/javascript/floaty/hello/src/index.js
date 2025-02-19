@@ -15,20 +15,26 @@ let sounds = {};
   are fine.
 */
 
+// ----------------------------------------------------------------------------
+//                                                                      GLOBALS
 let mustClearScreen = true;
+let points = new Points();
 
-var points = new Points();
-
+// ----------------------------------------------------------------------------
+// //                                                          GET THINGS READY
 async function init() {
-  points.init(this);
-
+  points.init();
   await this.load();
 }
 
+// ----------------------------------------------------------------------------
+//                                                                 UPDATE STATE
 function update() {
   points.update();
 }
 
+// ----------------------------------------------------------------------------
+//                                                                 RENDER STATE
 function draw() {
   if (mustClearScreen) {
     cls();

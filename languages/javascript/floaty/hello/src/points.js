@@ -5,8 +5,7 @@ export class Points {
   limit = 22;
 
   // --------------------------------------------------------------------------
-  init(engine) {
-    this.engine = engine;
+  init() {
     this.points = [];
 
     for (var i = 0; i < this.limit; i++) {

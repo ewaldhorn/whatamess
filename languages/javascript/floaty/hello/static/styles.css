@@ -45,6 +45,7 @@ body {
 }
 
 .game {
+  border: 1px solid #202020;
   width: 400px;
   height: 400px;
 }
