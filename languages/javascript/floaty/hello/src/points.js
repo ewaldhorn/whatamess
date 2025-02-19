@@ -2,8 +2,9 @@ import { isRandomTrue } from "./utils";
 
 // ----------------------------------------------------------------------------
 export class Points {
-  limit = 50;
+  limit = 10;
 
+  // --------------------------------------------------------------------------
   init(engine) {
     this.engine = engine;
     this.points = [];
@@ -19,24 +20,14 @@ export class Points {
     }
   }
 
+  // --------------------------------------------------------------------------
   update() {
-    this.points = this.points.filter((point) => point.y < 128);
-
-    while (this.points.length < this.limit) {
-      this.points.push(
-        new Point({
-          x: 3 + Math.floor(rnd(120)),
-          y: 3 + Math.floor(rnd(120)),
-          engine: this.engine,
-        }),
-      );
-    }
-
     for (var point of this.points) {
       point.update();
     }
   }
 
+  // --------------------------------------------------------------------------
   draw() {
     for (var point of this.points) {
       point.draw();
@@ -65,6 +56,7 @@ class Point {
     }
   }
 
+  // --------------------------------------------------------------------------
   update() {
     this.x += this.xv;
     this.y += this.yv;
@@ -77,6 +69,7 @@ class Point {
     }
   }
 
+  // --------------------------------------------------------------------------
   draw() {
     pset(this.x, this.y, 12);
   }
