@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 # Create a file handler
-file_handler = logging.FileHandler("delete_me.log")
+file_handler = logging.FileHandler("delete_me.log", encoding="utf-8")
 
 # Create a console handler
 console_handler = logging.StreamHandler()
