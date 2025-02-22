@@ -245,3 +245,5 @@ languages/javascript/games/spaceinvaders/static/index.js
 languages/javascript/p5/hello_p5/static/index.js
 languages/javascript/floaty/hello/static/index.js
 languages/python/concepts/logging/different_levels/logs
+languages/python/concepts/logging/multi_levels_and_files/critical.log
+languages/python/concepts/logging/multi_levels_and_files/general.log
