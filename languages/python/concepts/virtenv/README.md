@@ -16,3 +16,9 @@ Create a `pyrightconfig.json` file with the following content:
   "venv": ".venv"
 }
 ```
+
+## Use environment
+
+On Mac, `source .venv/bin/activate` to activate the virtual environment.
+
+The prompt should change to something like `(.venv) > virtenv: `.
