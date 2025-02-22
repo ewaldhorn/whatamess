@@ -1,7 +1,8 @@
 import logging
 
 # ensure everything is logged, not just warnings and above, as per default
-logging.basicConfig(level=logging.DEBUG)
+# also log to a file, because, well, yeah, that's always handy!
+logging.basicConfig(filename='./delete_me.log', level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 logging.debug("This is a debug message")
 logging.info("This is an info message")
