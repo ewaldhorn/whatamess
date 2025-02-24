@@ -12,3 +12,8 @@ print("Set->List", my_list)  # Output: [1, 2, 3, 4, 5] (order may vary)
 my_dict = {"a": 1, "b": 2, "c": 3}
 my_list = list(my_dict)
 print("Dictionary->List", my_list)  # Output: ['a', 'b', 'c'] (list of keys)
+
+# string to list
+my_string = "hello"
+my_list = list(my_string)
+print("String->List", my_list)  # Output: ['h', 'e', 'l', 'l', 'o']
