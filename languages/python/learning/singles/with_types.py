@@ -13,3 +13,6 @@ from typing import Final
 
 VERSION: Final[str] = "10.0.1"
 print(VERSION)
+
+VERSION = "17.1.1"
+print(VERSION)
