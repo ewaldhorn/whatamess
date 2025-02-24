@@ -1,0 +1,5 @@
+{
+  "files": {
+    "./data/scores.csv": "./scores.csv"
+  }
+}
