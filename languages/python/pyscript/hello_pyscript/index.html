@@ -16,7 +16,16 @@
     ></script>
   </head>
   <body>
-    <!-- your code goes here... -->
-    <script type="mpy" src="index.py" defer></script>
+    <h1>Polyglot 🦜 💬 🇬🇧 ➡️ 🏴‍☠️</h1>
+    <p>Translate English into Pirate speak...</p>
+    <input
+      type="text"
+      name="english"
+      id="english"
+      placeholder="Type English here..."
+    />
+    <button py-click="translate_english">Translate</button>
+    <div id="output"></div>
+    <script type="py" src="./index.py" config="./pyscript.json" defer></script>
   </body>
 </html>
