@@ -247,3 +247,5 @@ languages/javascript/floaty/hello/static/index.js
 languages/python/concepts/logging/different_levels/logs
 languages/python/concepts/logging/multi_levels_and_files/critical.log
 languages/python/concepts/logging/multi_levels_and_files/general.log
+languages/python/pyscript/offline_pyscript/node_modules
+languages/python/pyscript/offline_pyscript/public/pyscript
