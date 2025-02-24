@@ -10,7 +10,15 @@ def say_hello(who):
 
 
 def get_time_str():
-    return "Good morning"
+    current_hour = datetime.now().hour
+
+    match current_hour:
+        case value if 6 <= value < 12:
+            return "Good Morning"
+        case value if 12 <= value < 18:
+            return "Good Afternoon"
+        case _:
+            return "Good Evening"
 
 
 def say_hello_time_sensitive(who):
