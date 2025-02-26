@@ -30,3 +30,13 @@ nums = [1,1,2,2]
 print("The sum of",nums,"is",sum_them_all(*nums))
 nums = [1,2,1,2]
 print("The sum of",nums,"is",sum_them_all(*nums))
+
+
+def multi_keyword_args(**kwargs):
+    for key, value in kwargs.items():
+        print(key, value)
+
+print("\n")
+multi_keyword_args()
+multi_keyword_args(name="John", age=30)
+multi_keyword_args(name="John", age=30, city="New York")    
