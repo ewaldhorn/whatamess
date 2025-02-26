@@ -16,8 +16,17 @@ def all_possible_strings(length: int) -> list[str]:
     return possible_strings
 
 
-# Check if the input value is in the answers list
 def list_has(answers: list[str], input: str) -> bool:
+    """
+    Check if input string exists in the answers list.
+
+    Args:
+      answers: List of strings to check against
+      input: String to search for in answers list
+
+    Returns:
+      True if input exists in answers list, False otherwise
+    """
     if input in answers:
         return True
     return False
