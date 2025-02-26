@@ -14,3 +14,9 @@ print("\nSame thing, but with a step of 2")
 nums = range(1,10,2)
 print(nums)
 print(list(nums))
+
+# Python also has an enumerate function
+steps = ["Peel potatoes", "Wash potatoes", "Chop potatoes", "Wash potatoes", "Fry potatoes"]
+print("\t Index\t Step")
+for index, step in enumerate(steps):
+    print("\t",index,"\t", step)
