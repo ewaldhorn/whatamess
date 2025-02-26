@@ -10,6 +10,6 @@ print("Sorted are     :", sorted_numbers)
 print("Descending are :", sorted(numbers,reverse=True))
 
 contestants = [{"name":"Joe", "score":11},{"name":"Sandra","score":9},{"name":"Bob","score":12},{"name":"Alice","score":8}]
-print("Contestants",contestants)
-print("Sorted by name",sorted(contestants,key=lambda x: x["name"]))
-print("Sorted by score",sorted(contestants,key=lambda x: x["score"],reverse=True))
+print("Contestants", contestants)
+print("Sorted by name", sorted(contestants,key=lambda x: x["name"]))
+print("Sorted by score", sorted(contestants,key=lambda x: x["score"],reverse=True))
