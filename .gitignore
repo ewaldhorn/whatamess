@@ -249,3 +249,4 @@ languages/python/concepts/logging/multi_levels_and_files/critical.log
 languages/python/concepts/logging/multi_levels_and_files/general.log
 languages/python/pyscript/offline_pyscript/node_modules
 languages/python/pyscript/offline_pyscript/public/pyscript
+languages/python/learning/basic_concepts/__pycache__
