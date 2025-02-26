@@ -16,6 +16,7 @@ some_function(right=5,left=4)
 some_function(right=5,left=4, swap=True)
 some_function(10,11)
 some_function(10,11,True)
+some_function(*[7,8]) # use * to destructure array
 
 print("\n")
 nums = [1]
