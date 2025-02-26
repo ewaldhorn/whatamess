@@ -1,9 +1,9 @@
-def find_string(nums, length):
+def find_string(nums: list[str], length: int) -> str:
     return "--"
 
 
 # Check if the input value is in the answers list
-def list_has(answers, input):
+def list_has(answers: list[str], input: str) -> bool:
     if input in answers:
         return True
     return False
