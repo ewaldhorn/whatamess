@@ -1,3 +1,4 @@
+# -----------------------------------------------------------------------------
 def find_string(nums: list[str], length: int) -> str:
     for n in all_possible_strings(length):
         if n not in nums:
@@ -5,6 +6,7 @@ def find_string(nums: list[str], length: int) -> str:
     return "--"
 
 
+# -----------------------------------------------------------------------------
 # generate all the possible binary values for this length
 def all_possible_strings(length: int) -> list[str]:
     possible_strings = []
@@ -16,6 +18,7 @@ def all_possible_strings(length: int) -> list[str]:
     return possible_strings
 
 
+# -----------------------------------------------------------------------------
 def list_has(answers: list[str], input: str) -> bool:
     """
     Check if input string exists in the answers list.
