@@ -10,3 +10,4 @@ def tripler(n):
 tripled_numbers = map(tripler, numbers)
 print("List of numbers :", numbers)
 print("Numbers tripled :", list(tripled_numbers))
+
