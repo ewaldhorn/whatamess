@@ -7,3 +7,7 @@ print("List of numbers", numbers)
 # create a list of lists using list comprehension
 lists = [[j+1 for j in range(3)] for i in range(5)]
 print("List of lists", lists)
+
+# create a list of numbers that are multiples of three
+multiples_of_3 = [i for i in range(100) if i%3==0]
+print("Multiples of 3", multiples_of_3)
