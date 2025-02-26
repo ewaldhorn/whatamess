@@ -1,5 +1,19 @@
 def find_string(nums: list[str], length: int) -> str:
+    for n in all_possible_strings(length):
+        if n not in nums:
+            return n
     return "--"
+
+
+# generate all the possible binary values for this length
+def all_possible_strings(length: int) -> list[str]:
+    possible_strings = []
+    max_value = pow(2, length)
+    for i in range(max_value):
+        binary = bin(i)[2:]
+        binary = "0" * (length - len(binary)) + binary
+        possible_strings.append(binary)
+    return possible_strings
 
 
 # Check if the input value is in the answers list
