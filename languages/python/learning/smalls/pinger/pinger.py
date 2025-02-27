@@ -7,4 +7,6 @@ def connect() -> None:
     print("Connected!")
 
 
-connect()
+# ======================================================================= TESTS
+if __name__ == "__main__":
+    connect()
