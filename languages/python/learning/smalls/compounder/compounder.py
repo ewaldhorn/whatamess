@@ -1,3 +1,6 @@
+import math
+
+
 def calculate_compound_interest(principal, rate, time, n=1):
     """
     Calculate compound interest.
@@ -15,7 +18,6 @@ def calculate_compound_interest(principal, rate, time, n=1):
 
 
 # ======================================================================= TESTS
-
 if __name__ == "__main__":
     principal = 10000
     rate = 0.04
@@ -25,4 +27,4 @@ if __name__ == "__main__":
 
     final_amount = calculate_compound_interest(principal, rate, time, n)
     rounded_amount = round(final_amount, 4)
-    assert rounded_amount == expected
+    assert math.isclose(rounded_amount, expected)
