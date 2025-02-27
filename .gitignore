@@ -1,4 +1,7 @@
 .DS_Store
+__pycache__
+.vscode
+.idea
 languages/c/infoDisplay/.vscode
 languages/c/infoDisplay/a.out
 languages/c/learning/typeSizes

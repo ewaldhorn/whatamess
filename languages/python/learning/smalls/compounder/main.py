@@ -1,3 +1,6 @@
+from compounder import calculate_compound_interest
+
+
 # -----------------------------------------------------------------------------
 def get_starting_value() -> float:
     """Returns starting value from user.
@@ -18,4 +21,7 @@ def get_starting_value() -> float:
 # ================================================================= ENTRY POINT
 if __name__ == "__main__":
     starting_value = get_starting_value()
+    rate = 0.05
+    years = 1
     print(starting_value)
+    print(calculate_compound_interest(starting_value, rate, years))
