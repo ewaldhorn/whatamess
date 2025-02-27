@@ -2,15 +2,21 @@ nopes = ["tony", "giselle"]
 
 
 # -----------------------------------------------------------------------------
+def has_id_and_is_old_enough(age: int, has_id: bool) -> bool:
+    if has_id and age >= 18:
+        return True
+    else:
+        return False
+
+
+# -----------------------------------------------------------------------------
+def is_banned(name: str) -> bool:
+    return name.lower() in nopes
+
+
+# -----------------------------------------------------------------------------
 def grant_access(name: str, age: int, has_id: bool) -> bool:
-    if not has_id:
-        return False
-
-    if name.lower() in nopes:
-        print(f"You've been banned {name}!")
-        return False
-
-    if age >= 18:
+    if not is_banned(name) and has_id_and_is_old_enough(age, has_id):
         print(f"Welcome {name}!")
         return True
 
