@@ -2,10 +2,10 @@ from pinger import connect
 
 
 # -----------------------------------------------------------------------------
-def execute():
+def main() -> None:
     connect()
 
 
 # ================================================================= ENTRY POINT
 if __name__ == "__main__":
-    execute()
+    main()
