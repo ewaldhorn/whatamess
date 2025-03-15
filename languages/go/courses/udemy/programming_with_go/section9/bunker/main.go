@@ -22,4 +22,14 @@ func emitStr(s tcell.Screen, x, y int, style tcell.Style, str string) {
 }
 
 // ----------------------------------------------------------------------------
+func displayHelloWorld(s tcell.Screen) {
+	w, h := s.Size()
+	s.Clear()
+	style := tcell.StyleDefault.Foreground(tcell.ColorCadetBlue).Background(tcell.ColorOrangeRed)
+	emitStr(s, w/2-7, h/2, style, "Hello, World!")
+	emitStr(s, w/2-9, h/2+1, tcell.StyleDefault, "Press ESC to exit.")
+	s.Show()
+}
+
+// ----------------------------------------------------------------------------
 func main() {}
