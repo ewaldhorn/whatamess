@@ -1,7 +1,9 @@
 package main
 
 import (
-	"github.com/gdamore/tcell"
+	"fmt"
+	"os"
+
 	"github.com/gdamore/tcell/v2"
 	"github.com/mattn/go-runewidth"
 )
@@ -32,4 +34,33 @@ func displayHelloWorld(s tcell.Screen) {
 }
 
 // ----------------------------------------------------------------------------
-func main() {}
+func main() {
+	s, e := tcell.NewScreen()
+	if e != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", e)
+		os.Exit(1)
+	}
+	if e := s.Init(); e != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", e)
+		os.Exit(1)
+	}
+
+	defStyle := tcell.StyleDefault.Background(tcell.ColorBlack).Foreground(tcell.ColorWhite)
+	s.SetStyle(defStyle)
+
+	displayHelloWorld(s)
+
+	for {
+		switch ev := s.PollEvent().(type) {
+		case *tcell.EventResize:
+			s.Sync()
+			displayHelloWorld(s)
+		case *tcell.EventKey:
+			if ev.Key() == tcell.KeyEscape {
+				s.Clear()
+				s.Show()
+				os.Exit(0)
+			}
+		}
+	}
+}
