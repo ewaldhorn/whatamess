@@ -57,8 +57,7 @@ func main() {
 			displayHelloWorld(s)
 		case *tcell.EventKey:
 			if ev.Key() == tcell.KeyEscape {
-				s.Clear()
-				s.Show()
+				s.Fini()
 				os.Exit(0)
 			}
 		}
