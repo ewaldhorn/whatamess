@@ -11,7 +11,7 @@ type Effect struct {
 
 // ----------------------------------------------------------------------------
 func (e *Effect) init() {
-	for _ = range e.particlesWanted {
+	for range e.particlesWanted {
 		e.particles = append(e.particles, *NewParticle(e, ParticleSize))
 	}
 }

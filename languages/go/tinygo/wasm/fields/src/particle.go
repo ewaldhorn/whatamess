@@ -31,8 +31,8 @@ func NewParticle(effect *Effect, size int) *Particle {
 
 	newParticle.x = rand.Intn(effect.width)
 	newParticle.y = rand.Intn(effect.height)
-	newParticle.speedX = 1
-	newParticle.speedY = 1
+	newParticle.speedX = notZero(rand.Intn(5)-3, 1)
+	newParticle.speedY = notZero(rand.Intn(5)-3, 1)
 	newParticle.col = colour.NewColourWhite()
 
 	return &newParticle
