@@ -9,13 +9,12 @@ import (
 
 var x, y = 0, 0
 var width, height int
-
+var effect *Effect
 var white = *colour.NewColourWhite()
 
 // ----------------------------------------------------------------------------
 func initEffects() {
-	effect := NewEffect(width, height)
-	effect.init()
+	effect = NewEffect(canvasOne.Width(), canvasOne.Height())
 }
 
 // ----------------------------------------------------------------------------
@@ -42,7 +41,7 @@ func renderTriangle() {
 // ----------------------------------------------------------------------------
 func updateCanvasOne() {
 	canvasOne.SetColour(*colour.NewRandomColour())
-
+	effect.render()
 	renderTriangle()
 	canvasOne.Render()
 }
