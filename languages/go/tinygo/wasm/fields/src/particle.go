@@ -4,6 +4,7 @@ import (
 	"math/rand"
 
 	"github.com/ewaldhorn/tinycanvas/colour"
+	"github.com/ewaldhorn/tinycanvas/tinycanvas"
 )
 
 // ----------------------------------------------------------------------------
@@ -12,17 +13,28 @@ type Particle struct {
 	speedX, speedY int
 	effect         *Effect
 	col            *colour.Colour
+	history        []tinycanvas.Point
 }
 
 // ----------------------------------------------------------------------------
 func (p *Particle) draw() {
 	canvasOne.ColourFilledRectangle(p.x, p.y, p.size, p.size, *p.col)
+
+	canvasOne.SetColour(white)
+	for i := 1; i < len(p.history); i++ {
+		canvasOne.Line(p.history[i-1].X, p.history[i-1].Y, p.history[i].X, p.history[i].Y)
+	}
 }
 
 // ----------------------------------------------------------------------------
 func (p *Particle) update() {
-	p.x += p.speedX
-	p.y += p.speedY
+	p.x += p.speedX + (rand.Intn(15) - 7)
+	p.y += p.speedY + (rand.Intn(15) - 7)
+	p.addPoint(p.x, p.y)
+}
+
+func (p *Particle) addPoint(x, y int) {
+	p.history = append(p.history, tinycanvas.Point{X: x, Y: y})
 }
 
 // ----------------------------------------------------------------------------
@@ -34,6 +46,8 @@ func NewParticle(effect *Effect, size int) *Particle {
 	newParticle.speedX = notZero(rand.Intn(5)-3, 1)
 	newParticle.speedY = notZero(rand.Intn(5)-3, 1)
 	newParticle.col = colour.NewColourWhite()
+	newParticle.history = []tinycanvas.Point{}
+	newParticle.addPoint(newParticle.x, newParticle.y)
 
 	return &newParticle
 }

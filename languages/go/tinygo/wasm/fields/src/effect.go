@@ -1,6 +1,6 @@
 package main
 
-const ParticleSize = 50
+const ParticleSize = 10
 
 // ----------------------------------------------------------------------------
 type Effect struct {
