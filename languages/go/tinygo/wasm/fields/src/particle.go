@@ -14,6 +14,7 @@ type Particle struct {
 	effect         *Effect
 	col            *colour.Colour
 	history        []tinycanvas.Point
+	maxLength      int
 }
 
 // ----------------------------------------------------------------------------
@@ -33,8 +34,13 @@ func (p *Particle) update() {
 	p.addPoint(p.x, p.y)
 }
 
+// ----------------------------------------------------------------------------
 func (p *Particle) addPoint(x, y int) {
 	p.history = append(p.history, tinycanvas.Point{X: x, Y: y})
+	if len(p.history) > p.maxLength {
+		// slice off the first entry
+		p.history = p.history[1:]
+	}
 }
 
 // ----------------------------------------------------------------------------
@@ -48,6 +54,7 @@ func NewParticle(effect *Effect, size int) *Particle {
 	newParticle.col = colour.NewColourWhite()
 	newParticle.history = []tinycanvas.Point{}
 	newParticle.addPoint(newParticle.x, newParticle.y)
+	newParticle.maxLength = 30
 
 	return &newParticle
 }
