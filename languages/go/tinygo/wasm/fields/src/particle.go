@@ -11,7 +11,7 @@ import (
 // ----------------------------------------------------------------------------
 type Particle struct {
 	x, y, size     int
-	speedX, speedY int
+	speedX, speedY float64
 	angle          float64
 	effect         *Effect
 	col            *colour.Colour
@@ -31,9 +31,17 @@ func (p *Particle) draw() {
 
 // ----------------------------------------------------------------------------
 func (p *Particle) update() {
-	p.angle += 0.5
-	p.x += int(float64(p.speedX) + math.Sin(float64(p.angle))*10)
-	p.y += int(float64(p.speedY) + math.Cos(float64(p.angle))*7)
+	x := p.x / p.effect.cellSize
+	y := p.y / p.effect.cellSize
+	idx := y*p.effect.cols + x
+	p.angle = p.effect.flowField[idx]
+
+	p.speedX = math.Cos(p.angle) * 2.0
+	p.speedY = math.Sin(p.angle) * 2.0
+
+	p.x += int(p.speedX)
+	p.y += int(p.speedX)
+
 	p.addPoint(p.x, p.y)
 }
 
@@ -53,8 +61,8 @@ func NewParticle(effect *Effect, size int) *Particle {
 	newParticle.x = rand.Intn(effect.width)
 	newParticle.y = rand.Intn(effect.height)
 	newParticle.angle = 0.0
-	newParticle.speedX = notZero(rand.Intn(5)-3, 1)
-	newParticle.speedY = notZero(rand.Intn(5)-3, 1)
+	newParticle.speedX = 0.0
+	newParticle.speedY = 0.0
 	newParticle.col = colour.NewColourWhite()
 	newParticle.history = []tinycanvas.Point{}
 	newParticle.addPoint(newParticle.x, newParticle.y)

@@ -1,5 +1,11 @@
 package main
 
+import (
+	"math"
+
+	"github.com/ewaldhorn/tinycanvas/colour"
+)
+
 const ParticleSize = 10
 
 // ----------------------------------------------------------------------------
@@ -8,18 +14,42 @@ type Effect struct {
 	particlesWanted int
 	cellSize        int
 	rows, cols      int
+	flowField       []float64
 	particles       []Particle
 }
 
 // ----------------------------------------------------------------------------
 func (e *Effect) init() {
+	// configure flow field angles
+	for row := range e.rows {
+		for col := range e.cols {
+			angle := 0.3 * (math.Cos(float64(col)) + math.Sin(float64(row)))
+			e.flowField = append(e.flowField, angle)
+		}
+	}
+
 	for range e.particlesWanted {
 		e.particles = append(e.particles, *NewParticle(e, ParticleSize))
 	}
 }
 
 // ----------------------------------------------------------------------------
+func (e *Effect) drawGrid() {
+	canvasOne.SetColour(*colour.NewColour(128, 0, 0, 255))
+
+	for col := range e.cols {
+		canvasOne.Line(e.cellSize*col, 0, e.cellSize*col, canvasOne.Height())
+	}
+
+	for row := range e.rows {
+		canvasOne.Line(0, e.cellSize*row, canvasOne.Width(), e.cellSize*row)
+	}
+}
+
+// ----------------------------------------------------------------------------
 func (e *Effect) render() {
+	e.drawGrid()
+
 	for idx, p := range e.particles {
 		p.draw()
 		p.update()
@@ -34,11 +64,12 @@ func NewEffect(width, height, cellSize int) *Effect {
 		height:          height,
 		particlesWanted: 50,
 		cellSize:        cellSize,
-		rows:            width / cellSize,
-		cols:            height / cellSize,
+		rows:            height / cellSize,
+		cols:            width / cellSize,
 		particles:       []Particle{},
 	}
 
+	newEffect.flowField = []float64{}
 	newEffect.init()
 
 	return &newEffect
