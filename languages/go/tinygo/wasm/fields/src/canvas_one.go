@@ -4,13 +4,13 @@ import (
 	"syscall/js"
 
 	"github.com/ewaldhorn/tinycanvas/colour"
-	"github.com/ewaldhorn/tinycanvas/tinycanvas"
 )
 
 var x, y = 0, 0
 var width, height int
 var effect *Effect
 var white = *colour.NewColourWhite()
+var black = *colour.NewColourBlack()
 
 // ----------------------------------------------------------------------------
 func initEffects() {
@@ -26,23 +26,11 @@ func performDemoOnCanvasOne() {
 }
 
 // ----------------------------------------------------------------------------
-func renderTriangle() {
-	canvasOne.SetColour(white)
-
-	for i := 0; i < 40; i += 2 {
-		canvasOne.Triangle(
-			tinycanvas.Point{X: (width / 2), Y: (height / 3) + i},
-			tinycanvas.Point{X: (width - (width / 3)) + i, Y: (height - (height / 3)) - i},
-			tinycanvas.Point{X: (width / 3) - i, Y: (height - (height / 3)) - i},
-		)
-	}
-}
-
-// ----------------------------------------------------------------------------
 func updateCanvasOne() {
-	canvasOne.SetColour(*colour.NewRandomColour())
+	canvasOne.ClearScreen(black)
+
 	effect.render()
-	renderTriangle()
+
 	canvasOne.Render()
 }
 
