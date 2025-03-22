@@ -18,8 +18,10 @@ func (e *Effect) init() {
 
 // ----------------------------------------------------------------------------
 func (e *Effect) render() {
-	for _, p := range e.particles {
+	for idx, p := range e.particles {
 		p.draw()
+		p.update()
+		e.particles[idx] = p
 	}
 }
 
