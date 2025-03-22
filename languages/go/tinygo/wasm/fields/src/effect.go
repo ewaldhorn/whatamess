@@ -6,6 +6,8 @@ const ParticleSize = 10
 type Effect struct {
 	width, height   int
 	particlesWanted int
+	cellSize        int
+	rows, cols      int
 	particles       []Particle
 }
 
@@ -26,11 +28,14 @@ func (e *Effect) render() {
 }
 
 // ----------------------------------------------------------------------------
-func NewEffect(width, height int) *Effect {
+func NewEffect(width, height, cellSize int) *Effect {
 	newEffect := Effect{
 		width:           width,
 		height:          height,
 		particlesWanted: 50,
+		cellSize:        cellSize,
+		rows:            width / cellSize,
+		cols:            height / cellSize,
 		particles:       []Particle{},
 	}
 

@@ -14,7 +14,7 @@ var black = *colour.NewColourBlack()
 
 // ----------------------------------------------------------------------------
 func initEffects() {
-	effect = NewEffect(canvasOne.Width(), canvasOne.Height())
+	effect = NewEffect(canvasOne.Width(), canvasOne.Height(), 20)
 }
 
 // ----------------------------------------------------------------------------

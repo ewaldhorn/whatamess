@@ -32,8 +32,8 @@ func (p *Particle) draw() {
 // ----------------------------------------------------------------------------
 func (p *Particle) update() {
 	p.angle += 0.5
-	p.x += int(float64(p.speedX) * math.Sin(float64(p.angle)) * 3)
-	p.y += int(float64(p.speedY) + math.Cos(float64(p.angle))*2)
+	p.x += int(float64(p.speedX) + math.Sin(float64(p.angle))*10)
+	p.y += int(float64(p.speedY) + math.Cos(float64(p.angle))*7)
 	p.addPoint(p.x, p.y)
 }
 
