@@ -1,6 +1,7 @@
 package main
 
 import (
+	"math"
 	"math/rand"
 
 	"github.com/ewaldhorn/tinycanvas/colour"
@@ -11,6 +12,7 @@ import (
 type Particle struct {
 	x, y, size     int
 	speedX, speedY int
+	angle          float64
 	effect         *Effect
 	col            *colour.Colour
 	history        []tinycanvas.Point
@@ -29,8 +31,9 @@ func (p *Particle) draw() {
 
 // ----------------------------------------------------------------------------
 func (p *Particle) update() {
-	p.x += p.speedX + (rand.Intn(15) - 7)
-	p.y += p.speedY + (rand.Intn(15) - 7)
+	p.angle += 0.5
+	p.x += int(float64(p.speedX) * math.Sin(float64(p.angle)) * 3)
+	p.y += int(float64(p.speedY) + math.Cos(float64(p.angle))*2)
 	p.addPoint(p.x, p.y)
 }
 
@@ -38,7 +41,7 @@ func (p *Particle) update() {
 func (p *Particle) addPoint(x, y int) {
 	p.history = append(p.history, tinycanvas.Point{X: x, Y: y})
 	if len(p.history) > p.maxLength {
-		// slice off the first entry
+		// slice off the first entry, have a max length to observe
 		p.history = p.history[1:]
 	}
 }
@@ -49,12 +52,13 @@ func NewParticle(effect *Effect, size int) *Particle {
 
 	newParticle.x = rand.Intn(effect.width)
 	newParticle.y = rand.Intn(effect.height)
+	newParticle.angle = 0.0
 	newParticle.speedX = notZero(rand.Intn(5)-3, 1)
 	newParticle.speedY = notZero(rand.Intn(5)-3, 1)
 	newParticle.col = colour.NewColourWhite()
 	newParticle.history = []tinycanvas.Point{}
 	newParticle.addPoint(newParticle.x, newParticle.y)
-	newParticle.maxLength = 30
+	newParticle.maxLength = 40 + rand.Intn(60)
 
 	return &newParticle
 }
