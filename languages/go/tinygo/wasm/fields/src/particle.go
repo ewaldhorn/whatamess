@@ -8,19 +8,19 @@ import (
 
 // ----------------------------------------------------------------------------
 type Particle struct {
-	x, y   int
-	effect *Effect
-	col    *colour.Colour
+	x, y, size int
+	effect     *Effect
+	col        *colour.Colour
 }
 
 // ----------------------------------------------------------------------------
 func (p *Particle) draw() {
-	canvasOne.ColourFilledRectangle(p.x, p.y, 10, 10, *p.col)
+	canvasOne.ColourFilledRectangle(p.x, p.y, p.size, p.size, *p.col)
 }
 
 // ----------------------------------------------------------------------------
-func NewParticle(effect *Effect) *Particle {
-	newParticle := Particle{effect: effect}
+func NewParticle(effect *Effect, size int) *Particle {
+	newParticle := Particle{effect: effect, size: size}
 
 	newParticle.x = rand.Intn(effect.width)
 	newParticle.y = rand.Intn(effect.height)

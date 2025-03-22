@@ -1,5 +1,7 @@
 package main
 
+const ParticleSize = 50
+
 // ----------------------------------------------------------------------------
 type Effect struct {
 	width, height   int
@@ -10,7 +12,7 @@ type Effect struct {
 // ----------------------------------------------------------------------------
 func (e *Effect) init() {
 	for _ = range e.particlesWanted {
-		e.particles = append(e.particles, *NewParticle(e))
+		e.particles = append(e.particles, *NewParticle(e, ParticleSize))
 	}
 }
 
