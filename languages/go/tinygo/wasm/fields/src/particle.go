@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"math"
 	"math/rand"
 
+	"github.com/ewaldhorn/dommie/dom"
 	"github.com/ewaldhorn/tinycanvas/colour"
 )
 
@@ -31,13 +33,28 @@ func (p *Particle) draw() {
 
 // ----------------------------------------------------------------------------
 func (p *Particle) update() {
-	x := int(p.x) / p.effect.cellSize
-	y := int(p.y) / p.effect.cellSize
-	idx := y*p.effect.rows + x
+	x := int(p.x / float64(p.effect.cellSize))
+	y := int(p.y / float64(p.effect.cellSize))
+
+	if x >= p.effect.cols {
+		x = p.effect.cols - 1
+	}
+
+	if y >= p.effect.rows {
+		y = p.effect.rows - 1
+	}
+
+	idx := y*p.effect.cols + x
+
+	if idx > p.effect.rows*p.effect.cols {
+		dom.Log(fmt.Sprintf("Asked for %d, can only go to %d (%d,%d) (%d)", idx, p.effect.rows*p.effect.cols, x, y, len(p.effect.flowField)))
+		idx = 1
+	}
+
 	p.angle = p.effect.flowField[idx]
 
-	p.speedX = math.Cos(p.angle) * 2.0
-	p.speedY = math.Sin(p.angle) * 2.0
+	p.speedX = math.Cos(p.angle) * 1.0
+	p.speedY = math.Sin(p.angle) * 1.0
 
 	p.x += p.speedX
 	p.y += p.speedX

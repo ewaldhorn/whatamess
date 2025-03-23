@@ -23,7 +23,7 @@ func (e *Effect) init() {
 	// configure flow field angles
 	for row := range e.rows {
 		for col := range e.cols {
-			angle := 0.3 * (math.Cos(float64(col)) + math.Sin(float64(row)))
+			angle := (math.Cos(float64(col)) + math.Sin(float64(row)))
 			e.flowField = append(e.flowField, angle)
 		}
 	}
