@@ -10,11 +10,12 @@ import (
 )
 
 var colours = []colour.Colour{
-	*colour.NewColour(32, 32, 128, 128),
+	*colour.NewColour(32, 32, 128, 255),
 	*colour.NewColour(32, 32, 150, 255),
 	*colour.NewColour(128, 128, 255, 128),
 	*colour.NewColour(90, 90, 215, 255),
 	*colour.NewColour(90, 90, 215, 128),
+	*colour.NewColour(155, 155, 245, 255),
 	*colour.NewColour(64, 64, 128, 128),
 	*colour.NewColour(64, 64, 175, 255),
 }

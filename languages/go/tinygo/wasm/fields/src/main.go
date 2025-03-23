@@ -50,6 +50,8 @@ func setupKeyListeners() {
 		switch keyPressed {
 		case "KeyD":
 			effect.toggleDebugging()
+		case "KeyR":
+			effect.randomise()
 		}
 
 		return nil

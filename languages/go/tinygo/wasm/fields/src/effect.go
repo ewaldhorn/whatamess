@@ -30,10 +30,6 @@ func (e *Effect) init() {
 			e.flowField = append(e.flowField, angle)
 		}
 	}
-
-	for range e.particlesWanted {
-		e.particles = append(e.particles, *NewParticle(e, ParticleSize))
-	}
 }
 
 // ----------------------------------------------------------------------------
@@ -68,10 +64,7 @@ func (e *Effect) render() {
 }
 
 // ----------------------------------------------------------------------------
-func (e *Effect) randomise() {
-	e.curve = 4.5 + rand.Float64()*20
-	e.zoom = 0.4 + rand.Float64()*3
-
+func (e *Effect) createParticles() {
 	e.particles = []Particle{}
 
 	for range e.particlesWanted {
@@ -80,20 +73,26 @@ func (e *Effect) randomise() {
 }
 
 // ----------------------------------------------------------------------------
+func (e *Effect) randomise() {
+	e.curve = 5.5 + rand.Float64()*20
+	e.zoom = 0.2 + rand.Float64()*4
+	e.createParticles()
+}
+
+// ----------------------------------------------------------------------------
 func NewEffect(width, height, cellSize int) *Effect {
 	newEffect := Effect{
 		width:           width,
 		height:          height,
-		particlesWanted: 500,
+		particlesWanted: 1000,
 		cellSize:        cellSize,
-		curve:           4.5 + rand.Float64()*20,
-		zoom:            0.4 + rand.Float64()*3,
 		rows:            height / cellSize,
 		cols:            width / cellSize,
 		particles:       []Particle{},
 	}
 
 	newEffect.flowField = []float64{}
+	newEffect.randomise()
 	newEffect.init()
 
 	return &newEffect
