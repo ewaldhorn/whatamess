@@ -66,7 +66,7 @@ func NewEffect(width, height, cellSize int) *Effect {
 		particlesWanted: 100,
 		cellSize:        cellSize,
 		curve:           2.5,
-		zoom:            0.12,
+		zoom:            0.20,
 		rows:            height / cellSize,
 		cols:            width / cellSize,
 		particles:       []Particle{},

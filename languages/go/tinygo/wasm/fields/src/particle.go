@@ -50,17 +50,17 @@ func (p *Particle) update() {
 			y = 0
 		}
 
-		if x > p.effect.cols-1 {
+		if x >= p.effect.cols-1 {
 			x = p.effect.cols - 1
 		}
 
-		if y > p.effect.rows-1 {
+		if y >= p.effect.rows-1 {
 			y = p.effect.rows - 1
 		}
 
 		idx := y*p.effect.cols + x
 
-		if idx >= p.effect.rows*p.effect.cols-1 {
+		if idx > p.effect.rows*p.effect.cols-1 {
 			dom.Log(fmt.Sprintf("Asked for %d, can only go to %d (%d,%d) (%d)", idx, p.effect.rows*p.effect.cols, x, y, len(p.effect.flowField)-1))
 			idx = 1
 		}
