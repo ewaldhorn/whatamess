@@ -77,8 +77,8 @@ func (p *Particle) update() {
 
 		p.angle = p.effect.flowField[idx]
 
-		p.speedX = math.Cos(p.angle) + 0.75
-		p.speedY = math.Sin(p.angle) - 0.75
+		p.speedX = math.Cos(p.angle)
+		p.speedY = math.Sin(p.angle)
 
 		p.x += p.speedX * p.speedMod
 		p.y += p.speedY * p.speedMod
@@ -104,8 +104,11 @@ func (p *Particle) addPoint(x, y float64) {
 
 // ----------------------------------------------------------------------------
 func (p *Particle) reset() {
-	p.x = rand.Float64() * float64(effect.width-2)
-	p.y = rand.Float64() * float64(effect.height-2)
+	p.x = 20 + rand.Float64()*float64(effect.width-25)
+	p.y = 20 + rand.Float64()*float64(effect.height-25)
+	p.angle = 0.0
+	p.speedX = 1.0
+	p.speedY = 1.0
 	p.history = []Point{{x: p.x, y: p.y}}
 	p.timer = p.maxLength * 2
 }
@@ -114,8 +117,8 @@ func (p *Particle) reset() {
 func NewParticle(effect *Effect, size int) *Particle {
 	newParticle := Particle{effect: effect, size: size}
 
-	newParticle.x = rand.Float64() * float64(effect.width-2)
-	newParticle.y = rand.Float64() * float64(effect.height-2)
+	newParticle.x = 20 + rand.Float64()*float64(effect.width-25)
+	newParticle.y = 20 + rand.Float64()*float64(effect.height-25)
 	newParticle.angle = 0.0
 	newParticle.speedMod = (rand.Float64() * 5) + 1.25
 	newParticle.speedX = 1.0

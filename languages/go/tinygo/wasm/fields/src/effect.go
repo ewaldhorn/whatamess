@@ -2,6 +2,7 @@ package main
 
 import (
 	"math"
+	"math/rand"
 
 	"github.com/ewaldhorn/tinycanvas/colour"
 )
@@ -67,14 +68,26 @@ func (e *Effect) render() {
 }
 
 // ----------------------------------------------------------------------------
+func (e *Effect) randomise() {
+	e.curve = 4.5 + rand.Float64()*20
+	e.zoom = 0.4 + rand.Float64()*3
+
+	e.particles = []Particle{}
+
+	for range e.particlesWanted {
+		e.particles = append(e.particles, *NewParticle(e, ParticleSize))
+	}
+}
+
+// ----------------------------------------------------------------------------
 func NewEffect(width, height, cellSize int) *Effect {
 	newEffect := Effect{
 		width:           width,
 		height:          height,
-		particlesWanted: 200,
+		particlesWanted: 500,
 		cellSize:        cellSize,
-		curve:           9.91,
-		zoom:            0.15,
+		curve:           4.5 + rand.Float64()*20,
+		zoom:            0.4 + rand.Float64()*3,
 		rows:            height / cellSize,
 		cols:            width / cellSize,
 		particles:       []Particle{},

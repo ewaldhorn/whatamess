@@ -60,7 +60,7 @@ func setupKeyListeners() {
 func setRefreshCallback() {
 	dom.AddEventListener("refreshButton", "click", func() {
 		if canvasOne != nil {
-			performDemoOnCanvasOne()
+			effect.randomise()
 		}
 	})
 }
