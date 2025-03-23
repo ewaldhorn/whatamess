@@ -33,14 +33,16 @@ func (p *Particle) draw() {
 
 // ----------------------------------------------------------------------------
 func (p *Particle) update() {
-	x := int(p.x / float64(p.effect.cellSize))
-	y := int(p.y / float64(p.effect.cellSize))
+	x := int(math.Floor(p.x / float64(p.effect.cellSize)))
+	y := int(math.Floor(p.y / float64(p.effect.cellSize)))
 
 	if x >= p.effect.cols {
+		dom.Log(fmt.Sprintf("Had x at %d, max is %d", x, p.effect.cols))
 		x = p.effect.cols - 1
 	}
 
 	if y >= p.effect.rows {
+		dom.Log(fmt.Sprintf("Had y at %d, max is %d", y, p.effect.rows))
 		y = p.effect.rows - 1
 	}
 
