@@ -71,7 +71,7 @@ func NewEffect(width, height, cellSize int) *Effect {
 	newEffect := Effect{
 		width:           width,
 		height:          height,
-		particlesWanted: 500,
+		particlesWanted: 200,
 		cellSize:        cellSize,
 		curve:           9.91,
 		zoom:            0.15,
