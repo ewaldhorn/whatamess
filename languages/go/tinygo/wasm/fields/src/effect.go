@@ -14,7 +14,7 @@ type Effect struct {
 	particlesWanted int
 	cellSize        int
 	rows, cols      int
-	curve           float64
+	curve, zoom     float64
 	flowField       []float64
 	particles       []Particle
 }
@@ -24,7 +24,7 @@ func (e *Effect) init() {
 	// configure flow field angles
 	for row := range e.rows {
 		for col := range e.cols {
-			angle := (math.Cos(float64(col)) + math.Sin(float64(row))) * e.curve
+			angle := (math.Cos(float64(col)*e.zoom) + math.Sin(float64(row)*e.zoom)) * e.curve
 			e.flowField = append(e.flowField, angle)
 		}
 	}
@@ -63,9 +63,10 @@ func NewEffect(width, height, cellSize int) *Effect {
 	newEffect := Effect{
 		width:           width,
 		height:          height,
-		particlesWanted: 50,
+		particlesWanted: 100,
 		cellSize:        cellSize,
 		curve:           0.5,
+		zoom:            0.2,
 		rows:            height / cellSize,
 		cols:            width / cellSize,
 		particles:       []Particle{},
