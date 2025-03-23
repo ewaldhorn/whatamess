@@ -14,6 +14,7 @@ type Effect struct {
 	particlesWanted int
 	cellSize        int
 	rows, cols      int
+	isDebugging     bool
 	curve, zoom     float64
 	flowField       []float64
 	particles       []Particle
@@ -35,8 +36,13 @@ func (e *Effect) init() {
 }
 
 // ----------------------------------------------------------------------------
+func (e *Effect) toggleDebugging() {
+	e.isDebugging = !e.isDebugging
+}
+
+// ----------------------------------------------------------------------------
 func (e *Effect) drawGrid() {
-	canvasOne.SetColour(*colour.NewColour(32, 32, 32, 255))
+	canvasOne.SetColour(*colour.NewColour(64, 64, 64, 255))
 
 	for col := range e.cols {
 		canvasOne.Line(e.cellSize*col, 0, e.cellSize*col, canvasOne.Height())
@@ -49,7 +55,9 @@ func (e *Effect) drawGrid() {
 
 // ----------------------------------------------------------------------------
 func (e *Effect) render() {
-	e.drawGrid()
+	if e.isDebugging {
+		e.drawGrid()
+	}
 
 	for idx, p := range e.particles {
 		p.draw()

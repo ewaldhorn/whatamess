@@ -1,6 +1,8 @@
 package main
 
 import (
+	"syscall/js"
+
 	"github.com/ewaldhorn/dommie/dom"
 	"github.com/ewaldhorn/tinycanvas/tinycanvas"
 )
@@ -19,6 +21,7 @@ var canvasOne *tinycanvas.TinyCanvas
 // ----------------------------------------------------------------------------
 func main() {
 	setCallbacks()
+	setupKeyListeners()
 	dom.Hide("loading")
 	dom.Show("controls")
 	dom.Show("information")
@@ -37,6 +40,20 @@ func main() {
 func setCallbacks() {
 	setVersionCallback()
 	setRefreshCallback()
+}
+
+// ----------------------------------------------------------------------------
+func setupKeyListeners() {
+	js.Global().Set("onkeydown", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		keyPressed := args[0].Get("code").String()
+
+		switch keyPressed {
+		case "KeyD":
+			effect.toggleDebugging()
+		}
+
+		return nil
+	}))
 }
 
 // ----------------------------------------------------------------------------
