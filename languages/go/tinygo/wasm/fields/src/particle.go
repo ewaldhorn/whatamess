@@ -67,8 +67,8 @@ func (p *Particle) update() {
 
 		p.angle = p.effect.flowField[idx]
 
-		p.speedX = math.Cos(p.angle) * 1.0
-		p.speedY = math.Sin(p.angle) * 1.0
+		p.speedX = math.Cos(p.angle)
+		p.speedY = math.Sin(p.angle)
 
 		p.x += p.speedX * p.speedMod
 		p.y += p.speedY * p.speedMod

@@ -36,7 +36,7 @@ func (e *Effect) init() {
 
 // ----------------------------------------------------------------------------
 func (e *Effect) drawGrid() {
-	canvasOne.SetColour(*colour.NewColour(128, 0, 0, 255))
+	canvasOne.SetColour(*colour.NewColour(32, 32, 32, 255))
 
 	for col := range e.cols {
 		canvasOne.Line(e.cellSize*col, 0, e.cellSize*col, canvasOne.Height())
@@ -63,10 +63,10 @@ func NewEffect(width, height, cellSize int) *Effect {
 	newEffect := Effect{
 		width:           width,
 		height:          height,
-		particlesWanted: 100,
+		particlesWanted: 500,
 		cellSize:        cellSize,
-		curve:           2.5,
-		zoom:            0.20,
+		curve:           8.5,
+		zoom:            0.25,
 		rows:            height / cellSize,
 		cols:            width / cellSize,
 		particles:       []Particle{},
