@@ -9,6 +9,16 @@ import (
 	"github.com/ewaldhorn/tinycanvas/colour"
 )
 
+var colours = []colour.Colour{
+	*colour.NewColour(32, 32, 128, 128),
+	*colour.NewColour(32, 32, 150, 255),
+	*colour.NewColour(128, 128, 255, 128),
+	*colour.NewColour(90, 90, 215, 255),
+	*colour.NewColour(90, 90, 215, 128),
+	*colour.NewColour(64, 64, 128, 128),
+	*colour.NewColour(64, 64, 175, 255),
+}
+
 // ----------------------------------------------------------------------------
 type Particle struct {
 	x, y           float64
@@ -17,7 +27,7 @@ type Particle struct {
 	speedMod       float64
 	angle          float64
 	effect         *Effect
-	col            *colour.Colour
+	colour         *colour.Colour
 	history        []Point
 	maxLength      int
 	timer          int
@@ -28,7 +38,7 @@ func (p *Particle) draw() {
 	// useful for debugging
 	// canvasOne.ColourFilledRectangle(int(p.x), int(p.y), p.size, p.size, *p.col)
 
-	canvasOne.SetColour(white)
+	canvasOne.SetColour(*p.colour)
 	for i := 1; i < len(p.history); i++ {
 		canvasOne.Line(int(p.history[i-1].x), int(p.history[i-1].y), int(p.history[i].x), int(p.history[i].y))
 	}
@@ -67,8 +77,8 @@ func (p *Particle) update() {
 
 		p.angle = p.effect.flowField[idx]
 
-		p.speedX = math.Cos(p.angle)
-		p.speedY = math.Sin(p.angle)
+		p.speedX = math.Cos(p.angle) + 0.75
+		p.speedY = math.Sin(p.angle) - 0.75
 
 		p.x += p.speedX * p.speedMod
 		p.y += p.speedY * p.speedMod
@@ -107,10 +117,10 @@ func NewParticle(effect *Effect, size int) *Particle {
 	newParticle.x = rand.Float64() * float64(effect.width-2)
 	newParticle.y = rand.Float64() * float64(effect.height-2)
 	newParticle.angle = 0.0
-	newParticle.speedMod = (rand.Float64() * 3) + 1
-	newParticle.speedX = 0.0
-	newParticle.speedY = 0.0
-	newParticle.col = colour.NewColourWhite()
+	newParticle.speedMod = (rand.Float64() * 5) + 1.25
+	newParticle.speedX = 1.0
+	newParticle.speedY = 1.0
+	newParticle.colour = &colours[rand.Intn(len(colours)-1)]
 	newParticle.history = []Point{}
 	newParticle.addPoint(newParticle.x, newParticle.y)
 	newParticle.maxLength = 40 + rand.Intn(80)
