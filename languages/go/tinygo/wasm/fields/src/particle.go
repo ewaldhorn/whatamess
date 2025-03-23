@@ -5,49 +5,49 @@ import (
 	"math/rand"
 
 	"github.com/ewaldhorn/tinycanvas/colour"
-	"github.com/ewaldhorn/tinycanvas/tinycanvas"
 )
 
 // ----------------------------------------------------------------------------
 type Particle struct {
-	x, y, size     int
+	x, y           float64
+	size           int
 	speedX, speedY float64
 	angle          float64
 	effect         *Effect
 	col            *colour.Colour
-	history        []tinycanvas.Point
+	history        []Point
 	maxLength      int
 }
 
 // ----------------------------------------------------------------------------
 func (p *Particle) draw() {
-	canvasOne.ColourFilledRectangle(p.x, p.y, p.size, p.size, *p.col)
+	canvasOne.ColourFilledRectangle(int(p.x), int(p.y), p.size, p.size, *p.col)
 
 	canvasOne.SetColour(white)
 	for i := 1; i < len(p.history); i++ {
-		canvasOne.Line(p.history[i-1].X, p.history[i-1].Y, p.history[i].X, p.history[i].Y)
+		canvasOne.Line(int(p.history[i-1].x), int(p.history[i-1].y), int(p.history[i].x), int(p.history[i].y))
 	}
 }
 
 // ----------------------------------------------------------------------------
 func (p *Particle) update() {
-	x := p.x / p.effect.cellSize
-	y := p.y / p.effect.cellSize
-	idx := y*p.effect.cols + x
+	x := int(p.x) / p.effect.cellSize
+	y := int(p.y) / p.effect.cellSize
+	idx := y*p.effect.rows + x
 	p.angle = p.effect.flowField[idx]
 
 	p.speedX = math.Cos(p.angle) * 2.0
 	p.speedY = math.Sin(p.angle) * 2.0
 
-	p.x += int(p.speedX)
-	p.y += int(p.speedX)
+	p.x += p.speedX
+	p.y += p.speedX
 
 	p.addPoint(p.x, p.y)
 }
 
 // ----------------------------------------------------------------------------
-func (p *Particle) addPoint(x, y int) {
-	p.history = append(p.history, tinycanvas.Point{X: x, Y: y})
+func (p *Particle) addPoint(x, y float64) {
+	p.history = append(p.history, Point{x: x, y: y})
 	if len(p.history) > p.maxLength {
 		// slice off the first entry, have a max length to observe
 		p.history = p.history[1:]
@@ -58,13 +58,13 @@ func (p *Particle) addPoint(x, y int) {
 func NewParticle(effect *Effect, size int) *Particle {
 	newParticle := Particle{effect: effect, size: size}
 
-	newParticle.x = rand.Intn(effect.width)
-	newParticle.y = rand.Intn(effect.height)
+	newParticle.x = rand.Float64() * float64(effect.width)
+	newParticle.y = rand.Float64() * float64(effect.height)
 	newParticle.angle = 0.0
 	newParticle.speedX = 0.0
 	newParticle.speedY = 0.0
 	newParticle.col = colour.NewColourWhite()
-	newParticle.history = []tinycanvas.Point{}
+	newParticle.history = []Point{}
 	newParticle.addPoint(newParticle.x, newParticle.y)
 	newParticle.maxLength = 40 + rand.Intn(60)
 
