@@ -15,6 +15,7 @@ type Effect struct {
 	particlesWanted int
 	cellSize        int
 	rows, cols      int
+	colourRange     int
 	isDebugging     bool
 	curve, zoom     float64
 	flowField       []float64
@@ -74,8 +75,11 @@ func (e *Effect) createParticles() {
 
 // ----------------------------------------------------------------------------
 func (e *Effect) randomise() {
-	e.curve = 5.5 + rand.Float64()*20
-	e.zoom = 0.2 + rand.Float64()*4
+	e.flowField = []float64{}
+	e.curve = 2.5 + rand.Float64()*20
+	e.zoom = 0.2 + rand.Float64()*5
+	e.init()
+	e.colourRange = rand.Intn(10)
 	e.createParticles()
 }
 
@@ -85,6 +89,7 @@ func NewEffect(width, height, cellSize int) *Effect {
 		width:           width,
 		height:          height,
 		particlesWanted: 1000,
+		colourRange:     rand.Intn(2),
 		cellSize:        cellSize,
 		rows:            height / cellSize,
 		cols:            width / cellSize,

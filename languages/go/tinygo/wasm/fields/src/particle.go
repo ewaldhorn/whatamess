@@ -9,19 +9,6 @@ import (
 	"github.com/ewaldhorn/tinycanvas/colour"
 )
 
-var colours = []colour.Colour{
-	*colour.NewColour(32, 32, 128, 255),
-	*colour.NewColour(32, 32, 150, 255),
-	*colour.NewColour(32, 32, 200, 255),
-	*colour.NewColour(80, 110, 240, 255),
-	*colour.NewColour(128, 128, 255, 128),
-	*colour.NewColour(90, 90, 215, 255),
-	*colour.NewColour(90, 90, 215, 128),
-	*colour.NewColour(155, 155, 245, 255),
-	*colour.NewColour(64, 64, 128, 128),
-	*colour.NewColour(64, 64, 175, 255),
-}
-
 // ----------------------------------------------------------------------------
 type Particle struct {
 	x, y           float64
@@ -32,6 +19,7 @@ type Particle struct {
 	effect         *Effect
 	colour         *colour.Colour
 	history        []Point
+	colourRange    int
 	maxLength      int
 	timer          int
 }
@@ -106,31 +94,29 @@ func (p *Particle) addPoint(x, y float64) {
 }
 
 // ----------------------------------------------------------------------------
-func (p *Particle) reset() {
+func initParticle(p *Particle, effect *Effect) {
 	p.x = 20 + rand.Float64()*float64(effect.width-25)
 	p.y = 20 + rand.Float64()*float64(effect.height-25)
 	p.angle = 0.0
 	p.speedX = 1.0
 	p.speedY = 1.0
-	p.history = []Point{{x: p.x, y: p.y}}
+	p.speedMod = (rand.Float64() * 5) + 0.25
+	p.maxLength = 30 + rand.Intn(100)
 	p.timer = p.maxLength * 2
+	p.colour = &colours[effect.colourRange][rand.Intn(colour_count)]
+	p.history = []Point{{x: p.x, y: p.y}}
+}
+
+// ----------------------------------------------------------------------------
+func (p *Particle) reset() {
+	initParticle(p, p.effect)
 }
 
 // ----------------------------------------------------------------------------
 func NewParticle(effect *Effect, size int) *Particle {
 	newParticle := Particle{effect: effect, size: size}
-
-	newParticle.x = 20 + rand.Float64()*float64(effect.width-25)
-	newParticle.y = 20 + rand.Float64()*float64(effect.height-25)
-	newParticle.angle = 0.0
-	newParticle.speedMod = (rand.Float64() * 5) + 1.25
-	newParticle.speedX = 1.0
-	newParticle.speedY = 1.0
-	newParticle.colour = &colours[rand.Intn(len(colours)-1)]
-	newParticle.history = []Point{}
-	newParticle.addPoint(newParticle.x, newParticle.y)
-	newParticle.maxLength = 40 + rand.Intn(80)
-	newParticle.timer = newParticle.maxLength * 2
+	newParticle.colourRange = effect.colourRange
+	initParticle(&newParticle, effect)
 
 	return &newParticle
 }

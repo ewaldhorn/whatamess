@@ -20,6 +20,7 @@ var canvasOne *tinycanvas.TinyCanvas
 
 // ----------------------------------------------------------------------------
 func main() {
+	InitColours()
 	setCallbacks()
 	setupKeyListeners()
 	dom.Hide("loading")
