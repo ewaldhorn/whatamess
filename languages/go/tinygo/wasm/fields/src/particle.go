@@ -104,7 +104,8 @@ func initParticle(p *Particle, effect *Effect) {
 	p.maxLength = 30 + rand.Intn(100)
 	p.timer = p.maxLength * 2
 	p.colour = &colours[effect.colourRange][rand.Intn(colour_count)]
-	p.history = []Point{{x: p.x, y: p.y}}
+	p.history = p.history[:0]
+	p.history = append(p.history, Point{x: p.x, y: p.y})
 }
 
 // ----------------------------------------------------------------------------
@@ -117,6 +118,7 @@ func NewParticle(effect *Effect, size int) *Particle {
 	newParticle := Particle{effect: effect, size: size}
 	newParticle.colourRange = effect.colourRange
 	initParticle(&newParticle, effect)
+	newParticle.history = []Point{{x: newParticle.x, y: newParticle.y}}
 
 	return &newParticle
 }
