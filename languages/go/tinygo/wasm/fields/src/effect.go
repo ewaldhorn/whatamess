@@ -66,7 +66,8 @@ func (e *Effect) render() {
 
 // ----------------------------------------------------------------------------
 func (e *Effect) createParticles() {
-	e.particles = e.particles[:0]
+	e.particles = nil
+	e.particles = []Particle{}
 
 	for range e.particlesWanted {
 		e.particles = append(e.particles, *NewParticle(e, ParticleSize))
@@ -75,7 +76,8 @@ func (e *Effect) createParticles() {
 
 // ----------------------------------------------------------------------------
 func (e *Effect) randomise() {
-	e.flowField = e.flowField[:0]
+	e.flowField = nil
+	e.flowField = []float64{}
 	e.curve = 2.5 + rand.Float64()*20
 	e.zoom = 0.2 + rand.Float64()*5
 	e.init()
