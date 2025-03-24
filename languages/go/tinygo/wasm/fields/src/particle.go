@@ -104,13 +104,13 @@ func initParticle(p *Particle, effect *Effect) {
 	p.maxLength = 30 + rand.Intn(100)
 	p.timer = p.maxLength * 2
 	p.colour = &colours[effect.colourRange][rand.Intn(colour_count)]
-	p.history = p.history[:0]
-	p.history = append(p.history, Point{x: p.x, y: p.y})
 }
 
 // ----------------------------------------------------------------------------
 func (p *Particle) reset() {
 	initParticle(p, p.effect)
+	p.history = nil
+	p.history = []Point{{x: p.x, y: p.y}}
 }
 
 // ----------------------------------------------------------------------------
