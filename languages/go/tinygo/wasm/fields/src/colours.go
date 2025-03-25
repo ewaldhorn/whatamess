@@ -35,15 +35,15 @@ func InitColours() {
 func getBaseColour(index int) (uint8, uint8, uint8) {
 	switch {
 	case index < 2:
-		return uint8(128 + rand.Intn(32)), uint8(32 + rand.Intn(32)), 0
+		return uint8(64 + rand.Intn(200)), uint8(32 + rand.Intn(150)), 0
 	case index < 4:
-		return uint8(32 + rand.Intn(32)), uint8(64 + rand.Intn(32)), 0
+		return uint8(32 + rand.Intn(64)), uint8(64 + rand.Intn(150)), 0
 	case index < 6:
-		return 0, uint8(32 + rand.Intn(32)), uint8(32 + rand.Intn(32))
+		return 0, uint8(64 + rand.Intn(128)), uint8(120 + rand.Intn(128))
 	case index < 8:
-		return uint8(150 + rand.Intn(50)), uint8(75 + rand.Intn(25)), 0
+		return uint8(50 + rand.Intn(200)), uint8(100 + rand.Intn(145)), 0
 	default:
-		return uint8(32 + rand.Intn(32)), 0, uint8(32 + rand.Intn(32))
+		return uint8(32 + rand.Intn(200)), 0, uint8(32 + rand.Intn(200))
 	}
 }
 
@@ -55,11 +55,11 @@ func generateColours(r, g, b uint8) [colour_count]colour.Colour {
 		a := uint8(150 + rand.Intn(100))
 		switch {
 		case r == 0:
-			r = uint8(100 + rand.Intn(150))
+			r = uint8(50 + rand.Intn(200))
 		case g == 0:
-			g = uint8(100 + rand.Intn(150))
+			g = uint8(50 + rand.Intn(200))
 		case b == 0:
-			b = uint8(100 + rand.Intn(150))
+			b = uint8(50 + rand.Intn(200))
 		}
 		colours[i] = *colour.NewColour(r, g, b, a)
 	}

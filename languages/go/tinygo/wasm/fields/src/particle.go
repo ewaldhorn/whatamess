@@ -9,7 +9,8 @@ import (
 	"github.com/ewaldhorn/tinycanvas/colour"
 )
 
-const MAX_HISTORY = 150
+const MAX_HISTORY = 200
+const MINIMUM_HISTORY = 50
 
 // ----------------------------------------------------------------------------
 type Particle struct {
@@ -110,8 +111,8 @@ func initParticle(p *Particle, effect *Effect) {
 	p.angle = 0.0
 	p.speedX = 1.0
 	p.speedY = 1.0
-	p.speedMod = (rand.Float64() * 5) + 0.25
-	p.maxLength = 30 + rand.Intn(100)
+	p.speedMod = (rand.Float64() * 7) + 0.15
+	p.maxLength = MINIMUM_HISTORY + rand.Intn(MAX_HISTORY-MINIMUM_HISTORY-5)
 	p.timer = p.maxLength * 2
 	p.colour = &colours[effect.colourRange][rand.Intn(colour_count)]
 }

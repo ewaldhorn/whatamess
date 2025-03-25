@@ -7,7 +7,7 @@ import (
 	"github.com/ewaldhorn/tinycanvas/colour"
 )
 
-const ParticleSize = 10
+const ParticleSize = 5
 const ParticleCount = 750
 
 // ----------------------------------------------------------------------------
@@ -71,8 +71,8 @@ func (e *Effect) createParticles() {
 
 // ----------------------------------------------------------------------------
 func (e *Effect) randomise() {
-	e.curve = 1.5 + rand.Float64()*24
-	e.zoom = 0.2 + rand.Float64()*6
+	e.curve = 0.5 + rand.Float64()*24
+	e.zoom = 0.05 + rand.Float64()*6
 	e.init()
 	e.colourRange = rand.Intn(10)
 	e.createParticles()
