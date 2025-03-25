@@ -125,6 +125,11 @@ func (p *Particle) reset() {
 }
 
 // ----------------------------------------------------------------------------
+func (p *Particle) colourChange() {
+	p.colour = &colours[p.effect.colourRange][rand.Intn(colour_count)]
+}
+
+// ----------------------------------------------------------------------------
 func NewParticle(effect *Effect, size int) *Particle {
 	newParticle := Particle{effect: effect, size: size}
 	newParticle.colourRange = effect.colourRange

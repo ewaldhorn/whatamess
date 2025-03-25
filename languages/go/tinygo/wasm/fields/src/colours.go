@@ -29,6 +29,11 @@ func InitColours() {
 	colours[9][7] = *colour.NewColour(155, 155, 245, 255)
 	colours[9][8] = *colour.NewColour(64, 64, 128, 128)
 	colours[9][9] = *colour.NewColour(64, 64, 175, 255)
+
+	// madness colour palette
+	for idx := range 10 {
+		colours[0][idx] = *colour.NewColour(uint8(rand.Intn(255)), uint8(rand.Intn(255)), uint8(rand.Intn(255)), uint8(rand.Intn(255)))
+	}
 }
 
 // ----------------------------------------------------------------------------

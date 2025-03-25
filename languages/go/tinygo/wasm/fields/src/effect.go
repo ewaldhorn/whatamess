@@ -79,6 +79,14 @@ func (e *Effect) randomise() {
 }
 
 // ----------------------------------------------------------------------------
+func (e *Effect) colourChange() {
+	e.colourRange = rand.Intn(10)
+	for idx := range ParticleCount {
+		e.particles[idx].colourChange()
+	}
+}
+
+// ----------------------------------------------------------------------------
 func NewEffect(width, height, cellSize int) *Effect {
 	newEffect := Effect{
 		colourRange: rand.Intn(10),

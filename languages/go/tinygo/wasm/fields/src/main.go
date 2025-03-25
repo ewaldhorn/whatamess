@@ -59,6 +59,8 @@ func setupKeyListeners() {
 			effect.toggleDebugging()
 		case "KeyR":
 			effect.randomise()
+		case "KeyC":
+			effect.colourChange()
 		}
 
 		return nil
