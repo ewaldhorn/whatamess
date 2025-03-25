@@ -7,19 +7,17 @@ import (
 )
 
 var x, y = 0, 0
-var width, height int
 var effect *Effect
 var white = *colour.NewColourWhite()
 var black = *colour.NewColourBlack()
 
 // ----------------------------------------------------------------------------
 func initEffects() {
-	effect = NewEffect(canvasOne.Width(), canvasOne.Height(), 10)
+	effect = NewEffect(CANVAS_WIDTH, CANVAS_HEIGHT, CELL_SIZE)
 }
 
 // ----------------------------------------------------------------------------
 func performDemoOnCanvasOne() {
-	width, height = canvasOne.GetDimensions()
 	canvasOne.ClearScreen(*colour.NewColour(80, 80, 180, 255))
 	setRefreshCanvasOneCallback()
 	animateCanvasOne()

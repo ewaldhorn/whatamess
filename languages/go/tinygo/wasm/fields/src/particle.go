@@ -9,6 +9,8 @@ import (
 	"github.com/ewaldhorn/tinycanvas/colour"
 )
 
+const MAX_HISTORY = 100
+
 // ----------------------------------------------------------------------------
 type Particle struct {
 	x, y           float64
@@ -18,7 +20,8 @@ type Particle struct {
 	angle          float64
 	effect         *Effect
 	colour         *colour.Colour
-	history        []Point
+	history        [MAX_HISTORY]Point
+	currentHistory int
 	colourRange    int
 	maxLength      int
 	timer          int
@@ -27,10 +30,12 @@ type Particle struct {
 // ----------------------------------------------------------------------------
 func (p *Particle) draw() {
 	// useful for debugging
-	// canvasOne.ColourFilledRectangle(int(p.x), int(p.y), p.size, p.size, *p.col)
+	if p.effect.isDebugging {
+		canvasOne.ColourFilledRectangle(int(p.x), int(p.y), p.size, p.size, *p.colour)
+	}
 
 	canvasOne.SetColour(*p.colour)
-	for i := 1; i < len(p.history); i++ {
+	for i := 1; i < p.currentHistory; i++ {
 		canvasOne.Line(int(p.history[i-1].x), int(p.history[i-1].y), int(p.history[i].x), int(p.history[i].y))
 	}
 }
@@ -40,8 +45,8 @@ func (p *Particle) update() {
 	p.timer -= 1
 
 	if p.timer >= 1 {
-		x := int(math.Floor(p.x / float64(p.effect.cellSize)))
-		y := int(math.Floor(p.y / float64(p.effect.cellSize)))
+		x := int(math.Floor(p.x / float64(CELL_SIZE)))
+		y := int(math.Floor(p.y / float64(CELL_SIZE)))
 
 		if x < 0 {
 			x = 0
@@ -51,18 +56,18 @@ func (p *Particle) update() {
 			y = 0
 		}
 
-		if x >= p.effect.cols-1 {
-			x = p.effect.cols - 1
+		if x >= COLS-1 {
+			x = COLS - 1
 		}
 
-		if y >= p.effect.rows-1 {
-			y = p.effect.rows - 1
+		if y >= ROWS-1 {
+			y = ROWS - 1
 		}
 
-		idx := y*p.effect.cols + x
+		idx := y*COLS + x
 
-		if idx > p.effect.rows*p.effect.cols-1 {
-			dom.Log(fmt.Sprintf("Asked for %d, can only go to %d (%d,%d) (%d)", idx, p.effect.rows*p.effect.cols, x, y, len(p.effect.flowField)-1))
+		if idx > ROWS*COLS-1 {
+			dom.Log(fmt.Sprintf("Asked for %d, can only go to %d (%d,%d) (%d)", idx, ROWS*COLS, x, y, len(p.effect.flowField)-1))
 			idx = 1
 		}
 
@@ -76,8 +81,8 @@ func (p *Particle) update() {
 
 		p.addPoint(p.x, p.y)
 	} else {
-		if len(p.history) > 1 {
-			p.history = p.history[1:]
+		if p.currentHistory > 1 {
+			p.currentHistory -= 1
 		} else {
 			p.reset()
 		}
@@ -86,17 +91,22 @@ func (p *Particle) update() {
 
 // ----------------------------------------------------------------------------
 func (p *Particle) addPoint(x, y float64) {
-	p.history = append(p.history, Point{x: x, y: y})
-	if len(p.history) >= p.maxLength {
+	if p.currentHistory < MAX_HISTORY-2 {
+		p.currentHistory += 1
+		p.history[p.currentHistory] = Point{x: x, y: y}
+	}
+
+	if p.currentHistory >= MAX_HISTORY-2 {
 		// slice off the first entry, have a max length to observe
-		p.history = p.history[1:]
+		// p.history = p.history[1:]
+		// TODO: Do something
 	}
 }
 
 // ----------------------------------------------------------------------------
 func initParticle(p *Particle, effect *Effect) {
-	p.x = 20 + rand.Float64()*float64(effect.width-25)
-	p.y = 20 + rand.Float64()*float64(effect.height-25)
+	p.x = 20 + rand.Float64()*float64(CANVAS_WIDTH-25)
+	p.y = 20 + rand.Float64()*float64(CANVAS_HEIGHT-25)
 	p.angle = 0.0
 	p.speedX = 1.0
 	p.speedY = 1.0
@@ -109,8 +119,8 @@ func initParticle(p *Particle, effect *Effect) {
 // ----------------------------------------------------------------------------
 func (p *Particle) reset() {
 	initParticle(p, p.effect)
-	p.history = nil
-	p.history = []Point{{x: p.x, y: p.y}}
+	p.currentHistory = 0
+	p.history[0] = Point{x: p.x, y: p.y}
 }
 
 // ----------------------------------------------------------------------------
@@ -118,7 +128,7 @@ func NewParticle(effect *Effect, size int) *Particle {
 	newParticle := Particle{effect: effect, size: size}
 	newParticle.colourRange = effect.colourRange
 	initParticle(&newParticle, effect)
-	newParticle.history = []Point{{x: newParticle.x, y: newParticle.y}}
+	newParticle.history[0] = Point{x: newParticle.x, y: newParticle.y}
 
 	return &newParticle
 }

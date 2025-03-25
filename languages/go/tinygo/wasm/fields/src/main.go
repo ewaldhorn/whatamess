@@ -16,6 +16,12 @@ func bootstrap()
 func animateCanvasOne()
 
 // -------------------------------------------------------------------- GLOBALS
+const CANVAS_WIDTH = 800
+const CANVAS_HEIGHT = 600
+const CELL_SIZE = 10
+const ROWS = CANVAS_HEIGHT / CELL_SIZE
+const COLS = CANVAS_WIDTH / CELL_SIZE
+
 var canvasOne *tinycanvas.TinyCanvas
 
 // ----------------------------------------------------------------------------
@@ -27,7 +33,7 @@ func main() {
 	dom.Show("controls")
 	dom.Show("information")
 	bootstrap()
-	canvasOne = tinycanvas.NewTinyCanvas(800, 600)
+	canvasOne = tinycanvas.NewTinyCanvas(CANVAS_WIDTH, CANVAS_HEIGHT)
 	initEffects()
 
 	performDemoOnCanvasOne()

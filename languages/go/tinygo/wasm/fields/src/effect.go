@@ -8,27 +8,26 @@ import (
 )
 
 const ParticleSize = 10
+const ParticleCount = 750
 
 // ----------------------------------------------------------------------------
 type Effect struct {
-	width, height   int
-	particlesWanted int
-	cellSize        int
-	rows, cols      int
-	colourRange     int
-	isDebugging     bool
-	curve, zoom     float64
-	flowField       []float64
-	particles       []Particle
+	colourRange int
+	isDebugging bool
+	curve, zoom float64
+	flowField   [ROWS * COLS]float64
+	particles   []Particle
 }
 
 // ----------------------------------------------------------------------------
 func (e *Effect) init() {
 	// configure flow field angles
-	for row := range e.rows {
-		for col := range e.cols {
+	pos := 0
+	for row := range ROWS {
+		for col := range COLS {
 			angle := (math.Cos(float64(col)*e.zoom) + math.Sin(float64(row)*e.zoom)) * e.curve
-			e.flowField = append(e.flowField, angle)
+			e.flowField[pos] = angle
+			pos++
 		}
 	}
 }
@@ -40,14 +39,14 @@ func (e *Effect) toggleDebugging() {
 
 // ----------------------------------------------------------------------------
 func (e *Effect) drawGrid() {
-	canvasOne.SetColour(*colour.NewColour(64, 64, 64, 255))
+	canvasOne.SetColour(*colour.NewColour(64, 64, 64, 128))
 
-	for col := range e.cols {
-		canvasOne.Line(e.cellSize*col, 0, e.cellSize*col, canvasOne.Height())
+	for col := range COLS {
+		canvasOne.Line(CELL_SIZE*col, 0, CELL_SIZE*col, canvasOne.Height())
 	}
 
-	for row := range e.rows {
-		canvasOne.Line(0, e.cellSize*row, canvasOne.Width(), e.cellSize*row)
+	for row := range ROWS {
+		canvasOne.Line(0, CELL_SIZE*row, canvasOne.Width(), CELL_SIZE*row)
 	}
 }
 
@@ -57,29 +56,23 @@ func (e *Effect) render() {
 		e.drawGrid()
 	}
 
-	for idx, p := range e.particles {
-		p.draw()
-		p.update()
-		e.particles[idx] = p
+	for idx := range e.particles {
+		e.particles[idx].draw()
+		e.particles[idx].update()
 	}
 }
 
 // ----------------------------------------------------------------------------
 func (e *Effect) createParticles() {
-	e.particles = nil
-	e.particles = []Particle{}
-
-	for range e.particlesWanted {
-		e.particles = append(e.particles, *NewParticle(e, ParticleSize))
+	for idx := range ParticleCount {
+		e.particles[idx] = *NewParticle(e, ParticleSize)
 	}
 }
 
 // ----------------------------------------------------------------------------
 func (e *Effect) randomise() {
-	e.flowField = nil
-	e.flowField = []float64{}
-	e.curve = 2.5 + rand.Float64()*20
-	e.zoom = 0.2 + rand.Float64()*5
+	e.curve = 1.5 + rand.Float64()*24
+	e.zoom = 0.2 + rand.Float64()*6
 	e.init()
 	e.colourRange = rand.Intn(10)
 	e.createParticles()
@@ -88,20 +81,13 @@ func (e *Effect) randomise() {
 // ----------------------------------------------------------------------------
 func NewEffect(width, height, cellSize int) *Effect {
 	newEffect := Effect{
-		width:           width,
-		height:          height,
-		particlesWanted: 1000,
-		colourRange:     rand.Intn(2),
-		cellSize:        cellSize,
-		rows:            height / cellSize,
-		cols:            width / cellSize,
-		particles:       []Particle{},
+		colourRange: rand.Intn(10),
+		particles:   []Particle{},
 	}
 
-	newEffect.flowField = []float64{}
-	newEffect.particles = []Particle{}
-	newEffect.randomise()
+	newEffect.particles = make([]Particle, ParticleCount)
 	newEffect.init()
+	newEffect.randomise()
 
 	return &newEffect
 }
