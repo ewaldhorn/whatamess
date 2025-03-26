@@ -1,14 +1,19 @@
 package main
 
-import "syscall/js"
+import (
+	"fmt"
+	"syscall/js"
+)
 
 // ----------------------------------------------------------------------------
-const VERSION = "0.0.1e"
-const NAME = "TinyCanvas Flow Fields Experiment"
+const (
+	version = "0.0.1f"
+	name    = "TinyCanvas Flow Fields Experiment"
+)
 
 // ----------------------------------------------------------------------------
 func getVersionString() string {
-	return NAME + " v" + VERSION
+	return fmt.Sprintf("%s v%s", name, version)
 }
 
 // ----------------------------------------------------------------------------
