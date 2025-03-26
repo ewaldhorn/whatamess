@@ -1,11 +1,9 @@
 package main
 
 import (
-	"fmt"
 	"math"
 	"math/rand"
 
-	"github.com/ewaldhorn/dommie/dom"
 	"github.com/ewaldhorn/tinycanvas/colour"
 )
 
@@ -66,11 +64,6 @@ func (p *Particle) update() {
 		}
 
 		idx := y*COLS + x
-
-		if idx > ROWS*COLS-1 {
-			dom.Log(fmt.Sprintf("Asked for %d, can only go to %d (%d,%d) (%d)", idx, ROWS*COLS, x, y, len(p.effect.flowField)-1))
-			idx = 1
-		}
 
 		p.angle = p.effect.flowField[idx]
 
