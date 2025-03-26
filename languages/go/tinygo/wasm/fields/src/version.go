@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"syscall/js"
 )
 
@@ -13,7 +12,7 @@ const (
 
 // ----------------------------------------------------------------------------
 func getVersionString() string {
-	return fmt.Sprintf("%s v%s", name, version)
+	return name + " v" + version
 }
 
 // ----------------------------------------------------------------------------
