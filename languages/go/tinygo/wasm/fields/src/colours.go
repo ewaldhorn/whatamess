@@ -13,7 +13,7 @@ var colours [colour_count][colour_count]colour.Colour
 // ----------------------------------------------------------------------------
 func InitColours() {
 
-	for i := range colour_count {
+	for i := 1; i <= 8; i++ {
 		r, g, b := getBaseColour(i)
 		colours[i] = generateColours(r, g, b)
 	}
@@ -31,6 +31,14 @@ func InitColours() {
 	colours[9][9] = *colour.NewColour(64, 64, 175, 255)
 
 	// madness colour palette
+	for idx := range 10 {
+		colours[0][idx] = *colour.NewColour(uint8(rand.Intn(255)), uint8(rand.Intn(255)), uint8(rand.Intn(255)), uint8(rand.Intn(255)))
+	}
+}
+
+// ----------------------------------------------------------------------------
+// Sneaky method to randomise the random colours
+func RandomiseRandomColour() {
 	for idx := range 10 {
 		colours[0][idx] = *colour.NewColour(uint8(rand.Intn(255)), uint8(rand.Intn(255)), uint8(rand.Intn(255)), uint8(rand.Intn(255)))
 	}
