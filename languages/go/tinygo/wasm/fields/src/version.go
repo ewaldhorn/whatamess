@@ -6,7 +6,7 @@ import (
 
 // ----------------------------------------------------------------------------
 const (
-	version = "0.0.1f"
+	version = "0.0.1g"
 	name    = "TinyCanvas Flow Fields Experiment"
 )
 
