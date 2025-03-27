@@ -70,20 +70,29 @@ func (e *Effect) createParticles() {
 }
 
 // ----------------------------------------------------------------------------
-func (e *Effect) randomise() {
+func (e *Effect) randomise(changeColour bool) {
 	e.curve = 0.5 + rand.Float64()*24
 	e.zoom = 0.05 + rand.Float64()*6
 	e.init()
-	e.colourRange = rand.Intn(10)
+	if changeColour {
+		e.colourRange = rand.Intn(10)
+	}
 	e.createParticles()
 }
 
 // ----------------------------------------------------------------------------
+// Only changes the colours, nothing else
 func (e *Effect) colourChange() {
 	e.colourRange = rand.Intn(10)
 	for idx := range ParticleCount {
 		e.particles[idx].colourChange()
 	}
+}
+
+// ----------------------------------------------------------------------------
+// Changes everything, except the colours
+func (e *Effect) patternChange() {
+	e.randomise(false)
 }
 
 // ----------------------------------------------------------------------------
@@ -95,7 +104,7 @@ func NewEffect(width, height, cellSize int) *Effect {
 
 	newEffect.particles = make([]Particle, ParticleCount)
 	newEffect.init()
-	newEffect.randomise()
+	newEffect.randomise(true)
 
 	return &newEffect
 }
