@@ -58,9 +58,13 @@ func setupKeyListeners() {
 		case "KeyD":
 			effect.toggleDebugging()
 		case "KeyR":
-			effect.randomise()
+			effect.randomise(true)
 		case "KeyC":
 			effect.colourChange()
+		case "KeyP":
+			effect.patternChange()
+		case "KeyM":
+			RandomiseRandomColour()
 		}
 
 		return nil
@@ -71,7 +75,7 @@ func setupKeyListeners() {
 func setRefreshCallback() {
 	dom.AddEventListener("refreshButton", "click", func() {
 		if canvasOne != nil {
-			effect.randomise()
+			effect.randomise(true)
 		}
 	})
 }
