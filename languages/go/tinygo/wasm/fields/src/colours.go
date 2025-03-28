@@ -45,6 +45,19 @@ func RandomiseRandomColour() {
 }
 
 // ----------------------------------------------------------------------------
+// Something random but... Related.
+func RandomColourShade() {
+	baseR := uint8(rand.Intn(75))
+	baseG := uint8(rand.Intn(75))
+	baseB := uint8(rand.Intn(75))
+	baseA := uint8(rand.Intn(50) + 205)
+	step := uint8(rand.Intn(10) + 5)
+	for idx := range 10 {
+		colours[0][idx] = *colour.NewColour(baseR+uint8(idx)*step, baseG+uint8(idx)*step, baseB+uint8(idx)*step, baseA)
+	}
+}
+
+// ----------------------------------------------------------------------------
 func getBaseColour(index int) (uint8, uint8, uint8) {
 	switch {
 	case index < 2:
