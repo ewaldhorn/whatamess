@@ -21,6 +21,7 @@ const CANVAS_HEIGHT = 600
 const CELL_SIZE = 10
 const ROWS = CANVAS_HEIGHT / CELL_SIZE
 const COLS = CANVAS_WIDTH / CELL_SIZE
+const RANDOM_COLOUR_IDX = 0
 
 var canvasOne *tinycanvas.TinyCanvas
 
@@ -64,9 +65,13 @@ func setupKeyListeners() {
 		case "KeyP":
 			effect.patternChange()
 		case "KeyM":
-			RandomiseRandomColour()
+			if effect.colourRange == RANDOM_COLOUR_IDX {
+				RandomiseRandomColour()
+			}
 		case "KeyS":
-			RandomColourShade()
+			if effect.colourRange == RANDOM_COLOUR_IDX {
+				RandomColourShade()
+			}
 		}
 
 		return nil

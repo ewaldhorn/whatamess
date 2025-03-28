@@ -32,7 +32,7 @@ func InitColours() {
 
 	// madness colour palette
 	for idx := range 10 {
-		colours[0][idx] = *colour.NewColour(uint8(rand.Intn(255)), uint8(rand.Intn(255)), uint8(rand.Intn(255)), uint8(rand.Intn(255)))
+		colours[RANDOM_COLOUR_IDX][idx] = *colour.NewColour(uint8(rand.Intn(255)), uint8(rand.Intn(255)), uint8(rand.Intn(255)), uint8(rand.Intn(255)))
 	}
 }
 
@@ -40,20 +40,21 @@ func InitColours() {
 // Sneaky method to randomise the random colours
 func RandomiseRandomColour() {
 	for idx := range 10 {
-		colours[0][idx] = *colour.NewColour(uint8(rand.Intn(255)), uint8(rand.Intn(255)), uint8(rand.Intn(255)), uint8(rand.Intn(255)))
+		colours[RANDOM_COLOUR_IDX][idx] = *colour.NewColour(uint8(rand.Intn(255)), uint8(rand.Intn(255)), uint8(rand.Intn(255)), uint8(rand.Intn(255)))
 	}
 }
 
 // ----------------------------------------------------------------------------
 // Something random but... Related.
 func RandomColourShade() {
-	baseR := uint8(rand.Intn(75))
-	baseG := uint8(rand.Intn(75))
-	baseB := uint8(rand.Intn(75))
+	baseR := uint8(rand.Intn(100))
+	baseG := uint8(rand.Intn(100))
+	baseB := uint8(rand.Intn(100))
 	baseA := uint8(rand.Intn(50) + 205)
 	step := uint8(rand.Intn(10) + 5)
+
 	for idx := range 10 {
-		colours[0][idx] = *colour.NewColour(baseR+uint8(idx)*step, baseG+uint8(idx)*step, baseB+uint8(idx)*step, baseA)
+		colours[RANDOM_COLOUR_IDX][idx] = *colour.NewColour(baseR+uint8(idx)*step, baseG+uint8(idx)*step, baseB+uint8(idx)*step, baseA)
 	}
 }
 
