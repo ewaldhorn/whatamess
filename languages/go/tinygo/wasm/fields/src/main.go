@@ -65,6 +65,8 @@ func setupKeyListeners() {
 			effect.patternChange()
 		case "KeyM":
 			RandomiseRandomColour()
+		case "KeyS":
+			RandomColourShade()
 		}
 
 		return nil
