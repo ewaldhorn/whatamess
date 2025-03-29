@@ -54,29 +54,34 @@ func (p *Particle) draw() {
 
 // ----------------------------------------------------------------------------
 func (p *Particle) update() {
-	p.timer -= 1
+	p.timer--
 
 	if p.timer >= 1 {
-		x := int(math.Floor(float64(p.x / float32(CELL_SIZE))))
-		y := int(math.Floor(float64(p.y / float32(CELL_SIZE))))
+		// Calculate grid position
+		gridX := int(math.Floor(float64(p.x / float32(CELL_SIZE))))
+		gridY := int(math.Floor(float64(p.y / float32(CELL_SIZE))))
 
-		x = max(0, min(x, COLS-1))
-		y = max(0, min(y, ROWS-1))
+		// Clamp to grid bounds
+		gridX = max(0, min(gridX, COLS-1))
+		gridY = max(0, min(gridY, ROWS-1))
 
-		idx := y*COLS + x
+		// Get flow field angle at current position
+		flowFieldIdx := gridY*COLS + gridX
+		p.angle = p.effect.flowField[flowFieldIdx]
 
-		p.angle = p.effect.flowField[idx]
-
+		// Update velocity based on angle
 		p.speedX = float32(math.Cos(float64(p.angle)))
 		p.speedY = float32(math.Sin(float64(p.angle)))
 
+		// Update position
 		p.x += p.speedX * p.speedMod
 		p.y += p.speedY * p.speedMod
 
 		p.addPoint(p.x, p.y)
 	} else {
+		// Fade out or reset particle
 		if p.currentHistory > 1 {
-			p.currentHistory -= 1
+			p.currentHistory--
 		} else {
 			p.reset()
 		}
