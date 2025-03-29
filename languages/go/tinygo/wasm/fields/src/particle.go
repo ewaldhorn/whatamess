@@ -51,21 +51,8 @@ func (p *Particle) update() {
 		x := int(math.Floor(p.x / float64(CELL_SIZE)))
 		y := int(math.Floor(p.y / float64(CELL_SIZE)))
 
-		if x < 0 {
-			x = 0
-		}
-
-		if y < 0 {
-			y = 0
-		}
-
-		if x >= COLS-1 {
-			x = COLS - 1
-		}
-
-		if y >= ROWS-1 {
-			y = ROWS - 1
-		}
+		x = max(0, min(x, COLS-1))
+		y = max(0, min(y, ROWS-1))
 
 		idx := y*COLS + x
 
@@ -128,8 +115,12 @@ func (p *Particle) colourChange() {
 
 // ----------------------------------------------------------------------------
 func NewParticle(effect *Effect, size int) *Particle {
-	newParticle := Particle{effect: effect, size: size}
-	newParticle.colourRange = effect.colourRange
+	newParticle := Particle{
+		effect:      effect,
+		size:        size,
+		colourRange: effect.colourRange,
+	}
+
 	initParticle(&newParticle, effect)
 	newParticle.history[0] = Point{x: newParticle.x, y: newParticle.y}
 
