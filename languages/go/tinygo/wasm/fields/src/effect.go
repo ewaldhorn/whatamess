@@ -17,8 +17,8 @@ const (
 type Effect struct {
 	colourRange int
 	isDebugging bool
-	curve, zoom float64
-	flowField   [ROWS * COLS]float64
+	curve, zoom float32
+	flowField   [ROWS * COLS]float32
 	particles   []Particle
 }
 
@@ -28,8 +28,9 @@ func (e *Effect) init() {
 	pos := 0
 	for row := range ROWS {
 		for col := range COLS {
-			angle := (math.Cos(float64(col)*e.zoom) + math.Sin(float64(row)*e.zoom)) * e.curve
-			e.flowField[pos] = angle
+			zoom := float64(e.zoom)
+			angle := (math.Cos(float64(col)*zoom) + math.Sin(float64(row)*zoom)) * float64(e.curve)
+			e.flowField[pos] = float32(angle)
 			pos++
 		}
 	}
@@ -74,8 +75,8 @@ func (e *Effect) createParticles() {
 
 // ----------------------------------------------------------------------------
 func (e *Effect) randomise(changeColour bool) {
-	e.curve = 1.0 + rand.Float64()*30
-	e.zoom = 0.10 + rand.Float64()*8
+	e.curve = 1.0 + rand.Float32()*30
+	e.zoom = 0.10 + rand.Float32()*8
 	e.init()
 	if changeColour {
 		e.colourRange = rand.Intn(10)

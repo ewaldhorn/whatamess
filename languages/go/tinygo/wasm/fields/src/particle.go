@@ -8,6 +8,15 @@ import (
 )
 
 // ----------------------------------------------------------------------------
+// Potential future enhancements for this file:
+// - Use constants instead of magic numbers for speeds and colors
+// - Consider using a buffered channel for particle updates
+// - Profile memory usage to manage history slice alloc
+// - Add particle lifecycle event hooks
+// - Implement concurrency-safe particle updates
+// - Add interpolation between history points
+
+// ----------------------------------------------------------------------------
 const (
 	MaxHistory   = 200
 	MinHistory   = 50
@@ -16,11 +25,11 @@ const (
 
 // ----------------------------------------------------------------------------
 type Particle struct {
-	x, y           float64
+	x, y           float32
 	size           int
-	speedX, speedY float64
-	speedMod       float64
-	angle          float64
+	speedX, speedY float32
+	speedMod       float32
+	angle          float32
 	effect         *Effect
 	colour         *colour.Colour
 	history        [MaxHistory]Point
@@ -48,8 +57,8 @@ func (p *Particle) update() {
 	p.timer -= 1
 
 	if p.timer >= 1 {
-		x := int(math.Floor(p.x / float64(CELL_SIZE)))
-		y := int(math.Floor(p.y / float64(CELL_SIZE)))
+		x := int(math.Floor(float64(p.x / float32(CELL_SIZE))))
+		y := int(math.Floor(float64(p.y / float32(CELL_SIZE))))
 
 		x = max(0, min(x, COLS-1))
 		y = max(0, min(y, ROWS-1))
@@ -58,8 +67,8 @@ func (p *Particle) update() {
 
 		p.angle = p.effect.flowField[idx]
 
-		p.speedX = math.Cos(p.angle)
-		p.speedY = math.Sin(p.angle)
+		p.speedX = float32(math.Cos(float64(p.angle)))
+		p.speedY = float32(math.Sin(float64(p.angle)))
 
 		p.x += p.speedX * p.speedMod
 		p.y += p.speedY * p.speedMod
@@ -75,7 +84,7 @@ func (p *Particle) update() {
 }
 
 // ----------------------------------------------------------------------------
-func (p *Particle) addPoint(x, y float64) {
+func (p *Particle) addPoint(x, y float32) {
 	if p.currentHistory < p.maxLength-1 {
 		p.currentHistory += 1
 		p.history[p.currentHistory] = Point{x: x, y: y}
@@ -90,12 +99,12 @@ func (p *Particle) addPoint(x, y float64) {
 
 // ----------------------------------------------------------------------------
 func initParticle(p *Particle, effect *Effect) {
-	p.x = BorderOffset + rand.Float64()*float64(CANVAS_WIDTH-BorderOffset)
-	p.y = BorderOffset + rand.Float64()*float64(CANVAS_HEIGHT-BorderOffset)
+	p.x = BorderOffset + rand.Float32()*float32(CANVAS_WIDTH-BorderOffset)
+	p.y = BorderOffset + rand.Float32()*float32(CANVAS_HEIGHT-BorderOffset)
 	p.angle = 0.0
 	p.speedX = 1.0
 	p.speedY = 1.0
-	p.speedMod = (rand.Float64() * 7) + 0.15
+	p.speedMod = (rand.Float32() * 7) + 0.15
 	p.maxLength = MinHistory + rand.Intn(MaxHistory-MinHistory-5)
 	p.timer = p.maxLength * 2
 	p.colour = &colours[effect.colourRange][rand.Intn(colour_count)]
