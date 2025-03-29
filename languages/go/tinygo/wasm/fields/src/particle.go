@@ -7,8 +7,12 @@ import (
 	"github.com/ewaldhorn/tinycanvas/colour"
 )
 
-const MAX_HISTORY = 200
-const MINIMUM_HISTORY = 50
+// ----------------------------------------------------------------------------
+const (
+	MaxHistory   = 200
+	MinHistory   = 50
+	BorderOffset = 20
+)
 
 // ----------------------------------------------------------------------------
 type Particle struct {
@@ -19,7 +23,7 @@ type Particle struct {
 	angle          float64
 	effect         *Effect
 	colour         *colour.Colour
-	history        [MAX_HISTORY]Point
+	history        [MaxHistory]Point
 	currentHistory int
 	colourRange    int
 	maxLength      int
@@ -99,13 +103,13 @@ func (p *Particle) addPoint(x, y float64) {
 
 // ----------------------------------------------------------------------------
 func initParticle(p *Particle, effect *Effect) {
-	p.x = 20 + rand.Float64()*float64(CANVAS_WIDTH-25)
-	p.y = 20 + rand.Float64()*float64(CANVAS_HEIGHT-25)
+	p.x = BorderOffset + rand.Float64()*float64(CANVAS_WIDTH-BorderOffset)
+	p.y = BorderOffset + rand.Float64()*float64(CANVAS_HEIGHT-BorderOffset)
 	p.angle = 0.0
 	p.speedX = 1.0
 	p.speedY = 1.0
 	p.speedMod = (rand.Float64() * 7) + 0.15
-	p.maxLength = MINIMUM_HISTORY + rand.Intn(MAX_HISTORY-MINIMUM_HISTORY-5)
+	p.maxLength = MinHistory + rand.Intn(MaxHistory-MinHistory-5)
 	p.timer = p.maxLength * 2
 	p.colour = &colours[effect.colourRange][rand.Intn(colour_count)]
 }
