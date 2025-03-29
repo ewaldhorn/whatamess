@@ -11,7 +11,7 @@ const colour_count = 10
 var colours [colour_count][colour_count]colour.Colour
 
 // ----------------------------------------------------------------------------
-func InitColours() {
+func initColours() {
 
 	for i := 1; i <= 8; i++ {
 		r, g, b := getBaseColour(i)

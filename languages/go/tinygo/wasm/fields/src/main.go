@@ -16,23 +16,23 @@ func bootstrap()
 func animateCanvasOne()
 
 // -------------------------------------------------------------------- GLOBALS
-const CANVAS_WIDTH = 800
-const CANVAS_HEIGHT = 600
-const CELL_SIZE = 10
-const ROWS = CANVAS_HEIGHT / CELL_SIZE
-const COLS = CANVAS_WIDTH / CELL_SIZE
-const RANDOM_COLOUR_IDX = 0
+const (
+	CANVAS_WIDTH      = 800
+	CANVAS_HEIGHT     = 600
+	CELL_SIZE         = 10
+	ROWS              = CANVAS_HEIGHT / CELL_SIZE
+	COLS              = CANVAS_WIDTH / CELL_SIZE
+	RANDOM_COLOUR_IDX = 0
+)
 
 var canvasOne *tinycanvas.TinyCanvas
 
 // ----------------------------------------------------------------------------
 func main() {
-	InitColours()
+	initColours()
 	setCallbacks()
 	setupKeyListeners()
-	dom.Hide("loading")
-	dom.Show("controls")
-	dom.Show("information")
+	initUX()
 	bootstrap()
 	canvasOne = tinycanvas.NewTinyCanvas(CANVAS_WIDTH, CANVAS_HEIGHT)
 	initEffects()
@@ -42,6 +42,13 @@ func main() {
 	// prevent the app for closing - it stays running for the life of the webpage
 	ch := make(chan struct{})
 	<-ch
+}
+
+// ----------------------------------------------------------------------------
+func initUX() {
+	dom.Hide("loading")
+	dom.Show("controls")
+	dom.Show("information")
 }
 
 // ----------------------------------------------------------------------------
