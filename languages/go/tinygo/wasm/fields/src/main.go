@@ -61,13 +61,15 @@ func setCallbacks() {
 func setupKeyListeners() {
 	js.Global().Set("onkeydown", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 		keyPressed := args[0].Get("code").String()
+
 		isCtrlPressed := args[0].Get("ctrlKey").Bool()
+		isMetaPressed := args[0].Get("metaKey").Bool()
 
 		switch keyPressed {
 		case "KeyD":
 			effect.toggleDebugging()
 		case "KeyR":
-			if !isCtrlPressed {
+			if !isCtrlPressed && !isMetaPressed {
 				effect.randomise(true)
 			}
 		case "KeyC":
