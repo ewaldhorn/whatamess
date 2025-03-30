@@ -94,6 +94,11 @@ func (e *Effect) colourChange() {
 }
 
 // ----------------------------------------------------------------------------
+func (e *Effect) switchToRandomColour() {
+	e.colourRange = 0
+}
+
+// ----------------------------------------------------------------------------
 // Changes everything, except the colours
 func (e *Effect) patternChange() {
 	e.randomise(false)

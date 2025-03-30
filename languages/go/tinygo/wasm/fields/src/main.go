@@ -61,12 +61,15 @@ func setCallbacks() {
 func setupKeyListeners() {
 	js.Global().Set("onkeydown", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 		keyPressed := args[0].Get("code").String()
+		isCtrlPressed := args[0].Get("ctrlKey").Bool()
 
 		switch keyPressed {
 		case "KeyD":
 			effect.toggleDebugging()
 		case "KeyR":
-			effect.randomise(true)
+			if !isCtrlPressed {
+				effect.randomise(true)
+			}
 		case "KeyC":
 			effect.colourChange()
 		case "KeyP":
@@ -79,6 +82,8 @@ func setupKeyListeners() {
 			if effect.colourRange == RANDOM_COLOUR_IDX {
 				RandomColourShade()
 			}
+		case "KeyZ":
+			effect.switchToRandomColour()
 		}
 
 		return nil
