@@ -2,7 +2,7 @@
 
 Best not to look too closely, you might pick up bad habits!
 
-## PLEASE REMEMBER
+## NOTE
 
 These are _experiments_, often in some state of flux. I might
 try something that I am thinking of doing a talk about, or do
@@ -12,8 +12,6 @@ on sugar and crafting bugs. Anything goes.
 Also, quite _a lot_ of this is part of me mentoring and/or
 teaching someone something. I find that making people pull code
 from Git helps them learn some basic skills in the process.
-
-__So... Rather do not run any of this stuff on your computer!__
 
 ### Some of this is not meant to work
 
