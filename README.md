@@ -1,6 +1,6 @@
 # Just a HEAP of various experiments
 
-Best not to look too closely, you might pick up bad habits!
+I play around with code a lot, this is where some of those experiments end up.
 
 ## NOTE
 
