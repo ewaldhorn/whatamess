@@ -2,8 +2,10 @@ package assets
 
 import (
 	"embed"
+	"fmt"
 	"image"
 	_ "image/png"
+	"io/fs"
 
 	"github.com/hajimehoshi/ebiten/v2"
 )
@@ -12,6 +14,23 @@ import (
 var assets embed.FS
 
 var PlayerSprite = mustLoadImage("images/player.png")
+
+// ----------------------------------------------------------------------------
+func ReportAssets() {
+	err := fs.WalkDir(assets, ".", func(path string, d fs.DirEntry, err error) error {
+		if d.IsDir() {
+			fmt.Println("DIR", d)
+		} else {
+			fmt.Println("\tFILE", path)
+		}
+
+		return nil
+	})
+
+	if err != nil {
+		fmt.Println("Error reading embbeded files:", err)
+	}
+}
 
 // ----------------------------------------------------------------------------
 func mustLoadImage(name string) *ebiten.Image {
@@ -25,5 +44,6 @@ func mustLoadImage(name string) *ebiten.Image {
 	if err != nil {
 		panic(err)
 	}
+
 	return ebiten.NewImageFromImage(img)
 }

@@ -8,10 +8,14 @@ import (
 
 // ----------------------------------------------------------------------------
 func main() {
-	fmt.Println("Startup")
-	g := &Game{}
+	fmt.Print("Startup ... ")
+
+	g := NewGame()
+
 	err := ebiten.RunGame(g)
 	if err != nil {
 		fmt.Println("Error running game:", err)
 	}
+
+	fmt.Println("Done")
 }
