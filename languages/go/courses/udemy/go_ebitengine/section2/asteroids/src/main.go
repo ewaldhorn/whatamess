@@ -6,6 +6,7 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
+// ----------------------------------------------------------------------------
 func main() {
 	fmt.Println("Startup")
 	g := &Game{}
