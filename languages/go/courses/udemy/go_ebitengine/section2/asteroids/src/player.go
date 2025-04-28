@@ -52,6 +52,7 @@ func (p *Player) Update() {
 		p.rotation_angle += speed
 	}
 
+	p.keepOnScreen()
 	if ebiten.IsKeyPressed(ebiten.KeyUp) {
 		p.accelerate()
 	}
@@ -79,9 +80,29 @@ func (p *Player) accelerate() {
 }
 
 // ----------------------------------------------------------------------------
+func (p *Player) keepOnScreen() {
+	if p.position.X >= GAME_WIDTH {
+		p.position.X = 0
+	} else if p.position.X < 0 {
+		p.position.X = GAME_WIDTH
+	}
+
+	if p.position.Y >= GAME_HEIGHT {
+		p.position.Y = 0
+	} else if p.position.Y < 0 {
+		p.position.Y = GAME_HEIGHT
+	}
+}
+
+// ----------------------------------------------------------------------------
 func NewPlayer(game *Game) *Player {
+	bounds := assets.PlayerSprite.Bounds()
+	halfW := float64(bounds.Dx()) / 2
+	halfH := float64(bounds.Dy()) / 2
+
 	return &Player{
-		game:   game,
-		sprite: assets.PlayerSprite,
+		game:     game,
+		sprite:   assets.PlayerSprite,
+		position: Vector{X: GAME_WIDTH/2 - halfW, Y: GAME_HEIGHT/2 - halfH},
 	}
 }
