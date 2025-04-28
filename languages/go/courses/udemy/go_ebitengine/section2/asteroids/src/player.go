@@ -9,12 +9,18 @@ import (
 
 const (
 	rotationPerSecond = math.Pi
+	maxAcceleration   = 8.0
 )
+
+var currentAcceleration float64
 
 // ----------------------------------------------------------------------------
 type Player struct {
+	game           *Game
 	sprite         *ebiten.Image
 	rotation_angle float64
+	position       Vector
+	velocity       float64
 }
 
 // ----------------------------------------------------------------------------
@@ -25,9 +31,13 @@ func (p *Player) Draw(screen *ebiten.Image) {
 
 	options := &ebiten.DrawImageOptions{}
 
+	// handle rotation
 	options.GeoM.Translate(-halfW, -halfH)
 	options.GeoM.Rotate(p.rotation_angle)
 	options.GeoM.Translate(halfW, halfH)
+
+	// handle movement
+	options.GeoM.Translate(p.position.X, p.position.Y)
 
 	screen.DrawImage(p.sprite, options)
 }
@@ -41,11 +51,37 @@ func (p *Player) Update() {
 	} else if ebiten.IsKeyPressed(ebiten.KeyRight) {
 		p.rotation_angle += speed
 	}
+
+	if ebiten.IsKeyPressed(ebiten.KeyUp) {
+		p.accelerate()
+	}
+}
+
+// ----------------------------------------------------------------------------
+func (p *Player) accelerate() {
+	// figure out acceleration
+	if currentAcceleration < maxAcceleration {
+		currentAcceleration = p.velocity + 2
+	}
+
+	if currentAcceleration > maxAcceleration {
+		currentAcceleration = maxAcceleration
+	}
+
+	p.velocity = currentAcceleration
+
+	// now move in the right direction
+	dx := math.Sin(p.rotation_angle) * currentAcceleration
+	dy := math.Cos(p.rotation_angle) * -currentAcceleration
+
+	p.position.X += dx
+	p.position.Y += dy
 }
 
 // ----------------------------------------------------------------------------
 func NewPlayer(game *Game) *Player {
 	return &Player{
+		game:   game,
 		sprite: assets.PlayerSprite,
 	}
 }
