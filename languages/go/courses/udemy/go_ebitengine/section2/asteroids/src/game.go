@@ -6,10 +6,10 @@ import (
 
 // ----------------------------------------------------------------------------
 const (
-	VERSION     = "0.01"
-	GAME_NAME   = "PEW PEWSTER"
-	GAME_WIDTH  = 800
-	GAME_HEIGHT = 800
+	GAME_VERSION = "0.01"
+	GAME_NAME    = "PEW PEWSTER"
+	GAME_WIDTH   = 800
+	GAME_HEIGHT  = 800
 )
 
 // ----------------------------------------------------------------------------

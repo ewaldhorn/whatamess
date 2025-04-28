@@ -11,7 +11,7 @@ func main() {
 	fmt.Print("Startup ... ")
 
 	ebiten.SetWindowSize(GAME_WIDTH, GAME_HEIGHT)
-	ebiten.SetWindowTitle(fmt.Sprintf("%s v%s", GAME_NAME, VERSION))
+	ebiten.SetWindowTitle(fmt.Sprintf("%s v%s", GAME_NAME, GAME_VERSION))
 
 	g := NewGame()
 
