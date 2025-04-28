@@ -28,6 +28,8 @@ func NewGame() *Game {
 
 // ----------------------------------------------------------------------------
 func (g *Game) Update() error {
+	g.player.Update()
+
 	return nil
 }
 
