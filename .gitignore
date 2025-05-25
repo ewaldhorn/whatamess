@@ -258,3 +258,4 @@ languages/go/tinygo/wasm/fields/docs/fields.wasm
 languages/python/testing/pytest/venv
 languages/go/experiments/leetspeak/leetspeak
 languages/go/ebitengine/pong/docs/main.wasm
+languages/go/wasm/pongish/docs/optimized_main.wasm

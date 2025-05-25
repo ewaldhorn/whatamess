@@ -146,7 +146,7 @@ func (g *Game) resetBall() {
 	g.ballY = float64(canvasHeight / 2)
 	g.ballDX = ballSpeed * (2*rand.Float64() - 1)
 	g.ballDY = ballSpeed * (2*rand.Float64() - 1)
-	fmt.Printf("Score: %d - %d\n", g.scoreLeft, g.scoreRight) // Log to console
+	println("Score: %d - %d\n", g.scoreLeft, g.scoreRight) // Log to console
 }
 
 func (g *Game) draw() {

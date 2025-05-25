@@ -22,3 +22,7 @@ tasks:
       - task: build
       - http-server ./{{.OUT_DIR}}/ -p 9000 -o -c-1
     silent: true
+  optomise:
+    desc: Tries to reduce the WASM binary size
+    cmds:
+      - wasm-opt -Os --enable-bulk-memory -o ./{{.OUT_DIR}}/optimized_main.wasm ./{{.OUT_DIR}}/main.wasm
