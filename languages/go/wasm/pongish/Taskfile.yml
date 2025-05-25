@@ -1,0 +1,24 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  OUT_DIR: docs
+
+tasks:
+  default:
+    desc: Lists available commands
+    cmds:
+      - task --list-all
+    silent: true
+  build:
+    desc: Builds the WASM binary.
+    cmds:
+      - GOOS=js GOARCH=wasm go build -ldflags="-s -w" -trimpath -o ./{{.OUT_DIR}}/main.wasm ./main.go
+    silent: true
+  run:
+    desc: Builds and runs the project
+    cmds:
+      - task: build
+      - http-server ./{{.OUT_DIR}}/ -p 9000 -o -c-1
+    silent: true
