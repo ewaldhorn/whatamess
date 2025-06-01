@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/gdamore/tcell/v2"
@@ -34,42 +33,20 @@ func displayHelloWorld(s tcell.Screen) {
 }
 
 // ----------------------------------------------------------------------------
-func getNewScreen() tcell.Screen {
-	newScreen, e := tcell.NewScreen()
-	if e != nil {
-		fmt.Fprintf(os.Stderr, "%v\n", e)
-		os.Exit(1)
-	}
-
-	if e := newScreen.Init(); e != nil {
-		fmt.Fprintf(os.Stderr, "%v\n", e)
-		os.Exit(1)
-	}
-
-	return newScreen
-}
-
-// ----------------------------------------------------------------------------
-func setupStyle(screen tcell.Screen) {
-	defStyle := tcell.StyleDefault.Background(tcell.ColorBlack).Foreground(tcell.ColorWhite)
-	screen.SetStyle(defStyle)
-}
-
-// ----------------------------------------------------------------------------
 func main() {
-	s := getNewScreen()
-	setupStyle(s)
+	screen := getNewScreen()
+	setupStyle(screen)
 
-	displayHelloWorld(s)
+	displayHelloWorld(screen)
 
 	for {
-		switch ev := s.PollEvent().(type) {
+		switch ev := screen.PollEvent().(type) {
 		case *tcell.EventResize:
-			s.Sync()
-			displayHelloWorld(s)
+			screen.Sync()
+			displayHelloWorld(screen)
 		case *tcell.EventKey:
 			if ev.Key() == tcell.KeyEscape {
-				s.Fini()
+				screen.Fini()
 				os.Exit(0)
 			}
 		}
