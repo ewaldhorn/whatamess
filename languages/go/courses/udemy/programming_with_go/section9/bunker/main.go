@@ -34,19 +34,31 @@ func displayHelloWorld(s tcell.Screen) {
 }
 
 // ----------------------------------------------------------------------------
-func main() {
-	s, e := tcell.NewScreen()
+func getNewScreen() tcell.Screen {
+	newScreen, e := tcell.NewScreen()
 	if e != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", e)
 		os.Exit(1)
 	}
-	if e := s.Init(); e != nil {
+
+	if e := newScreen.Init(); e != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", e)
 		os.Exit(1)
 	}
 
+	return newScreen
+}
+
+// ----------------------------------------------------------------------------
+func setupStyle(screen tcell.Screen) {
 	defStyle := tcell.StyleDefault.Background(tcell.ColorBlack).Foreground(tcell.ColorWhite)
-	s.SetStyle(defStyle)
+	screen.SetStyle(defStyle)
+}
+
+// ----------------------------------------------------------------------------
+func main() {
+	s := getNewScreen()
+	setupStyle(s)
 
 	displayHelloWorld(s)
 
