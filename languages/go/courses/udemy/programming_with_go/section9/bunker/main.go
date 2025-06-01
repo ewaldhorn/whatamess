@@ -8,7 +8,7 @@ import (
 )
 
 // ----------------------------------------------------------------------------
-func emitStr(s tcell.Screen, x, y int, style tcell.Style, str string) {
+func emitStr(screen tcell.Screen, x, y int, style tcell.Style, str string) {
 	for _, c := range str {
 		var comb []rune
 		w := runewidth.RuneWidth(c)
@@ -17,25 +17,25 @@ func emitStr(s tcell.Screen, x, y int, style tcell.Style, str string) {
 			c = ' '
 			w = 1
 		}
-		s.SetContent(x, y, c, comb, style)
+		screen.SetContent(x, y, c, comb, style)
 		x += w
 	}
 }
 
 // ----------------------------------------------------------------------------
-func displayHelloWorld(s tcell.Screen) {
-	w, h := s.Size()
-	s.Clear()
+func displayHelloWorld(screen tcell.Screen) {
+	w, h := screen.Size()
+	screen.Clear()
 	style := tcell.StyleDefault.Foreground(tcell.ColorCadetBlue).Background(tcell.ColorOrangeRed)
-	emitStr(s, w/2-7, h/2, style, "Hello, World!")
-	emitStr(s, w/2-9, h/2+1, tcell.StyleDefault, "Press ESC to exit.")
-	s.Show()
+	emitStr(screen, w/2-7, h/2, style, "Hello, World!")
+	emitStr(screen, w/2-9, h/2+1, tcell.StyleDefault, "Press ESC to exit.")
+
+	screen.Show()
 }
 
 // ----------------------------------------------------------------------------
 func main() {
-	screen := getNewScreen()
-	setupStyle(screen)
+	screen := initScreen()
 
 	displayHelloWorld(screen)
 

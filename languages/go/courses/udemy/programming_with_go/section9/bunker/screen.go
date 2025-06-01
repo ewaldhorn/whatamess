@@ -8,6 +8,14 @@ import (
 )
 
 // ----------------------------------------------------------------------------
+// Initialize the screen for the application.
+func initScreen() tcell.Screen {
+	screen := getNewScreen()
+	setupStyle(screen)
+	return screen
+}
+
+// ----------------------------------------------------------------------------
 func getNewScreen() tcell.Screen {
 	newScreen, e := tcell.NewScreen()
 	if e != nil {
@@ -24,6 +32,7 @@ func getNewScreen() tcell.Screen {
 }
 
 // ----------------------------------------------------------------------------
+// Initialize the style for the application.
 func setupStyle(screen tcell.Screen) {
 	defStyle := tcell.StyleDefault.Background(tcell.ColorBlack).Foreground(tcell.ColorWhite)
 	screen.SetStyle(defStyle)
