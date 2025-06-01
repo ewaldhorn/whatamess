@@ -6,6 +6,8 @@ import (
 	"github.com/gdamore/tcell/v2"
 )
 
+var pos = 4
+
 // ----------------------------------------------------------------------------
 func displayHelloWorld(screen tcell.Screen) {
 	w, h := screen.Size()
@@ -19,7 +21,7 @@ func renderGameScreen(screen tcell.Screen) {
 	screen.Clear()
 
 	displayHelloWorld(screen)
-	display(screen, 5, 5, 10, 5, '*')
+	display(screen, pos, 5, 10, 5, '*')
 
 	screen.Show()
 }
@@ -35,9 +37,16 @@ func main() {
 			screen.Sync()
 			renderGameScreen(screen)
 		case *tcell.EventKey:
-			if ev.Key() == tcell.KeyEscape {
+			switch ev.Key() {
+			case tcell.KeyEscape:
 				screen.Fini()
 				os.Exit(0)
+			case tcell.KeyRight:
+				pos += 1
+				renderGameScreen(screen)
+			case tcell.KeyLeft:
+				pos -= 1
+				renderGameScreen(screen)
 			}
 		}
 	}
