@@ -12,20 +12,21 @@ import (
 func initScreen() tcell.Screen {
 	screen := getNewScreen()
 	setupStyle(screen)
+
 	return screen
 }
 
 // ----------------------------------------------------------------------------
 func getNewScreen() tcell.Screen {
-	newScreen, e := tcell.NewScreen()
-	if e != nil {
-		fmt.Fprintf(os.Stderr, "%v\n", e)
+	newScreen, err := tcell.NewScreen()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", err)
 		os.Exit(1)
 	}
 
-	if e := newScreen.Init(); e != nil {
-		fmt.Fprintf(os.Stderr, "%v\n", e)
-		os.Exit(1)
+	if err := newScreen.Init(); err != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", err)
+		os.Exit(2)
 	}
 
 	return newScreen
