@@ -6,7 +6,8 @@ import (
 	"github.com/gdamore/tcell/v2"
 )
 
-var pos = 4
+var xPos = 4
+var yPos = 4
 
 // ----------------------------------------------------------------------------
 func displayHelloWorld(screen tcell.Screen) {
@@ -21,7 +22,7 @@ func renderGameScreen(screen tcell.Screen) {
 	screen.Clear()
 
 	displayHelloWorld(screen)
-	display(screen, pos, 5, 10, 5, '*')
+	display(screen, xPos, yPos, 10, 5, '*')
 
 	screen.Show()
 }
@@ -29,12 +30,14 @@ func renderGameScreen(screen tcell.Screen) {
 // ----------------------------------------------------------------------------
 func main() {
 	screen := initScreen()
+	w, h := screen.Size()
 	renderGameScreen(screen) // not sure if this is needed, I almost think not?
 
 	for {
 		switch ev := screen.PollEvent().(type) {
 		case *tcell.EventResize:
 			screen.Sync()
+			w, h = screen.Size()
 			renderGameScreen(screen)
 		case *tcell.EventKey:
 			switch ev.Key() {
@@ -42,10 +45,24 @@ func main() {
 				screen.Fini()
 				os.Exit(0)
 			case tcell.KeyRight:
-				pos += 1
+				if xPos < w-10 {
+					xPos += 1
+				}
 				renderGameScreen(screen)
 			case tcell.KeyLeft:
-				pos -= 1
+				if xPos > 0 {
+					xPos -= 1
+				}
+				renderGameScreen(screen)
+			case tcell.KeyDown:
+				if yPos < h-5 {
+					yPos += 1
+				}
+				renderGameScreen(screen)
+			case tcell.KeyUp:
+				if yPos > 0 {
+					yPos -= 1
+				}
 				renderGameScreen(screen)
 			}
 		}
