@@ -14,7 +14,9 @@ const (
 
 // ----------------------------------------------------------------------------
 type Game struct {
-	player *Player
+	sceneManager *SceneManager
+	input        Input
+	player       *Player
 }
 
 // ----------------------------------------------------------------------------
@@ -28,14 +30,22 @@ func NewGame() *Game {
 
 // ----------------------------------------------------------------------------
 func (g *Game) Update() error {
-	g.player.Update()
+	if g.sceneManager == nil {
+		g.sceneManager = &SceneManager{}
+		// g.sceneManager.GoToScene(NewGameScence())
+	}
+
+	g.input.Update()
+	if err := g.sceneManager.Update(&g.input); err != nil {
+		return err
+	}
 
 	return nil
 }
 
 // ----------------------------------------------------------------------------
 func (g *Game) Draw(screen *ebiten.Image) {
-	g.player.Draw(screen)
+	g.sceneManager.Draw(screen)
 }
 
 // ----------------------------------------------------------------------------

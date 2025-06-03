@@ -8,8 +8,8 @@ import (
 )
 
 const (
-	rotationPerSecond = math.Pi
-	maxAcceleration   = 8.0
+	ROTATION_PER_SECOND = math.Pi
+	MAX_ACCELERATION    = 8.0
 )
 
 var currentAcceleration float64
@@ -44,7 +44,7 @@ func (p *Player) Draw(screen *ebiten.Image) {
 
 // ----------------------------------------------------------------------------
 func (p *Player) Update() {
-	speed := rotationPerSecond / float64(ebiten.TPS())
+	speed := ROTATION_PER_SECOND / float64(ebiten.TPS())
 
 	if ebiten.IsKeyPressed(ebiten.KeyLeft) {
 		p.rotation_angle -= speed
@@ -61,12 +61,12 @@ func (p *Player) Update() {
 // ----------------------------------------------------------------------------
 func (p *Player) accelerate() {
 	// figure out acceleration
-	if currentAcceleration < maxAcceleration {
+	if currentAcceleration < MAX_ACCELERATION {
 		currentAcceleration = p.velocity + 2
 	}
 
-	if currentAcceleration > maxAcceleration {
-		currentAcceleration = maxAcceleration
+	if currentAcceleration > MAX_ACCELERATION {
+		currentAcceleration = MAX_ACCELERATION
 	}
 
 	p.velocity = currentAcceleration
