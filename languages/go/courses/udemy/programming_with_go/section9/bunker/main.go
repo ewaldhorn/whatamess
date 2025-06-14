@@ -18,11 +18,14 @@ func displayHelloWorld(screen tcell.Screen) {
 }
 
 // ----------------------------------------------------------------------------
-func renderGameScreen(screen tcell.Screen) {
+func renderGameScreen(screen tcell.Screen, game *Game) {
 	screen.Clear()
 
 	displayHelloWorld(screen)
-	display(screen, xPos, yPos, 10, 5, '*')
+	displayText(screen, 10, 20, tcell.StyleDefault.Foreground(tcell.ColorCadetBlue).Background(tcell.ColorOrangeRed), "Packo")
+	display(screen, xPos, yPos, 10, 5, '=')
+	game.Draw(screen)
+	display(screen, 100, 30, 5, 5, 'o')
 
 	screen.Show()
 }
@@ -30,8 +33,10 @@ func renderGameScreen(screen tcell.Screen) {
 // ----------------------------------------------------------------------------
 func main() {
 	screen := initScreen()
-	w, h := screen.Size()
-	renderGameScreen(screen) // not sure if this is needed, I almost think not?
+	w, _ := screen.Size()
+	game := NewGame(screen)
+
+	renderGameScreen(screen, game) // not sure if this is needed, I almost think not?
 
 	for {
 		shouldRender := false
@@ -39,7 +44,7 @@ func main() {
 		switch ev := screen.PollEvent().(type) {
 		case *tcell.EventResize:
 			screen.Sync()
-			w, h = screen.Size()
+			w, _ = screen.Size()
 			shouldRender = true
 		case *tcell.EventKey:
 			switch ev.Key() {
@@ -57,20 +62,16 @@ func main() {
 					shouldRender = true
 				}
 			case tcell.KeyDown:
-				if yPos < h-5 {
-					yPos += 1
-					shouldRender = true
-				}
+				game.MovePlayer(tcell.KeyDown)
+				shouldRender = true
 			case tcell.KeyUp:
-				if yPos > 0 {
-					yPos -= 1
-					shouldRender = true
-				}
+				game.MovePlayer(tcell.KeyUp)
+				shouldRender = true
 			}
 		}
 
 		if shouldRender {
-			renderGameScreen(screen)
+			renderGameScreen(screen, game)
 		}
 	}
 }

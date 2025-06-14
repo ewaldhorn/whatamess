@@ -7,12 +7,11 @@ import (
 
 // ----------------------------------------------------------------------------
 func display(screen tcell.Screen, x, y, w, h int, ch rune) {
-	for r := 0; r < w; r++ {
-		for c := 0; c < h; c++ {
+	for r := range w {
+		for c := range h {
 			screen.SetContent(x+r, y+c, ch, nil, tcell.StyleDefault.Foreground(tcell.ColorYellow).Background(tcell.ColorBlue))
 		}
 	}
-	displayText(screen, 10, 20, tcell.StyleDefault.Foreground(tcell.ColorCadetBlue).Background(tcell.ColorOrangeRed), "Packo")
 }
 
 // ----------------------------------------------------------------------------
