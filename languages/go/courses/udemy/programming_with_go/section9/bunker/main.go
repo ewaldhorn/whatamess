@@ -68,6 +68,9 @@ func main() {
 			case tcell.KeyUp:
 				game.MovePlayer(tcell.KeyUp)
 				shouldRender = true
+			case tcell.KeyTab:
+				game.ToggleDebugging()
+				shouldRender = true
 			}
 		}
 
