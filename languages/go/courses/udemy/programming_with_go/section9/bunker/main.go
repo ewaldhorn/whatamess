@@ -34,11 +34,13 @@ func main() {
 	renderGameScreen(screen) // not sure if this is needed, I almost think not?
 
 	for {
+		shouldRender := false
+
 		switch ev := screen.PollEvent().(type) {
 		case *tcell.EventResize:
 			screen.Sync()
 			w, h = screen.Size()
-			renderGameScreen(screen)
+			shouldRender = true
 		case *tcell.EventKey:
 			switch ev.Key() {
 			case tcell.KeyEscape:
@@ -47,24 +49,28 @@ func main() {
 			case tcell.KeyRight:
 				if xPos < w-10 {
 					xPos += 1
+					shouldRender = true
 				}
-				renderGameScreen(screen)
 			case tcell.KeyLeft:
 				if xPos > 0 {
 					xPos -= 1
+					shouldRender = true
 				}
-				renderGameScreen(screen)
 			case tcell.KeyDown:
 				if yPos < h-5 {
 					yPos += 1
+					shouldRender = true
 				}
-				renderGameScreen(screen)
 			case tcell.KeyUp:
 				if yPos > 0 {
 					yPos -= 1
+					shouldRender = true
 				}
-				renderGameScreen(screen)
 			}
+		}
+
+		if shouldRender {
+			renderGameScreen(screen)
 		}
 	}
 }
