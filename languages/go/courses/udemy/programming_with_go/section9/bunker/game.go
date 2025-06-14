@@ -14,6 +14,7 @@ type Game struct {
 	ballX, ballY                           int
 	midPaddle                              int
 	minY, maxY                             int
+	isDebugging                            bool
 }
 
 // ----------------------------------------------------------------------------
@@ -30,6 +31,11 @@ func NewGame(screen tcell.Screen) *Game {
 		maxY:      height - PaddleHeight,
 		midPaddle: midPaddle,
 	}
+}
+
+// ----------------------------------------------------------------------------
+func (g *Game) ToggleDebugging() {
+	g.isDebugging = !g.isDebugging
 }
 
 // ----------------------------------------------------------------------------
@@ -52,7 +58,10 @@ func (g *Game) Update() {}
 // ----------------------------------------------------------------------------
 func (g *Game) Draw(screen tcell.Screen) {
 	display(screen, g.playerX, g.playerY, 1, PaddleHeight, ' ')
-	display(screen, 1, g.playerY+g.midPaddle, 1, 1, '>')
 	display(screen, g.opponentX, g.opponentY, 1, PaddleHeight, ' ')
-	display(screen, g.opponentX-1, g.opponentY+g.midPaddle, 1, 1, '<')
+
+	if g.isDebugging {
+		display(screen, 1, g.playerY+g.midPaddle, 1, 1, '>')
+		display(screen, g.opponentX-1, g.opponentY+g.midPaddle, 1, 1, '<')
+	}
 }

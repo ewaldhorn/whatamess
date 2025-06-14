@@ -35,6 +35,7 @@ func main() {
 	screen := initScreen()
 	w, _ := screen.Size()
 	game := NewGame(screen)
+	game.ToggleDebugging()
 
 	renderGameScreen(screen, game) // not sure if this is needed, I almost think not?
 
