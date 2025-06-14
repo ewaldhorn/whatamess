@@ -4,6 +4,15 @@ import "core:fmt"
 
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+printLettersInString :: proc(src: string) {
+	for c, pos in src {
+		fmt.printf("We have '%c' at position %d\n", c, pos)
+	}
+}
+// ----------------------------------------------------------------------------
 printOddNumbersOnly :: proc(range: int) {
 	for i := 0; i <= range; i += 1 {
 		if i % 2 != 0 {
@@ -35,7 +44,10 @@ main :: proc() {
 	blanklines(1)
 	fmt.print("Odd numbers under 20: ")
 	printOddNumbersOnly(20)
-	blanklines(1)
+	blanklines(2)
+	sample := "sample"
+	fmt.printf("Looking at \"sample\":\n")
+	printLettersInString(sample)
 
 	blanklines(2)
 }
