@@ -40,6 +40,18 @@ enums :: proc() {
 }
 
 // ----------------------------------------------------------------------------
+switches :: proc(grade: int) {
+	switch grade {
+	case 0 ..< 50:
+		fmt.println("FAIL")
+	case 50 ..< 80:
+		fmt.println("PASS")
+	case:
+		fmt.println("DISTINCTION")
+	}
+}
+
+// ----------------------------------------------------------------------------
 main :: proc() {
 	blanklines(2)
 
@@ -72,6 +84,18 @@ main :: proc() {
 
 	blanklines(2)
 	enums()
+
+	blanklines(2)
+	fmt.println("Doing some grades...")
+
+	fmt.print("A grade of 40: ")
+	switches(40)
+	fmt.print("A grade of 50: ")
+	switches(50)
+	fmt.print("A grade of 70: ")
+	switches(70)
+	fmt.print("A grade of 92: ")
+	switches(92)
 
 	blanklines(2)
 }
