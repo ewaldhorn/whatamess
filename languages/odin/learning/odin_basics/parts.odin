@@ -52,4 +52,10 @@ part_one :: proc() {
 	left, right := 17, 5
 	d, m := divMod(left, right)
 	fmt.printf("DivMod for %d and %d is %d and %d.\n", left, right, d, m)
+
+	blanklines(2)
+	pointers()
+
+	blanklines(2)
+	arrays()
 }
