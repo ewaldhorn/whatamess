@@ -5,13 +5,26 @@ import "core:fmt"
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
+printHexAndBinaryValuesOfLettersInString :: proc(src: string) {
+	for i in 0 ..< len(src) {
+		fmt.printf("%#x (%#b)\n", src[i], src[i])
+	}
+}
+
 // ----------------------------------------------------------------------------
+printValuesOfLettersInString :: proc(src: string) {
+	for i in 0 ..< len(src) {
+		fmt.println(src[i])
+	}
+}
+
 // ----------------------------------------------------------------------------
 printLettersInString :: proc(src: string) {
 	for c, pos in src {
 		fmt.printf("We have '%c' at position %d\n", c, pos)
 	}
 }
+
 // ----------------------------------------------------------------------------
 printOddNumbersOnly :: proc(range: int) {
 	for i := 0; i <= range; i += 1 {
@@ -20,17 +33,12 @@ printOddNumbersOnly :: proc(range: int) {
 		}
 	}
 }
+
 // ----------------------------------------------------------------------------
 productOf :: proc(left, right: int) -> int {
 	return left * right
 }
 
-// ----------------------------------------------------------------------------
-blanklines :: proc(count: int) {
-	for i in 0 ..< count {
-		fmt.println()
-	}
-}
 // ----------------------------------------------------------------------------
 main :: proc() {
 	blanklines(2)
@@ -45,9 +53,18 @@ main :: proc() {
 	fmt.print("Odd numbers under 20: ")
 	printOddNumbersOnly(20)
 	blanklines(2)
+
 	sample := "sample"
 	fmt.printf("Looking at \"sample\":\n")
 	printLettersInString(sample)
+	blanklines(1)
+
+	fmt.printf("Looking at letter values (ASCII) now:\n")
+	printValuesOfLettersInString(sample)
+
+	sample = "0123456789"
+	fmt.printf("Looking at letter values (HEX, ASCII) now:\n")
+	printHexAndBinaryValuesOfLettersInString(sample)
 
 	blanklines(2)
 }
