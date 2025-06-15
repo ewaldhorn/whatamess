@@ -54,6 +54,13 @@ switches :: proc(grade: int) {
 // ----------------------------------------------------------------------------
 main :: proc() {
 	blanklines(2)
+	defer blanklines(2)
+
+	defer {
+		blanklines(1)
+		fmt.println("Tada!")
+		fmt.println("And that's all folks!")
+	}
 
 	fmt.println("Hello world, from Odin!")
 
@@ -69,7 +76,7 @@ main :: proc() {
 	sample := "sample"
 	fmt.printf("Looking at \"sample\":\n")
 	printLettersInString(sample)
-	blanklines(1)
+	blanklines(2)
 
 	fmt.printf("Looking at letter values (ASCII) now:\n")
 	printValuesOfLettersInString(sample)
@@ -97,5 +104,4 @@ main :: proc() {
 	fmt.print("A grade of 92: ")
 	switches(92)
 
-	blanklines(2)
 }
