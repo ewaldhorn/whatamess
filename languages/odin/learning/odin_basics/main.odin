@@ -8,6 +8,17 @@ productOf :: proc(left, right: int) -> int {
 }
 
 // ----------------------------------------------------------------------------
+namedReturnValue :: proc(left, right: int) -> (total: int) {
+	total = left + right
+	return
+}
+
+// ----------------------------------------------------------------------------
+divMod :: proc(left, right: int) -> (int, int) {
+	return left / right, left % right
+}
+
+// ----------------------------------------------------------------------------
 Directions :: enum {
 	North,
 	South,
@@ -15,6 +26,7 @@ Directions :: enum {
 	West,
 }
 
+// ----------------------------------------------------------------------------
 enums :: proc() {
 	current_direction := Directions.West
 
@@ -103,5 +115,13 @@ main :: proc() {
 	switches(70)
 	fmt.print("A grade of 92: ")
 	switches(92)
+
+	blanklines(2)
+	fmt.printf("The total of 6 and 8 is %d.\n", namedReturnValue(6, 8))
+
+	blanklines(2)
+	left, right := 17, 5
+	d, m := divMod(left, right)
+	fmt.printf("DivMod for %d and %d is %d and %d.\n", left, right, d, m)
 
 }
