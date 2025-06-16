@@ -9,6 +9,7 @@ GAME_TITLE :: "Hello Odin and Raylib"
 
 // ----------------------------------------------------------------------------
 drawBasicShapes :: proc(circleAt: rl.Vector2) {
+	rl.ClearBackground(rl.BLACK)
 	rl.DrawCircleV(circleAt, 50.0, rl.GREEN)
 	rl.DrawRectangleLinesEx({0, 0, SCREEN_WIDTH, SCREEN_HEIGHT}, 10, rl.RED)
 	rl.DrawPoly({90, 90}, 5, 50, 0, rl.YELLOW)
@@ -25,7 +26,11 @@ main :: proc() {
 	for !rl.WindowShouldClose() {
 		rl.BeginDrawing()
 
-		if rl.IsMouseButtonPressed(.LEFT) {
+		// if rl.IsMouseButtonPressed(.LEFT) {
+		// circlePos = rl.GetMousePosition()
+		// }
+
+		if rl.IsMouseButtonDown(.LEFT) {
 			circlePos = rl.GetMousePosition()
 		}
 
