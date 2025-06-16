@@ -30,4 +30,7 @@ main :: proc() {
 
 	blanklines(2)
 	structs()
+
+	blanklines(2)
+	maps()
 }
