@@ -17,11 +17,40 @@ drawBasicShapes :: proc(circleAt: rl.Vector2, sides: i32) {
 }
 
 // ----------------------------------------------------------------------------
+
+
+// ----------------------------------------------------------------------------
 main :: proc() {
 	rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, GAME_TITLE)
 	rl.SetTargetFPS(30)
 
-	circlePos: rl.Vector2 = {SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2}
+	nofussLogo := rl.LoadImage("./images/favicon.png")
+	text: cstring = "NoFuss Logo"
+	textWidth := rl.MeasureText(text, 10)
+
+	rl.ImageDrawText(
+		&nofussLogo,
+		text,
+		(nofussLogo.width / 2 - textWidth / 2) + 1,
+		nofussLogo.height - 9,
+		10,
+		rl.BLACK,
+	)
+
+	rl.ImageDrawText(
+		&nofussLogo,
+		text,
+		nofussLogo.width / 2 - textWidth / 2,
+		nofussLogo.height - 10,
+		10,
+		rl.WHITE,
+	)
+
+
+	texture := rl.LoadTextureFromImage(nofussLogo)
+	//also rl.LoadTexture("./images/favicon.png")
+
+	circlePos: rl.Vector2 = {SCREEN_WIDTH - 200, SCREEN_HEIGHT / 2}
 	sides: i32 = 3
 
 	for !rl.WindowShouldClose() {
@@ -48,6 +77,8 @@ main :: proc() {
 		}
 
 		drawBasicShapes(circlePos, sides)
+
+		rl.DrawTexture(texture, 350, 300, rl.WHITE)
 
 		rl.EndDrawing()
 	}
