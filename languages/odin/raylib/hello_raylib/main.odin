@@ -2,14 +2,10 @@ package main
 
 import "core:fmt"
 import rl "vendor:raylib"
-// ----------------------------------------------------------------------------
-SCREEN_WIDTH :: 800
-SCREEN_HEIGHT :: 600
-GAME_TITLE :: "Hello Odin and Raylib"
 
 // ----------------------------------------------------------------------------
 drawBasicShapes :: proc(circleAt: rl.Vector2, sides: i32) {
-	rl.ClearBackground(rl.BLACK)
+	rl.ClearBackground(GAME_BACKGROUND_COLOUR)
 	rl.DrawCircleV(circleAt, 50.0, rl.GREEN)
 	rl.DrawRectangleLinesEx({0, 0, SCREEN_WIDTH, SCREEN_HEIGHT}, 10, rl.RED)
 	rl.DrawPoly({120, 120}, sides, 80, 0, rl.YELLOW)
