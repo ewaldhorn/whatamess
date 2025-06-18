@@ -17,7 +17,10 @@ drawBasicShapes :: proc(circleAt: rl.Vector2, sides: i32) {
 }
 
 // ----------------------------------------------------------------------------
-
+drawShadowedTextOnImage :: proc(img: ^rl.Image, txt: cstring, textWidth: i32) {
+	rl.ImageDrawText(img, txt, (img.width / 2 - textWidth / 2) + 1, img.height - 9, 10, rl.BLACK)
+	rl.ImageDrawText(img, txt, img.width / 2 - textWidth / 2, img.height - 10, 10, rl.WHITE)
+}
 
 // ----------------------------------------------------------------------------
 main :: proc() {
@@ -28,24 +31,7 @@ main :: proc() {
 	text: cstring = "NoFuss Logo"
 	textWidth := rl.MeasureText(text, 10)
 
-	rl.ImageDrawText(
-		&nofussLogo,
-		text,
-		(nofussLogo.width / 2 - textWidth / 2) + 1,
-		nofussLogo.height - 9,
-		10,
-		rl.BLACK,
-	)
-
-	rl.ImageDrawText(
-		&nofussLogo,
-		text,
-		nofussLogo.width / 2 - textWidth / 2,
-		nofussLogo.height - 10,
-		10,
-		rl.WHITE,
-	)
-
+	drawShadowedTextOnImage(&nofussLogo, text, textWidth)
 
 	texture := rl.LoadTextureFromImage(nofussLogo)
 	//also rl.LoadTexture("./images/favicon.png")
