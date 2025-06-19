@@ -69,7 +69,11 @@ main :: proc() {
 
 		drawBasicShapes(circlePos, sides, textX)
 
-		rl.DrawTexture(texture, 350, 300, rl.WHITE)
+		rl.DrawTexture(texture, 50, 300, rl.WHITE)
+
+		for i in 1 ..= 8 {
+			centeredText("SCORE: 11", i32(i * 50), 25, rl.BROWN)
+		}
 
 		rl.EndDrawing()
 	}
