@@ -4,12 +4,13 @@ import "core:fmt"
 import rl "vendor:raylib"
 
 // ----------------------------------------------------------------------------
-drawBasicShapes :: proc(circleAt: rl.Vector2, sides: i32) {
+drawBasicShapes :: proc(circleAt: rl.Vector2, sides, textX: i32) {
 	rl.ClearBackground(GAME_BACKGROUND_COLOUR)
 	rl.DrawCircleV(circleAt, 50.0, rl.GREEN)
 	rl.DrawRectangleLinesEx({0, 0, SCREEN_WIDTH, SCREEN_HEIGHT}, 10, rl.RED)
 	rl.DrawPoly({120, 120}, sides, 80, 0, rl.YELLOW)
 	rl.DrawLineBezier({20, 500}, {700, 580}, 4, rl.BROWN)
+	rl.DrawText("Text", textX, 550, 30, rl.BLUE)
 }
 
 // ----------------------------------------------------------------------------
@@ -21,7 +22,7 @@ drawShadowedTextOnImage :: proc(img: ^rl.Image, txt: cstring, textWidth: i32) {
 // ----------------------------------------------------------------------------
 main :: proc() {
 	rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, GAME_TITLE)
-	rl.SetTargetFPS(30)
+	rl.SetTargetFPS(50)
 
 	nofussLogo := rl.LoadImage("./images/favicon.png")
 	text: cstring = "NoFuss Logo"
@@ -34,6 +35,8 @@ main :: proc() {
 
 	circlePos: rl.Vector2 = {SCREEN_WIDTH - 200, SCREEN_HEIGHT / 2}
 	sides: i32 = 3
+	textX: i32 = 20
+	textDir: i32 = 2
 
 	for !rl.WindowShouldClose() {
 		rl.BeginDrawing()
@@ -58,7 +61,13 @@ main :: proc() {
 			}
 		}
 
-		drawBasicShapes(circlePos, sides)
+		textX += textDir
+
+		if textX < 20 || textX > 700 {
+			textDir *= -1
+		}
+
+		drawBasicShapes(circlePos, sides, textX)
 
 		rl.DrawTexture(texture, 350, 300, rl.WHITE)
 
