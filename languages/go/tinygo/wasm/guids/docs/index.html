@@ -1,0 +1,82 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="wasm_exec_tiny.js"></script>
+    <title>TinyGo and Wasm Canvas Interaction</title>
+    <link href="styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <h1 id="title">TinyGo and Wasm Canvas Interaction</h1>
+    <div id="loading">Loading ...</div>
+    <div id="controls">
+      <button id="refreshButton" type="button">Refresh Main Canvas</button
+      ><br /><br />
+    </div>
+    <div id="tinyCanvasDiv"></div>
+    <footer id="information">
+      <p>
+        Trying out the
+        <a
+          href="https://www.youtube.com/watch?v=MJNy2mdCt20"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Frank's Laboratory Flow Fields</a
+        >
+        stuff, stubbornly, in Go.
+      </p>
+      <p></p>
+      <p>
+        Source code:
+        <a
+          href="https://github.com/ewaldhorn/whatamess/tree/main/languages/go/tinygo/wasm/fields"
+        >
+          Github
+        </a>
+      </p>
+    </footer>
+    <script type="module" defer>
+      "use strict";
+
+      const go = new Go(); // Defined in wasm_exec.js
+      const WASM_URL = "fields.wasm";
+
+      let wasm;
+
+      let updateFunction = () => {
+        refreshCanvasOne();
+        requestAnimationFrame(updateFunction);
+      };
+
+      // ----------------------------------------------------------------------
+      go.importObject.env = {
+        bootstrap: function () {
+          document.getElementById("title").innerHTML = getVersion();
+        },
+        animateCanvasOne: function () {
+          updateFunction();
+        },
+      };
+
+      // ----------------------------------------------------------------------
+      if ("instantiateStreaming" in WebAssembly) {
+        WebAssembly.instantiateStreaming(fetch(WASM_URL), go.importObject).then(
+          function (obj) {
+            wasm = obj.instance;
+            go.run(wasm);
+          },
+        );
+      } else {
+        fetch(WASM_URL)
+          .then((resp) => resp.arrayBuffer())
+          .then((bytes) =>
+            WebAssembly.instantiate(bytes, go.importObject).then(
+              function (obj) {
+                wasm = obj.instance;
+                go.run(wasm);
+              },
+            ),
+          );
+      }
+    </script>
+  </body>
+</html>
