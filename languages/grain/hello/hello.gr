@@ -1,2 +1,4 @@
-// hello world in Grain
-print("Hello, world!");
+module Hello
+
+print("Hello, world!")
+

@@ -1,0 +1,9 @@
+<html>
+  <body>
+    <script>
+      WebAssembly.instantiateStreaming(fetch("hello.wasm")).then(
+        ({ instance }) => console.log(instance.exports.main()),
+      );
+    </script>
+  </body>
+</html>
