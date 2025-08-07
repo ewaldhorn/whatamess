@@ -42,7 +42,12 @@ class Effect {
   Effect(this.ctx, this.canvasWidth, this.canvasHeight) {
     gradient = createTextGradient(ctx, (w: canvasWidth, h: canvasHeight));
     mousePosition = (x: 0, y: 0);
-    web.window.addEventListener('mousemove', mouseMovementListener.toJS);
+    // web.window.addEventListener('mousemove', mouseMovementListener.toJS);
+
+    web.window.onmousemove = (web.MouseEvent event) {
+      print('Mouse position: x=${event.clientX}, y=${event.clientY}');
+      mouseMovementListener(event);
+    }.toJS;
   }
 
   // ---------------------------------------------------- mouseMovementListener
