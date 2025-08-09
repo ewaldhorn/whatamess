@@ -27,13 +27,15 @@ func fixedToFloat(f int64) float64 {
 // ----------------------------------------------------------------------------
 // Performs a single Mandelbrot calculation.
 func mandelbrot(cx, cy float64, maxIter int) int {
-	x, y := 0.0, 0.0
+	var x, y float64 = 0, 0
+	var x2, y2 float64 = 0, 0
 	iter := 0
 
-	for iter < maxIter && (x*x+y*y) < 4.0 {
-		xNew := x*x - y*y + cx
+	for iter < maxIter && x2+y2 < 4.0 {
 		y = 2*x*y + cy
-		x = xNew
+		x = x2 - y2 + cx
+		x2 = x * x
+		y2 = y * y
 		iter++
 	}
 
