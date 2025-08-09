@@ -1,8 +1,6 @@
 package main
 
 import (
-	"math"
-
 	"github.com/ewaldhorn/tinycanvas/colour"
 )
 
@@ -43,14 +41,14 @@ func mandelbrot(cx, cy float64, maxIter int) int {
 }
 
 // ----------------------------------------------------------------------------
-func getColour(iter, maxIter int) *colour.Colour {
+func getColour(iter, maxIter int, sinLookupTable []float64) *colour.Colour {
 	if iter == maxIter {
 		return colour.NewColourBlack() // Black for points in the set
 	}
 
 	// Color gradient for points outside the set
 	r := uint8(float64(iter) / float64(maxIter) * 255)
-	g := uint8(math.Sin(float64(iter)/float64(maxIter)*math.Pi*2)*128 + 128)
+	g := uint8(sinLookupTable[iter]*128 + 128)
 	b := uint8(255 - r)
 	return colour.NewColour(r, g, b, colour.MAX_COLOUR_VALUE)
 }

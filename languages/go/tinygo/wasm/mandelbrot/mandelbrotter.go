@@ -1,6 +1,7 @@
 package main
 
 import (
+	"math"
 	"syscall/js"
 
 	"github.com/ewaldhorn/tinycanvas/tinycanvas"
@@ -13,6 +14,7 @@ type Mandelbrotter struct {
 	x, y, currentIter            int
 	cx, cy                       float64
 	done                         bool
+	sinLookupTable               []float64
 }
 
 // ----------------------------------------------------------------------------
@@ -31,6 +33,12 @@ func NewMandelbrotter(size int) *Mandelbrotter {
 func (m *Mandelbrotter) setup() {
 	m.setupCanvas()
 	m.setupRenderFrameCallback()
+
+	// precalc the sin values
+	m.sinLookupTable = make([]float64, m.maxIterations+1)
+	for i := 0; i <= m.maxIterations; i++ {
+		m.sinLookupTable[i] = math.Sin(float64(i) / float64(m.maxIterations) * math.Pi * 2)
+	}
 }
 
 // ----------------------------------------------------------------------------
@@ -40,7 +48,7 @@ func (m *Mandelbrotter) setupCanvas() {
 
 // ----------------------------------------------------------------------------
 func (m *Mandelbrotter) setupRenderFrameCallback() {
-	js.Global().Set("renderFrame", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+	js.Global().Set("renderFrame", js.FuncOf(func(this js.Value, args []js.Value) any {
 		m.Refresh()
 		return nil
 	}))
@@ -62,7 +70,7 @@ func (m *Mandelbrotter) step() {
 	m.cx = float64(m.x-m.width/2) * 4.0 / float64(m.width)
 	m.cy = float64(m.y-m.height/2) * 4.0 / float64(m.height)
 	m.currentIter = mandelbrot(m.cx, m.cy, m.maxIterations)
-	colour := getColour(m.currentIter, m.maxIterations)
+	colour := getColour(m.currentIter, m.maxIterations, m.sinLookupTable)
 	m.canvas.ColourPutPixel(m.x, m.y, *colour)
 
 	m.x++
