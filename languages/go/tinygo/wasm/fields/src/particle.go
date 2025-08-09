@@ -94,12 +94,6 @@ func (p *Particle) addPoint(x, y float32) {
 		p.currentHistory += 1
 		p.history[p.currentHistory] = Point{x: x, y: y}
 	}
-
-	if p.currentHistory >= p.maxLength-1 {
-		// slice off the first entry, have a max length to observe
-		// p.history = p.history[1:]
-		// TODO: Do something
-	}
 }
 
 // ----------------------------------------------------------------------------

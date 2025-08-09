@@ -34,7 +34,7 @@ func updateCanvasOne() {
 
 // ----------------------------------------------------------------------------
 func setRefreshCanvasOneCallback() {
-	js.Global().Set("refreshCanvasOne", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+	js.Global().Set("refreshCanvasOne", js.FuncOf(func(this js.Value, args []js.Value) any {
 		updateCanvasOne()
 		return nil
 	}))

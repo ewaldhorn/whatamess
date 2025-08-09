@@ -59,7 +59,7 @@ func setCallbacks() {
 
 // ----------------------------------------------------------------------------
 func setupKeyListeners() {
-	js.Global().Set("onkeydown", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+	js.Global().Set("onkeydown", js.FuncOf(func(this js.Value, args []js.Value) any {
 		keyPressed := args[0].Get("code").String()
 
 		isCtrlPressed := args[0].Get("ctrlKey").Bool()

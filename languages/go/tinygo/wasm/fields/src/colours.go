@@ -78,7 +78,7 @@ func getBaseColour(index int) (uint8, uint8, uint8) {
 func generateColours(r, g, b uint8) [colour_count]colour.Colour {
 	var colours [colour_count]colour.Colour
 
-	for i := 0; i < colour_count; i++ {
+	for i := range colour_count {
 		a := uint8(150 + rand.Intn(100))
 		switch {
 		case r == 0:
