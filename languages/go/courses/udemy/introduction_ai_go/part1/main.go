@@ -1,7 +1,9 @@
 package main
 
 import (
+	"flag"
 	"fmt"
+	"os"
 )
 
 // ------------------------------------------------------------------------------------------------
@@ -26,5 +28,18 @@ type Wall struct {
 
 // ------------------------------------------------------------------------------------------------
 func main() {
-	fmt.Println("Hello, World!")
+	var m Maze
+	var maze, searchType string
+
+	flag.StringVar(&maze, "file", "../mazes/maze.txt", "maze file")
+	flag.StringVar(&searchType, "search", "dfs", "search type")
+	flag.Parse()
+
+	err := m.Load(maze)
+	if err != nil {
+		fmt.Printf("error loading maze: %v", err)
+		os.Exit(1)
+	}
+
+	fmt.Printf("The maze is %dx%d big.\n", m.Height, m.Width)
 }
