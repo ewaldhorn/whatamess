@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"mazes/point"
 	"os"
 	"strings"
 )
@@ -11,7 +12,7 @@ import (
 // ------------------------------------------------------------------------------------------------
 type Maze struct {
 	Width, Height int
-	Start, End    Point
+	Start, End    point.Point
 	Walls         [][]Wall
 }
 
@@ -75,12 +76,12 @@ func (m *Maze) parseRawMaze(lines []string) error {
 			var wall Wall
 			switch curLetter {
 			case "A":
-				m.Start = Point{Row: i, Col: j}
+				m.Start = point.Point{Row: i, Col: j}
 				wall.State.Row = i
 				wall.State.Col = j
 				wall.IsSolid = false
 			case "B":
-				m.End = Point{Row: i, Col: j}
+				m.End = point.Point{Row: i, Col: j}
 				wall.State.Row = i
 				wall.State.Col = j
 				wall.IsSolid = false

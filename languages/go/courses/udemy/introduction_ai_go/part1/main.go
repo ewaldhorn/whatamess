@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"mazes/point"
 	"os"
 )
 
@@ -16,13 +17,8 @@ const (
 )
 
 // ------------------------------------------------------------------------------------------------
-type Point struct {
-	Row, Col int
-}
-
-// ------------------------------------------------------------------------------------------------
 type Wall struct {
-	State   Point
+	State   point.Point
 	IsSolid bool
 }
 
