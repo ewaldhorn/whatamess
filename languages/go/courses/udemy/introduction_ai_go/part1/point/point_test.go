@@ -4,24 +4,24 @@ import "testing"
 
 // ------------------------------------------------------------------------------------------------
 func TestPoint(t *testing.T) {
-	p := Point{Row: 1, Col: 2}
+	p := Point{X: 2, Y: 1}
 
-	if p.Row != 1 {
-		t.Errorf("Expected Row to be 1, but got %d", p.Row)
+	if p.Y != 1 {
+		t.Errorf("Expected Y to be 1, but got %d", p.Y)
 	}
 
-	if p.Col != 2 {
-		t.Errorf("Expected Col to be 2, but got %d", p.Col)
+	if p.X != 2 {
+		t.Errorf("Expected X to be 2, but got %d", p.X)
 	}
 
-	p.Row = 3
-	p.Col = 4
+	p.Y = 3
+	p.X = 4
 
-	if p.Row != 3 {
-		t.Errorf("Expected Row to be 3, but got %d", p.Row)
+	if p.Y != 3 {
+		t.Errorf("Expected Y to be 3, but got %d", p.Y)
 	}
 
-	if p.Col != 4 {
-		t.Errorf("Expected Col to be 4, but got %d", p.Col)
+	if p.X != 4 {
+		t.Errorf("Expected X to be 4, but got %d", p.X)
 	}
 }
