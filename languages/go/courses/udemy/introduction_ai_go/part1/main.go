@@ -48,6 +48,9 @@ func main() {
 		fmt.Println("Solution:")
 		fmt.Println("Solution is", len(m.Solution.Cells), "steps.")
 		fmt.Println("Time to solve:", time.Since(start))
+		fmt.Println()
+		m.Print()
+		fmt.Println()
 	} else {
 		fmt.Println("No solution found!")
 	}

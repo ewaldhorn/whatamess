@@ -120,8 +120,27 @@ func (m *Maze) Print() {
 	for y, row := range m.Walls {
 		for x, col := range row {
 			if col.IsSolid {
-				fmt.Println("█")
-			} else if
+				fmt.Print("█")
+			} else if m.Start.Y==col.State.Y&&m.Start.X==col.State.X{
+				fmt.Print("A")
+			} else if m.End.Y==col.State.Y&&m.End.X==col.State.X{
+				fmt.Print("B")
+			} else if m.isInSolution(point.Point{Y:y,X:x}){
+				fmt.Print("*")
+			} else {
+				fmt.Print(" ")
+			}
+		}
+		fmt.Println()
+	}
+}
+
+// ------------------------------------------------------------------------------------------------
+func (m *Maze) isInSolution(x point.Point) bool {
+	for _,step:=range m.Solution.Cells {
+		if step.Y==x.Y&&step.X==x.X{
+			return true
 		}
 	}
+	return false
 }
