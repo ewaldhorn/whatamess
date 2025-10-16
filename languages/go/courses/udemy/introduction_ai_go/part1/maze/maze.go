@@ -1,19 +1,27 @@
-package main
+package maze
 
 import (
 	"bufio"
 	"fmt"
-	"io"
+	"mazes/node"
 	"mazes/point"
+	"mazes/solution"
+	"mazes/wall"
 	"os"
 	"strings"
 )
 
 // ------------------------------------------------------------------------------------------------
 type Maze struct {
-	Width, Height int
-	Start, End    point.Point
-	Walls         [][]Wall
+	Width, Height      int
+	Start, End         point.Point
+	Walls              [][]wall.Wall
+	CurrentNode        *node.Node
+	Solution           solution.Solution
+	Explored           []point.Point
+	Steps, NumExplored int
+	Debug              bool
+	SearchType         int
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -26,19 +34,13 @@ func (m *Maze) Load(filename string) error {
 	defer f.Close()
 
 	var lines []string
-
-	reader := bufio.NewReader(f)
-	for {
-		line, err := reader.ReadString('\n')
-		if err == io.EOF {
-			break
-		} else if err != nil {
-			return fmt.Errorf("cannot read from file `%s`: %s", filename, err)
-		}
-
-		lines = append(lines, line)
+	scanner := bufio.NewScanner(f)
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
 	}
-
+	if err := scanner.Err(); err != nil {
+		return fmt.Errorf("cannot read from file `%s`: %s", filename, err)
+	}
 	return m.parseRawMaze(lines)
 }
 
@@ -63,35 +65,43 @@ func (m *Maze) parseRawMaze(lines []string) error {
 		return fmt.Errorf("unable to find End")
 	}
 
-	// set maze width and height
 	m.Height = len(lines)
-	m.Width = len(lines[0])
+	m.Width = 0
+	if m.Height > 0 {
+		maxWidth := 0
+		for _, l := range lines {
+			if len(l) > maxWidth {
+				maxWidth = len(l)
+			}
+		}
+		m.Width = maxWidth
+	}
 
-	var rows [][]Wall
+	var rows [][]wall.Wall
 
 	for i, row := range lines {
-		var cols []Wall
+		var cols []wall.Wall
 		for j, col := range row {
 			curLetter := fmt.Sprintf("%c", col)
-			var wall Wall
+			var wall wall.Wall
 			switch curLetter {
 			case "A":
-				m.Start = point.Point{Row: i, Col: j}
-				wall.State.Row = i
-				wall.State.Col = j
+				m.Start = point.Point{Y: i, X: j}
+				wall.State.Y = i
+				wall.State.X = j
 				wall.IsSolid = false
 			case "B":
-				m.End = point.Point{Row: i, Col: j}
-				wall.State.Row = i
-				wall.State.Col = j
+				m.End = point.Point{Y: i, X: j}
+				wall.State.Y = i
+				wall.State.X = j
 				wall.IsSolid = false
 			case " ":
-				wall.State.Row = i
-				wall.State.Col = j
+				wall.State.Y = i
+				wall.State.X = j
 				wall.IsSolid = false
 			case "#":
-				wall.State.Row = i
-				wall.State.Col = j
+				wall.State.Y = i
+				wall.State.X = j
 				wall.IsSolid = true
 			default:
 				continue
