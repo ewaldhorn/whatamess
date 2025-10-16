@@ -261,3 +261,4 @@ languages/go/ebitengine/pong/docs/main.wasm
 languages/go/wasm/pongish/docs/optimized_main.wasm
 languages/wasm/wat/learning_wasm/hello/hello.wasm
 languages/dart/web/particle_effects/web
+languages/go/courses/udemy/introduction_ai_go/part1/coverage.out
