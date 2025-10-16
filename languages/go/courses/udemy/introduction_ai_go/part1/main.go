@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"mazes/point"
+	"mazes/maze"
 	"os"
 )
 
@@ -17,14 +17,8 @@ const (
 )
 
 // ------------------------------------------------------------------------------------------------
-type Wall struct {
-	State   point.Point
-	IsSolid bool
-}
-
-// ------------------------------------------------------------------------------------------------
 func main() {
-	var m Maze
+	var m maze.Maze
 	var maze, searchType string
 
 	flag.StringVar(&maze, "file", "../mazes/maze.txt", "maze file")
