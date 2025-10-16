@@ -3,8 +3,10 @@ package main
 import (
 	"flag"
 	"fmt"
+	"mazes/algorithm"
 	"mazes/maze"
 	"os"
+	"time"
 )
 
 // ------------------------------------------------------------------------------------------------
@@ -31,5 +33,32 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Printf("The maze is %dx%d big.\n", m.Height, m.Width)
+	start := time.Now()
+
+	switch searchType {
+	case "dfs":
+		m.SearchType = DFS
+		solveDFS(&m)
+	default:
+		fmt.Println("Invalid search type specified.")
+		os.Exit(1)
+	}
+
+	if len(m.Solution.Actions) > 0 {
+		fmt.Println("Solution:")
+		fmt.Println("Solution is", len(m.Solution.Cells), "steps.")
+		fmt.Println("Time to solve:", time.Since(start))
+	} else {
+		fmt.Println("No solution found!")
+	}
+
+	fmt.Println("Explored", len(m.Explored), "nodes.")
+}
+
+// ------------------------------------------------------------------------------------------------
+func solveDFS(m *maze.Maze) {
+	var s algorithm.DepthFirstSearch
+	s.Game = m
+	fmt.Println("Goal is", s.Game.End)
+	s.Solve()
 }

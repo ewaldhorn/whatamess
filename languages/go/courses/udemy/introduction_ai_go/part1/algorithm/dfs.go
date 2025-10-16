@@ -3,6 +3,7 @@ package algorithm
 import (
 	"fmt"
 	"math/rand"
+	"mazes/helper"
 	"mazes/maze"
 	"mazes/node"
 	"mazes/point"
@@ -146,8 +147,12 @@ func (d *DepthFirstSearch) Solve() {
 
 		d.Game.Explored = append(d.Game.Explored, currentNode.State)
 
-		for _, x := range d.Neighbours(currentNode) {
-
+		for _, n := range d.Neighbours(currentNode) {
+			if !d.ContainsState(n) {
+				if !helper.ContainsPoint(n.State, d.Game.Explored) {
+					d.Add(&node.Node{State: n.State, Parent: currentNode, Action: n.Action})
+				}
+			}
 		}
 	}
 }

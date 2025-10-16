@@ -114,3 +114,14 @@ func (m *Maze) parseRawMaze(lines []string) error {
 	m.Walls = rows
 	return nil
 }
+
+// ------------------------------------------------------------------------------------------------
+func (m *Maze) Print() {
+	for y, row := range m.Walls {
+		for x, col := range row {
+			if col.IsSolid {
+				fmt.Println("█")
+			} else if
+		}
+	}
+}
