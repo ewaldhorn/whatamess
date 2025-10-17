@@ -143,6 +143,7 @@ func (d *DepthFirstSearch) Solve() {
 
 			d.Game.Solution = solution.Solution{Actions: actions, Cells: cells}
 			d.Game.Explored = append(d.Game.Explored, currentNode.State)
+			break
 		}
 
 		d.Game.Explored = append(d.Game.Explored, currentNode.State)
