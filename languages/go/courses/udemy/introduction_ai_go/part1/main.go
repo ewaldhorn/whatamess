@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"mazes/algorithm"
+	"mazes/imager"
 	"mazes/maze"
 	"os"
 	"time"
@@ -50,6 +51,7 @@ func main() {
 		fmt.Println("Time to solve:", time.Since(start))
 		fmt.Println()
 		m.Print()
+		imager.RenderMazeToDisk(&m, "image.png")
 		fmt.Println()
 	} else {
 		fmt.Println("No solution found!")
