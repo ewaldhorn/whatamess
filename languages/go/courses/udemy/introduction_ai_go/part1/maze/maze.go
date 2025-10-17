@@ -121,11 +121,11 @@ func (m *Maze) Print() {
 		for x, col := range row {
 			if col.IsSolid {
 				fmt.Print("█")
-			} else if m.Start.Y==col.State.Y&&m.Start.X==col.State.X{
+			} else if m.Start.Y == col.State.Y && m.Start.X == col.State.X {
 				fmt.Print("A")
-			} else if m.End.Y==col.State.Y&&m.End.X==col.State.X{
+			} else if m.End.Y == col.State.Y && m.End.X == col.State.X {
 				fmt.Print("B")
-			} else if m.isInSolution(point.Point{Y:y,X:x}){
+			} else if m.IsInSolution(point.Point{Y: y, X: x}) {
 				fmt.Print("*")
 			} else {
 				fmt.Print(" ")
@@ -136,9 +136,9 @@ func (m *Maze) Print() {
 }
 
 // ------------------------------------------------------------------------------------------------
-func (m *Maze) isInSolution(x point.Point) bool {
-	for _,step:=range m.Solution.Cells {
-		if step.Y==x.Y&&step.X==x.X{
+func (m *Maze) IsInSolution(x point.Point) bool {
+	for _, step := range m.Solution.Cells {
+		if step.Y == x.Y && step.X == x.X {
 			return true
 		}
 	}
