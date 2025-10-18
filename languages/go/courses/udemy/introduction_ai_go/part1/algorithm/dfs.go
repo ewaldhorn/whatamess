@@ -3,7 +3,9 @@ package algorithm
 import (
 	"fmt"
 	"math/rand"
+	"mazes/globals"
 	"mazes/helper"
+	"mazes/imager"
 	"mazes/maze"
 	"mazes/node"
 	"mazes/point"
@@ -147,6 +149,11 @@ func (d *DepthFirstSearch) Solve() {
 		}
 
 		d.Game.Explored = append(d.Game.Explored, currentNode.State)
+
+		// Write animation frame if Animation is enabled
+		if d.Game.Animate {
+			imager.RenderMazeToDisk(d.Game, fmt.Sprintf("%s%06d.png", globals.TemporaryDirectory, d.Game.NumExplored))
+		}
 
 		for _, n := range d.Neighbours(currentNode) {
 			if !d.ContainsState(n) {

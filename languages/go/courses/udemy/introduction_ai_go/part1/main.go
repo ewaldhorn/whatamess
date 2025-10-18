@@ -68,6 +68,12 @@ func main() {
 	}
 
 	fmt.Println("Explored", len(m.Explored), "nodes.")
+
+	if m.Animate {
+		fmt.Println("Building animation...")
+		imager.RenderAnimatedMazeToDisk()
+		fmt.Println("Done!")
+	}
 }
 
 // ------------------------------------------------------------------------------------------------
