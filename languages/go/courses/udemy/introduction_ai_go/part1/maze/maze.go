@@ -22,6 +22,7 @@ type Maze struct {
 	Steps, NumExplored int
 	Debug              bool
 	SearchType         int
+	Animate            bool
 }
 
 // ------------------------------------------------------------------------------------------------

@@ -1,6 +1,10 @@
 package helper
 
-import "mazes/point"
+import (
+	"mazes/globals"
+	"mazes/point"
+	"os"
+)
 
 // ------------------------------------------------------------------------------------------------
 func ContainsPoint(needle point.Point, haystack []point.Point) bool {
@@ -10,4 +14,17 @@ func ContainsPoint(needle point.Point, haystack []point.Point) bool {
 		}
 	}
 	return false
+}
+
+// ------------------------------------------------------------------------------------------------
+func ClearTempDirectory() {
+	directory := globals.TemporaryDirectory
+	dir, _ := os.Open(directory)
+	filesToDelete, _ := dir.ReadDir(0)
+
+	for idx := range filesToDelete {
+		f := filesToDelete[idx]
+		fullPath := directory + f.Name()
+		_ = os.Remove(fullPath)
+	}
 }

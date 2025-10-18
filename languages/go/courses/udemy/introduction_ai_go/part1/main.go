@@ -4,6 +4,8 @@ import (
 	"flag"
 	"fmt"
 	"mazes/algorithm"
+	"mazes/globals"
+	"mazes/helper"
 	"mazes/imager"
 	"mazes/maze"
 	"os"
@@ -20,12 +22,20 @@ const (
 )
 
 // ------------------------------------------------------------------------------------------------
+func init() {
+	_ = os.Mkdir(globals.TemporaryDirectory, os.ModePerm)
+	helper.ClearTempDirectory()
+}
+
+// ------------------------------------------------------------------------------------------------
 func main() {
 	var m maze.Maze
 	var maze, searchType string
 
 	flag.StringVar(&maze, "file", "../mazes/maze.txt", "maze file")
 	flag.StringVar(&searchType, "search", "dfs", "search type")
+	flag.BoolVar(&m.Debug, "debug", false, "write debugging info")
+	flag.BoolVar(&m.Animate, "animate", false, "produce animation")
 	flag.Parse()
 
 	err := m.Load(maze)

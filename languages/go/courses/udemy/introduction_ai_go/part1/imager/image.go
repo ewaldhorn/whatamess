@@ -6,12 +6,15 @@ import (
 	"image/color"
 	"image/draw"
 	"image/png"
+	"log"
+	"mazes/globals"
 	"mazes/maze"
 	"mazes/point"
 	"mazes/wall"
 	"os"
 
 	"github.com/StephaneBunel/bresenham"
+	"github.com/kmicki/apng"
 	"golang.org/x/image/font"
 	"golang.org/x/image/font/basicfont"
 	"golang.org/x/image/math/fixed"
@@ -61,6 +64,47 @@ func RenderMazeToDisk(m *maze.Maze, filename ...string) {
 
 	f, _ := os.Create(outFile)
 	_ = png.Encode(f, img)
+}
+
+// ------------------------------------------------------------------------------------------------
+func RenderAnimatedMazeToDisk() {
+	output := "./animation.png"
+	files, _ := os.ReadDir(globals.TemporaryDirectory)
+	var images []string
+	var delays []int
+
+	for _, file := range files {
+		images = append(images, fmt.Sprintf("%s%s", globals.TemporaryDirectory, file.Name()))
+		delays = append(delays, 30)
+	}
+
+	images = append(images, "./image.png")
+
+	a := apng.APNG{
+		Frames: make([]apng.Frame, len(images)),
+	}
+	out, _ := os.Create(output)
+	defer out.Close()
+
+	for i, s := range images {
+		in, err := os.Open(s)
+		if err != nil {
+			log.Println(err)
+			os.Exit(1)
+		}
+		defer in.Close()
+
+		m, err := png.Decode(in)
+		if err != nil {
+			continue
+		}
+		a.Frames[i].Image = m
+	}
+	err := apng.Encode(out, a)
+	if err != nil {
+		log.Println(err)
+	}
+
 }
 
 // ------------------------------------------------------------------------------------------------
