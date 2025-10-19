@@ -1,0 +1,28 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  MAZE_DIR: "../mazes"
+
+tasks:
+  default:
+    desc: "Lists help"
+    cmds:
+      - task --list-all
+    silent: true
+  dfs:
+    desc: "Depth first search - Maze 1"
+    cmds:
+      - go run . -file={{.MAZE_DIR}}/maze.txt -search=dfs
+    silent: true
+  dfs2:
+    desc: "Depth first search - Maze 2"
+    cmds:
+      - go run . -file={{.MAZE_DIR}}/maze2.txt -search=dfs
+    silent: true
+  bfs:
+    desc: "Breadth first search - Maze 1"
+    cmds:
+      - go run . -file={{.MAZE_DIR}}/maze.txt -search=bfs
+    silent: true
