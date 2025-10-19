@@ -21,8 +21,23 @@ tasks:
     cmds:
       - go run . -file={{.MAZE_DIR}}/maze2.txt -search=dfs
     silent: true
+  dfs3:
+    desc: "Depth first search - Maze 3"
+    cmds:
+      - go run . -file={{.MAZE_DIR}}/maze-100-steps.txt -search=dfs
+    silent: true
   bfs:
     desc: "Breadth first search - Maze 1"
     cmds:
       - go run . -file={{.MAZE_DIR}}/maze.txt -search=bfs
+    silent: true
+  bfs2:
+    desc: "Depth first search - Maze 2"
+    cmds:
+      - go run . -file={{.MAZE_DIR}}/maze2.txt -search=bfs
+    silent: true
+  bfs3:
+    desc: "Depth first search - Maze 3"
+    cmds:
+      - go run . -file={{.MAZE_DIR}}/maze-100-steps.txt -search=bfs
     silent: true
