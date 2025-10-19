@@ -7,7 +7,7 @@ import (
 
 // ------------------------------------------------------------------------------------------------
 type Node struct {
-	index      int
+	Index      int
 	State      point.Point
 	Parent     *Node
 	Action     string
