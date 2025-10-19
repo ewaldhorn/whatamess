@@ -5,6 +5,7 @@ import (
 	"log"
 	"math/rand"
 	"mazes/globals"
+	"mazes/helper"
 	"mazes/imager"
 	"mazes/maze"
 	"mazes/node"
@@ -161,7 +162,15 @@ func (b *BreadthFirstSearch) Solve() {
 		}
 
 		for _, x := range b.Neighbours(currentNode) {
-
+			if !b.ContainsState(x) {
+				if !helper.ContainsPoint(x.State, b.Game.Explored) {
+					b.AddNode(&node.Node{
+						State:  x.State,
+						Parent: currentNode,
+						Action: x.Action,
+					})
+				}
+			}
 		}
 	}
 }
