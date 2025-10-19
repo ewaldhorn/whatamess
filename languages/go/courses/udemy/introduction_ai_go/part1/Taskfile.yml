@@ -14,30 +14,30 @@ tasks:
   dfs:
     desc: "Depth first search - Maze 1"
     cmds:
-      - go run . -file={{.MAZE_DIR}}/maze.txt -search=dfs
+      - go run . -file={{.MAZE_DIR}}/maze.txt -search=dfs -animate=true
     silent: true
   dfs2:
     desc: "Depth first search - Maze 2"
     cmds:
-      - go run . -file={{.MAZE_DIR}}/maze2.txt -search=dfs
+      - go run . -file={{.MAZE_DIR}}/maze2.txt -search=dfs -animate=true
     silent: true
   dfs3:
     desc: "Depth first search - Maze 3"
     cmds:
-      - go run . -file={{.MAZE_DIR}}/maze-100-steps.txt -search=dfs
+      - go run . -file={{.MAZE_DIR}}/maze-100-steps.txt -search=dfs -animate=true
     silent: true
   bfs:
     desc: "Breadth first search - Maze 1"
     cmds:
-      - go run . -file={{.MAZE_DIR}}/maze.txt -search=bfs
+      - go run . -file={{.MAZE_DIR}}/maze.txt -search=bfs -animate=true
     silent: true
   bfs2:
     desc: "Depth first search - Maze 2"
     cmds:
-      - go run . -file={{.MAZE_DIR}}/maze2.txt -search=bfs
+      - go run . -file={{.MAZE_DIR}}/maze2.txt -search=bfs -animate=true
     silent: true
   bfs3:
     desc: "Depth first search - Maze 3"
     cmds:
-      - go run . -file={{.MAZE_DIR}}/maze-100-steps.txt -search=bfs
+      - go run . -file={{.MAZE_DIR}}/maze-100-steps.txt -search=bfs -animate=true
     silent: true
