@@ -35,3 +35,41 @@ func TestContainsPoint(t *testing.T) {
 		t.Error("Expected ContainsPoint to return true when checking exact same point reference")
 	}
 }
+
+// ------------------------------------------------------------------------------------------------
+func TestAbsInt(t *testing.T) {
+	// Test case 1: Positive number
+	result := AbsInt(5)
+	expected := 5
+	if result != expected {
+		t.Errorf("AbsInt(5) = %d; expected %d", result, expected)
+	}
+
+	// Test case 2: Negative number
+	result = AbsInt(-5)
+	expected = 5
+	if result != expected {
+		t.Errorf("AbsInt(-5) = %d; expected %d", result, expected)
+	}
+
+	// Test case 3: Zero
+	result = AbsInt(0)
+	expected = 0
+	if result != expected {
+		t.Errorf("AbsInt(0) = %d; expected %d", result, expected)
+	}
+
+	// Test case 4: Large positive number
+	result = AbsInt(1000000)
+	expected = 1000000
+	if result != expected {
+		t.Errorf("AbsInt(1000000) = %d; expected %d", result, expected)
+	}
+
+	// Test case 5: Large negative number
+	result = AbsInt(-1000000)
+	expected = 1000000
+	if result != expected {
+		t.Errorf("AbsInt(-1000000) = %d; expected %d", result, expected)
+	}
+}
