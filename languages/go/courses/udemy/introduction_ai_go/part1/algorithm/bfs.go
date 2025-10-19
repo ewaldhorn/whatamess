@@ -1,6 +1,7 @@
 package algorithm
 
 import (
+	"fmt"
 	"mazes/maze"
 	"mazes/node"
 )
@@ -35,3 +36,23 @@ func (b *BreadthFirstSearch) ContainsState(i *node.Node) bool {
 func (b *BreadthFirstSearch) IsEmpty() bool {
 	return len(b.Frontier) == 0
 }
+
+// ------------------------------------------------------------------------------------------------
+func (b *BreadthFirstSearch) Remove() (*node.Node, error) {
+	if len(b.Frontier) > 0 {
+		if b.Game.Debug {
+			fmt.Println("Frontier before remove:")
+			for _, f := range b.Frontier {
+				fmt.Println("Node:", f.State)
+			}
+		}
+
+		node := b.Frontier[0]
+		b.Frontier = b.Frontier[1:]
+		return node, nil
+	}
+
+	return nil, fmt.Errorf("frontier is empty")
+}
+
+// ------------------------------------------------------------------------------------------------
