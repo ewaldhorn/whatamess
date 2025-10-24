@@ -1,6 +1,7 @@
 import gleam/io
 import gleam/string as text
 import use_qualified
+import with_floats
 import with_ints
 
 // ------------------------------------------------------------------------------------------------
@@ -9,6 +10,7 @@ pub fn main() -> Nil {
   reverse_string()
   use_qualified.this_is_qualified()
   with_ints.demo()
+  with_floats.demo()
 }
 
 // ------------------------------------------------------------------------------------------------
