@@ -4,6 +4,7 @@ import extras/with_constants
 import extras/with_function_captures
 import extras/with_functions
 import extras/with_lists
+import extras/with_pipes
 import extras/with_type_alias
 import gleam/io
 import gleam/string as text
@@ -36,6 +37,7 @@ pub fn main() -> Nil {
   with_closures.demo()
   with_function_captures.demo()
   with_generics.demo()
+  with_pipes.demo()
 
   Nil
 }
