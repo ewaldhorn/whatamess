@@ -5,6 +5,7 @@ import with_floats
 import with_ints
 import with_let
 import with_strings
+import with_types
 
 // ------------------------------------------------------------------------------------------------
 pub fn main() -> Nil {
@@ -15,6 +16,7 @@ pub fn main() -> Nil {
   with_floats.demo()
   with_strings.demo()
   with_let.demo()
+  with_types.demo()
 }
 
 // ------------------------------------------------------------------------------------------------
