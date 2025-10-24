@@ -1,3 +1,4 @@
+import extras/with_blocks
 import extras/with_type_alias
 import gleam/io
 import gleam/string as text
@@ -19,6 +20,8 @@ pub fn main() -> Nil {
   with_let.demo()
   let _a = with_types.demo()
   with_type_alias.demo()
+  echo with_blocks.demo()
+  Nil
 }
 
 // ------------------------------------------------------------------------------------------------
