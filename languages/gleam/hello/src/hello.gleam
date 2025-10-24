@@ -7,6 +7,7 @@ import gleam/io
 import gleam/string as text
 import use_qualified
 import with_floats
+import with_high_order
 import with_ints
 import with_let
 import with_strings
@@ -28,6 +29,7 @@ pub fn main() -> Nil {
   with_constants.demo()
   echo with_functions.double(5)
   echo with_functions.multiply(2, 3)
+  with_high_order.demo()
 
   Nil
 }
