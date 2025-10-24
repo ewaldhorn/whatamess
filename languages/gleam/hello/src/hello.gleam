@@ -1,5 +1,6 @@
 import extras/with_blocks
 import extras/with_constants
+import extras/with_functions
 import extras/with_lists
 import extras/with_type_alias
 import gleam/io
@@ -25,6 +26,8 @@ pub fn main() -> Nil {
   echo with_blocks.demo()
   with_lists.demo()
   with_constants.demo()
+  echo with_functions.double(5)
+  echo with_functions.multiply(2, 3)
 
   Nil
 }
