@@ -1,3 +1,4 @@
+import extras/with_type_alias
 import gleam/io
 import gleam/string as text
 import use_qualified
@@ -16,7 +17,8 @@ pub fn main() -> Nil {
   with_floats.demo()
   with_strings.demo()
   with_let.demo()
-  with_types.demo()
+  let _a = with_types.demo()
+  with_type_alias.demo()
 }
 
 // ------------------------------------------------------------------------------------------------
