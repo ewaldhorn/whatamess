@@ -1,6 +1,7 @@
 import extras/with_blocks
 import extras/with_closures
 import extras/with_constants
+import extras/with_function_captures
 import extras/with_functions
 import extras/with_lists
 import extras/with_type_alias
@@ -32,6 +33,7 @@ pub fn main() -> Nil {
   echo with_functions.multiply(2, 3)
   with_high_order.demo()
   with_closures.demo()
+  with_function_captures.demo()
 
   Nil
 }
