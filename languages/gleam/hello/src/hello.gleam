@@ -9,6 +9,7 @@ import gleam/io
 import gleam/string as text
 import use_qualified
 import with_floats
+import with_generics
 import with_high_order
 import with_ints
 import with_let
@@ -34,6 +35,7 @@ pub fn main() -> Nil {
   with_high_order.demo()
   with_closures.demo()
   with_function_captures.demo()
+  with_generics.demo()
 
   Nil
 }
