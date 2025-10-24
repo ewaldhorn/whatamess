@@ -3,6 +3,7 @@ import gleam/string as text
 import use_qualified
 import with_floats
 import with_ints
+import with_let
 import with_strings
 
 // ------------------------------------------------------------------------------------------------
@@ -13,6 +14,7 @@ pub fn main() -> Nil {
   with_ints.demo()
   with_floats.demo()
   with_strings.demo()
+  with_let.demo()
 }
 
 // ------------------------------------------------------------------------------------------------
