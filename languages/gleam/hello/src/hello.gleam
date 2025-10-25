@@ -10,6 +10,7 @@ import patterns/string_patterns
 import recursion/list_recursion
 import recursion/recurse_this
 import recursion/tail_calls
+import types/custom_types
 
 // ------------------------------------------------------------------------------------------------
 pub fn main() -> Nil {
@@ -20,6 +21,7 @@ pub fn main() -> Nil {
   do_recursions()
   do_patterns()
   do_tuples()
+  custom_types.demo()
 
   Nil
 }
