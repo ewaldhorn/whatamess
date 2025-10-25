@@ -26,6 +26,7 @@ pub fn main() -> Nil {
   reverse_string()
   do_a_little_something()
   with_case.demo()
+  with_case.demo_assignment()
 
   Nil
 }
