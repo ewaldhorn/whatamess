@@ -2,6 +2,7 @@ import gleam/io
 import gleam/string as text
 import help_me_run
 import patterns/alternative_patterns
+import patterns/guards
 import patterns/list_patterns
 import patterns/matching
 import patterns/pattern_alias
@@ -15,9 +16,9 @@ pub fn main() -> Nil {
   io.println("Hello from hello!")
   reverse_string()
   help_me_run.do_a_little_something()
-  do_patterns()
   matching.demo()
   do_recursions()
+  do_patterns()
 
   Nil
 }
@@ -28,6 +29,7 @@ fn do_patterns() {
   list_patterns.demo()
   alternative_patterns.demo()
   pattern_alias.demo()
+  guards.demo()
 }
 
 // ------------------------------------------------------------------------------------------------
