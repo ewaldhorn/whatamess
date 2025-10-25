@@ -15,14 +15,19 @@ pub fn main() -> Nil {
   io.println("Hello from hello!")
   reverse_string()
   help_me_run.do_a_little_something()
-  string_patterns.demo()
-  list_patterns.demo()
-  alternative_patterns.demo()
-  pattern_alias.demo()
+  do_patterns()
   matching.demo()
   do_recursions()
 
   Nil
+}
+
+// ------------------------------------------------------------------------------------------------
+fn do_patterns() {
+  string_patterns.demo()
+  list_patterns.demo()
+  alternative_patterns.demo()
+  pattern_alias.demo()
 }
 
 // ------------------------------------------------------------------------------------------------
