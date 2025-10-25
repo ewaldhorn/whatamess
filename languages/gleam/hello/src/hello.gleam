@@ -1,6 +1,7 @@
 import extras/arguments/with_arguments as argies
 import extras/shorthand/label_shorthand as short
 import extras/with_blocks
+import extras/with_case
 import extras/with_closures
 import extras/with_constants
 import extras/with_function_captures
@@ -24,6 +25,7 @@ pub fn main() -> Nil {
   io.println("Hello from hello!")
   reverse_string()
   do_a_little_something()
+  with_case.demo()
 
   Nil
 }
