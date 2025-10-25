@@ -1,6 +1,5 @@
 import extras/arguments/with_arguments as argies
 import extras/shorthand/label_shorthand as short
-import extras/string_patterns
 import extras/with_blocks
 import extras/with_case
 import extras/with_closures
@@ -12,6 +11,8 @@ import extras/with_pipes
 import extras/with_type_alias
 import gleam/io
 import gleam/string as text
+import patterns/list_patterns
+import patterns/string_patterns
 import use_qualified
 import with_floats
 import with_generics
@@ -29,6 +30,7 @@ pub fn main() -> Nil {
   with_case.demo()
   with_case.demo_assignment()
   string_patterns.demo()
+  list_patterns.demo()
 
   Nil
 }
