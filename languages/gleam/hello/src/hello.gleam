@@ -1,6 +1,7 @@
 import gleam/io
 import gleam/string as text
 import help_me_run
+import patterns/alternative_patterns
 import patterns/list_patterns
 import patterns/matching
 import patterns/string_patterns
@@ -15,6 +16,7 @@ pub fn main() -> Nil {
   help_me_run.do_a_little_something()
   string_patterns.demo()
   list_patterns.demo()
+  alternative_patterns.main()
   matching.demo()
   do_recursions()
 
