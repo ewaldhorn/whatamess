@@ -4,6 +4,7 @@ import help_me_run
 import patterns/alternative_patterns
 import patterns/list_patterns
 import patterns/matching
+import patterns/pattern_alias
 import patterns/string_patterns
 import recursion/list_recursion
 import recursion/recurse_this
@@ -17,6 +18,7 @@ pub fn main() -> Nil {
   string_patterns.demo()
   list_patterns.demo()
   alternative_patterns.demo()
+  pattern_alias.demo()
   matching.demo()
   do_recursions()
 
