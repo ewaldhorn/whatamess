@@ -23,6 +23,13 @@ import with_types
 pub fn main() -> Nil {
   io.println("Hello from hello!")
   reverse_string()
+  do_a_little_something()
+
+  Nil
+}
+
+// ------------------------------------------------------------------------------------------------
+fn do_a_little_something() {
   use_qualified.this_is_qualified()
   with_ints.demo()
   with_floats.demo()
@@ -30,6 +37,11 @@ pub fn main() -> Nil {
   with_let.demo()
   let _a = with_types.demo()
   with_type_alias.demo()
+  do_a_little_something_more()
+}
+
+// ------------------------------------------------------------------------------------------------
+fn do_a_little_something_more() {
   echo with_blocks.demo()
   with_lists.demo()
   with_constants.demo()
@@ -42,8 +54,6 @@ pub fn main() -> Nil {
   with_pipes.demo()
   argies.demo()
   short.demo()
-
-  Nil
 }
 
 // ------------------------------------------------------------------------------------------------
