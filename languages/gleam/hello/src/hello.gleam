@@ -1,3 +1,4 @@
+import extras/arguments/with_arguments as argies
 import extras/with_blocks
 import extras/with_closures
 import extras/with_constants
@@ -38,6 +39,7 @@ pub fn main() -> Nil {
   with_function_captures.demo()
   with_generics.demo()
   with_pipes.demo()
+  argies.demo()
 
   Nil
 }
