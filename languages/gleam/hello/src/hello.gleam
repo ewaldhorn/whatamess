@@ -19,6 +19,7 @@ pub fn main() -> Nil {
   matching.demo()
   do_recursions()
   do_patterns()
+  do_tuples()
 
   Nil
 }
@@ -37,6 +38,16 @@ fn do_recursions() {
   recurse_this.demo()
   tail_calls.demo()
   list_recursion.demo()
+}
+
+// ------------------------------------------------------------------------------------------------
+fn do_tuples() {
+  let triple = #(1, 2.2, "three")
+  echo triple
+
+  let #(a, _, _) = triple
+  echo a
+  echo triple.1
 }
 
 // ------------------------------------------------------------------------------------------------
