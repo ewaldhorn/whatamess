@@ -1,5 +1,6 @@
 import extras/arguments/with_arguments as argies
 import extras/shorthand/label_shorthand as short
+import extras/string_patterns
 import extras/with_blocks
 import extras/with_case
 import extras/with_closures
@@ -27,6 +28,7 @@ pub fn main() -> Nil {
   do_a_little_something()
   with_case.demo()
   with_case.demo_assignment()
+  string_patterns.demo()
 
   Nil
 }
