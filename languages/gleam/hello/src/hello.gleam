@@ -16,7 +16,7 @@ pub fn main() -> Nil {
   help_me_run.do_a_little_something()
   string_patterns.demo()
   list_patterns.demo()
-  alternative_patterns.main()
+  alternative_patterns.demo()
   matching.demo()
   do_recursions()
 

@@ -1,8 +1,8 @@
 import gleam/int
 
 // ------------------------------------------------------------------------------------------------
-pub fn main() {
-  let number = int.random(10)
+pub fn demo() {
+  let number = int.random(12)
   echo number
 
   let result = case number {
