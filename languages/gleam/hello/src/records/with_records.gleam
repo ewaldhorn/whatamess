@@ -11,4 +11,7 @@ pub fn demo() {
 
   let friends = [amy, jared, tom]
   echo friends
+
+  echo "Accessing name via label"
+  echo amy.name
 }
