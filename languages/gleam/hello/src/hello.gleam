@@ -1,3 +1,4 @@
+import dictionaries/use_dict
 import gleam/io
 import gleam/string as text
 import help_me_run
@@ -38,6 +39,8 @@ pub fn main() -> Nil {
   bit_arrays()
   with_lists.demo()
   results_module.demo()
+
+  use_dict.demo()
 
   // Ensure we return a Nil
   Nil
