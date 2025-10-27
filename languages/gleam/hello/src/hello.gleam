@@ -1,6 +1,7 @@
 import gleam/io
 import gleam/string as text
 import help_me_run
+import lists/with_lists
 import patterns/alternative_patterns
 import patterns/guards
 import patterns/list_patterns
@@ -34,6 +35,7 @@ pub fn main() -> Nil {
 
   with_results.demo()
   bit_arrays()
+  with_lists.demo()
 
   // Ensure we return a Nil
   Nil
