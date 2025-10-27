@@ -25,6 +25,13 @@ pub fn main() -> Nil {
   custom_types.demo()
   with_records.demo()
 
+  // Nil in Gleam
+  let x = Nil
+  echo x
+  let result = io.println("Hello!")
+  echo result == Nil
+
+  // Ensure we return a Nil
   Nil
 }
 
