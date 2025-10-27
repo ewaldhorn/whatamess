@@ -12,6 +12,7 @@ import records/with_records
 import recursion/list_recursion
 import recursion/recurse_this
 import recursion/tail_calls
+import results/results_module
 import results/with_results
 import types/custom_types
 
@@ -36,6 +37,7 @@ pub fn main() -> Nil {
   with_results.demo()
   bit_arrays()
   with_lists.demo()
+  results_module.demo()
 
   // Ensure we return a Nil
   Nil
