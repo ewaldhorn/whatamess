@@ -17,6 +17,11 @@ pub type IceCream {
 }
 
 // ------------------------------------------------------------------------------------------------
+pub type SchoolPerson {
+  Teacher(name: String, subject: String, floor: Int, room: Int)
+}
+
+// ------------------------------------------------------------------------------------------------
 pub fn demo() {
   let amy = Person("Amy", 26, True)
   let jared = Person(name: "Jared", age: 31, needs_glasses: True)
@@ -31,6 +36,15 @@ pub fn demo() {
   echo "Record pattern matching"
   handle_fish(Starfish("Lucy", "Pink"))
   handle_ice_cream(IceCream("strawberry"))
+
+  echo "Record updates"
+  let teacher1 = Teacher(name: "Mr Dodd", subject: "ICT", floor: 2, room: 2)
+
+  // Use the update syntax
+  let teacher2 = Teacher(..teacher1, subject: "PE", room: 6)
+
+  echo teacher1
+  echo teacher2
 }
 
 // ------------------------------------------------------------------------------------------------
