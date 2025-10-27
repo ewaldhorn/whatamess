@@ -7,6 +7,7 @@ import patterns/list_patterns
 import patterns/matching
 import patterns/pattern_alias
 import patterns/string_patterns
+import records/with_records
 import recursion/list_recursion
 import recursion/recurse_this
 import recursion/tail_calls
@@ -22,6 +23,7 @@ pub fn main() -> Nil {
   do_patterns()
   do_tuples()
   custom_types.demo()
+  with_records.demo()
 
   Nil
 }
