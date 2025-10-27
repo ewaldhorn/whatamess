@@ -17,6 +17,7 @@ import recursion/tail_calls
 import results/results_module
 import results/with_results
 import types/custom_types
+import types/opaque_types
 
 // ------------------------------------------------------------------------------------------------
 pub fn main() -> Nil {
@@ -43,6 +44,7 @@ pub fn main() -> Nil {
 
   use_dict.demo()
   with_options.demo()
+  opaque_types.demo()
 
   // Ensure we return a Nil
   Nil
