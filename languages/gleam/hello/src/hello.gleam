@@ -11,6 +11,7 @@ import records/with_records
 import recursion/list_recursion
 import recursion/recurse_this
 import recursion/tail_calls
+import results/with_results
 import types/custom_types
 
 // ------------------------------------------------------------------------------------------------
@@ -30,6 +31,8 @@ pub fn main() -> Nil {
   echo x
   let result = io.println("Hello!")
   echo result == Nil
+
+  with_results.demo()
 
   // Ensure we return a Nil
   Nil
