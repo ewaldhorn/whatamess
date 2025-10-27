@@ -3,6 +3,7 @@ import gleam/io
 import gleam/string as text
 import help_me_run
 import lists/with_lists
+import options/with_options
 import patterns/alternative_patterns
 import patterns/guards
 import patterns/list_patterns
@@ -41,6 +42,7 @@ pub fn main() -> Nil {
   results_module.demo()
 
   use_dict.demo()
+  with_options.demo()
 
   // Ensure we return a Nil
   Nil
