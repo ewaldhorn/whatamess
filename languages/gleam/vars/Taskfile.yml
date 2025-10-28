@@ -1,0 +1,41 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  SRC_DIR: src
+
+tasks:
+  default:
+    desc: List available commands
+    cmds:
+      - task --list-all
+    silent: true
+  run:
+    desc: Runs the project
+    cmds:
+      - gleam run
+    silent: true
+  runsuccess:
+    desc: Runs the Gleam project with a valid env var specified
+    env:
+      NAME: Todd
+    cmds:
+      - gleam run get NAME
+    silent: true
+  runfail:
+    desc: Runs the Gleam project with an unknown env var specified
+    cmds:
+      - gleam run get SPACE
+    silent: true
+  test:
+    desc: Runs tests
+    cmds:
+      - gleam test
+    silent: true
+  build:
+    desc: Builds a binary
+    cmds:
+      - gleam build
+      - gleam run -m gleescript
+    silent: true
