@@ -3,6 +3,7 @@ import gleam/io
 import gleam/string as text
 import help_me_run
 import lists/with_lists
+import multi_target
 import options/with_options
 import patterns/alternative_patterns
 import patterns/guards
@@ -48,6 +49,7 @@ pub fn main() -> Nil {
   opaque_types.demo()
 
   with_use.demo()
+  multi_target.demo()
 
   // Ensure we return a Nil
   Nil
