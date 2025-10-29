@@ -18,6 +18,7 @@ import results/results_module
 import results/with_results
 import types/custom_types
 import types/opaque_types
+import with_use
 
 // ------------------------------------------------------------------------------------------------
 pub fn main() -> Nil {
@@ -45,6 +46,8 @@ pub fn main() -> Nil {
   use_dict.demo()
   with_options.demo()
   opaque_types.demo()
+
+  with_use.demo()
 
   // Ensure we return a Nil
   Nil
