@@ -1,6 +1,7 @@
 import dictionaries/use_dict
 import external_fallbacks
 import gleam/io
+import gleam/list
 import gleam/string as text
 import help_me_run
 import lists/with_lists
@@ -53,6 +54,8 @@ pub fn main() -> Nil {
   multi_target.demo()
   external_fallbacks.demo()
 
+  goodbye()
+
   // Ensure we return a Nil
   Nil
 }
@@ -104,4 +107,17 @@ fn bit_arrays() {
   let first = <<4>>
   let second = <<2>>
   echo <<first:bits, second:bits>>
+}
+
+// ------------------------------------------------------------------------------------------------
+
+const erlang_the_movie = [
+  "📞", "Hello, Mike!", "Hello, Joe!", "System working?", "Seems to be.",
+  "OK, fine.", "OK.", "💫",
+]
+
+// ------------------------------------------------------------------------------------------------
+
+fn goodbye() {
+  list.each(erlang_the_movie, io.println)
 }
