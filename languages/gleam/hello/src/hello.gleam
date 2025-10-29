@@ -1,4 +1,5 @@
 import dictionaries/use_dict
+import external_fallbacks
 import gleam/io
 import gleam/string as text
 import help_me_run
@@ -50,6 +51,7 @@ pub fn main() -> Nil {
 
   with_use.demo()
   multi_target.demo()
+  external_fallbacks.demo()
 
   // Ensure we return a Nil
   Nil
