@@ -4,22 +4,27 @@ import kitten/draw
 import kitten/key
 import kitten/vec2.{type Vec2, Vec2}
 
+// ------------------------------------------------------------------------------------------------
 pub fn main() {
   canvas.start_window(init, update, view, "canvas", 1920.0, 1080.0, [], [])
 }
 
+// ------------------------------------------------------------------------------------------------
 type Model {
   Model(player_pos: Vec2)
 }
 
+// ------------------------------------------------------------------------------------------------
 const player_velocity = 5.0
 
 const player_size = Vec2(80.0, 80.0)
 
+// ------------------------------------------------------------------------------------------------
 fn init() {
   Model(player_pos: Vec2(0.0, 0.0))
 }
 
+// ------------------------------------------------------------------------------------------------
 fn update(model: Model) {
   let new_player_pos =
     model.player_pos
@@ -42,6 +47,7 @@ fn update(model: Model) {
   Model(player_pos: new_player_pos)
 }
 
+// ------------------------------------------------------------------------------------------------
 fn view(model: Model) {
   draw.context()
   |> draw.background(color.black)
