@@ -167,7 +167,7 @@ func printCell(val int, today bool) {
 		str = "%d "
 	}
 
-	fmt.Printf(escape+str+"\033[0m", val)
+	fmt.Printf(escape+str+endEscape, val)
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -280,5 +280,5 @@ func printDayCol(day int) {
 		out = " Fri "
 	}
 
-	fmt.Printf(out)
+	fmt.Printf("%s", out)
 }
