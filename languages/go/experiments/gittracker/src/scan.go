@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"os"
 	"os/user"
@@ -71,7 +70,7 @@ func parseFileLinesToSlice(filePath string) []string {
 // into the `existing` slice, only if not already there
 func joinSlices(new []string, existing []string) []string {
 	for _, i := range new {
-		if slices.Contains(existing, i) {
+		if !slices.Contains(existing, i) {
 			existing = append(existing, i)
 		}
 	}
@@ -82,7 +81,7 @@ func joinSlices(new []string, existing []string) []string {
 // dumpStringsSliceToFile writes content to the file in path `filePath` (overwriting existing content)
 func dumpStringsSliceToFile(repos []string, filePath string) {
 	content := strings.Join(repos, "\n")
-	ioutil.WriteFile(filePath, []byte(content), 0755)
+	os.WriteFile(filePath, []byte(content), 0755)
 }
 
 // -------------------------------------------------------------------------------------------------
