@@ -139,6 +139,7 @@ func calcOffset() int {
 // printCell given a cell value prints it with a different format
 // based on the value amount, and on the `today` flag.
 func printCell(val int, today bool) {
+	const endEscape = "\033[0m"
 	escape := "\033[0;37;30m"
 	switch {
 	case val > 0 && val < 5:
@@ -154,7 +155,7 @@ func printCell(val int, today bool) {
 	}
 
 	if val == 0 {
-		fmt.Printf(escape + "  - " + "\033[0m")
+		fmt.Printf("%s  - %s", escape, endEscape)
 		return
 	}
 

@@ -45,6 +45,7 @@ func openFile(filePath string) *os.File {
 	return f
 }
 
+// -------------------------------------------------------------------------------------------------
 // parseFileLinesToSlice given a file path string, gets the content
 // of each line and parses it to a slice of strings.
 func parseFileLinesToSlice(filePath string) []string {
