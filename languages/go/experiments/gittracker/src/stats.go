@@ -9,18 +9,22 @@ import (
 	"github.com/go-git/go-git/v6/plumbing/object"
 )
 
+// -------------------------------------------------------------------------------------------------
 const outOfRange = 99999
 const daysInLastSixMonths = 183
 const weeksInLastSixMonths = 26
 
+// -------------------------------------------------------------------------------------------------
 type column []int
 
+// -------------------------------------------------------------------------------------------------
 // stats calculates and prints the stats.
 func stats(email string) {
 	commits := processRepositories(email)
 	printCommitsStats(commits)
 }
 
+// -------------------------------------------------------------------------------------------------
 // getBeginningOfDay given a time.Time calculates the start time of that day
 func getBeginningOfDay(t time.Time) time.Time {
 	year, month, day := t.Date()
@@ -28,6 +32,7 @@ func getBeginningOfDay(t time.Time) time.Time {
 	return startOfDay
 }
 
+// -------------------------------------------------------------------------------------------------
 // countDaysSinceDate counts how many days passed since the passed `date`
 func countDaysSinceDate(date time.Time) int {
 	days := 0
@@ -42,6 +47,7 @@ func countDaysSinceDate(date time.Time) int {
 	return days
 }
 
+// -------------------------------------------------------------------------------------------------
 // fillCommits given a repository found in `path`, gets the commits and
 // puts them in the `commits` map, returning it when completed
 func fillCommits(email string, path string, commits map[int]int) map[int]int {
@@ -82,6 +88,7 @@ func fillCommits(email string, path string, commits map[int]int) map[int]int {
 	return commits
 }
 
+// -------------------------------------------------------------------------------------------------
 // processRepositories given an user email, returns the
 // commits made in the last 6 months
 func processRepositories(email string) map[int]int {
@@ -101,6 +108,7 @@ func processRepositories(email string) map[int]int {
 	return commits
 }
 
+// -------------------------------------------------------------------------------------------------
 // calcOffset determines and returns the amount of days missing to fill
 // the last row of the stats graph
 func calcOffset() int {
@@ -127,6 +135,7 @@ func calcOffset() int {
 	return offset
 }
 
+// -------------------------------------------------------------------------------------------------
 // printCell given a cell value prints it with a different format
 // based on the value amount, and on the `today` flag.
 func printCell(val int, today bool) {
@@ -160,6 +169,7 @@ func printCell(val int, today bool) {
 	fmt.Printf(escape+str+"\033[0m", val)
 }
 
+// -------------------------------------------------------------------------------------------------
 // printCommitsStats prints the commits stats
 func printCommitsStats(commits map[int]int) {
 	keys := sortMapIntoSlice(commits)
@@ -167,6 +177,7 @@ func printCommitsStats(commits map[int]int) {
 	printCells(cols)
 }
 
+// -------------------------------------------------------------------------------------------------
 // sortMapIntoSlice returns a slice of indexes of a map, ordered
 func sortMapIntoSlice(m map[int]int) []int {
 	// order map
@@ -180,6 +191,7 @@ func sortMapIntoSlice(m map[int]int) []int {
 	return keys
 }
 
+// -------------------------------------------------------------------------------------------------
 // buildCols generates a map with rows and columns ready to be printed to screen
 func buildCols(keys []int, commits map[int]int) map[int]column {
 	cols := make(map[int]column)
@@ -203,6 +215,7 @@ func buildCols(keys []int, commits map[int]int) map[int]column {
 	return cols
 }
 
+// -------------------------------------------------------------------------------------------------
 // printCells prints the cells of the graph
 func printCells(cols map[int]column) {
 	printMonths()
@@ -229,6 +242,7 @@ func printCells(cols map[int]column) {
 	}
 }
 
+// -------------------------------------------------------------------------------------------------
 // printMonths prints the month names in the first line, determining when the month
 // changed between switching weeks
 func printMonths() {
@@ -251,6 +265,7 @@ func printMonths() {
 	fmt.Printf("\n")
 }
 
+// -------------------------------------------------------------------------------------------------
 // printDayCol given the day number (0 is Sunday) prints the day name,
 // alternating the rows (prints just 2,4,6)
 func printDayCol(day int) {

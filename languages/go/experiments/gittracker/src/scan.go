@@ -94,6 +94,7 @@ func dumpStringsSliceToFile(repos []string, filePath string) {
 	ioutil.WriteFile(filePath, []byte(content), 0755)
 }
 
+// -------------------------------------------------------------------------------------------------
 // addNewSliceElementsToFile given a slice of strings representing paths, stores them
 // to the filesystem
 func addNewSliceElementsToFile(filePath string, newRepos []string) {
@@ -102,12 +103,14 @@ func addNewSliceElementsToFile(filePath string, newRepos []string) {
 	dumpStringsSliceToFile(repos, filePath)
 }
 
+// -------------------------------------------------------------------------------------------------
 // recursiveScanFolder starts the recursive search of git repositories
 // living in the `folder` subtree
 func recursiveScanFolder(folder string) []string {
 	return scanGitFolders(make([]string, 0), folder)
 }
 
+// -------------------------------------------------------------------------------------------------
 // scan scans a new folder for Git repositories
 func scan(folder string) {
 	fmt.Printf("Found folders:\n\n")
@@ -117,6 +120,7 @@ func scan(folder string) {
 	fmt.Printf("\n\nSuccessfully added\n\n")
 }
 
+// -------------------------------------------------------------------------------------------------
 // scanGitFolders returns a list of subfolders of `folder` ending with `.git`.
 // Returns the base folder of the repo, the .git folder parent.
 // Recursively searches in the subfolders by passing an existing `folders` slice.
