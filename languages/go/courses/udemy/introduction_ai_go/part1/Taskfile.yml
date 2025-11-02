@@ -41,3 +41,8 @@ tasks:
     cmds:
       - go run . -file={{.MAZE_DIR}}/maze-100-steps.txt -search=bfs -animate=true
     silent: true
+  dijkstra:
+    desc: "Dijkstra first search - Maze 1"
+    cmds:
+      - go run . -file={{.MAZE_DIR}}/maze.txt -search=dijkstra -animate=true
+    silent: true
