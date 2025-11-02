@@ -46,3 +46,13 @@ tasks:
     cmds:
       - go run . -file={{.MAZE_DIR}}/maze.txt -search=dijkstra -animate=true
     silent: true
+  dijkstra2:
+    desc: "Dijkstra first search - Maze 2"
+    cmds:
+      - go run . -file={{.MAZE_DIR}}/maze2.txt -search=dijkstra -animate=true
+    silent: true
+  dijkstra3:
+    desc: "Dijkstra first search - Maze 3"
+    cmds:
+      - go run . -file={{.MAZE_DIR}}/maze-100-steps.txt -search=dijkstra -animate=true
+    silent: true
