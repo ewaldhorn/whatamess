@@ -1,6 +1,7 @@
 package algorithm
 
 import (
+	"container/heap"
 	"fmt"
 	"log"
 	"math/rand"
@@ -28,7 +29,9 @@ func (d *Dijkstra) GetFrontier() []*node.Node {
 
 // ------------------------------------------------------------------------------------------------
 func (d *Dijkstra) AddNode(i *node.Node) {
-	d.Frontier = append(d.Frontier, i)
+	i.CostToGoal = i.ManhattanDistance(d.Game.Start)
+	d.Frontier.Push(i)
+	heap.Init(&d.Frontier)
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -56,9 +59,7 @@ func (d *Dijkstra) Remove() (*node.Node, error) {
 			}
 		}
 
-		node := d.Frontier[0]
-		d.Frontier = d.Frontier[1:]
-		return node, nil
+		return heap.Pop(&d.Frontier).(*node.Node), nil
 	}
 
 	return nil, fmt.Errorf("frontier is empty")
@@ -103,9 +104,7 @@ func (d *Dijkstra) Solve() {
 
 	d.Game.NumExplored = 0
 	start := node.Node{
-		State:  d.Game.Start,
-		Parent: nil,
-		Action: "",
+		State: d.Game.Start,
 	}
 
 	d.AddNode(&start)
