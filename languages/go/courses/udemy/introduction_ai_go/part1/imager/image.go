@@ -147,7 +147,7 @@ func drawBlocks(img *image.RGBA, m *maze.Maze) {
 				fillColor = color.White
 			}
 
-			drawSquare(col, p, img, fillColor, cellSize, x, y, mustDrawCost(m.SearchType), m.End)
+			drawSquare(col, p, img, fillColor, cellSize, x, y, mustDrawCost(m.SearchType), m.Start)
 		}
 	}
 }
