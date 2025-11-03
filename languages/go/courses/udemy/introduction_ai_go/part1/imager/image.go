@@ -9,6 +9,7 @@ import (
 	"log"
 	"mazes/globals"
 	"mazes/maze"
+	"mazes/node"
 	"mazes/point"
 	"mazes/wall"
 	"os"
@@ -146,8 +147,18 @@ func drawBlocks(img *image.RGBA, m *maze.Maze) {
 				fillColor = color.White
 			}
 
-			drawSquare(col, p, img, fillColor, cellSize, x, y)
+			drawSquare(col, p, img, fillColor, cellSize, x, y, mustDrawCost(m.SearchType), m.End)
 		}
+	}
+}
+
+// -------------------------------------------------------------------------------------------------
+func mustDrawCost(searchType int) bool {
+	switch searchType {
+	case globals.DIJKSTRA:
+		return true
+	default:
+		return false
 	}
 }
 
@@ -166,12 +177,23 @@ func drawGrid(img *image.RGBA, m *maze.Maze) {
 }
 
 // ------------------------------------------------------------------------------------------------
-func drawSquare(col wall.Wall, p point.Point, img *image.RGBA, c color.Color, size, x, y int) {
+func drawSquare(
+	col wall.Wall,
+	p point.Point,
+	img *image.RGBA,
+	c color.Color,
+	size, x, y int,
+	drawCost bool,
+	target point.Point,
+) {
 	patch := image.NewRGBA(image.Rect(0, 0, size, size))
 
 	draw.Draw(patch, patch.Bounds(), &image.Uniform{C: c}, image.Point{}, draw.Src)
 
 	if !col.IsSolid {
+		if drawCost {
+			printManhattanCost(p, color.Black, patch, target)
+		}
 		printLocation(p, color.Black, patch)
 	}
 
@@ -183,4 +205,12 @@ func printLocation(p point.Point, c color.Color, patch *image.RGBA) {
 	point := fixed.Point26_6{X: fixed.I(6), Y: fixed.I(40)}
 	d := &font.Drawer{Dst: patch, Src: image.NewUniform(c), Face: basicfont.Face7x13, Dot: point}
 	d.DrawString(fmt.Sprintf("[%d %d]", p.X, p.Y))
+}
+
+// -------------------------------------------------------------------------------------------------
+func printManhattanCost(p point.Point, c color.Color, patch *image.RGBA, target point.Point) {
+	point := fixed.Point26_6{X: fixed.I(6), Y: fixed.I(17)}
+	d := &font.Drawer{Dst: patch, Src: image.NewUniform(c), Face: basicfont.Face7x13, Dot: point}
+	n := node.Node{State: p}
+	d.DrawString(fmt.Sprintf("%d", n.ManhattanDistance(target)))
 }

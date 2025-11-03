@@ -13,15 +13,6 @@ import (
 )
 
 // ------------------------------------------------------------------------------------------------
-const (
-	DFS      = iota // depth first search
-	BFS             // breadth first search
-	GBFS            // greedy best first search
-	ASTAR           // a-star
-	DIJKSTRA        // dijkstra
-)
-
-// ------------------------------------------------------------------------------------------------
 func init() {
 	_ = os.Mkdir(globals.TemporaryDirectory, os.ModePerm)
 	helper.ClearTempDirectory()
@@ -48,13 +39,13 @@ func main() {
 
 	switch searchType {
 	case "dfs":
-		m.SearchType = DFS
+		m.SearchType = globals.DFS
 		solveDFS(&m)
 	case "bfs":
-		m.SearchType = BFS
+		m.SearchType = globals.BFS
 		solveBFS(&m)
 	case "dijkstra":
-		m.SearchType = DIJKSTRA
+		m.SearchType = globals.DIJKSTRA
 		solveDijkstra(&m)
 	default:
 		fmt.Println("Invalid search type specified.")
