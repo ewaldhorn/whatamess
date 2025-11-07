@@ -1,0 +1,26 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  PUBLIC_DIR: static
+  SRC_DIR: src
+  PORT: 9000
+
+tasks:
+  default:
+    desc: Lists available commands
+    cmds:
+      - task --list-all
+    silent: true
+  build:
+    desc: Builds the project
+    cmds:
+      - bun build ./{{.SRC_DIR}}/index.ts --minify --outfile=static/script.js
+    silent: true
+  run:
+    desc: Builds and runs the project
+    dir: ./{{.PUBLIC_DIR}}/
+    cmds:
+      - task build
+      - http-server . -o -p {{.PORT}} -c-1
