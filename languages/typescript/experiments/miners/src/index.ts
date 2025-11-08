@@ -1,1 +1,4 @@
-console.debug("This is TS");
+import { initGame } from "./game";
+
+// ------------------------------------------------------------------------------------------------
+window.addEventListener("DOMContentLoaded", initGame);
