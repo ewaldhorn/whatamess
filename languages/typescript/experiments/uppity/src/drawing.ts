@@ -28,7 +28,38 @@ export const drawBalloon = (ctx: CanvasRenderingContext2D) => {
 };
 
 // ------------------------------------------------------------------------------------------------
-export const drawTree = (ctx: CanvasRenderingContext2D) => {};
+export const drawTree = (
+  ctx: CanvasRenderingContext2D,
+  h: number,
+  colour: string,
+  r1: number,
+  r2: number,
+  r3: number,
+  r4: number,
+  r5: number,
+  r6: number,
+  r7: number,
+) => {
+  // trunk
+  ctx.fillStyle = "#885F37";
+  ctx.beginPath();
+  ctx.moveTo(-20, 0);
+  ctx.quadraticCurveTo(-10, -h / 2, -20, -h);
+  ctx.lineTo(20, -h);
+  ctx.quadraticCurveTo(10, -h / 2, 20, 0);
+  ctx.closePath();
+  ctx.fill();
+
+  // leaves
+  ctx.fillStyle = colour;
+  drawCircle(ctx, -20, -h - 15, r1);
+  drawCircle(ctx, -30, -h - 25, r2);
+  drawCircle(ctx, -20, -h - 35, r3);
+  drawCircle(ctx, 0, -h - 45, r4);
+  drawCircle(ctx, 20, -h - 35, r5);
+  drawCircle(ctx, 30, -h - 25, r6);
+  drawCircle(ctx, 20, -h - 15, r7);
+};
 
 // ------------------------------------------------------------------------------------------------
 /**
