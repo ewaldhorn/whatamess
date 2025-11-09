@@ -28,6 +28,7 @@ export const drawBalloon = (ctx: CanvasRenderingContext2D) => {
 };
 
 // ------------------------------------------------------------------------------------------------
+// TODO: (Ewald) - Clean up these messy params, or at least assign defaults
 export const drawTree = (
   ctx: CanvasRenderingContext2D,
   h: number,
