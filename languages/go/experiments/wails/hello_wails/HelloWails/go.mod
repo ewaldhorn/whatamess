@@ -1,8 +1,6 @@
 module hellowails
 
-go 1.22.0
-
-toolchain go1.23.4
+go 1.24.0
 
 require github.com/wailsapp/wails/v2 v2.9.2
 
@@ -29,11 +27,10 @@ require (
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	github.com/wailsapp/go-webview2 v1.0.18 // indirect
 	github.com/wailsapp/mimetype v1.4.1 // indirect
-	golang.org/x/crypto v0.31.0 // indirect
-	golang.org/x/exp v0.0.0-20241217172543-b2144cdd0a67 // indirect
-	golang.org/x/net v0.33.0 // indirect
-	golang.org/x/sys v0.28.0 // indirect
-	golang.org/x/text v0.21.0 // indirect
+	golang.org/x/crypto v0.45.0 // indirect
+	golang.org/x/net v0.47.0 // indirect
+	golang.org/x/sys v0.38.0 // indirect
+	golang.org/x/text v0.31.0 // indirect
 )
 
 // replace github.com/wailsapp/wails/v2 v2.5.1 => /Users/ewaldhorn/go/pkg/mod
