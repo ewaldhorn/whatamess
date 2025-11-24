@@ -52,13 +52,9 @@ export const initGame = () => {
 
   if (ctx) {
     initTrees(3);
+    ctx.translate(250, 250);
     renderTrees(ctx);
     drawBalloon(ctx);
-    ctx.fillStyle = "#9999AA";
-    ctx.moveTo(10, 10);
-    ctx.lineTo(100, 100);
-    ctx.fill();
-    ctx.closePath();
   } else {
     alert("Could not load 2D rendering context - unable to continue.");
   }
