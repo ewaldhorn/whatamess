@@ -4,6 +4,8 @@ import { Tree } from "./trees.ts";
 
 // ------------------------------------------------------------------------------------------------
 let ctx: CanvasRenderingContext2D | null;
+let mainAreaWidth, mainAreaHeight: number;
+let horizontalPadding, verticalPadding: number;
 let trees: Array<Tree>;
 
 // ------------------------------------------------------------------------------------------------
@@ -16,6 +18,13 @@ const initCanvas = () => {
   const canvas = document.getElementById("canvas") as HTMLCanvasElement;
   canvas.width = Math.floor(window.innerWidth * 0.9);
   canvas.height = Math.floor(window.innerHeight * 0.9);
+
+  mainAreaHeight = canvas.height / 2;
+  mainAreaWidth = canvas.width / 2;
+
+  horizontalPadding = (window.innerWidth - mainAreaWidth) / 2;
+  verticalPadding = (window.innerHeight - mainAreaHeight) / 2;
+
   canvas.style.backgroundColor = "#111133";
   ctx = canvas.getContext("2d");
 };
@@ -46,15 +55,25 @@ const renderTrees = (ctx: CanvasRenderingContext2D) => {
 };
 
 // ------------------------------------------------------------------------------------------------
+const render = (ctx: CanvasRenderingContext2D) => {
+  ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+  ctx.save();
+  ctx.translate(horizontalPadding, verticalPadding + mainAreaHeight);
+  drawBalloon(ctx);
+
+  renderTrees(ctx);
+  ctx.restore();
+};
+
+// ------------------------------------------------------------------------------------------------
 export const initGame = () => {
   setGameInformation();
   initCanvas();
 
   if (ctx) {
     initTrees(3);
-    ctx.translate(250, 250);
-    renderTrees(ctx);
-    drawBalloon(ctx);
+    render(ctx);
   } else {
     alert("Could not load 2D rendering context - unable to continue.");
   }
