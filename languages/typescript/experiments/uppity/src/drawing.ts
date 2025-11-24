@@ -1,3 +1,5 @@
+import { Tree } from "./trees";
+
 // ------------------------------------------------------------------------------------------------
 export const drawBalloon = (ctx: CanvasRenderingContext2D) => {
   // basket
@@ -29,37 +31,27 @@ export const drawBalloon = (ctx: CanvasRenderingContext2D) => {
 
 // ------------------------------------------------------------------------------------------------
 // TODO: (Ewald) - Clean up these messy params, or at least assign defaults
-export const drawTree = (
-  ctx: CanvasRenderingContext2D,
-  h: number,
-  colour: string,
-  r1: number,
-  r2: number,
-  r3: number,
-  r4: number,
-  r5: number,
-  r6: number,
-  r7: number,
-) => {
+export const drawTree = (ctx: CanvasRenderingContext2D, tree: Tree) => {
   // trunk
+  console.log("Drawing:", JSON.stringify(tree));
   ctx.fillStyle = "#885F37";
   ctx.beginPath();
   ctx.moveTo(-20, 0);
-  ctx.quadraticCurveTo(-10, -h / 2, -20, -h);
-  ctx.lineTo(20, -h);
-  ctx.quadraticCurveTo(10, -h / 2, 20, 0);
+  ctx.quadraticCurveTo(-10, -tree.h / 2, -20, -tree.h);
+  ctx.lineTo(20, -tree.h);
+  ctx.quadraticCurveTo(10, -tree.h / 2, 20, 0);
   ctx.closePath();
   ctx.fill();
 
   // leaves
-  ctx.fillStyle = colour;
-  drawCircle(ctx, -20, -h - 15, r1);
-  drawCircle(ctx, -30, -h - 25, r2);
-  drawCircle(ctx, -20, -h - 35, r3);
-  drawCircle(ctx, 0, -h - 45, r4);
-  drawCircle(ctx, 20, -h - 35, r5);
-  drawCircle(ctx, 30, -h - 25, r6);
-  drawCircle(ctx, 20, -h - 15, r7);
+  ctx.fillStyle = tree.colour;
+  drawCircle(ctx, -20, -tree.h - 15, tree.r1);
+  drawCircle(ctx, -30, -tree.h - 25, tree.r2);
+  drawCircle(ctx, -20, -tree.h - 35, tree.r3);
+  drawCircle(ctx, 0, -tree.h - 45, tree.r4);
+  drawCircle(ctx, 20, -tree.h - 35, tree.r5);
+  drawCircle(ctx, 30, -tree.h - 25, tree.r6);
+  drawCircle(ctx, 20, -tree.h - 15, tree.r7);
 };
 
 // ------------------------------------------------------------------------------------------------

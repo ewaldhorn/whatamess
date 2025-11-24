@@ -1,3 +1,4 @@
+import { drawBalloon, drawTree } from "./drawing.ts";
 import globals from "./globals.ts";
 import { Tree } from "./trees.ts";
 
@@ -13,6 +14,9 @@ const setGameInformation = () => {
 // ------------------------------------------------------------------------------------------------
 const initCanvas = () => {
   const canvas = document.getElementById("canvas") as HTMLCanvasElement;
+  canvas.width = Math.floor(window.innerWidth * 0.9);
+  canvas.height = Math.floor(window.innerHeight * 0.9);
+  canvas.style.backgroundColor = "#111133";
   ctx = canvas.getContext("2d");
 };
 
@@ -36,13 +40,26 @@ const initTrees = (count: number) => {
 };
 
 // ------------------------------------------------------------------------------------------------
+const renderTrees = (ctx: CanvasRenderingContext2D) => {
+  console.log("Drawing trees");
+  trees.forEach((t) => drawTree(ctx, t));
+};
+
+// ------------------------------------------------------------------------------------------------
 export const initGame = () => {
   setGameInformation();
   initCanvas();
 
   if (ctx) {
     initTrees(3);
+    renderTrees(ctx);
+    drawBalloon(ctx);
+    ctx.fillStyle = "#9999AA";
+    ctx.moveTo(10, 10);
+    ctx.lineTo(100, 100);
+    ctx.fill();
+    ctx.closePath();
   } else {
-    alert("Could not load 2D rendering context - unable to continue");
+    alert("Could not load 2D rendering context - unable to continue.");
   }
 };
