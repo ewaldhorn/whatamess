@@ -16,11 +16,11 @@ const setGameInformation = () => {
 // ------------------------------------------------------------------------------------------------
 const initCanvas = () => {
   const canvas = document.getElementById("canvas") as HTMLCanvasElement;
-  canvas.width = Math.floor(window.innerWidth * 0.9);
-  canvas.height = Math.floor(window.innerHeight * 0.9);
+  canvas.width = Math.floor(window.innerWidth * globals.CANVAS_SCALING_FACTOR);
+  canvas.height = Math.floor(window.innerHeight * globals.CANVAS_SCALING_FACTOR);
 
-  mainAreaHeight = canvas.height / 2;
-  mainAreaWidth = canvas.width / 2;
+  mainAreaHeight = canvas.height / globals.MAIN_AREA_RATIO;
+  mainAreaWidth = canvas.width / globals.MAIN_AREA_RATIO;
 
   horizontalPadding = (window.innerWidth - mainAreaWidth) / 2;
   verticalPadding = (window.innerHeight - mainAreaHeight) / 2;
@@ -34,16 +34,17 @@ const initTrees = (count: number) => {
   trees = [];
   for (let i = 0; i < count; i++) {
     const tmpTree = new Tree(
-      60 + Math.random() * 80,
+      globals.MIN_TREE_SIZE + Math.random() * globals.MAX_TREE_SIZE,
       globals.TREE_COLOURS[Math.floor(Math.random() * globals.TREE_COLOURS.length)],
-      32 + Math.random() * 16,
-      32 + Math.random() * 16,
-      32 + Math.random() * 16,
-      32 + Math.random() * 16,
-      32 + Math.random() * 16,
-      32 + Math.random() * 16,
-      32 + Math.random() * 16,
+      globals.MIN_RANDOM_VALUE + Math.random() * globals.MAX_RANDOM_VALUE,
+      globals.MIN_RANDOM_VALUE + Math.random() * globals.MAX_RANDOM_VALUE,
+      globals.MIN_RANDOM_VALUE + Math.random() * globals.MAX_RANDOM_VALUE,
+      globals.MIN_RANDOM_VALUE + Math.random() * globals.MAX_RANDOM_VALUE,
+      globals.MIN_RANDOM_VALUE + Math.random() * globals.MAX_RANDOM_VALUE,
+      globals.MIN_RANDOM_VALUE + Math.random() * globals.MAX_RANDOM_VALUE,
+      globals.MIN_RANDOM_VALUE + Math.random() * globals.MAX_RANDOM_VALUE,
     );
+
     trees.push(tmpTree);
   }
 };
