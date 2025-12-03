@@ -9,12 +9,12 @@ let horizontalPadding: number, verticalPadding: number;
 let trees: Array<Tree>;
 
 // ------------------------------------------------------------------------------------------------
-const setGameInformation = () => {
+const setGameInformation = (): void => {
   document.title = `${globals.GAME_NAME} v${globals.VERSION}`;
 };
 
 // ------------------------------------------------------------------------------------------------
-const initCanvas = () => {
+const initCanvas = (): void => {
   const canvas = document.getElementById("canvas") as HTMLCanvasElement;
   canvas.width = Math.floor(window.innerWidth * globals.CANVAS_SCALING_FACTOR);
   canvas.height = Math.floor(window.innerHeight * globals.CANVAS_SCALING_FACTOR);
@@ -30,7 +30,7 @@ const initCanvas = () => {
 };
 
 // ------------------------------------------------------------------------------------------------
-const initTrees = (count: number) => {
+const initTrees = (count: number): void => {
   trees = [];
   for (let i = 0; i < count; i++) {
     const tmpTree = new Tree(
@@ -50,13 +50,13 @@ const initTrees = (count: number) => {
 };
 
 // ------------------------------------------------------------------------------------------------
-const renderTrees = (ctx: CanvasRenderingContext2D) => {
+const renderTrees = (ctx: CanvasRenderingContext2D): void => {
   console.log("Drawing trees");
   trees.forEach((t) => drawTree(ctx, t));
 };
 
 // ------------------------------------------------------------------------------------------------
-const render = (ctx: CanvasRenderingContext2D) => {
+const render = (ctx: CanvasRenderingContext2D): void => {
   ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
   ctx.save();
@@ -68,7 +68,7 @@ const render = (ctx: CanvasRenderingContext2D) => {
 };
 
 // ------------------------------------------------------------------------------------------------
-export const initGame = () => {
+export const initGame = (): void => {
   setGameInformation();
   initCanvas();
 
