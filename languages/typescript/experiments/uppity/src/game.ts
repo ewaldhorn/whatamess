@@ -4,8 +4,8 @@ import { Tree } from "./trees.ts";
 
 // ------------------------------------------------------------------------------------------------
 let ctx: CanvasRenderingContext2D | null;
-let mainAreaWidth, mainAreaHeight: number;
-let horizontalPadding, verticalPadding: number;
+let mainAreaWidth: number, mainAreaHeight: number;
+let horizontalPadding: number, verticalPadding: number;
 let trees: Array<Tree>;
 
 // ------------------------------------------------------------------------------------------------
