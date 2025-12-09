@@ -11,13 +11,34 @@
         <main>
             <svg width="400" height="400" viewbox="-100 -100 200 200"> 
                 <circle 
-                r="85" 
+                r="75" 
                 fill="transparent" 
-                stroke-width="20" 
-                stroke="black" 
                 pathlength="100" 
+                stroke="black" 
+                stroke-width="30" 
                 stroke-dasharray="100"
-                stroke-dashoffset="10"/>
+                stroke-dashoffset="100"/>
+                <text>Fuel %</text>
+                <style>
+                    circle{
+                        transform: rotate(-90deg);
+                        animation: draw 1000ms ease-in forwards;
+                    }
+
+                    @keyframes draw {
+                        to{
+                            stroke-dashoffset: 40;
+                        }
+                    }
+
+                    text{
+                        font-size: 1.0rem;
+                        font-weight: bold;
+                        line-height: 1;
+                        text-anchor: middle;
+                        dominant-baseline: middle;
+                    }
+                </style>
             </svg>
         </main>
     </body>
