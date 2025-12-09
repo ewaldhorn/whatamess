@@ -2,7 +2,7 @@ import p5 from "p5";
 
 const sketch = function (p: p5) {
   p.setup = function () {
-    p.createCanvas(p.windowWidth, p.windowHeight);
+    p.createCanvas(p.windowWidth * 0.9, p.windowHeight * 0.9);
     p.background("black");
     p.noLoop();
   };
