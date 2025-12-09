@@ -37,6 +37,16 @@
                         line-height: 1;
                         text-anchor: middle;
                         dominant-baseline: middle;
+                        opacity: 0;
+                        transform: translateY(-25%);
+                        animation: rise 750ms ease-in forwards;
+                    }
+
+                    @keyframes rise {
+                        to {
+                            transform: translateY(0);
+                            opacity: 1;
+                        }
                     }
                 </style>
             </svg>
