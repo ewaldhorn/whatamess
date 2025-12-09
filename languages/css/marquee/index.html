@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>My Experiment Page</title>
+        <style>
+            .marquee {
+                width: 100%;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+
+            .marquee-content {
+                display: inline-block;
+                animation: marquee 10s linear infinite;
+            }
+
+            @keyframes marquee {
+                0% {
+                    transform: translateX(0);
+                }
+                100% {
+                    transform: translateX(-100%);
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Hello Marquee!</h1>
+        <div class="marquee">
+            <div class="marquee-content">
+                This is a scrolling marquee text! Another text to scroll! And even more text! This
+                is a scrolling marquee text! Another text to scroll! And even more text!
+            </div>
+        </div>
+    </body>
+</html>
