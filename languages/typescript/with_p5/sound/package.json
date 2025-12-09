@@ -1,0 +1,16 @@
+{
+  "name": "sound",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@types/p5": "^1.7.7",
+    "p5": "^2.1.1"
+  }
+}
