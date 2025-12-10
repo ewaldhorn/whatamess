@@ -1,4 +1,6 @@
-# sound
+# Sound
+
+`bun add p5 p5.sound` to add the P5.js lib and sound addon.
 
 To install dependencies:
 
