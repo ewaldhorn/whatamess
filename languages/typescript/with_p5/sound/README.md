@@ -1,6 +1,7 @@
 # Sound
 
 `bun add p5 p5.sound` to add the P5.js lib and sound addon.
+`bun add -d @types/p5` to add the TypeScript types.
 
 To install dependencies:
 
