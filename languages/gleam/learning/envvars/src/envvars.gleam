@@ -2,6 +2,7 @@ import argv
 import envoy
 import gleam/io
 import gleam/result
+import helpers
 
 // ------------------------------------------------------------------------------------------------
 pub fn main() {
@@ -14,10 +15,5 @@ pub fn main() {
 // ------------------------------------------------------------------------------------------------
 fn get(name: String) -> Nil {
   let value = envoy.get(name) |> result.unwrap("")
-  io.println(format_pair(name, value))
-}
-
-// ------------------------------------------------------------------------------------------------
-fn format_pair(name: String, value: String) -> String {
-  name <> "=" <> value
+  io.println(helpers.format_pair(name, value))
 }
