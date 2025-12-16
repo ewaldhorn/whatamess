@@ -1,13 +1,13 @@
+import envvars/internal
 import gleeunit
 
+// ------------------------------------------------------------------------------------------------
 pub fn main() -> Nil {
   gleeunit.main()
 }
 
-// gleeunit test functions end in `_test`
-pub fn hello_world_test() {
-  let name = "Joe"
-  let greeting = "Hello, " <> name <> "!"
-
-  assert greeting == "Hello, Joe!"
+// ------------------------------------------------------------------------------------------------
+pub fn format_pair_test() {
+  let greeting = internal.format_pair("hello", "world")
+  assert greeting == "hello=world"
 }
