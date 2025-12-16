@@ -1,8 +1,8 @@
 import argv
 import envoy
+import envvars/internal
 import gleam/io
 import gleam/result
-import helpers
 
 // ------------------------------------------------------------------------------------------------
 pub fn main() {
@@ -15,5 +15,5 @@ pub fn main() {
 // ------------------------------------------------------------------------------------------------
 fn get(name: String) -> Nil {
   let value = envoy.get(name) |> result.unwrap("")
-  io.println(helpers.format_pair(name, value))
+  io.println(internal.format_pair(name, value))
 }
