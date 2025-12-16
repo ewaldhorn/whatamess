@@ -9,3 +9,5 @@ three.js -linguist-vendored
 
 wasm_exec_tiny.js -linguist-vendored
 wasm_exec.js -linguist-vendored
+
+languages/javascript/p5/hello_p5/static/index.js -linguist-vendored
