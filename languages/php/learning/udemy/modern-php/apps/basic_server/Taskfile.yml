@@ -1,0 +1,22 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  APP_DIR: app
+
+tasks:
+  default:
+    cmds:
+      - task --list-all
+    silent: true
+  run:
+    desc: Runs local PHP server instance
+    cmds:
+      - docker compose up --build -d
+    silent: true
+  stop:
+    desc: Stops local PHP server instance
+    cmds:
+      - docker-compose down -v
+    silent: true

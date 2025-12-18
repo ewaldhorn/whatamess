@@ -1,0 +1,61 @@
+services:
+  # 1. PHP-FPM Service
+  app:
+    build:
+      context: ./docker/php # Look in the ./docker/php directory for the Dockerfile
+      target: dev
+    image: my-php-app:8.4
+    container_name: php_app
+    volumes:
+      - ./app:/var/www/html # Mount your local 'app' directory into the container
+    # Set the working directory for 'docker compose exec' commands
+    working_dir: /var/www/html
+    environment:
+      # Optional: You can set PHP variables here if needed
+      - APP_ENV=development
+      - XDEBUG_MODE=develop,debug
+      - XDEBUG_CLIENT_HOST=host.docker.internal # Magic name for Mac/Windows Docker host IP
+      - XDEBUG_CLIENT_PORT=9003
+    networks:
+      - my-network
+
+  # 2. Web Server Service (Nginx)
+  web:
+    image: nginx:stable-alpine
+    container_name: nginx_web
+    ports:
+      - "8080:80" # Maps Mac's port 8080 to container's port 80
+    volumes:
+      - ./app:/var/www/html # Share the same code volume
+      - ./docker/php/zz-custom.ini:/usr/local/etc/php/conf.d/custom.ini
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf # Custom Nginx config
+    depends_on:
+      - app # Wait for PHP-FPM to be ready
+    networks:
+      - my-network
+
+  # 3. Database Service (MySQL 8)
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      # !! CHANGE THESE SECRETS FOR PRODUCTION !!
+      MYSQL_ROOT_PASSWORD: mysecretrootpassword
+      MYSQL_DATABASE: my_api_db
+      MYSQL_USER: api_user
+      MYSQL_PASSWORD: api_user_password
+    volumes:
+      - dbdata:/var/lib/mysql # Persistent volume to save data
+    ports:
+      - "3306:3306" # Optional: Map to host for external GUI tools (e.g., Sequel Ace)
+    networks:
+      - my-network
+
+# Define the network and persistent volume
+networks:
+  my-network:
+    driver: bridge
+
+volumes:
+  dbdata:
