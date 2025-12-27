@@ -6,6 +6,7 @@ import (
 	"image"
 	_ "image/png"
 	"io/fs"
+	"log"
 
 	"github.com/hajimehoshi/ebiten/v2"
 )
@@ -40,7 +41,13 @@ func mustLoadImage(name string) *ebiten.Image {
 	if err != nil {
 		panic(err)
 	}
-	defer f.Close()
+
+	defer func() {
+		if closeErr := f.Close(); closeErr != nil {
+			log.Printf("failed to close file %s: %v", name, closeErr)
+			panic(closeErr) // if closing failures should be fatal, I don't think they should
+		}
+	}()
 
 	img, _, err := image.Decode(f)
 	if err != nil {
