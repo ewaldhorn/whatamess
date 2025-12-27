@@ -13,9 +13,7 @@ func main() {
 	ebiten.SetWindowSize(GAME_WIDTH, GAME_HEIGHT)
 	ebiten.SetWindowTitle(fmt.Sprintf("%s v%s", GAME_NAME, GAME_VERSION))
 
-	g := NewGame()
-
-	err := ebiten.RunGame(g)
+	err := ebiten.RunGame(&Game{})
 	if err != nil {
 		fmt.Println("Error running game:", err)
 	}
