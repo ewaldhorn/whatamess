@@ -10,12 +10,14 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
+// ------------------------------------------------------------------------------------------------
+//
 //go:embed *
 var assets embed.FS
 
 var PlayerSprite = mustLoadImage("images/player.png")
 
-// ----------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 func ReportAssets() {
 	err := fs.WalkDir(assets, ".", func(path string, d fs.DirEntry, err error) error {
 		if d.IsDir() {
@@ -28,11 +30,11 @@ func ReportAssets() {
 	})
 
 	if err != nil {
-		fmt.Println("Error reading embbeded files:", err)
+		fmt.Println("Error reading embedded files:", err)
 	}
 }
 
-// ----------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 func mustLoadImage(name string) *ebiten.Image {
 	f, err := assets.Open(name)
 	if err != nil {
