@@ -14,7 +14,7 @@ const (
 
 var currentAcceleration float64
 
-// ----------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 type Player struct {
 	gameScene      *GameScene
 	sprite         *ebiten.Image
@@ -23,7 +23,7 @@ type Player struct {
 	velocity       float64
 }
 
-// ----------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 func (p *Player) Draw(screen *ebiten.Image) {
 	bounds := p.sprite.Bounds()
 	halfW := float64(bounds.Dx() / 2)
@@ -42,7 +42,7 @@ func (p *Player) Draw(screen *ebiten.Image) {
 	screen.DrawImage(p.sprite, options)
 }
 
-// ----------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 func (p *Player) Update() {
 	speed := ROTATION_PER_SECOND / float64(ebiten.TPS())
 
@@ -58,7 +58,7 @@ func (p *Player) Update() {
 	}
 }
 
-// ----------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 func (p *Player) accelerate() {
 	// figure out acceleration
 	if currentAcceleration < MAX_ACCELERATION {
@@ -79,7 +79,7 @@ func (p *Player) accelerate() {
 	p.position.Y += dy
 }
 
-// ----------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 func (p *Player) keepOnScreen() {
 	if p.position.X >= GAME_WIDTH {
 		p.position.X = 0
@@ -94,7 +94,7 @@ func (p *Player) keepOnScreen() {
 	}
 }
 
-// ----------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------
 func NewPlayer(gameScene *GameScene) *Player {
 	bounds := assets.PlayerSprite.Bounds()
 	halfW := float64(bounds.Dx()) / 2
