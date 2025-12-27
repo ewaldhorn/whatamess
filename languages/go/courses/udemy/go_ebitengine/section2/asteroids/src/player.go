@@ -16,7 +16,7 @@ var currentAcceleration float64
 
 // ----------------------------------------------------------------------------
 type Player struct {
-	game           *Game
+	gameScene      *GameScene
 	sprite         *ebiten.Image
 	rotation_angle float64
 	position       Vector
@@ -95,14 +95,14 @@ func (p *Player) keepOnScreen() {
 }
 
 // ----------------------------------------------------------------------------
-func NewPlayer(game *Game) *Player {
+func NewPlayer(gameScene *GameScene) *Player {
 	bounds := assets.PlayerSprite.Bounds()
 	halfW := float64(bounds.Dx()) / 2
 	halfH := float64(bounds.Dy()) / 2
 
 	return &Player{
-		game:     game,
-		sprite:   assets.PlayerSprite,
-		position: Vector{X: GAME_WIDTH/2 - halfW, Y: GAME_HEIGHT/2 - halfH},
+		gameScene: gameScene,
+		sprite:    assets.PlayerSprite,
+		position:  Vector{X: GAME_WIDTH/2 - halfW, Y: GAME_HEIGHT/2 - halfH},
 	}
 }
