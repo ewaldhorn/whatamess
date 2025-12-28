@@ -79,3 +79,19 @@ func mustLoadImage(name string) *ebiten.Image {
 
 	return ebiten.NewImageFromImage(img)
 }
+
+// ------------------------------------------------------------------------------------------------
+// loads all the images in the specified path into an array
+func mustLoadImages(path string) []*ebiten.Image {
+	matches, err := fs.Glob(assets, path)
+	if err != nil {
+		panic(err)
+	}
+
+	images := make([]*ebiten.Image, len(matches))
+	for i, match := range matches {
+		images[i] = mustLoadImage(match)
+	}
+
+	return images
+}
