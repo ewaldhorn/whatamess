@@ -4,10 +4,12 @@ import "github.com/hajimehoshi/ebiten/v2"
 
 // ------------------------------------------------------------------------------------------------
 const (
-	GAME_VERSION = "0.01"
-	GAME_NAME    = "PEWPEW PEWPEW"
-	GAME_WIDTH   = 800
-	GAME_HEIGHT  = 800
+	GAME_VERSION    = "0.01"
+	GAME_NAME       = "PEWPEW PEWPEW"
+	GAME_WIDTH      = 800
+	GAME_HEIGHT     = 800
+	GAME_WIDTH_F64  = float64(GAME_WIDTH)
+	GAME_HEIGHT_F64 = float64(GAME_HEIGHT)
 )
 
 // ------------------------------------------------------------------------------------------------
