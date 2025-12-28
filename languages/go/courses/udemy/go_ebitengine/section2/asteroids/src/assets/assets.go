@@ -9,8 +9,7 @@ import (
 	"log"
 
 	"github.com/hajimehoshi/ebiten/v2"
-	"golang.org/x/image/font"
-	"golang.org/x/image/font/opentype"
+	"github.com/hajimehoshi/ebiten/v2/text/v2"
 )
 
 // ------------------------------------------------------------------------------------------------
@@ -23,24 +22,20 @@ var PlayerSprite = mustLoadImage("images/player.png")
 var TitleFont = titleFont("fonts/title.ttf")
 
 // ------------------------------------------------------------------------------------------------
-func titleFont(name string) font.Face {
-	f, err := assets.ReadFile(name)
+func titleFont(name string) *text.GoTextFace {
+	f, err := assets.Open(name)
 	if err != nil {
 		panic(err)
 	}
 
-	tt, err := opentype.Parse(f)
+	source, err := text.NewGoTextFaceSource(f)
 	if err != nil {
 		panic(err)
 	}
 
-	face, err := opentype.NewFace(tt, &opentype.FaceOptions{
-		Size:    48,
-		DPI:     72,
-		Hinting: font.HintingFull,
-	})
-	if err != nil {
-		panic(err)
+	face := &text.GoTextFace{
+		Source: source,
+		Size:   72,
 	}
 
 	return face
