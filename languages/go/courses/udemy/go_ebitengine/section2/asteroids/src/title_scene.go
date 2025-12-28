@@ -4,6 +4,7 @@ import (
 	"asteroids/src/assets"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/hajimehoshi/ebiten/v2/text/v2"
 )
 
@@ -17,6 +18,16 @@ func (t *TitleScene) Draw(screen *ebiten.Image) {
 	op.GeoM.Translate(GAME_WIDTH/2, GAME_HEIGHT/2)
 	op.LineSpacing = assets.TitleFont.Size * 1.5
 	text.Draw(screen, textToDraw, assets.TitleFont, op)
+}
+
+// ------------------------------------------------------------------------------------------------
+func (t *TitleScene) Update(state *State) error {
+	if inpututil.IsKeyJustPressed(ebiten.KeySpace) {
+		state.SceneManager.GoToScene(NewGameScene())
+		return nil
+	}
+
+	return nil
 }
 
 // ------------------------------------------------------------------------------------------------

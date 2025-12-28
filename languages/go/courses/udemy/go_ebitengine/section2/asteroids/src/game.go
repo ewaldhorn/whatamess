@@ -20,13 +20,14 @@ type Game struct {
 func (g *Game) Update() error {
 	if g.sceneManager == nil {
 		g.sceneManager = &SceneManager{}
-		g.sceneManager.GoToScene(NewGameScene())
+		g.sceneManager.GoToScene(&TitleScene{})
 	}
 
 	g.input.Update()
 	if err := g.sceneManager.Update(&g.input); err != nil {
 		return err
 	}
+
 	return nil
 }
 
