@@ -2,6 +2,7 @@ package main
 
 import (
 	"asteroids/src/assets"
+	"image/color"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
@@ -14,10 +15,15 @@ type TitleScene struct{}
 // ------------------------------------------------------------------------------------------------
 func (t *TitleScene) Draw(screen *ebiten.Image) {
 	textToDraw := "press SPACE to play"
-	textWidth := widthOfText(assets.TitleFont, textToDraw)
-	op := &text.DrawOptions{}
-	op.GeoM.Translate(GAME_WIDTH/2-textWidth/2, GAME_HEIGHT/2)
+	op := &text.DrawOptions{
+		LayoutOptions: text.LayoutOptions{
+			PrimaryAlign: text.AlignCenter,
+		},
+	}
+	op.ColorScale.ScaleWithColor(color.White)
+	op.GeoM.Translate(GAME_WIDTH/2, GAME_HEIGHT/2)
 	op.LineSpacing = assets.TitleFont.Size * 1.5
+
 	text.Draw(screen, textToDraw, assets.TitleFont, op)
 }
 
