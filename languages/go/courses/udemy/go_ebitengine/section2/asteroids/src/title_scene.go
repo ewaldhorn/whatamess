@@ -9,11 +9,24 @@ import (
 	"github.com/hajimehoshi/ebiten/v2/text/v2"
 )
 
+const (
+	MAX_METEORS = 10
+)
+
 // ------------------------------------------------------------------------------------------------
-type TitleScene struct{}
+type TitleScene struct {
+	meteors     map[int]*Meteor
+	meteorCount int
+}
 
 // ------------------------------------------------------------------------------------------------
 func (t *TitleScene) Draw(screen *ebiten.Image) {
+	// draw meteors first
+	for _, m := range t.meteors {
+		m.Draw(screen)
+	}
+
+	// now the title text
 	textToDraw := "press SPACE to play"
 	op := &text.DrawOptions{
 		LayoutOptions: text.LayoutOptions{
@@ -32,6 +45,16 @@ func (t *TitleScene) Update(state *State) error {
 	if inpututil.IsKeyJustPressed(ebiten.KeySpace) {
 		state.SceneManager.GoToScene(NewGameScene())
 		return nil
+	}
+
+	if len(t.meteors) < MAX_METEORS {
+		m := NewMeteor(0.25, &GameScene{}, len(t.meteors)-1)
+		t.meteorCount += 1
+		t.meteors[t.meteorCount] = m
+	}
+
+	for _, m := range t.meteors {
+		m.Update()
 	}
 
 	return nil
