@@ -60,3 +60,50 @@ func NewMeteor(baseVelocity float64, g *GameScene, index int) *Meteor {
 
 	return m
 }
+
+// ------------------------------------------------------------------------------------------------
+func (m *Meteor) Draw(screen *ebiten.Image) {
+	bounds := m.sprite.Bounds()
+	halfW := float64(bounds.Dx()) / 2
+	halfH := float64(bounds.Dy()) / 2
+
+	op := &ebiten.DrawImageOptions{}
+
+	op.GeoM.Translate(-halfW, -halfH)
+	op.GeoM.Rotate(m.rotation)
+	op.GeoM.Translate(halfW, halfH)
+
+	op.GeoM.Translate(m.position.X, m.position.Y)
+
+	screen.DrawImage(m.sprite, op)
+}
+
+// ------------------------------------------------------------------------------------------------
+func (m *Meteor) Update() {
+	dx, dy := m.movement.X, m.movement.Y
+
+	m.position.X += dx
+	m.position.Y += dy
+	m.rotation += m.rotationSpeed
+
+	m.keepOnScreen()
+}
+
+// ------------------------------------------------------------------------------------------------
+func (m *Meteor) keepOnScreen() {
+	if m.position.X >= GAME_WIDTH_F64 {
+		m.position.X = 0
+	}
+
+	if m.position.X < 0 {
+		m.position.X = GAME_WIDTH_F64
+	}
+
+	if m.position.Y >= GAME_HEIGHT_F64 {
+		m.position.Y = 0
+	}
+
+	if m.position.Y < 0 {
+		m.position.Y = GAME_HEIGHT_F64
+	}
+}
