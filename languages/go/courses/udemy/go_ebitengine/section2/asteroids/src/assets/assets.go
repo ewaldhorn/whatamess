@@ -20,6 +20,8 @@ var assets embed.FS
 // ------------------------------------------------------------------------------------------------
 var PlayerSprite = mustLoadImage("images/player.png")
 var TitleFont = titleFont("fonts/title.ttf")
+var MeteorSprites = mustLoadImages("images/meteors/*.png")
+var MeteorSpritesSmall = mustLoadImages("images/meteors-small/*.png")
 
 // ------------------------------------------------------------------------------------------------
 func titleFont(name string) *text.GoTextFace {
