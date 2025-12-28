@@ -35,7 +35,7 @@ func titleFont(name string) *text.GoTextFace {
 
 	face := &text.GoTextFace{
 		Source: source,
-		Size:   72,
+		Size:   48,
 	}
 
 	return face

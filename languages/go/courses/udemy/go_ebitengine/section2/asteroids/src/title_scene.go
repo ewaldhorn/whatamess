@@ -13,9 +13,10 @@ type TitleScene struct{}
 
 // ------------------------------------------------------------------------------------------------
 func (t *TitleScene) Draw(screen *ebiten.Image) {
-	textToDraw := "1 coin 1 play"
+	textToDraw := "press SPACE to play"
+	textWidth := widthOfText(assets.TitleFont, textToDraw)
 	op := &text.DrawOptions{}
-	op.GeoM.Translate(GAME_WIDTH/2, GAME_HEIGHT/2)
+	op.GeoM.Translate(GAME_WIDTH/2-textWidth/2, GAME_HEIGHT/2)
 	op.LineSpacing = assets.TitleFont.Size * 1.5
 	text.Draw(screen, textToDraw, assets.TitleFont, op)
 }
@@ -32,6 +33,6 @@ func (t *TitleScene) Update(state *State) error {
 
 // ------------------------------------------------------------------------------------------------
 func widthOfText(f *text.GoTextFace, t string) float64 {
-	_, w := text.Measure(t, f, f.Size*1.5)
+	w, _ := text.Measure(t, f, f.Size*1.5)
 	return w
 }
