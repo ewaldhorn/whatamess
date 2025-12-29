@@ -25,22 +25,17 @@ var MeteorSpritesSmall = mustLoadImages("images/meteors-small/*.png")
 
 // ------------------------------------------------------------------------------------------------
 func titleFont(name string) *text.GoTextFace {
-	f, err := assets.Open(name)
-	if err != nil {
-		panic(err)
-	}
+	return mustLoadAsset(name, func(f fs.File) (*text.GoTextFace, error) {
+		source, err := text.NewGoTextFaceSource(f)
+		if err != nil {
+			return nil, err
+		}
 
-	source, err := text.NewGoTextFaceSource(f)
-	if err != nil {
-		panic(err)
-	}
-
-	face := &text.GoTextFace{
-		Source: source,
-		Size:   48,
-	}
-
-	return face
+		return &text.GoTextFace{
+			Source: source,
+			Size:   48,
+		}, nil
+	})
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -62,24 +57,14 @@ func ReportAssets() {
 
 // ------------------------------------------------------------------------------------------------
 func mustLoadImage(name string) *ebiten.Image {
-	f, err := assets.Open(name)
-	if err != nil {
-		panic(err)
-	}
-
-	defer func() {
-		if closeErr := f.Close(); closeErr != nil {
-			log.Printf("failed to close file %s: %v", name, closeErr)
-			// panic(closeErr) // if closing failures should be fatal, I don't think they should
+	return mustLoadAsset(name, func(f fs.File) (*ebiten.Image, error) {
+		img, _, err := image.Decode(f)
+		if err != nil {
+			return nil, err
 		}
-	}()
 
-	img, _, err := image.Decode(f)
-	if err != nil {
-		panic(err)
-	}
-
-	return ebiten.NewImageFromImage(img)
+		return ebiten.NewImageFromImage(img), nil
+	})
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -96,4 +81,25 @@ func mustLoadImages(path string) []*ebiten.Image {
 	}
 
 	return images
+}
+
+// ------------------------------------------------------------------------------------------------
+func mustLoadAsset[T any](name string, action func(fs.File) (T, error)) T {
+	f, err := assets.Open(name)
+	if err != nil {
+		panic(err)
+	}
+
+	defer func() {
+		if err := f.Close(); err != nil {
+			log.Printf("failed to close file %s: %v", name, err)
+		}
+	}()
+
+	t, err := action(f)
+	if err != nil {
+		panic(err)
+	}
+
+	return t
 }
