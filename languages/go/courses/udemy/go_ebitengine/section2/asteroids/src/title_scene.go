@@ -59,9 +59,3 @@ func (t *TitleScene) Update(state *State) error {
 
 	return nil
 }
-
-// ------------------------------------------------------------------------------------------------
-func widthOfText(f *text.GoTextFace, t string) float64 {
-	w, _ := text.Measure(t, f, f.Size*1.5)
-	return w
-}
