@@ -13,7 +13,7 @@ type Timer struct {
 }
 
 // ------------------------------------------------------------------------------------------------
-func NewTime(d time.Duration) *Timer {
+func NewTimer(d time.Duration) *Timer {
 	return &Timer{
 		currentTicks: 0,
 		targetTicks:  int(d.Milliseconds()) * ebiten.TPS() / 1000,
