@@ -18,10 +18,11 @@ import (
 var assets embed.FS
 
 // ------------------------------------------------------------------------------------------------
-var PlayerSprite = mustLoadImage("images/player.png")
-var TitleFont = titleFont("fonts/title.ttf")
+var LaserSprite = mustLoadImage("images/laser.png")
 var MeteorSprites = mustLoadImages("images/meteors/*.png")
 var MeteorSpritesSmall = mustLoadImages("images/meteors-small/*.png")
+var PlayerSprite = mustLoadImage("images/player.png")
+var TitleFont = titleFont("fonts/title.ttf")
 
 // ------------------------------------------------------------------------------------------------
 func titleFont(name string) *text.GoTextFace {
