@@ -5,6 +5,7 @@ import (
 	"math"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/solarlune/resolv"
 )
 
 const (
@@ -21,6 +22,7 @@ type Player struct {
 	rotation_angle float64
 	position       Vector
 	velocity       float64
+	playerObject   *resolv.Circle
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -52,10 +54,17 @@ func (p *Player) Update() {
 		p.rotation_angle += speed
 	}
 
-	p.keepOnScreen()
-	if ebiten.IsKeyPressed(ebiten.KeyUp) {
-		p.accelerate()
+	if ebiten.IsKeyPressed(ebiten.KeyDown) {
+		p.velocity -= speed
 	}
+
+	if ebiten.IsKeyPressed(ebiten.KeyUp) {
+		p.velocity += speed
+	}
+	p.accelerate()
+	p.keepOnScreen()
+
+	p.playerObject.SetPosition(p.position.X, p.position.Y)
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -100,9 +109,14 @@ func NewPlayer(gameScene *GameScene) *Player {
 	halfW := float64(bounds.Dx()) / 2
 	halfH := float64(bounds.Dy()) / 2
 
-	return &Player{
+	player := &Player{
 		gameScene: gameScene,
 		sprite:    assets.PlayerSprite,
 		position:  Vector{X: GAME_WIDTH/2 - halfW, Y: GAME_HEIGHT/2 - halfH},
 	}
+
+	player.playerObject = resolv.NewCircle(player.position.X, player.position.Y, float64(player.sprite.Bounds().Dx()/2))
+	player.playerObject.Tags().Set(TagPlayer)
+
+	return player
 }
