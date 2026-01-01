@@ -55,11 +55,11 @@ func (p *Player) Update() {
 	}
 
 	if ebiten.IsKeyPressed(ebiten.KeyDown) {
-		p.velocity -= speed
+		currentAcceleration -= 4
 	}
 
 	if ebiten.IsKeyPressed(ebiten.KeyUp) {
-		p.velocity += speed
+		currentAcceleration += 4
 	}
 	p.accelerate()
 	p.keepOnScreen()
