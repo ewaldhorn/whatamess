@@ -83,7 +83,7 @@ func (g *GameScene) spawnMeteors() {
 		g.meteorSpawnTimer.Reset()
 		if len(g.meteors) < g.meteorsForLevel && g.meteorCount < g.meteorsForLevel {
 			g.meteorCount++
-			g.meteors[g.meteorCount] = NewMeteor(g.baseVelocity, g, len(g.meteors)-1)
+			g.meteors[g.meteorCount] = NewMeteor(g.baseVelocity, g, len(g.meteors))
 			g.space.Add(g.meteors[g.meteorCount].meteorObject)
 		}
 	}
