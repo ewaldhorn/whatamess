@@ -6,6 +6,7 @@ import (
 	"math/rand/v2"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/solarlune/resolv"
 )
 
 // ------------------------------------------------------------------------------------------------
@@ -24,6 +25,7 @@ type Meteor struct {
 	angle         float64
 	rotationSpeed float64
 	sprite        *ebiten.Image
+	meteorObject  *resolv.Circle // resolv object for collision detection
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -56,7 +58,11 @@ func NewMeteor(baseVelocity float64, g *GameScene, index int) *Meteor {
 		movement:      movement,
 		rotationSpeed: rotationSpeedMin + rand.Float64()*(rotationSpeedMax-rotationSpeedMin),
 		sprite:        sprite,
+		meteorObject:  resolv.NewCircle(pos.X, pos.Y, float64(sprite.Bounds().Dx()/2)),
 	}
+
+	m.meteorObject.Tags().Set(TagMeteor | TagLarge)
+	m.meteorObject.SetData(&ObjectData{index: index})
 
 	return m
 }
@@ -87,23 +93,30 @@ func (m *Meteor) Update() {
 	m.rotation += m.rotationSpeed
 
 	m.keepOnScreen()
+
+	// remember to update collision detection object
+	m.meteorObject.SetPosition(m.position.X, m.position.Y)
 }
 
 // ------------------------------------------------------------------------------------------------
 func (m *Meteor) keepOnScreen() {
 	if m.position.X >= GAME_WIDTH_F64 {
 		m.position.X = 0
+		// m.meteorObject.SetPosition(0, m.position.Y) // Do we really need this?
 	}
 
 	if m.position.X < 0 {
 		m.position.X = GAME_WIDTH_F64
+		// m.meteorObject.SetPosition(GAME_WIDTH_F64, m.position.Y)
 	}
 
 	if m.position.Y >= GAME_HEIGHT_F64 {
 		m.position.Y = 0
+		// m.meteorObject.SetPosition(m.position.X, 0)
 	}
 
 	if m.position.Y < 0 {
 		m.position.Y = GAME_HEIGHT_F64
+		// m.meteorObject.SetPosition(m.position.X, GAME_HEIGHT_F64)
 	}
 }
