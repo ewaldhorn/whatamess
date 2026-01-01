@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/solarlune/resolv"
 )
 
 // ------------------------------------------------------------------------------------------------
@@ -23,6 +25,7 @@ type GameScene struct {
 	meteors          map[int]*Meteor
 	meteorsForLevel  int
 	velocityTimer    *Timer
+	space            *resolv.Space // collision detection space
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -34,9 +37,11 @@ func NewGameScene() *GameScene {
 		meteors:          make(map[int]*Meteor),
 		meteorCount:      0,
 		meteorsForLevel:  2,
+		space:            resolv.NewSpace(GAME_WIDTH, GAME_HEIGHT, 16, 16),
 	}
 
 	g.player = NewPlayer(g)
+	g.space.Add(g.player.playerObject)
 
 	return g
 }
@@ -58,6 +63,7 @@ func (g *GameScene) updateMeteors() {
 	}
 
 	g.speedUpMeteors()
+	g.checkIfPlayerCollidedWithMeteor()
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -78,6 +84,7 @@ func (g *GameScene) spawnMeteors() {
 		if len(g.meteors) < g.meteorsForLevel && g.meteorCount < g.meteorsForLevel {
 			g.meteorCount++
 			g.meteors[g.meteorCount] = NewMeteor(g.baseVelocity, g, len(g.meteors)-1)
+			g.space.Add(g.meteors[g.meteorCount].meteorObject)
 		}
 	}
 }
@@ -94,4 +101,14 @@ func (g *GameScene) speedUpMeteors() {
 // ------------------------------------------------------------------------------------------------
 func (g *GameScene) Layout(outsideWidth, outsideHeight int) (ScreenWidth, ScreenHeight int) {
 	return outsideWidth, outsideHeight
+}
+
+// ------------------------------------------------------------------------------------------------
+func (g *GameScene) checkIfPlayerCollidedWithMeteor() {
+	for _, m := range g.meteors {
+		if m.meteorObject.IsIntersecting(g.player.playerObject) {
+			data := m.meteorObject.Data().(*ObjectData)
+			fmt.Printf("Player collided with meteor #%d!\n", data.index)
+		}
+	}
 }
