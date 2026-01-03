@@ -3,6 +3,7 @@ package main
 import (
 	"asteroids/src/assets"
 	"math"
+	"time"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/solarlune/resolv"
@@ -11,18 +12,23 @@ import (
 const (
 	ROTATION_PER_SECOND = math.Pi
 	MAX_ACCELERATION    = 8.0
+	shootCoolDown       = 150 * time.Millisecond
+	burstCoolDown       = 500 * time.Millisecond
+	laserSpawnOffset    = 50.0
 )
 
 var currentAcceleration float64
 
 // ------------------------------------------------------------------------------------------------
 type Player struct {
-	gameScene      *GameScene
-	sprite         *ebiten.Image
-	rotation_angle float64
-	position       Vector
-	velocity       float64
-	playerObject   *resolv.Circle
+	gameScene          *GameScene
+	sprite             *ebiten.Image
+	rotation_angle     float64
+	position           Vector
+	velocity           float64
+	playerObject       *resolv.Circle
+	shootCoolDownTimer *Timer
+	burstCoolDownTimer *Timer
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -110,9 +116,11 @@ func NewPlayer(gameScene *GameScene) *Player {
 	halfH := float64(bounds.Dy()) / 2
 
 	player := &Player{
-		gameScene: gameScene,
-		sprite:    assets.PlayerSprite,
-		position:  Vector{X: GAME_WIDTH/2 - halfW, Y: GAME_HEIGHT/2 - halfH},
+		gameScene:          gameScene,
+		sprite:             assets.PlayerSprite,
+		position:           Vector{X: GAME_WIDTH/2 - halfW, Y: GAME_HEIGHT/2 - halfH},
+		shootCoolDownTimer: NewTimer(shootCoolDown),
+		burstCoolDownTimer: NewTimer(burstCoolDown),
 	}
 
 	player.playerObject = resolv.NewCircle(player.position.X, player.position.Y, float64(player.sprite.Bounds().Dx()/2))
