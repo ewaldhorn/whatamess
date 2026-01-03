@@ -68,6 +68,45 @@ func NewMeteor(baseVelocity float64, g *GameScene, index int) *Meteor {
 }
 
 // ------------------------------------------------------------------------------------------------
+func NewMeteorSmall(baseVelocity float64, g *GameScene, index int) *Meteor {
+	target := Vector{X: GAME_WIDTH / 2, Y: GAME_HEIGHT / 2}
+	angle := rand.Float64() * 2 * math.Pi
+	distanceFromCenter := GAME_WIDTH/2.0 + 500
+	pos := Vector{
+		X: target.X + math.Cos(angle)*distanceFromCenter,
+		Y: target.Y + math.Sin(angle)*distanceFromCenter,
+	}
+	velocity := baseVelocity + rand.Float64()*1.5
+	direction := Vector{
+		X: target.X - pos.X,
+		Y: target.Y - pos.Y,
+	}
+
+	normalisedDirection := direction.Normalize()
+	movement := Vector{
+		X: normalisedDirection.X * velocity,
+		Y: normalisedDirection.Y * velocity,
+	}
+
+	sprite := assets.MeteorSprites[rand.IntN(len(assets.MeteorSpritesSmall))]
+
+	m := &Meteor{
+		game:          g,
+		position:      pos,
+		angle:         angle,
+		movement:      movement,
+		rotationSpeed: rotationSpeedMin + rand.Float64()*(rotationSpeedMax-rotationSpeedMin),
+		sprite:        sprite,
+		meteorObject:  resolv.NewCircle(pos.X, pos.Y, float64(sprite.Bounds().Dx()/2)),
+	}
+
+	m.meteorObject.Tags().Set(TagMeteor | TagSmall)
+	m.meteorObject.SetData(&ObjectData{index: index})
+
+	return m
+}
+
+// ------------------------------------------------------------------------------------------------
 func (m *Meteor) Draw(screen *ebiten.Image) {
 	bounds := m.sprite.Bounds()
 	halfW := float64(bounds.Dx()) / 2
