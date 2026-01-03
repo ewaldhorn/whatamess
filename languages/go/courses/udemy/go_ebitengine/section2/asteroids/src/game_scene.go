@@ -10,38 +10,45 @@ import (
 
 // ------------------------------------------------------------------------------------------------
 const (
-	baseMeteorVelocity  = 0.2
-	meteorSpawnTime     = 100 * time.Millisecond
-	meteorSpeedUpAmount = 0.1
-	meteorSpeedUpTime   = 1000 * time.Millisecond
+	baseMeteorVelocity   = 0.2
+	meteorSpawnTime      = 100 * time.Millisecond
+	meteorSpeedUpAmount  = 0.1
+	meteorSpeedUpTime    = 1000 * time.Millisecond
+	cleanupExplosionTime = 200 * time.Millisecond
 )
 
 // ------------------------------------------------------------------------------------------------
 type GameScene struct {
-	player           *Player
-	baseVelocity     float64
-	meteorCount      int
-	meteorSpawnTimer *Timer
-	meteors          map[int]*Meteor
-	meteorsForLevel  int
-	velocityTimer    *Timer
-	space            *resolv.Space // collision detection space
-	lasers           map[int]*Laser
-	laserCount       int
+	player                *Player
+	baseVelocity          float64
+	meteorCount           int
+	meteorSpawnTimer      *Timer
+	meteors               map[int]*Meteor
+	meteorsForLevel       int
+	velocityTimer         *Timer
+	space                 *resolv.Space // collision detection space
+	lasers                map[int]*Laser
+	laserCount            int
+	score                 int
+	cleanupExplosionTimer *Timer
+	explosionSmallSprite  *ebiten.Image
+	explosionSprite       *ebiten.Image
+	explosionFrames       *ebiten.Image
 }
 
 // ------------------------------------------------------------------------------------------------
 func NewGameScene() *GameScene {
 	g := &GameScene{
-		meteorSpawnTimer: NewTimer(meteorSpawnTime),
-		baseVelocity:     baseMeteorVelocity,
-		velocityTimer:    NewTimer(meteorSpeedUpTime),
-		meteors:          make(map[int]*Meteor),
-		meteorCount:      0,
-		meteorsForLevel:  2,
-		space:            resolv.NewSpace(GAME_WIDTH, GAME_HEIGHT, 16, 16),
-		lasers:           make(map[int]*Laser),
-		laserCount:       0,
+		meteorSpawnTimer:      NewTimer(meteorSpawnTime),
+		baseVelocity:          baseMeteorVelocity,
+		velocityTimer:         NewTimer(meteorSpeedUpTime),
+		meteors:               make(map[int]*Meteor),
+		meteorCount:           0,
+		meteorsForLevel:       2,
+		space:                 resolv.NewSpace(GAME_WIDTH, GAME_HEIGHT, 16, 16),
+		lasers:                make(map[int]*Laser),
+		laserCount:            0,
+		cleanupExplosionTimer: NewTimer(cleanupExplosionTime),
 	}
 
 	g.player = NewPlayer(g)
