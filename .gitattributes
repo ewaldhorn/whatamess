@@ -7,3 +7,4 @@ d3.v7.min.js linguist-vendored
 
 three.js linguist-vendored
 
+node_modules/** linguist-vendored
