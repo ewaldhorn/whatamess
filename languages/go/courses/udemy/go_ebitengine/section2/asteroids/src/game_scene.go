@@ -54,8 +54,16 @@ func NewGameScene() *GameScene {
 func (g *GameScene) Update(state *State) error {
 	g.updateMeteors()
 	g.player.Update()
+	g.updateLasers()
 
 	return nil
+}
+
+// ------------------------------------------------------------------------------------------------
+func (g *GameScene) updateLasers() {
+	for _, l := range g.lasers {
+		l.Update()
+	}
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -74,6 +82,10 @@ func (g *GameScene) updateMeteors() {
 func (g *GameScene) Draw(screen *ebiten.Image) {
 	for _, m := range g.meteors {
 		m.Draw(screen)
+	}
+
+	for _, l := range g.lasers {
+		l.Draw(screen)
 	}
 
 	g.player.Draw(screen)
