@@ -1,6 +1,9 @@
 # exclude p5.js and related files
 p5.js -linguist-vendored
 p5.sound.js -linguist-vendored
+p5.esm.js -linguist-vendored
+p5.esm.min.js -linguist-vendored
+p5.min.js -linguist-vendored
 
 d3.v7.js -linguist-vendored
 d3.v7.min.js -linguist-vendored
@@ -10,4 +13,11 @@ three.js -linguist-vendored
 wasm_exec_tiny.js -linguist-vendored
 wasm_exec.js -linguist-vendored
 
+typescript.js -linguist-vendored
+_tsc.js -linguist-vendored
+bundle.js -linguist-vendored
+index.js -linguist-vendored
+browser.js -linguist-vendored
+
 languages/javascript/p5/hello_p5/static/index.js -linguist-vendored
+rendering-CEHgvKUS.js -linguist-vendored
