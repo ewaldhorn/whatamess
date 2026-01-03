@@ -13,11 +13,19 @@ three.js -linguist-vendored
 wasm_exec_tiny.js -linguist-vendored
 wasm_exec.js -linguist-vendored
 
+yui-debug.js -linguist-vendored
+yui.js -linguist-vendored
+yui-nodejs-debug.js -linguist-vendored
+yui-nodejs.js -linguist-vendored
+mdn-cache.js -linguist-vendored
+esprima.js -linguist-vendored
+
 typescript.js -linguist-vendored
 _tsc.js -linguist-vendored
 bundle.js -linguist-vendored
 index.js -linguist-vendored
 browser.js -linguist-vendored
+Tone.js -linguist-vendored
 
 languages/javascript/p5/hello_p5/static/index.js -linguist-vendored
 rendering-CEHgvKUS.js -linguist-vendored
