@@ -1,6 +1,7 @@
 package main
 
 import (
+	"asteroids/src/assets"
 	"fmt"
 	"time"
 
@@ -33,7 +34,7 @@ type GameScene struct {
 	cleanupExplosionTimer *Timer
 	explosionSmallSprite  *ebiten.Image
 	explosionSprite       *ebiten.Image
-	explosionFrames       *ebiten.Image
+	explosionFrames       []*ebiten.Image
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -49,6 +50,9 @@ func NewGameScene() *GameScene {
 		lasers:                make(map[int]*Laser),
 		laserCount:            0,
 		cleanupExplosionTimer: NewTimer(cleanupExplosionTime),
+		explosionSmallSprite:  assets.ExplosionSpriteSmall,
+		explosionSprite:       assets.ExplosionSprite,
+		explosionFrames:       assets.Explosion,
 	}
 
 	g.player = NewPlayer(g)

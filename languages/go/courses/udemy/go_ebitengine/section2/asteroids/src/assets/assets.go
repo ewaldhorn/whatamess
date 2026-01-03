@@ -23,6 +23,20 @@ var MeteorSprites = mustLoadImages("images/meteors/*.png")
 var MeteorSpritesSmall = mustLoadImages("images/meteors-small/*.png")
 var PlayerSprite = mustLoadImage("images/player.png")
 var TitleFont = titleFont("fonts/title.ttf")
+var ExplosionSprite = mustLoadImage("images/explosion.png")
+var ExplosionSpriteSmall = mustLoadImage("images/explosion-small.png")
+var Explosion = createExplosion()
+
+// ------------------------------------------------------------------------------------------------
+func createExplosion() []*ebiten.Image {
+	var frames []*ebiten.Image
+
+	for i := 0; i <= 11; i++ {
+		frames = append(frames, mustLoadImage(fmt.Sprintf("images/explosion/%d.png", i+1)))
+	}
+
+	return frames
+}
 
 // ------------------------------------------------------------------------------------------------
 func titleFont(name string) *text.GoTextFace {
