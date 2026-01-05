@@ -1,66 +1,66 @@
 # exclude p5.js and related files
-p5.js -linguist-vendored
-p5.sound.js -linguist-vendored
-p5.sound.min.js -linguist-vendored
-p5.esm.js -linguist-vendored
-p5.esm.min.js -linguist-vendored
-p5.min.js -linguist-vendored
+# p5.js -linguist-vendored
+# p5.sound.js -linguist-vendored
+# p5.sound.min.js -linguist-vendored
+# p5.esm.js -linguist-vendored
+# p5.esm.min.js -linguist-vendored
+# p5.min.js -linguist-vendored
 
-d3.v7.js -linguist-vendored
-d3.v7.min.js -linguist-vendored
+# d3.v7.js -linguist-vendored
+# d3.v7.min.js -linguist-vendored
 
-three.js -linguist-vendored
+# three.js -linguist-vendored
 
-wasm_exec_tiny.js -linguist-vendored
-wasm_exec.js -linguist-vendored
+# wasm_exec_tiny.js -linguist-vendored
+# wasm_exec.js -linguist-vendored
 
-loader-pathogen-encoder-debug.js -linguist-vendored
-loader-pathogen-encoder.js -linguist-vendored
-hello_wasm.js -linguist-vendored
-loader-debug.js -linguist-vendored
-loader.js -linguist-vendored
-charts-base.js -linguist-vendored
-charts-base-debug.js -linguist-vendored
-trie.js -linguist-vendored
-color.global.js -linguist-vendored
-libtess.debug.js -linguist-vendored
-libtess.cat.js -linguist-vendored
-color.js -linguist-vendored
-pako_deflate.js -linguist-vendored
-pako_deflate.es5.js -linguist-vendored
-yui-core-debug.js -linguist-vendored
-test.js -linguist-vendored
-test-debug.js -linguist-vendored
-types.js -linguist-vendored
-yui-core.js -linguist-vendored
-core.js -linguist-vendored
-pako_inflate.js -linguist-vendored
-pako_inflate.es5.js -linguist-vendored
-index.umd.min.js -linguist-vendored
+# loader-pathogen-encoder-debug.js -linguist-vendored
+# loader-pathogen-encoder.js -linguist-vendored
+# hello_wasm.js -linguist-vendored
+# loader-debug.js -linguist-vendored
+# loader.js -linguist-vendored
+# charts-base.js -linguist-vendored
+# charts-base-debug.js -linguist-vendored
+# trie.js -linguist-vendored
+# color.global.js -linguist-vendored
+# libtess.debug.js -linguist-vendored
+# libtess.cat.js -linguist-vendored
+# color.js -linguist-vendored
+# pako_deflate.js -linguist-vendored
+# pako_deflate.es5.js -linguist-vendored
+# yui-core-debug.js -linguist-vendored
+# test.js -linguist-vendored
+# test-debug.js -linguist-vendored
+# types.js -linguist-vendored
+# yui-core.js -linguist-vendored
+# core.js -linguist-vendored
+# pako_inflate.js -linguist-vendored
+# pako_inflate.es5.js -linguist-vendored
+# index.umd.min.js -linguist-vendored
 
-yui-debug.js -linguist-vendored
-yui.js -linguist-vendored
-yui-nodejs-debug.js -linguist-vendored
-yui-nodejs.js -linguist-vendored
-mdn-cache.js -linguist-vendored
-esprima.js -linguist-vendored
-yui-base-debug.js -linguist-vendored
-yui-base.js -linguist-vendored
+# yui-debug.js -linguist-vendored
+# yui.js -linguist-vendored
+# yui-nodejs-debug.js -linguist-vendored
+# yui-nodejs.js -linguist-vendored
+# mdn-cache.js -linguist-vendored
+# esprima.js -linguist-vendored
+# yui-base-debug.js -linguist-vendored
+# yui-base.js -linguist-vendored
 
-typescript.js -linguist-vendored
-_tsc.js -linguist-vendored
-bundle.js -linguist-vendored
-index.js -linguist-vendored
-browser.js -linguist-vendored
-Tone.js -linguist-vendored
-esprima.js -linguist-vendored
-source-map.debug.js -linguist-vendored
-acorn.js -linguist-vendored
-markdown-it.js -linguist-vendored
-pako.js -linguist-vendored
-pako.es5.js -linguist-vendored
-color.global.legacy.js -linguist-vendored
-color.legacy.js -linguist-vendored
+# typescript.js -linguist-vendored
+# _tsc.js -linguist-vendored
+# bundle.js -linguist-vendored
+# index.js -linguist-vendored
+# browser.js -linguist-vendored
+# Tone.js -linguist-vendored
+# esprima.js -linguist-vendored
+# source-map.debug.js -linguist-vendored
+# acorn.js -linguist-vendored
+# markdown-it.js -linguist-vendored
+# pako.js -linguist-vendored
+# pako.es5.js -linguist-vendored
+# color.global.legacy.js -linguist-vendored
+# color.legacy.js -linguist-vendored
 
-languages/javascript/p5/hello_p5/static/index.js -linguist-vendored
-rendering-CEHgvKUS.js -linguist-vendored
+# languages/javascript/p5/hello_p5/static/index.js -linguist-vendored
+# rendering-CEHgvKUS.js -linguist-vendored

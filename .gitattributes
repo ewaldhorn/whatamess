@@ -1,10 +1,67 @@
-# p5 and friends
+# .gitattributes
+
+###############################################################################
+# LINGUIST OVERRIDES
+# The '-' prefix tells GitHub NOT to treat these as vendored/third-party code.
+###############################################################################
+
+# p5.js and related files
 p5.js linguist-vendored
 p5.sound.js linguist-vendored
+p5.sound.min.js linguist-vendored
+p5.esm.js linguist-vendored
+p5.esm.min.js linguist-vendored
+p5.min.js linguist-vendored
+languages/javascript/p5/hello_p5/static/index.js linguist-vendored
 
+# D3 and Visualization
 d3.v7.js linguist-vendored
 d3.v7.min.js linguist-vendored
+charts-base.js linguist-vendored
+charts-base-debug.js linguist-vendored
 
+# 3D and Graphics
 three.js linguist-vendored
+libtess.debug.js linguist-vendored
+libtess.cat.js linguist-vendored
+rendering-CEHgvKUS.js linguist-vendored
 
-node_modules/** linguist-vendored
+# WASM and Loaders
+wasm_exec_tiny.js linguist-vendored
+wasm_exec.js linguist-vendored
+hello_wasm.js linguist-vendored
+loader-pathogen-encoder-debug.js linguist-vendored
+loader-pathogen-encoder.js linguist-vendored
+loader-debug.js linguist-vendored
+loader.js linguist-vendored
+
+# YUI Framework
+yui-core-debug.js linguist-vendored
+yui-core.js linguist-vendored
+yui-debug.js linguist-vendored
+yui.js linguist-vendored
+yui-nodejs-debug.js linguist-vendored
+yui-nodejs.js linguist-vendored
+yui-base-debug.js linguist-vendored
+yui-base.js linguist-vendored
+
+# Utilities and Compression
+pako.js linguist-vendored
+pako.es5.js linguist-vendored
+pako_deflate.js linguist-vendored
+pako_deflate.es5.js linguist-vendored
+pako_inflate.js linguist-vendored
+pako_inflate.es5.js linguist-vendored
+color.js linguist-vendored
+color.global.js linguist-vendored
+color.legacy.js linguist-vendored
+color.global.legacy.js linguist-vendored
+trie.js linguist-vendored
+mdn-cache.js linguist-vendored
+
+# Development and Tooling
+typescript.js linguist-vendored
+_tsc.js linguist-vendored
+esprima.js linguist-vendored
+acorn.js linguist-vendored
+source-map.debug.js linguist-vendored
