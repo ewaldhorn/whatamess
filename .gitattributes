@@ -1,35 +1,37 @@
 ###############################################################################
 # LINGUIST OVERRIDES
-# These patterns mark files as "vendored," excluding them from language stats.
+# Patterns are updated to be recursive (**/) to find files in subfolders.
 ###############################################################################
 
 # p5.js and related
-p5*.js linguist-vendored
+**/p5*.js linguist-vendored
 
 # D3 and Visualization
-d3*.js linguist-vendored
-charts-base*.js linguist-vendored
+**/d3*.js linguist-vendored
+**/charts-base*.js linguist-vendored
 
 # 3D and Graphics
-three.js linguist-vendored
-libtess.*.js linguist-vendored
-rendering-*.js linguist-vendored
+**/three.js linguist-vendored
+**/libtess.*.js linguist-vendored
+# Be careful with 'rendering-*.js'; only use if these are strictly 3rd party
+**/rendering-*.js linguist-vendored
 
 # WASM and Loaders
-wasm_exec*.js linguist-vendored
-loader*.js linguist-vendored
+**/wasm_exec*.js linguist-vendored
+**/loader*.js linguist-vendored
 
 # YUI Framework
-yui*.js linguist-vendored
+**/yui*.js linguist-vendored
 
 # Utilities and Compression
-pako*.js linguist-vendored
-color*.js linguist-vendored
-trie.js linguist-vendored
+**/pako*.js linguist-vendored
+# Changed to be more specific to avoid hiding your own 'colors.js'
+**/color-min.js linguist-vendored 
+**/trie.js linguist-vendored
 
 # Development and Tooling
-typescript.js linguist-vendored
-_tsc.js linguist-vendored
-esprima.js linguist-vendored
-acorn.js linguist-vendored
-source-map*.js linguist-vendored
+**/typescript.js linguist-vendored
+**/_tsc.js linguist-vendored
+**/esprima.js linguist-vendored
+**/acorn.js linguist-vendored
+**/source-map*.js linguist-vendored
