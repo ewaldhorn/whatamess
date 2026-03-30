@@ -2,8 +2,10 @@ module mazes
 
 go 1.25.3
 
-require golang.org/x/image v0.32.0
+require golang.org/x/image v0.38.0
 
 require github.com/StephaneBunel/bresenham v0.0.0-20211027152503-ec76d7b8e923
 
-require github.com/kmicki/apng v0.0.0-20220730213738-34f389e0ac54 // indirect
+require github.com/kmicki/apng v0.0.0-20220730213738-34f389e0ac54
+
+require github.com/kettek/apng v0.0.0-20250827064933-2bb5f5fcf253 // indirect
