@@ -1,13 +1,11 @@
 module bouncies
 
-go 1.23.0
-
-toolchain go1.24.1
+go 1.25.0
 
 require (
 	fyne.io/fyne/v2 v2.5.5
 	github.com/StephaneBunel/bresenham v0.0.0-20211027152503-ec76d7b8e923
-	golang.org/x/image v0.25.0
+	golang.org/x/image v0.38.0
 )
 
 require (
@@ -38,6 +36,6 @@ require (
 	golang.org/x/mobile v0.0.0-20250305212854-3a7bc9f8a4de // indirect
 	golang.org/x/net v0.38.0 // indirect
 	golang.org/x/sys v0.31.0 // indirect
-	golang.org/x/text v0.23.0 // indirect
+	golang.org/x/text v0.35.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
