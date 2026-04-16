@@ -1,15 +1,13 @@
 module webapp
 
-go 1.24.0
-
-toolchain go1.24.1
+go 1.25.0
 
 require github.com/go-chi/chi/v5 v5.0.12 // direct
 
 require (
 	github.com/alexedwards/scs/v2 v2.8.0
 	github.com/jackc/pgconn v1.14.3
-	github.com/jackc/pgx/v5 v5.7.1
+	github.com/jackc/pgx/v5 v5.9.0
 	golang.org/x/crypto v0.45.0
 )
 
