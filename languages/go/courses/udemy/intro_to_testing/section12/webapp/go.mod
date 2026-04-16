@@ -1,6 +1,6 @@
 module webapp
 
-go 1.24.0
+go 1.25.0
 
 require github.com/go-chi/chi/v5 v5.1.0 // direct
 
@@ -9,7 +9,7 @@ require (
 	github.com/golang-jwt/jwt/v4 v4.5.2
 	github.com/jackc/pgconn v1.14.3
 	github.com/jackc/pgx/v4 v4.18.3
-	github.com/jackc/pgx/v5 v5.7.1
+	github.com/jackc/pgx/v5 v5.9.0
 	github.com/ory/dockertest/v3 v3.11.0
 	golang.org/x/crypto v0.45.0
 )
