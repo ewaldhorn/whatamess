@@ -8,7 +8,7 @@ require (
 	github.com/alexedwards/scs/v2 v2.8.0
 	github.com/jackc/pgconn v1.14.3
 	github.com/jackc/pgx/v4 v4.18.3
-	github.com/jackc/pgx/v5 v5.9.0
+	github.com/jackc/pgx/v5 v5.9.2
 	github.com/ory/dockertest/v3 v3.11.0
 	golang.org/x/crypto v0.45.0
 )
