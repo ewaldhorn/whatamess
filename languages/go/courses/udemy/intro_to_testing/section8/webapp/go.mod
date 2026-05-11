@@ -7,7 +7,7 @@ require github.com/go-chi/chi/v5 v5.0.12 // direct
 require (
 	github.com/alexedwards/scs/v2 v2.8.0
 	github.com/jackc/pgconn v1.14.3
-	github.com/jackc/pgx/v5 v5.9.0
+	github.com/jackc/pgx/v5 v5.9.2
 	golang.org/x/crypto v0.45.0
 )
 
