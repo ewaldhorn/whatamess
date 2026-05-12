@@ -1,10 +1,10 @@
 module simplyso
 
-go 1.23.0
+go 1.25.0
 
 require (
 	github.com/hajimehoshi/ebiten/v2 v2.7.8
-	golang.org/x/image v0.18.0
+	golang.org/x/image v0.38.0
 )
 
 require (
@@ -13,7 +13,7 @@ require (
 	github.com/ebitengine/purego v0.7.0 // indirect
 	github.com/go-text/typesetting v0.1.1-0.20240325125605-c7936fe59984 // indirect
 	github.com/jezek/xgb v1.1.1 // indirect
-	golang.org/x/sync v0.7.0 // indirect
+	golang.org/x/sync v0.20.0 // indirect
 	golang.org/x/sys v0.20.0 // indirect
-	golang.org/x/text v0.16.0 // indirect
+	golang.org/x/text v0.35.0 // indirect
 )
