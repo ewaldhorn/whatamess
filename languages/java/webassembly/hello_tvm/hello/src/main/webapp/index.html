@@ -1,11 +1,62 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Main page</title>
+    <title>Duck Pond</title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-    <script type="text/javascript" charset="utf-8" src="teavm/classes.js"></script>
+    <style>
+      html, body {
+        margin: 0;
+        height: 100%;
+        background: #1b1b1b;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+      #pond {
+        width: 90vw;
+        height: 90vh;
+        display: block;
+        border-radius: 8px;
+      }
+      #unsupported {
+        display: none;
+        width: 90vw;
+        max-width: 32em;
+        color: #eee;
+        font: 16px/1.5 sans-serif;
+        text-align: center;
+      }
+    </style>
+    <script type="text/javascript" charset="utf-8" src="teavm/classes.wasm-runtime.js"></script>
   </head>
-  <body onload="main()">
-    <!-- TODO: add HTML content -->
+  <body>
+    <canvas id="pond"></canvas>
+    <p id="unsupported">
+      Your browser doesn't support WebAssembly GC, so the duck pond can't run here.
+      Please try a recent version of Chrome, Edge, Firefox, or Safari.
+    </p>
+    <script type="module">
+      function supportsWasmGC() {
+        return typeof WebAssembly !== "undefined" && typeof WebAssembly.Tag === "function";
+      }
+
+      function showUnsupported() {
+        document.getElementById("pond").style.display = "none";
+        document.getElementById("unsupported").style.display = "block";
+      }
+
+      if (!supportsWasmGC()) {
+        showUnsupported();
+      } else {
+        try {
+          const teavm = await TeaVM.wasmGC.load("teavm/classes.wasm");
+          teavm.exports.main([]);
+        } catch (e) {
+          console.error(e);
+          showUnsupported();
+        }
+      }
+    </script>
   </body>
 </html>
