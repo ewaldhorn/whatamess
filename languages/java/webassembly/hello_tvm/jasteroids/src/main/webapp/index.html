@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jasteroids — TeaVM WASM-GC Asteroids</title>
+<style>
+  :root { color-scheme: dark; }
+  html, body {
+    margin: 0;
+    height: 100%;
+    background: #05070d;
+    color: #cdd7ea;
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+  /* The canvas is 800x600 internally; scale it to fill up to 90% of the viewport
+     (leaving a little room for the footer) while preserving the 4:3 aspect ratio. */
+  #game {
+    display: block;
+    aspect-ratio: 4 / 3;
+    width: min(90vw, 116vh);
+    height: auto;
+    max-width: 90vw;
+    max-height: 84vh;
+    border: 1px solid #1b2436;
+    box-shadow: 0 0 40px rgba(60, 120, 220, 0.15);
+    image-rendering: auto;
+  }
+  #unsupported {
+    display: none;
+    width: 90vw;
+    max-width: 32em;
+    color: #eee;
+    font: 16px/1.5 sans-serif;
+    text-align: center;
+  }
+  footer {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    color: #7f8ba6;
+  }
+  footer .row {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+  }
+  footer .fps { color: #7fe0a0; min-width: 92px; }
+  footer .keys { color: #5c6884; }
+  footer b { color: #a9b6d2; font-weight: 600; }
+  footer button {
+    font: inherit;
+    font-size: 13px;
+    color: #a9b6d2;
+    background: #111826;
+    border: 1px solid #2a3550;
+    border-radius: 6px;
+    padding: 4px 10px;
+    cursor: pointer;
+  }
+  footer button:hover { border-color: #3d4d74; color: #cdd7ea; }
+  footer button[aria-pressed="false"] { color: #6b7690; }
+  footer .meta {
+    font-size: 12px;
+    color: #4b5670;
+  }
+</style>
+<script type="text/javascript" charset="utf-8" src="teavm/classes.wasm-runtime.js"></script>
+</head>
+<body>
+  <canvas id="game"></canvas>
+  <p id="unsupported">
+    Your browser doesn't support WebAssembly GC, so Jasteroids can't run here.
+    Please try a recent version of Chrome, Edge, Firefox, or Safari.
+  </p>
+  <footer>
+    <div class="row">
+      <span class="fps" id="fps">FPS: —</span>
+      <span class="keys">◀ ▶ turn · <b>▲</b> thrust · <b>SPACE</b> fire · <b>SHIFT</b> hyperspace · <b>P</b> pause · <b>ENTER</b> restart · <b>S</b> sound · <b>M</b> music</span>
+    </div>
+    <div class="row meta">
+      <button id="sound" type="button" aria-pressed="true" title="Toggle sound effects (S)">🔊 Sound: On</button>
+      <button id="music" type="button" aria-pressed="false" title="Toggle background music (M)">🎵 Music: Off</button>
+      <span>Jasteroids v1.0.0 — TeaVM WASM-GC port of Destroids</span>
+    </div>
+  </footer>
+
+  <script type="module">
+    // ---- Audio: a tiny Web Audio synth for classic-Asteroids blips. No asset files; every
+    // effect is generated from oscillators and noise on the fly. Called from Java via
+    // Env.playSound / Env.setThrust. Everything is a no-op while muted. ----
+    let audioCtx = null;
+    let sfxMuted = false;
+    let thrustSrc = null, thrustGain = null;
+
+    // getCtx lazily creates the shared AudioContext and resumes it (browsers start it suspended
+    // until a user gesture). Shared by sound effects and the music worklet; independent of the
+    // SFX mute — muting effects must not silence the music, and vice-versa.
+    function getCtx() {
+      if (!audioCtx) {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return null;
+        audioCtx = new AC();
+      }
+      if (audioCtx.state === "suspended") audioCtx.resume();
+      return audioCtx;
+    }
+
+    function noiseBuffer(ctx, seconds) {
+      const n = Math.max(1, Math.floor(ctx.sampleRate * seconds));
+      const buf = ctx.createBuffer(1, n, ctx.sampleRate);
+      const d = buf.getChannelData(0);
+      for (let i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+      return buf;
+    }
+
+    // Filtered noise burst with an exponential decay — the "bang" of an exploding rock.
+    function explosion(ctx, dur, cutoff, peak) {
+      const src = ctx.createBufferSource();
+      src.buffer = noiseBuffer(ctx, dur);
+      const lp = ctx.createBiquadFilter();
+      lp.type = "lowpass"; lp.frequency.value = cutoff;
+      const g = ctx.createGain();
+      const t = ctx.currentTime;
+      g.gain.setValueAtTime(peak, t);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      src.connect(lp).connect(g).connect(ctx.destination);
+      src.start(t); src.stop(t + dur);
+    }
+
+    // A pitch-swept oscillator ping — used for the firing blip and the wave-clear chime.
+    function blip(ctx, f0, f1, dur, peak, type) {
+      const o = ctx.createOscillator();
+      o.type = type;
+      const g = ctx.createGain();
+      const t = ctx.currentTime;
+      o.frequency.setValueAtTime(f0, t);
+      o.frequency.exponentialRampToValueAtTime(f1, t + dur);
+      g.gain.setValueAtTime(peak, t);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      o.connect(g).connect(ctx.destination);
+      o.start(t); o.stop(t + dur);
+    }
+
+    // Called from Java (Env.playSound) with the SND_* id.
+    window.playSound = function (id) {
+      if (sfxMuted) return;
+      const ctx = getCtx();
+      if (!ctx) return;
+      switch (id) {
+        case 0: blip(ctx, 660, 120, 0.12, 0.05, "square"); break;      // fire
+        case 1: explosion(ctx, 0.55, 380, 0.50); break;                // bang: large
+        case 2: explosion(ctx, 0.38, 700, 0.40); break;                // bang: medium
+        case 3: explosion(ctx, 0.22, 1300, 0.30); break;               // bang: small
+        case 4: explosion(ctx, 0.80, 300, 0.55);                       // ship death
+                blip(ctx, 300, 40, 0.70, 0.18, "sawtooth"); break;
+        case 5: blip(ctx, 440, 720, 0.16, 0.06, "triangle"); break;    // wave clear
+        case 6: blip(ctx, 1400, 180, 0.18, 0.05, "sine"); break;       // hyperspace jump
+        case 7: explosion(ctx, 0.12, 220, 0.22); break;                // asteroid-asteroid thud
+      }
+    };
+
+    // Called from Java (Env.setThrust) to start/stop the looping thrust rumble.
+    window.setThrust = function (on) {
+      if (on) {
+        if (sfxMuted) return;
+        const ctx = getCtx();
+        if (!ctx || thrustSrc) return;
+        const src = ctx.createBufferSource();
+        src.buffer = noiseBuffer(ctx, 1.0);
+        src.loop = true;
+        const lp = ctx.createBiquadFilter();
+        lp.type = "lowpass"; lp.frequency.value = 220;
+        const g = ctx.createGain();
+        const t = ctx.currentTime;
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(0.05, t + 0.05);
+        src.connect(lp).connect(g).connect(ctx.destination);
+        src.start(t);
+        thrustSrc = src; thrustGain = g;
+      } else if (thrustSrc) {
+        const t = audioCtx.currentTime;
+        thrustGain.gain.cancelScheduledValues(t);
+        thrustGain.gain.setValueAtTime(thrustGain.gain.value, t);
+        thrustGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.08);
+        thrustSrc.stop(t + 0.12);
+        thrustSrc = null; thrustGain = null;
+      }
+    };
+
+    const soundBtn = document.getElementById("sound");
+    function setSfxMuted(m) {
+      sfxMuted = m;
+      if (sfxMuted) window.setThrust(false);
+      soundBtn.textContent = sfxMuted ? "🔇 Sound: Off" : "🔊 Sound: On";
+      soundBtn.setAttribute("aria-pressed", String(!sfxMuted));
+    }
+    soundBtn.addEventListener("click", () => { setSfxMuted(!sfxMuted); if (!sfxMuted) getCtx(); });
+
+    // ---- Background music: a spacey ambient AudioWorklet (see synth-worklet.js). It runs on
+    // the dedicated audio thread so it can't disturb the frame rate. Off by default (no
+    // autoplay); lazy-loaded on first toggle, and independent of the sound-effects mute. ----
+    let musicNode = null, musicGain = null, musicOn = false, musicLoading = false;
+    const musicBtn = document.getElementById("music");
+
+    async function toggleMusic() {
+      const ctx = getCtx();
+      if (!ctx) return;
+      if (!musicNode) {
+        if (musicLoading) return;
+        musicLoading = true;
+        try {
+          await ctx.audioWorklet.addModule("synth-worklet.js");
+          musicNode = new AudioWorkletNode(ctx, "spacey-ambient");
+          musicGain = ctx.createGain();
+          musicGain.gain.value = 0.55;
+          musicNode.connect(musicGain).connect(ctx.destination);
+        } catch (e) {
+          console.error("Music worklet failed to load:", e);
+          musicLoading = false;
+          return;
+        }
+        musicLoading = false;
+      }
+      musicOn = !musicOn;
+      musicNode.port.postMessage({ type: "play", value: musicOn });
+      musicBtn.textContent = musicOn ? "🎵 Music: On" : "🎵 Music: Off";
+      musicBtn.setAttribute("aria-pressed", String(musicOn));
+    }
+    musicBtn.addEventListener("click", toggleMusic);
+
+    // S/M shortcuts, and unlocking audio on the first keypress (browsers only allow audio to
+    // start from a user gesture). The game's own movement/fire/pause/etc. keys are handled
+    // directly in Java (Client.bindKeys) — this listener only owns the audio UI shortcuts.
+    window.addEventListener("keydown", (e) => {
+      getCtx();
+      if (e.code === "KeyS") { e.preventDefault(); if (!e.repeat) setSfxMuted(!sfxMuted); return; }
+      if (e.code === "KeyM") { e.preventDefault(); if (!e.repeat) toggleMusic(); return; }
+    });
+
+    function supportsWasmGC() {
+      return typeof WebAssembly !== "undefined" && typeof WebAssembly.Tag === "function";
+    }
+
+    function showUnsupported() {
+      document.getElementById("game").style.display = "none";
+      document.getElementById("unsupported").style.display = "block";
+    }
+
+    if (!supportsWasmGC()) {
+      showUnsupported();
+    } else {
+      try {
+        const teavm = await TeaVM.wasmGC.load("teavm/classes.wasm");
+        teavm.exports.main([]);
+      } catch (e) {
+        console.error(e);
+        showUnsupported();
+      }
+    }
+  </script>
+</body>
+</html>
