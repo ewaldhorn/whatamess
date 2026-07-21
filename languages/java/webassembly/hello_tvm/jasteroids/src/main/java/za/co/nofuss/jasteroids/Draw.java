@@ -270,7 +270,7 @@ final class Draw {
 
         ctx.setFillStyle("#e8f0ff");
         ctx.setFont("bold 40px monospace");
-        ctx.fillText("DESTROIDS", Game.CANVAS_W / 2.0, Game.CANVAS_H / 2.0 - 84);
+        ctx.fillText("JASTEROIDS", Game.CANVAS_W / 2.0, Game.CANVAS_H / 2.0 - 84);
 
         ctx.setFillStyle("#ffce7a");
         ctx.setFont("18px monospace");
