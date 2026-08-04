@@ -1,5 +1,6 @@
 ## Suggested Directory Structure
 
+```
 project_root_dir/
 ├── vendor/
 │   └── batchiness/
@@ -12,3 +13,4 @@ project_root_dir/
 │   ├── index.html
 │   └── batchiness.js      ← copy from vendor/batchiness/web/
 └── build.sh
+```
