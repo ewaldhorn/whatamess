@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Bouncing Balls – Batchiness</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0d1117;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100svh;
+      font-family: monospace;
+      color: #c9d1d9;
+      touch-action: manipulation;
+    }
+    h1 { margin-bottom: 16px; font-size: 1.1rem; letter-spacing: 0.08em; opacity: 0.6; }
+    #app canvas {
+      display: block;
+      border-radius: 8px;
+      box-shadow: 0 0 60px #0005;
+      cursor: pointer;
+      touch-action: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Bouncing Balls · click or tap a ball to change its colour</h1>
+  <div id="app"></div>
+
+  <script src="./batchiness.js"></script>
+  <script>
+    let _lastX = 0, _lastY = 0;
+
+    const extraImports = {
+      app_env: {
+        get_last_click_x: () => _lastX,
+        get_last_click_y: () => _lastY,
+      },
+    };
+
+    function updatePointerPos(evt) {
+      const canvas = document.querySelector("#app canvas");
+      if (!canvas) return;
+      const rect = canvas.getBoundingClientRect();
+      const scaleX = canvas.width  / rect.width;
+      const scaleY = canvas.height / rect.height;
+
+      let clientX, clientY;
+      if (evt.touches && evt.touches.length > 0) {
+        clientX = evt.touches[0].clientX;
+        clientY = evt.touches[0].clientY;
+      } else if (evt.changedTouches && evt.changedTouches.length > 0) {
+        clientX = evt.changedTouches[0].clientX;
+        clientY = evt.changedTouches[0].clientY;
+      } else {
+        clientX = evt.clientX;
+        clientY = evt.clientY;
+      }
+
+      _lastX = (clientX - rect.left) * scaleX;
+      _lastY = (clientY - rect.top)  * scaleY;
+    }
+
+    // Capture phase listeners ensure coordinates are updated BEFORE the WASM event callback runs
+    window.addEventListener("pointerdown", updatePointerPos, { capture: true, passive: true });
+    window.addEventListener("touchstart",  updatePointerPos, { capture: true, passive: true });
+    window.addEventListener("mousedown",   updatePointerPos, { capture: true, passive: true });
+
+    Batchiness.instantiate("example.wasm", extraImports);
+  </script>
+</body>
+</html>

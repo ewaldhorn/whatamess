@@ -1,0 +1,1 @@
+http-server ./web/ -p 9000
