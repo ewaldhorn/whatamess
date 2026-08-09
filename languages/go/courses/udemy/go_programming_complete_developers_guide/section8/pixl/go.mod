@@ -37,7 +37,7 @@ require (
 	github.com/yuin/goldmark v1.7.8 // indirect
 	golang.org/x/image v0.41.0 // indirect
 	golang.org/x/mobile v0.0.0-20241213221354-a87c1cf6cf46 // indirect
-	golang.org/x/net v0.33.0 // indirect
+	golang.org/x/net v0.55.0 // indirect
 	golang.org/x/sys v0.28.0 // indirect
 	golang.org/x/text v0.21.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
