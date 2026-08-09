@@ -17,3 +17,9 @@ bootup :: proc "c" () {
 	context = runtime.default_context()
 	app_init(SCREEN_WIDTH, SCREEN_HEIGHT)
 }
+
+// ------------------------------------------------------------------------------------------------
+@(export)
+step::proc"c"(){
+
+}

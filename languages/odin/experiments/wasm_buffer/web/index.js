@@ -1,6 +1,9 @@
 let mem;
 
 const importObject = {
+  dom_env: {
+    dom_now: () => performance.now(),
+  },
   app_env: {
     app_init: (w, h) => {
       const cv = document.getElementById("app").appendChild(document.createElement("canvas"));
