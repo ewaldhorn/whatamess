@@ -5,7 +5,7 @@ go 1.25.0
 require (
 	fyne.io/fyne/v2 v2.5.5
 	github.com/StephaneBunel/bresenham v0.0.0-20211027152503-ec76d7b8e923
-	golang.org/x/image v0.38.0
+	golang.org/x/image v0.41.0
 )
 
 require (
