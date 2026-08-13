@@ -5,12 +5,12 @@ import "core:fmt"
 // ------------------------------------------------------------------------------------------------
 User :: struct {
 	id:   int,
-	name: string
+	name: string,
 }
 
 // ------------------------------------------------------------------------------------------------
 main :: proc() {
-	// fixed array, stored directly in memory
+	// fixed array, stored on the stack, will now change size
 	fixed_scores: [3]int = {90, 85, 95}
 
 	// slice - view into memory region
@@ -20,8 +20,8 @@ main :: proc() {
 	users := make([dynamic]User, context.allocator)
 	defer delete(users)
 
-	append(&users, User{id=1,name="Allsop"})
-	append(&users, User{2,"Jones"})
+	append(&users, User{id = 1, name = "Allsop"})
+	append(&users, User{2, "Jones"})
 
 	// temporary scratch buffer
 	scratch_buffer := make([]u8, 512, context.temp_allocator)
