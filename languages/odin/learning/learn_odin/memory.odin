@@ -19,4 +19,9 @@ main :: proc() {
 	// dynamic array, resizable, sits on the heap
 	users := make([dynamic]User, context.allocator)
 	defer delete(users)
+
+	append(&users, User{id=1,name="Allsop"})
+	append(&users, User{2,"Jones"})
+
+
 }
