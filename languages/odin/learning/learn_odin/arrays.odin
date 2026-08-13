@@ -16,5 +16,9 @@ main :: proc() {
 		sum_loop[i] = a[i] + b[i]
 	}
 
-	fmt.println("Loop sum is:", sum_loop)
+	fmt.println("Loop sum is :", sum_loop)
+
+	// now with array programming
+	sum := a + b
+	fmt.println("Array sum is:", sum)
 }
