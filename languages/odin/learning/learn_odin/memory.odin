@@ -23,5 +23,11 @@ main :: proc() {
 	append(&users, User{id=1,name="Allsop"})
 	append(&users, User{2,"Jones"})
 
+	// temporary scratch buffer
+	scratch_buffer := make([]u8, 512, context.temp_allocator)
 
+	fmt.println("Fixed scores  :", fixed_scores)
+	fmt.println("Slice view    :", score_view)
+	fmt.println("Dynamic users :", users)
+	fmt.printf("Scratch buffer : %v bytes\n", len(scratch_buffer))
 }
