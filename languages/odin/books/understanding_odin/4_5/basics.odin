@@ -11,7 +11,9 @@ main :: proc() {
 	for n in numbers {
 		if is_bigger_than(n, cmp) {
 			fmt.printfln("%v is bigger than %v", n, cmp)
-		}
+		} else {
+                       fmt.printfln("%v is not bigger than %v", n, cmp)
+                }
 	}
 }
 
