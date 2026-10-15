@@ -6,3 +6,5 @@ public sealed interface OrderStatus permits OrderStatus.Pending, OrderStatus.Shi
     record Delivered(Instant deliveryTime, String recipientSignature) implements OrderStatus {}
     record Cancelled(String reason, Instant cancelTime) implements OrderStatus {}
 }
+
+void main() {}
