@@ -11,6 +11,11 @@ tasks:
     cmds:
       - task --list-all
     silent: true
+  updateDependencies:
+    desc: "Update Go dependencies"
+    cmds:
+      - go get -t -u ./...
+      - go mod tidy
   dfs:
     desc: "Depth first search - Maze 1"
     cmds:
