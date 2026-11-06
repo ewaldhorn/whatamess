@@ -95,6 +95,45 @@
             font-size: 0.85rem;
             opacity: 0.7;
         }
+        .motion-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1.25rem;
+            padding: 0.4rem 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 999px;
+            font-size: 0.85rem;
+        }
+        .motion-dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            background: #4bffbb;
+        }
+        .motion-status[data-state="reduced"] .motion-dot {
+            background: #f6bf00;
+        }
+        .motion-toggle {
+            display: none;
+            margin-top: 0.75rem;
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+        .motion-toggle[data-applicable="true"] {
+            display: block;
+        }
+        /* Demo-only escape hatch: lets someone with Reduce Motion on preview
+           the animation without changing their system setting. Scoped to the
+           demo, higher specificity than the library's media block. */
+        @media (prefers-reduced-motion: reduce) {
+            .bubble-bg.force-motion .bubble-bg-bubble {
+                animation: bubble-bg-float-up var(--bubble-anim-duration) linear infinite;
+                animation-delay: var(--bubble-anim-delay);
+                bottom: calc(-1 * var(--bubble-size) - 20px);
+                top: auto;
+            }
+        }
     </style>
 </head>
 <body>
@@ -131,7 +170,14 @@
                 </label>
                 <button type="submit">Apply</button>
             </form>
-            <p class="hint">Tip: enable reduced motion in your OS settings to see the animation switch off.</p>
+            <p class="motion-status" id="motion-status" data-state="animated">
+                <span class="motion-dot" aria-hidden="true"></span>
+                <span id="motion-label">Motion: animated</span>
+            </p>
+            <label class="motion-toggle" id="motion-toggle">
+                <input type="checkbox" id="force-motion">
+                Preview the animation anyway
+            </label>
         </div>
     </section>
 
@@ -153,6 +199,35 @@
             applyPlayground();
         });
         applyPlayground();
+
+        // Say plainly why nothing is moving, instead of leaving it to be guessed.
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+        const status = document.getElementById("motion-status");
+        const label = document.getElementById("motion-label");
+        const toggle = document.getElementById("motion-toggle");
+        const forceMotion = document.getElementById("force-motion");
+
+        function applyMotionPreview() {
+            document.querySelectorAll(".bubble-bg").forEach((container) => {
+                container.classList.toggle("force-motion", forceMotion.checked);
+            });
+        }
+
+        function reportMotionState() {
+            const reduced = reduceMotion.matches;
+            status.dataset.state = reduced ? "reduced" : "animated";
+            label.textContent = reduced
+                ? "Motion: reduced by your OS setting \u2014 bubbles are held still"
+                : "Motion: animated";
+            toggle.dataset.applicable = String(reduced);
+            applyMotionPreview();
+        }
+
+        forceMotion.addEventListener("change", applyMotionPreview);
+        if (reduceMotion.addEventListener) {
+            reduceMotion.addEventListener("change", reportMotionState);
+        }
+        reportMotionState();
     </script>
 </body>
 </html>
