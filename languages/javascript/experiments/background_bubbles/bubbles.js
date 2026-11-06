@@ -48,6 +48,10 @@
     // these so it cannot overwrite the options the caller passed in.
     const initialized = typeof WeakSet === "function" ? new WeakSet() : null;
 
+    // Containers with a live ResizeObserver. Kept here rather than as a property
+    // on the element, which would leak library internals into the page's DOM.
+    const observed = typeof WeakSet === "function" ? new WeakSet() : null;
+
     const cssText = `
 .bubble-bg {
     --travel: 100vh;
@@ -217,7 +221,7 @@
             return;
         }
         Object.keys(options).forEach((key) => {
-            if (KNOWN_OPTIONS.indexOf(key) === -1) {
+            if (!KNOWN_OPTIONS.includes(key)) {
                 warn('Unknown option "' + key + '" ignored.');
             }
         });
@@ -302,26 +306,21 @@
             return [];
         }
         if (typeof target === "string") {
-            return Array.prototype.slice.call(document.querySelectorAll(target));
+            return Array.from(document.querySelectorAll(target));
         }
         if (isElement(target)) {
             return [target];
         }
         if (target && typeof target.length === "number") {
-            return Array.prototype.slice.call(target).filter(isElement);
+            return Array.from(target).filter(isElement);
         }
         warn("Invalid target, expected a selector, an element, or a list of elements.");
         return [];
     }
 
     function clearBubbles(container) {
-        const old = container.querySelectorAll("." + BUBBLE_CLASS);
-        Array.prototype.forEach.call(old, (node) => {
-            if (node.remove) {
-                node.remove();
-            } else if (node.parentNode) {
-                node.parentNode.removeChild(node);
-            }
+        container.querySelectorAll("." + BUBBLE_CLASS).forEach((node) => {
+            node.remove();
         });
     }
 
@@ -333,13 +332,15 @@
     }
 
     function watchSize(container) {
-        if (typeof ResizeObserver === "undefined" || container.__bubblesObserved) {
+        if (typeof ResizeObserver === "undefined" || (observed && observed.has(container))) {
             return;
         }
         try {
             const observer = new ResizeObserver(() => updateTravel(container));
             observer.observe(container);
-            container.__bubblesObserved = true;
+            if (observed) {
+                observed.add(container);
+            }
         } catch (e) {
             // ResizeObserver unavailable or blocked; travel stays at its init value.
         }
@@ -424,10 +425,8 @@
         if (typeof document === "undefined") {
             return [];
         }
-        const elements = Array.prototype.filter.call(
-            document.querySelectorAll("[data-bubbles]"),
-            (element) => !initialized || !initialized.has(element)
-        );
+        const elements = Array.from(document.querySelectorAll("[data-bubbles]"))
+            .filter((element) => !initialized || !initialized.has(element));
         if (!elements.length) {
             return [];
         }

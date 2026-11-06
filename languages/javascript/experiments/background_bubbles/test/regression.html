@@ -16,7 +16,7 @@
     (function () {
         const original = console.warn;
         console.warn = function () {
-            window.__warns.push(Array.prototype.join.call(arguments, " "));
+            window.__warns.push(Array.from(arguments).join(" "));
             original.apply(console, arguments);
         };
     }());
@@ -154,6 +154,12 @@
                 check("stylesheet injected once",
                     document.querySelectorAll("style[data-bubble-bg]").length === 1,
                     document.querySelectorAll("style[data-bubble-bg]").length);
+
+                // Guard: the library keeps its bookkeeping out of the page's DOM.
+                check("no library bookkeeping written onto the container",
+                    !("__bubblesObserved" in short) &&
+                        Object.keys(short).every((key) => key.indexOf("__bubble") !== 0),
+                    Object.keys(short).join(","));
 
                 // Invalid configuration must be reported, not silently swallowed.
                 const badData = document.getElementById("bad-data");
