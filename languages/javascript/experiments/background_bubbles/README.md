@@ -40,7 +40,7 @@ Or skip the JS entirely — elements with `data-bubbles` are initialized automat
 | `speed` | number | `1` | Speed multiplier: `2` is twice as fast, `0.5` is half speed. Clamped to the range `0.05`–`10`. |
 | `background` | string | `"#001f23"` | Container background. Any CSS color works; gradients work too. |
 
-Precedence: options passed to `init()` beat `data-` attributes, which beat the defaults. Values are validated strictly — `count` must be a non-negative integer, `speed` a finite number. Anything that cannot be parsed logs a console warning and is ignored, so the next source down (or the default) applies; unknown option names warn as well, which catches typos like `colour`.
+Precedence: options passed to `init()` beat `data-` attributes, which beat the defaults. Values are validated strictly — `count` must be a non-negative integer, `speed` a finite number. Anything that cannot be parsed logs a console warning and is ignored, so the next source down (or the default) applies. Unknown option names warn, and so do `data-` attributes that look like a misspelling (`data-colour`); a site's own attributes such as `data-testid` are left alone.
 
 ## API
 
@@ -51,21 +51,24 @@ Content placed inside the container renders above the bubbles automatically, and
 
 ## Tests
 
-`test/regression.html` holds the assertions; `test/run.mjs` runs them in headless Chrome with no dependencies:
+Two fixtures under `test/` hold the assertions; `test/run.mjs` runs both in headless Chrome with no dependencies:
 
 ```sh
 node test/run.mjs
 ```
 
-It checks that bubble travel follows the container height, that it tracks container resizes, and that auto-init does not overwrite options passed to `init()`. Set `CHROME=/path/to/chrome` if the browser is not in a standard location.
+- `regression.html` — configuration, precedence, validation, color parsing, cascade robustness, sizing.
+- `reduced-motion.html` — run with the motion preference forced on, so the switch-off path is exercised rather than assumed.
+
+Set `CHROME=/path/to/chrome` if the browser is not in a standard location.
 
 ## Notes
 
 - Containers need their own height (page content or CSS) — bubbles are absolutely positioned and don't create layout. Initializing a zero-height container logs a warning.
-- Respects `prefers-reduced-motion`: the animation switches off and the static background remains.
+- Respects `prefers-reduced-motion`: the animation switches off and the bubbles hold fixed positions, so the background still looks like the animated version rather than an empty panel.
 - Bubble travel distance follows the container height and tracks resizes, so it works in short sections as well as full-viewport heroes.
 - Containers scrolled out of view pause their animation, so a long page does not keep every bubble compositing.
 - No dependencies; works from any static host or straight from `file://`.
-- Injected rules live in a `@layer`, so your own stylesheet wins without `!important` — including a plain `.bubble-bg { ... }` rule of your own. Browsers without cascade layer support get the rules unlayered.
+- The injected rules are plain CSS with class selectors, so they win on specificity against generic page rules like `span { }`. To override something deliberately, use your own `.bubble-bg` or `.bubble-bg-bubble` rule — no `!important` needed.
 - Internal custom properties are namespaced `--bubble-*` and inherit, so they will not collide with a page that defines its own `--color` or `--size`.
 - Needs a modern browser (CSS custom properties). Browsers without `dvh` fall back to `vh`, and without `ResizeObserver` the travel distance is measured once at init.

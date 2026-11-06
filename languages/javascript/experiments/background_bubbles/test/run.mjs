@@ -17,7 +17,6 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-const fixture = pathToFileURL(path.join(here, "regression.html")).href;
 
 const CANDIDATES = [
     process.env.CHROME,
@@ -122,49 +121,60 @@ try {
 
     await send("Runtime.enable");
     await send("Page.enable");
-    // Headless Chrome can report "reduce" on its own; pin the preference so the
-    // reduced-motion media block never changes what these assertions observe.
-    await send("Emulation.setEmulatedMedia", {
-        features: [{ name: "prefers-reduced-motion", value: "no-preference" }]
-    });
 
-    await send("Page.navigate", { url: fixture });
+    let failures = 0;
+    let assertions = 0;
+    let pageErrors = 0;
 
-    const ready = await (async () => {
-        const stop = Date.now() + 15000;
-        while (Date.now() < stop) {
+    // Each fixture needs its own media emulation, applied before navigating so
+    // the page sees the preference on first paint.
+    async function runFixture(label, file, motionPreference) {
+        console.log("\n" + label);
+        await send("Emulation.setEmulatedMedia", {
+            features: [{ name: "prefers-reduced-motion", value: motionPreference }]
+        });
+        await send("Page.navigate", { url: pathToFileURL(path.join(here, file)).href });
+
+        const deadline = Date.now() + 15000;
+        let ready = false;
+        while (Date.now() < deadline) {
             if (await evaluate("window.__done === true")) {
-                return true;
+                ready = true;
+                break;
             }
             await new Promise((resolve) => setTimeout(resolve, 100));
         }
-        return false;
-    })();
+        if (!ready) {
+            console.log("  FAIL  fixture never finished: " + file);
+            failures++;
+            return;
+        }
 
-    if (!ready) {
-        fail("The test page never finished (window.__done stayed false).");
-    }
+        const pageError = await evaluate("window.__error");
+        const results = JSON.parse(await evaluate("JSON.stringify(window.__results)"));
 
-    const pageError = await evaluate("window.__error");
-    const results = await evaluate("JSON.stringify(window.__results)").then(JSON.parse);
+        results.forEach((result) => {
+            assertions++;
+            if (result.pass) {
+                console.log("  PASS  " + result.name);
+            } else {
+                failures++;
+                console.log("  FAIL  " + result.name + (result.detail ? "  (" + result.detail + ")" : ""));
+            }
+        });
 
-    let failed = 0;
-    for (const result of results) {
-        if (result.pass) {
-            console.log("  PASS  " + result.name);
-        } else {
-            failed++;
-            console.log("  FAIL  " + result.name + (result.detail ? "  (" + result.detail + ")" : ""));
+        if (pageError) {
+            pageErrors++;
+            console.log("  FAIL  page error: " + String(pageError).split("\n")[0]);
         }
     }
 
-    if (pageError) {
-        console.log("\nPage error:\n" + pageError);
-    }
+    await runFixture("regression.html (motion enabled)", "regression.html", "no-preference");
+    await runFixture("reduced-motion.html (reduce)", "reduced-motion.html", "reduce");
 
-    console.log("\n" + (results.length - failed) + "/" + results.length + " passed");
+    console.log("\n" + (assertions - failures) + "/" + assertions + " passed");
 
-    if (failed === 0 && !pageError && results.length > 0) {
+    if (failures === 0 && pageErrors === 0 && assertions > 0) {
         exitCode = 0;
     }
 } catch (error) {

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>bubbles.js reduced-motion tests</title>
+    <style>
+        #still { width: 300px; height: 200px; }
+    </style>
+</head>
+<body>
+    <div id="still"></div>
+
+    <script src="../bubbles.js"></script>
+    <script>
+    (function () {
+        "use strict";
+
+        const results = [];
+        window.__results = results;
+        window.__done = false;
+        window.__error = null;
+
+        function check(name, pass, detail) {
+            results.push({
+                name: name,
+                pass: !!pass,
+                detail: detail === undefined ? "" : String(detail)
+            });
+        }
+
+        try {
+            const container = document.getElementById("still");
+            Bubbles.init(container, { count: 12 });
+            const bubbles = Array.from(container.querySelectorAll(".bubble-bg-bubble"));
+            const box = container.getBoundingClientRect();
+
+            check("the reduced-motion preference is actually in effect",
+                matchMedia("(prefers-reduced-motion: reduce)").matches);
+
+            check("animation is switched off",
+                bubbles.every((bubble) => getComputedStyle(bubble).animationName === "none"),
+                getComputedStyle(bubbles[0]).animationName);
+
+            // The failure mode this guards: with no animation the transform is
+            // identity, so a bubble anchored to the bottom edge sits outside the
+            // container and the background looks empty.
+            const inside = bubbles.filter((bubble) => {
+                const rect = bubble.getBoundingClientRect();
+                return rect.bottom > box.top && rect.top < box.bottom;
+            });
+            check("the bubbles remain visible in the container",
+                inside.length === bubbles.length,
+                inside.length + "/" + bubbles.length + " inside; " +
+                    "first bubble top=" + Math.round(bubbles[0].getBoundingClientRect().top) +
+                    " container=" + Math.round(box.top) + ".." + Math.round(box.bottom));
+
+            const tops = new Set(bubbles.map((bubble) =>
+                Math.round(bubble.getBoundingClientRect().top)));
+            check("the bubbles are spread out rather than stacked",
+                tops.size > bubbles.length / 2,
+                tops.size + " distinct positions across " + bubbles.length + " bubbles");
+        } catch (error) {
+            window.__error = error && error.stack ? error.stack : String(error);
+        } finally {
+            window.__done = true;
+        }
+    }());
+    </script>
+</body>
+</html>

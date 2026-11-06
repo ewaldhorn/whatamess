@@ -21,7 +21,7 @@
 (function (global) {
     "use strict";
 
-    const version = "1.1.0";
+    const version = "1.1.1";
 
     const MAX_COUNT = 2000;
     const MAX_SPEED = 10;
@@ -101,6 +101,8 @@
 @media (prefers-reduced-motion: reduce) {
     .bubble-bg-bubble {
         animation: none;
+        bottom: auto;
+        top: var(--bubble-static-y, 50%);
     }
 }
 .bubble-bg-paused .bubble-bg-bubble {
@@ -120,11 +122,12 @@
             parts.push('@property --bubble-travel {\n    syntax: "<length>";\n    inherits: true;\n    initial-value: 100vh;\n}');
         }
 
-        // A browser that does not understand @layer drops the whole block, which
-        // would leave the bubbles unstyled, so only wrap when it is supported.
-        parts.push(typeof CSSLayerBlockRule !== "undefined"
-            ? "@layer bubbles {\n" + cssRules + "\n}"
-            : cssRules);
+        // Deliberately unlayered. Wrapping these in @layer would let any
+        // matching rule on the page win, including generic ones like
+        // `span { position: static }`, which would drop the bubbles into
+        // normal flow. Specificity already lets a page target .bubble-bg
+        // directly when it wants to override something.
+        parts.push(cssRules);
 
         return parts.join("\n");
     }
@@ -259,7 +262,33 @@
         });
     }
 
+    // Flags only attribute names that look like a misspelling of a real option,
+    // so a site's own data-testid or data-analytics on the container is not
+    // reported as a problem with this library's configuration.
+    function looksLikeOption(name) {
+        return KNOWN_OPTIONS.some((option) => name.indexOf(option.slice(0, 4)) === 0);
+    }
+
+    function checkUnknownData(element) {
+        if (!element || !element.attributes) {
+            return;
+        }
+        Array.from(element.attributes).forEach((attribute) => {
+            const name = attribute.name;
+            if (name.indexOf("data-") !== 0 || name === "data-bubbles") {
+                return;
+            }
+            const option = name.slice(5);
+            if (!KNOWN_OPTIONS.includes(option) && looksLikeOption(option)) {
+                warn('Unknown attribute "' + name + '"; did you mean data-' +
+                    KNOWN_OPTIONS.find((known) => known.indexOf(option.slice(0, 4)) === 0) + '?');
+            }
+        });
+    }
+
     function resolveConfig(element, options) {
+        checkUnknownData(element);
+
         const config = {
             count: defaults.count,
             colors: defaults.colors.slice(),
@@ -366,13 +395,22 @@
         }
     }
 
+    // One ResizeObserver for the whole document; the callback is handed the
+    // container to remeasure, so a page with many sections does not allocate a
+    // separate observer per container.
+    let sizeObserver = null;
+
     function watchSize(container) {
         if (typeof ResizeObserver === "undefined" || (observed && observed.has(container))) {
             return;
         }
         try {
-            const observer = new ResizeObserver(() => updateTravel(container));
-            observer.observe(container);
+            if (!sizeObserver) {
+                sizeObserver = new ResizeObserver((entries) => {
+                    entries.forEach((entry) => updateTravel(entry.target));
+                });
+            }
+            sizeObserver.observe(container);
             if (observed) {
                 observed.add(container);
             }
@@ -449,6 +487,10 @@
             bubble.style.setProperty("--bubble-anim-delay", animDelay + "s");
             bubble.style.setProperty("--bubble-distance", distance + "px");
             bubble.style.setProperty("--bubble-color", config.colors[i % config.colors.length]);
+            // Only used when the animation is switched off for reduced motion:
+            // without it every bubble would sit below the container, since its
+            // resting position is anchored to the bottom edge.
+            bubble.style.setProperty("--bubble-static-y", (4 + 88 * Math.random()) + "%");
 
             fragment.appendChild(bubble);
         }

@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <title>bubbles.js regression tests</title>
     <style>
-        /* Unlayered on purpose: with @layer support this must beat the
-           library's .bubble-bg { overflow: hidden }, which it would lose to
-           on source order alone. */
-        .bubble-bg { overflow: visible; }
+        /* Hostile page CSS: generic type selectors that also match bubbles.
+           The library's rules must still win on specificity; wrapping them in
+           @layer would let these beat .bubble-bg-bubble outright. */
+        span { position: static; z-index: 0; }
+        div { overflow: visible; }
         #short { width: 200px; height: 120px; }
         #tall { width: 200px; height: 400px; }
         #explicit { width: 200px; height: 100px; }
@@ -15,14 +16,22 @@
         .probe { width: 200px; height: 100px; }
     </style>
     <script>
-    // Installed before bubbles.js loads so no warning is missed.
+    // Installed before bubbles.js loads so no warning or observer is missed.
     window.__warns = [];
+    window.__resizeObserverCount = 0;
     (function () {
         const original = console.warn;
         console.warn = function () {
             window.__warns.push(Array.from(arguments).join(" "));
             original.apply(console, arguments);
         };
+        if (typeof ResizeObserver === "function") {
+            const Native = ResizeObserver;
+            window.ResizeObserver = function (callback) {
+                window.__resizeObserverCount++;
+                return new Native(callback);
+            };
+        }
     }());
     </script>
 </head>
@@ -47,6 +56,10 @@
     <div id="slow-speed" class="probe"></div>
     <div id="zero-count" class="probe"></div>
     <div id="rgb-colors" class="probe" data-colors="rgb(0, 0, 0), color-mix(in srgb, red, blue)"></div>
+
+    <!-- A typo'd option, plus a data- attribute that belongs to the site. -->
+    <div id="typo" class="probe" data-bubbles data-count="3"
+         data-colour="red" data-testid="hero"></div>
 
     <!-- Starts far below the fold so the pause behaviour is observable. -->
     <div id="offscreen" class="probe" style="margin-top: 3000px"></div>
@@ -166,17 +179,27 @@
                 const sheetText = document.querySelector("style[data-bubble-bg]").textContent;
                 check("version is reported on the injected sheet",
                     document.querySelector("style[data-bubble-bg]").getAttribute("data-bubble-bg") ===
-                        Bubbles.version && Bubbles.version === "1.1.0",
+                        Bubbles.version && /^\d+\.\d+\.\d+$/.test(Bubbles.version),
                     Bubbles.version + " / " +
                         document.querySelector("style[data-bubble-bg]").getAttribute("data-bubble-bg"));
 
-                check("rules are wrapped in a cascade layer",
-                    sheetText.includes("@layer bubbles"),
+                check("rules are not hidden behind a cascade layer",
+                    !sheetText.includes("@layer"),
                     sheetText.slice(0, 40));
 
-                check("site CSS outranks the layered rules",
-                    getComputedStyle(short).overflow === "visible",
-                    getComputedStyle(short).overflow);
+                const hostileBubble = bubblesIn(short)[0];
+                check("generic page selectors cannot displace the bubbles",
+                    getComputedStyle(hostileBubble).position === "absolute" &&
+                        getComputedStyle(hostileBubble).zIndex === "-1" &&
+                        getComputedStyle(short).overflow === "hidden",
+                    "position=" + getComputedStyle(hostileBubble).position +
+                        " z-index=" + getComputedStyle(hostileBubble).zIndex +
+                        " overflow=" + getComputedStyle(short).overflow);
+
+                check("every bubble carries a static fallback position",
+                    Array.from(bubblesIn(short)).every((bubble) =>
+                        /%$/.test(bubble.style.getPropertyValue("--bubble-static-y"))),
+                    bubblesIn(short)[0].style.getPropertyValue("--bubble-static-y"));
 
                 check("travel is a registered length property",
                     sheetText.includes("@property --bubble-travel") &&
@@ -254,6 +277,25 @@
                 check("functional color syntax survives data-colors",
                     used.length === 2 && rgbWarns.length === 0,
                     JSON.stringify(used) + " " + JSON.stringify(rgbWarns));
+
+                // A misspelled attribute should be named; the page's own data-
+                // attributes should be left alone.
+                const typoWarns = window.__warns.filter((message) => /data-/.test(message));
+                check("misspelled data- attribute is reported",
+                    typoWarns.some((message) => /data-colour/.test(message)),
+                    JSON.stringify(typoWarns));
+                check("the page's own data- attributes are not reported",
+                    !typoWarns.some((message) => /data-testid/.test(message)),
+                    JSON.stringify(typoWarns));
+                check("a misspelled attribute does not stop the rest applying",
+                    bubblesIn(document.getElementById("typo")).length === 3,
+                    bubblesIn(document.getElementById("typo")).length);
+
+                // One shared observer, not one per container.
+                check("a single ResizeObserver serves every container",
+                    window.__resizeObserverCount === 1,
+                    window.__resizeObserverCount + " observer(s) for " +
+                        document.querySelectorAll(".bubble-bg").length + " containers");
 
                 // Offscreen containers should stop compositing entirely.
                 const offscreenEl = document.getElementById("offscreen");
