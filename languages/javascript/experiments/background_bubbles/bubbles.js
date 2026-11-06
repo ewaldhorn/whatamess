@@ -51,6 +51,7 @@
     const cssText = `
 .bubble-bg {
     --travel: 100vh;
+    --travel: 100dvh;
     overflow: hidden;
     isolation: isolate;
 }
@@ -60,7 +61,6 @@
     border-radius: 50%;
     width: var(--size);
     height: var(--size);
-    aspect-ratio: 1/1;
     left: var(--position-x);
     bottom: calc(-1 * var(--size) - 20px);
     opacity: var(--visibility);
@@ -114,8 +114,14 @@
         if (typeof document === "undefined") {
             return;
         }
-        if (document.querySelector("style[data-bubble-bg]")) {
+        const existing = document.querySelector("style[data-bubble-bg]");
+        if (existing && existing.getAttribute("data-bubble-bg") === version) {
             return;
+        }
+        // A sheet from a different version would style these class names with
+        // stale rules; replace it so the attribute stays truthful.
+        if (existing && existing.parentNode) {
+            existing.parentNode.removeChild(existing);
         }
         const style = document.createElement("style");
         style.setAttribute("data-bubble-bg", version);

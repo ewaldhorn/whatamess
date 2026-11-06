@@ -65,4 +65,4 @@ It checks that bubble travel follows the container height, that it tracks contai
 - Respects `prefers-reduced-motion`: the animation switches off and the static background remains.
 - Bubble travel distance follows the container height and tracks resizes, so it works in short sections as well as full-viewport heroes.
 - No dependencies; works from any static host or straight from `file://`.
-- Needs a modern browser (CSS custom properties, `aspect-ratio`).
+- Needs a modern browser (CSS custom properties). Browsers without `dvh` fall back to `vh`, and without `ResizeObserver` the travel distance is measured once at init.
