@@ -8,7 +8,19 @@
         #tall { width: 200px; height: 400px; }
         #explicit { width: 200px; height: 100px; }
         #auto { width: 200px; height: 100px; }
+        .probe { width: 200px; height: 100px; }
     </style>
+    <script>
+    // Installed before bubbles.js loads so no warning is missed.
+    window.__warns = [];
+    (function () {
+        const original = console.warn;
+        console.warn = function () {
+            window.__warns.push(Array.prototype.join.call(arguments, " "));
+            original.apply(console, arguments);
+        };
+    }());
+    </script>
 </head>
 <body>
     <div id="short"></div>
@@ -20,6 +32,16 @@
 
     <!-- Never touched by script; must still auto-initialize from its data- attributes. -->
     <div id="auto" data-bubbles data-count="7"></div>
+
+    <!-- Validation probes. Deliberately carry data- attributes but no
+         data-bubbles, so only explicit init() reaches them. -->
+    <div id="bad-data" class="probe" data-count="abc" data-speed="fast"></div>
+    <div id="bad-option" class="probe"></div>
+    <div id="float-count" class="probe"></div>
+    <div id="px-count" class="probe"></div>
+    <div id="fast-speed" class="probe"></div>
+    <div id="zero-count" class="probe"></div>
+    <div id="rgb-colors" class="probe" data-colors="rgb(0, 0, 0), color-mix(in srgb, red, blue)"></div>
 
     <script src="../bubbles.js"></script>
     <script>
@@ -41,6 +63,13 @@
 
         function bubblesIn(container) {
             return container.querySelectorAll(".bubble-bg-bubble");
+        }
+
+        // Runs fn and returns only the warnings it produced.
+        function withWarnings(fn) {
+            const start = window.__warns.length;
+            fn();
+            return window.__warns.slice(start);
         }
 
         // The value the bubble actually animates against. Reading the computed
@@ -125,6 +154,64 @@
                 check("stylesheet injected once",
                     document.querySelectorAll("style[data-bubble-bg]").length === 1,
                     document.querySelectorAll("style[data-bubble-bg]").length);
+
+                // Invalid configuration must be reported, not silently swallowed.
+                const badData = document.getElementById("bad-data");
+                const badDataWarns = withWarnings(() => Bubbles.init(badData));
+                check("invalid data- attributes are reported",
+                    badDataWarns.some((m) => /data-count/.test(m)) &&
+                        badDataWarns.some((m) => /data-speed/.test(m)),
+                    JSON.stringify(badDataWarns));
+                check("invalid data-count falls back to the default",
+                    bubblesIn(badData).length === 60, bubblesIn(badData).length);
+
+                const badOption = document.getElementById("bad-option");
+                const badOptionWarns = withWarnings(() => Bubbles.init(badOption, { count: "abc" }));
+                check("invalid option is reported",
+                    badOptionWarns.some((m) => /count option/.test(m)),
+                    JSON.stringify(badOptionWarns));
+                check("invalid option falls back to the default",
+                    bubblesIn(badOption).length === 60, bubblesIn(badOption).length);
+
+                const floatCount = document.getElementById("float-count");
+                const floatWarns = withWarnings(() => Bubbles.init(floatCount, { count: 2.9 }));
+                check("fractional count is rejected, not truncated",
+                    bubblesIn(floatCount).length === 60 && floatWarns.some((m) => /count/.test(m)),
+                    bubblesIn(floatCount).length + " " + JSON.stringify(floatWarns));
+
+                const pxCount = document.getElementById("px-count");
+                const pxWarns = withWarnings(() => Bubbles.init(pxCount, { count: "40px" }));
+                check("unit-suffixed count is rejected, not read as 40",
+                    bubblesIn(pxCount).length === 60 && pxWarns.some((m) => /count/.test(m)),
+                    bubblesIn(pxCount).length + " " + JSON.stringify(pxWarns));
+
+                const fastSpeed = document.getElementById("fast-speed");
+                const fastWarns = withWarnings(() => Bubbles.init(fastSpeed, { speed: 1e9 }));
+                const fastDuration = parseFloat(
+                    bubblesIn(fastSpeed)[0].style.getPropertyValue("--anim-duration"));
+                check("absurd speed is capped",
+                    fastWarns.some((m) => /Speed capped/.test(m)) && fastDuration >= 1.6,
+                    "duration=" + fastDuration + " " + JSON.stringify(fastWarns));
+
+                const zeroCount = document.getElementById("zero-count");
+                const zeroWarns = withWarnings(() => Bubbles.init(zeroCount, { count: 0 }));
+                check("count 0 is valid and silent",
+                    bubblesIn(zeroCount).length === 0 && zeroWarns.length === 0,
+                    bubblesIn(zeroCount).length + " " + JSON.stringify(zeroWarns));
+
+                // Functional color syntax in data-colors must survive splitting.
+                const rgbColors = document.getElementById("rgb-colors");
+                const rgbWarns = withWarnings(() => Bubbles.init(rgbColors));
+                const used = [];
+                bubblesIn(rgbColors).forEach((bubble) => {
+                    const color = bubble.style.getPropertyValue("--color");
+                    if (!used.includes(color)) {
+                        used.push(color);
+                    }
+                });
+                check("functional color syntax survives data-colors",
+                    used.length === 2 && rgbWarns.length === 0,
+                    JSON.stringify(used) + " " + JSON.stringify(rgbWarns));
             } catch (error) {
                 window.__error = error && error.stack ? error.stack : String(error);
             } finally {

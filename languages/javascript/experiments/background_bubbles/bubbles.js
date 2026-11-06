@@ -30,6 +30,7 @@
     const version = "1.0.0";
 
     const MAX_COUNT = 2000;
+    const MAX_SPEED = 10;
 
     const defaults = {
         count: 60,
@@ -129,20 +130,25 @@
         return null;
     }
 
-    function parseCount(value) {
-        if (value === undefined || value === null || value === "") {
+    // Returns undefined when the value is absent, and NaN when it is present but
+    // not a number, so callers can tell "not specified" from "specified badly."
+    // Number() rather than parseInt()/parseFloat(), which silently truncate:
+    // parseInt("2.9") is 2 and parseInt("4e3") is 4.
+    function parseNumber(value) {
+        if (value === undefined || value === null) {
             return undefined;
         }
-        const n = parseInt(value, 10);
-        return Number.isNaN(n) ? undefined : n;
-    }
-
-    function parseSpeed(value) {
-        if (value === undefined || value === null || value === "") {
+        if (typeof value === "number") {
+            return value;
+        }
+        if (typeof value !== "string") {
+            return NaN;
+        }
+        const trimmed = value.trim();
+        if (!trimmed) {
             return undefined;
         }
-        const n = parseFloat(value);
-        return Number.isNaN(n) ? undefined : n;
+        return Number(trimmed);
     }
 
     function parseColors(value) {
@@ -152,26 +158,52 @@
         if (typeof value !== "string") {
             return undefined;
         }
-        const list = value.split(",").map((c) => c.trim()).filter(Boolean);
+        const list = splitColorList(value);
         return list.length ? list : undefined;
     }
 
-    function applyOverrides(config, source) {
+    // Splits on top-level commas only, so functional color syntax survives:
+    // "rgb(0,0,0),color-mix(in srgb, red, blue)" is two colors, not six.
+    function splitColorList(value) {
+        const parts = [];
+        let depth = 0;
+        let current = "";
+        for (let i = 0; i < value.length; i++) {
+            const character = value[i];
+            if (character === "(") {
+                depth++;
+            } else if (character === ")") {
+                depth = Math.max(0, depth - 1);
+            }
+            if (character === "," && depth === 0) {
+                parts.push(current);
+                current = "";
+            } else {
+                current += character;
+            }
+        }
+        parts.push(current);
+        return parts.map((part) => part.trim()).filter(Boolean);
+    }
+
+    // Applies one layer of configuration. A source that is present but
+    // unparseable is ignored with a warning, leaving whatever the lower
+    // precedence layer already set in place.
+    function applySource(config, source, describe) {
         if (!source) {
             return;
         }
-        if (source.count !== undefined) {
-            config.count = source.count;
-        }
-        if (source.colors !== undefined) {
-            config.colors = source.colors;
-        }
-        if (source.speed !== undefined) {
-            config.speed = source.speed;
-        }
-        if (source.background !== undefined) {
-            config.background = source.background;
-        }
+        KNOWN_OPTIONS.forEach((key) => {
+            const value = source[key];
+            if (value === undefined) {
+                return;
+            }
+            if (typeof value === "number" && Number.isNaN(value)) {
+                warn("Ignoring invalid " + describe(key) + " value.");
+                return;
+            }
+            config[key] = value;
+        });
     }
 
     function checkUnknownOptions(options) {
@@ -193,21 +225,21 @@
             background: defaults.background
         };
 
-        applyOverrides(config, {
-            count: parseCount(readData(element, "count")),
+        applySource(config, {
+            count: parseNumber(readData(element, "count")),
             colors: parseColors(readData(element, "colors")),
-            speed: parseSpeed(readData(element, "speed")),
+            speed: parseNumber(readData(element, "speed")),
             background: readData(element, "background") || undefined
-        });
+        }, (key) => "data-" + key);
 
         if (options) {
             checkUnknownOptions(options);
-            applyOverrides(config, {
-                count: parseCount(options.count),
+            applySource(config, {
+                count: parseNumber(options.count),
                 colors: parseColors(options.colors),
-                speed: parseSpeed(options.speed),
+                speed: parseNumber(options.speed),
                 background: options.background || undefined
-            });
+            }, (key) => key + " option");
         }
 
         if (!Number.isInteger(config.count) || config.count < 0) {
@@ -239,6 +271,9 @@
         if (typeof config.speed !== "number" || !Number.isFinite(config.speed) || config.speed <= 0) {
             warn("Invalid speed, using default " + defaults.speed + ".");
             config.speed = defaults.speed;
+        } else if (config.speed > MAX_SPEED) {
+            warn("Speed capped at " + MAX_SPEED + ".");
+            config.speed = MAX_SPEED;
         }
 
         if (typeof config.background !== "string" || !config.background) {

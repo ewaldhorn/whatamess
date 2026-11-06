@@ -35,12 +35,12 @@ Or skip the JS entirely — elements with `data-bubbles` are initialized automat
 
 | Option | Type | Default | Description |
 |---|---|---|---|
-| `count` | number | `60` | How many bubbles to render (capped at 2000). |
-| `colors` | string array | 7-color palette | Bubble colors, cycled in order. As a data attribute, comma-separated. |
-| `speed` | number | `1` | Speed multiplier: `2` is twice as fast, `0.5` is half speed. Must be above `0`. |
+| `count` | number | `60` | How many bubbles to render. A non-negative integer, capped at 2000. |
+| `colors` | string array | 7-color palette | Bubble colors, cycled in order. As a data attribute, comma-separated; functional syntax like `rgb(0,0,0)` or `color-mix(in srgb, red, blue)` works. |
+| `speed` | number | `1` | Speed multiplier: `2` is twice as fast, `0.5` is half speed. Must be above `0`, capped at `10`. |
 | `background` | string | `"#001f23"` | Container background. Any CSS color works; gradients work too. |
 
-Precedence: options passed to `init()` beat `data-` attributes, which beat the defaults. Invalid values log a console warning and fall back to the default for that option, as do unknown option names (which catches typos like `colour`).
+Precedence: options passed to `init()` beat `data-` attributes, which beat the defaults. Values are validated strictly — `count` must be a non-negative integer, `speed` a finite number above `0`. Anything that cannot be parsed logs a console warning and is ignored, so the next source down (or the default) applies; unknown option names warn as well, which catches typos like `colour`.
 
 ## API
 
