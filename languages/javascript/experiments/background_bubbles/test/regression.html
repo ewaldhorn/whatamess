@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <title>bubbles.js regression tests</title>
     <style>
+        /* Unlayered on purpose: with @layer support this must beat the
+           library's .bubble-bg { overflow: hidden }, which it would lose to
+           on source order alone. */
+        .bubble-bg { overflow: visible; }
         #short { width: 200px; height: 120px; }
         #tall { width: 200px; height: 400px; }
         #explicit { width: 200px; height: 100px; }
@@ -40,6 +44,7 @@
     <div id="float-count" class="probe"></div>
     <div id="px-count" class="probe"></div>
     <div id="fast-speed" class="probe"></div>
+    <div id="slow-speed" class="probe"></div>
     <div id="zero-count" class="probe"></div>
     <div id="rgb-colors" class="probe" data-colors="rgb(0, 0, 0), color-mix(in srgb, red, blue)"></div>
 
@@ -80,7 +85,7 @@
         // on the bubble would shadow the value inherited from its container.
         function travelOf(container) {
             const bubble = bubblesIn(container)[0];
-            return bubble ? getComputedStyle(bubble).getPropertyValue("--travel").trim() : null;
+            return bubble ? getComputedStyle(bubble).getPropertyValue("--bubble-travel").trim() : null;
         }
 
         function waitFor(predicate, timeoutMs) {
@@ -158,6 +163,26 @@
                     document.querySelectorAll("style[data-bubble-bg]").length === 1,
                     document.querySelectorAll("style[data-bubble-bg]").length);
 
+                const sheetText = document.querySelector("style[data-bubble-bg]").textContent;
+                check("version is reported on the injected sheet",
+                    document.querySelector("style[data-bubble-bg]").getAttribute("data-bubble-bg") ===
+                        Bubbles.version && Bubbles.version === "1.1.0",
+                    Bubbles.version + " / " +
+                        document.querySelector("style[data-bubble-bg]").getAttribute("data-bubble-bg"));
+
+                check("rules are wrapped in a cascade layer",
+                    sheetText.includes("@layer bubbles"),
+                    sheetText.slice(0, 40));
+
+                check("site CSS outranks the layered rules",
+                    getComputedStyle(short).overflow === "visible",
+                    getComputedStyle(short).overflow);
+
+                check("travel is a registered length property",
+                    sheetText.includes("@property --bubble-travel") &&
+                        /^[0-9.]+px$/.test(travelOf(short)),
+                    travelOf(short));
+
                 // Guard: the library keeps its bookkeeping out of the page's DOM.
                 check("no library bookkeeping written onto the container",
                     !("__bubblesObserved" in short) &&
@@ -197,7 +222,7 @@
                 const fastSpeed = document.getElementById("fast-speed");
                 const fastWarns = withWarnings(() => Bubbles.init(fastSpeed, { speed: 1e9 }));
                 const fastDuration = parseFloat(
-                    bubblesIn(fastSpeed)[0].style.getPropertyValue("--anim-duration"));
+                    bubblesIn(fastSpeed)[0].style.getPropertyValue("--bubble-anim-duration"));
                 check("absurd speed is capped",
                     fastWarns.some((m) => /Speed capped/.test(m)) && fastDuration >= 1.6,
                     "duration=" + fastDuration + " " + JSON.stringify(fastWarns));
@@ -208,12 +233,20 @@
                     bubblesIn(zeroCount).length === 0 && zeroWarns.length === 0,
                     bubblesIn(zeroCount).length + " " + JSON.stringify(zeroWarns));
 
+                const slowSpeed = document.getElementById("slow-speed");
+                const slowWarns = withWarnings(() => Bubbles.init(slowSpeed, { speed: 0.001 }));
+                const slowDuration = parseFloat(
+                    bubblesIn(slowSpeed)[0].style.getPropertyValue("--bubble-anim-duration"));
+                check("crawl speed is raised so cycles do not look frozen",
+                    slowWarns.some((m) => /Speed raised/.test(m)) && slowDuration <= 700,
+                    "duration=" + slowDuration + " " + JSON.stringify(slowWarns));
+
                 // Functional color syntax in data-colors must survive splitting.
                 const rgbColors = document.getElementById("rgb-colors");
                 const rgbWarns = withWarnings(() => Bubbles.init(rgbColors));
                 const used = [];
                 bubblesIn(rgbColors).forEach((bubble) => {
-                    const color = bubble.style.getPropertyValue("--color");
+                    const color = bubble.style.getPropertyValue("--bubble-color");
                     if (!used.includes(color)) {
                         used.push(color);
                     }

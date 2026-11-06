@@ -18,19 +18,14 @@
  *
  *   <section data-bubbles data-count="40" data-speed="0.6"></section>
  */
-(function (global, factory) {
-    if (typeof module === "object" && module !== null && module.exports) {
-        module.exports = factory();
-    } else {
-        global.Bubbles = factory();
-    }
-}(typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : this, function () {
+(function (global) {
     "use strict";
 
-    const version = "1.0.0";
+    const version = "1.1.0";
 
     const MAX_COUNT = 2000;
     const MAX_SPEED = 10;
+    const MIN_SPEED = 0.05;
 
     const defaults = {
         count: 60,
@@ -61,42 +56,46 @@
     // point at it.
     let visibilityObserver = null;
 
-    const cssText = `
+    const cssRules = `
 .bubble-bg {
-    --travel: 100vh;
-    --travel: 100dvh;
+    --bubble-travel: 100vh;
     overflow: hidden;
     isolation: isolate;
+}
+@supports (height: 100dvh) {
+    .bubble-bg {
+        --bubble-travel: 100dvh;
+    }
 }
 .bubble-bg-bubble {
     position: absolute;
     z-index: -1;
     border-radius: 50%;
-    width: var(--size);
-    height: var(--size);
-    left: var(--position-x);
-    bottom: calc(-1 * var(--size) - 20px);
-    opacity: var(--visibility);
-    background-color: var(--color);
+    width: var(--bubble-size);
+    height: var(--bubble-size);
+    left: var(--bubble-position-x);
+    bottom: calc(-1 * var(--bubble-size) - 20px);
+    opacity: var(--bubble-visibility);
+    background-color: var(--bubble-color);
     pointer-events: none;
-    animation: bubble-bg-float-up var(--anim-duration) linear infinite;
-    animation-delay: var(--anim-delay);
+    animation: bubble-bg-float-up var(--bubble-anim-duration) linear infinite;
+    animation-delay: var(--bubble-anim-delay);
 }
 @keyframes bubble-bg-float-up {
     0% {
         transform: translate3d(0, 0, 0);
     }
     25% {
-        transform: translate3d(var(--distance), calc(var(--travel) * -0.28), 0);
+        transform: translate3d(var(--bubble-distance), calc(var(--bubble-travel) * -0.28), 0);
     }
     50% {
-        transform: translate3d(0, calc(var(--travel) * -0.56), 0);
+        transform: translate3d(0, calc(var(--bubble-travel) * -0.56), 0);
     }
     75% {
-        transform: translate3d(calc(-1 * var(--distance)), calc(var(--travel) * -0.84), 0);
+        transform: translate3d(calc(-1 * var(--bubble-distance)), calc(var(--bubble-travel) * -0.84), 0);
     }
     100% {
-        transform: translate3d(0, calc(var(--travel) * -1 - 80px), 0);
+        transform: translate3d(0, calc(var(--bubble-travel) * -1 - 80px), 0);
     }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -108,6 +107,27 @@
     animation-play-state: paused;
 }
 `.trim();
+
+    const cssText = buildCss();
+
+    function buildCss() {
+        const parts = [];
+
+        // Registering the property gives it a type and a declared initial value,
+        // so an invalid value falls back to 100vh instead of breaking the
+        // keyframes. Browsers without @property simply ignore the block.
+        if (typeof CSS !== "undefined" && typeof CSS.registerProperty === "function") {
+            parts.push('@property --bubble-travel {\n    syntax: "<length>";\n    inherits: true;\n    initial-value: 100vh;\n}');
+        }
+
+        // A browser that does not understand @layer drops the whole block, which
+        // would leave the bubbles unstyled, so only wrap when it is supported.
+        parts.push(typeof CSSLayerBlockRule !== "undefined"
+            ? "@layer bubbles {\n" + cssRules + "\n}"
+            : cssRules);
+
+        return parts.join("\n");
+    }
 
     function warn(message) {
         if (typeof console !== "undefined" && console.warn) {
@@ -296,6 +316,9 @@
         } else if (config.speed > MAX_SPEED) {
             warn("Speed capped at " + MAX_SPEED + ".");
             config.speed = MAX_SPEED;
+        } else if (config.speed < MIN_SPEED) {
+            warn("Speed raised to " + MIN_SPEED + "; slower cycles look frozen.");
+            config.speed = MIN_SPEED;
         }
 
         if (typeof config.background !== "string" || !config.background) {
@@ -339,7 +362,7 @@
     function updateTravel(container) {
         const height = container.clientHeight || 0;
         if (height > 0) {
-            container.style.setProperty("--travel", height + "px");
+            container.style.setProperty("--bubble-travel", height + "px");
         }
     }
 
@@ -419,13 +442,13 @@
             const swayDirection = Math.random() > 0.5 ? 1 : -1;
             const distance = swayDirection * (16 + 28 * Math.random());
 
-            bubble.style.setProperty("--size", size + "px");
-            bubble.style.setProperty("--position-x", positionX + "%");
-            bubble.style.setProperty("--visibility", String(visibility));
-            bubble.style.setProperty("--anim-duration", animDuration + "s");
-            bubble.style.setProperty("--anim-delay", animDelay + "s");
-            bubble.style.setProperty("--distance", distance + "px");
-            bubble.style.setProperty("--color", config.colors[i % config.colors.length]);
+            bubble.style.setProperty("--bubble-size", size + "px");
+            bubble.style.setProperty("--bubble-position-x", positionX + "%");
+            bubble.style.setProperty("--bubble-visibility", String(visibility));
+            bubble.style.setProperty("--bubble-anim-duration", animDuration + "s");
+            bubble.style.setProperty("--bubble-anim-delay", animDelay + "s");
+            bubble.style.setProperty("--bubble-distance", distance + "px");
+            bubble.style.setProperty("--bubble-color", config.colors[i % config.colors.length]);
 
             fragment.appendChild(bubble);
         }
@@ -479,8 +502,12 @@
         }
     }
 
-    return {
-        init: init,
-        version: version
-    };
-}));
+    if (global) {
+        global.Bubbles = {
+            init: init,
+            version: version
+        };
+    }
+}(typeof globalThis !== "undefined" ? globalThis :
+    typeof window !== "undefined" ? window :
+        typeof self !== "undefined" ? self : this));

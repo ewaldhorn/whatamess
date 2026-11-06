@@ -37,10 +37,10 @@ Or skip the JS entirely — elements with `data-bubbles` are initialized automat
 |---|---|---|---|
 | `count` | number | `60` | How many bubbles to render. A non-negative integer, capped at 2000. |
 | `colors` | string array | 7-color palette | Bubble colors, cycled in order. As a data attribute, comma-separated; functional syntax like `rgb(0,0,0)` or `color-mix(in srgb, red, blue)` works. |
-| `speed` | number | `1` | Speed multiplier: `2` is twice as fast, `0.5` is half speed. Must be above `0`, capped at `10`. |
+| `speed` | number | `1` | Speed multiplier: `2` is twice as fast, `0.5` is half speed. Clamped to the range `0.05`–`10`. |
 | `background` | string | `"#001f23"` | Container background. Any CSS color works; gradients work too. |
 
-Precedence: options passed to `init()` beat `data-` attributes, which beat the defaults. Values are validated strictly — `count` must be a non-negative integer, `speed` a finite number above `0`. Anything that cannot be parsed logs a console warning and is ignored, so the next source down (or the default) applies; unknown option names warn as well, which catches typos like `colour`.
+Precedence: options passed to `init()` beat `data-` attributes, which beat the defaults. Values are validated strictly — `count` must be a non-negative integer, `speed` a finite number. Anything that cannot be parsed logs a console warning and is ignored, so the next source down (or the default) applies; unknown option names warn as well, which catches typos like `colour`.
 
 ## API
 
@@ -66,4 +66,6 @@ It checks that bubble travel follows the container height, that it tracks contai
 - Bubble travel distance follows the container height and tracks resizes, so it works in short sections as well as full-viewport heroes.
 - Containers scrolled out of view pause their animation, so a long page does not keep every bubble compositing.
 - No dependencies; works from any static host or straight from `file://`.
+- Injected rules live in a `@layer`, so your own stylesheet wins without `!important` — including a plain `.bubble-bg { ... }` rule of your own. Browsers without cascade layer support get the rules unlayered.
+- Internal custom properties are namespaced `--bubble-*` and inherit, so they will not collide with a page that defines its own `--color` or `--size`.
 - Needs a modern browser (CSS custom properties). Browsers without `dvh` fall back to `vh`, and without `ResizeObserver` the travel distance is measured once at init.
