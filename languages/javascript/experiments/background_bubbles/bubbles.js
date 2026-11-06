@@ -1,0 +1,408 @@
+/**
+ * bubbles.js — a tiny, zero-dependency animated bubble background.
+ *
+ * Drop-in usage for static sites (no build step):
+ *
+ *   <section id="hero"></section>
+ *   <script src="bubbles.js"></script>
+ *   <script>
+ *     Bubbles.init("#hero", {
+ *       count: 80,
+ *       colors: ["#4bffbb", "#f6bf00", "#2a9dff"],
+ *       speed: 1.2,
+ *       background: "#001f23"
+ *     });
+ *   </script>
+ *
+ * Or with zero JS (auto-initialized on page load):
+ *
+ *   <section data-bubbles data-count="40" data-speed="0.6"></section>
+ */
+(function (global, factory) {
+    if (typeof module === "object" && module !== null && module.exports) {
+        module.exports = factory();
+    } else {
+        global.Bubbles = factory();
+    }
+}(typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : this, function () {
+    "use strict";
+
+    const version = "1.0.0";
+
+    const MAX_COUNT = 2000;
+
+    const defaults = {
+        count: 60,
+        colors: ["#6bff6b", "#f6bf00", "#f64f40", "#8e1cff", "#ff6ff0", "#2a9dff", "#4bffbb"],
+        speed: 1,
+        background: "#001f23"
+    };
+
+    const KNOWN_OPTIONS = ["count", "colors", "speed", "background"];
+
+    const CONTAINER_CLASS = "bubble-bg";
+    const BUBBLE_CLASS = "bubble-bg-bubble";
+
+    // Containers already rendered by an explicit init() call. Auto-init skips
+    // these so it cannot overwrite the options the caller passed in.
+    const initialized = typeof WeakSet === "function" ? new WeakSet() : null;
+
+    const cssText = `
+.bubble-bg {
+    --travel: 100vh;
+    overflow: hidden;
+    isolation: isolate;
+}
+.bubble-bg-bubble {
+    position: absolute;
+    z-index: -1;
+    border-radius: 50%;
+    width: var(--size);
+    height: var(--size);
+    aspect-ratio: 1/1;
+    left: var(--position-x);
+    bottom: calc(-1 * var(--size) - 20px);
+    opacity: var(--visibility);
+    background-color: var(--color);
+    pointer-events: none;
+    animation: bubble-bg-float-up var(--anim-duration) linear infinite;
+    animation-delay: var(--anim-delay);
+}
+@keyframes bubble-bg-float-up {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+    25% {
+        transform: translate3d(var(--distance), calc(var(--travel) * -0.28), 0);
+    }
+    50% {
+        transform: translate3d(0, calc(var(--travel) * -0.56), 0);
+    }
+    75% {
+        transform: translate3d(calc(-1 * var(--distance)), calc(var(--travel) * -0.84), 0);
+    }
+    100% {
+        transform: translate3d(0, calc(var(--travel) * -1 - 80px), 0);
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .bubble-bg-bubble {
+        animation: none;
+    }
+}
+`.trim();
+
+    function warn(message) {
+        if (typeof console !== "undefined" && console.warn) {
+            console.warn("[bubbles] " + message);
+        }
+    }
+
+    function isSupported(property, value) {
+        if (typeof CSS === "undefined" || typeof CSS.supports !== "function") {
+            return true;
+        }
+        try {
+            return CSS.supports(property, value);
+        } catch (e) {
+            return true;
+        }
+    }
+
+    function ensureCss() {
+        if (typeof document === "undefined") {
+            return;
+        }
+        if (document.querySelector("style[data-bubble-bg]")) {
+            return;
+        }
+        const style = document.createElement("style");
+        style.setAttribute("data-bubble-bg", version);
+        style.textContent = cssText;
+        (document.head || document.documentElement).appendChild(style);
+    }
+
+    function readData(element, name) {
+        if (element.getAttribute) {
+            return element.getAttribute("data-" + name);
+        }
+        return null;
+    }
+
+    function parseCount(value) {
+        if (value === undefined || value === null || value === "") {
+            return undefined;
+        }
+        const n = parseInt(value, 10);
+        return Number.isNaN(n) ? undefined : n;
+    }
+
+    function parseSpeed(value) {
+        if (value === undefined || value === null || value === "") {
+            return undefined;
+        }
+        const n = parseFloat(value);
+        return Number.isNaN(n) ? undefined : n;
+    }
+
+    function parseColors(value) {
+        if (Array.isArray(value)) {
+            return value;
+        }
+        if (typeof value !== "string") {
+            return undefined;
+        }
+        const list = value.split(",").map((c) => c.trim()).filter(Boolean);
+        return list.length ? list : undefined;
+    }
+
+    function applyOverrides(config, source) {
+        if (!source) {
+            return;
+        }
+        if (source.count !== undefined) {
+            config.count = source.count;
+        }
+        if (source.colors !== undefined) {
+            config.colors = source.colors;
+        }
+        if (source.speed !== undefined) {
+            config.speed = source.speed;
+        }
+        if (source.background !== undefined) {
+            config.background = source.background;
+        }
+    }
+
+    function checkUnknownOptions(options) {
+        if (!options || typeof options !== "object") {
+            return;
+        }
+        Object.keys(options).forEach((key) => {
+            if (KNOWN_OPTIONS.indexOf(key) === -1) {
+                warn('Unknown option "' + key + '" ignored.');
+            }
+        });
+    }
+
+    function resolveConfig(element, options) {
+        const config = {
+            count: defaults.count,
+            colors: defaults.colors.slice(),
+            speed: defaults.speed,
+            background: defaults.background
+        };
+
+        applyOverrides(config, {
+            count: parseCount(readData(element, "count")),
+            colors: parseColors(readData(element, "colors")),
+            speed: parseSpeed(readData(element, "speed")),
+            background: readData(element, "background") || undefined
+        });
+
+        if (options) {
+            checkUnknownOptions(options);
+            applyOverrides(config, {
+                count: parseCount(options.count),
+                colors: parseColors(options.colors),
+                speed: parseSpeed(options.speed),
+                background: options.background || undefined
+            });
+        }
+
+        if (!Number.isInteger(config.count) || config.count < 0) {
+            warn("Invalid count, using default " + defaults.count + ".");
+            config.count = defaults.count;
+        } else if (config.count > MAX_COUNT) {
+            warn("Count capped at " + MAX_COUNT + ".");
+            config.count = MAX_COUNT;
+        } else if (config.count > 500) {
+            warn("Large count (" + config.count + ") may hurt performance.");
+        }
+
+        if (!Array.isArray(config.colors) || !config.colors.length ||
+                !config.colors.every((c) => typeof c === "string" && c)) {
+            warn("Invalid colors, using the default palette.");
+            config.colors = defaults.colors.slice();
+        } else {
+            const rejected = config.colors.filter((c) => !isSupported("color", c));
+            if (rejected.length) {
+                warn("Ignoring unsupported color(s): " + rejected.join(", ") + ".");
+                config.colors = config.colors.filter((c) => isSupported("color", c));
+            }
+            if (!config.colors.length) {
+                warn("No usable colors, using the default palette.");
+                config.colors = defaults.colors.slice();
+            }
+        }
+
+        if (typeof config.speed !== "number" || !Number.isFinite(config.speed) || config.speed <= 0) {
+            warn("Invalid speed, using default " + defaults.speed + ".");
+            config.speed = defaults.speed;
+        }
+
+        if (typeof config.background !== "string" || !config.background) {
+            warn("Invalid background, using default.");
+            config.background = defaults.background;
+        } else if (!isSupported("background", config.background)) {
+            warn('Unsupported background "' + config.background + '", using default.');
+            config.background = defaults.background;
+        }
+
+        return config;
+    }
+
+    function isElement(value) {
+        return !!value && value.nodeType === 1;
+    }
+
+    function resolveTargets(target) {
+        if (typeof document === "undefined") {
+            return [];
+        }
+        if (typeof target === "string") {
+            return Array.prototype.slice.call(document.querySelectorAll(target));
+        }
+        if (isElement(target)) {
+            return [target];
+        }
+        if (target && typeof target.length === "number") {
+            return Array.prototype.slice.call(target).filter(isElement);
+        }
+        warn("Invalid target, expected a selector, an element, or a list of elements.");
+        return [];
+    }
+
+    function clearBubbles(container) {
+        const old = container.querySelectorAll("." + BUBBLE_CLASS);
+        Array.prototype.forEach.call(old, (node) => {
+            if (node.remove) {
+                node.remove();
+            } else if (node.parentNode) {
+                node.parentNode.removeChild(node);
+            }
+        });
+    }
+
+    function updateTravel(container) {
+        const height = container.clientHeight || 0;
+        if (height > 0) {
+            container.style.setProperty("--travel", height + "px");
+        }
+    }
+
+    function watchSize(container) {
+        if (typeof ResizeObserver === "undefined" || container.__bubblesObserved) {
+            return;
+        }
+        try {
+            const observer = new ResizeObserver(() => updateTravel(container));
+            observer.observe(container);
+            container.__bubblesObserved = true;
+        } catch (e) {
+            // ResizeObserver unavailable or blocked; travel stays at its init value.
+        }
+    }
+
+    function renderBubbles(container, config) {
+        if (initialized) {
+            initialized.add(container);
+        }
+        if (container.classList) {
+            container.classList.add(CONTAINER_CLASS);
+        }
+        if (typeof getComputedStyle === "function" &&
+                getComputedStyle(container).position === "static") {
+            container.style.position = "relative";
+        }
+        container.style.background = config.background;
+        clearBubbles(container);
+        updateTravel(container);
+        watchSize(container);
+        if (!container.clientHeight) {
+            warn("Container has no height; give it content or a height to see bubbles.");
+        }
+
+        const fragment = document.createDocumentFragment();
+        for (let i = 0; i < config.count; i++) {
+            const bubble = document.createElement("span");
+            if (bubble.classList) {
+                bubble.classList.add(BUBBLE_CLASS);
+            }
+            bubble.setAttribute("aria-hidden", "true");
+
+            const size = 4 + 14 * Math.random();
+            const positionX = 100 * Math.random();
+            const visibility = 0.08 + 0.22 * Math.random();
+            const animDuration = (16 + 18 * Math.random()) / config.speed;
+            const animDelay = -1 * (Math.random() * animDuration);
+            const swayDirection = Math.random() > 0.5 ? 1 : -1;
+            const distance = swayDirection * (16 + 28 * Math.random());
+
+            bubble.style.setProperty("--size", size + "px");
+            bubble.style.setProperty("--position-x", positionX + "%");
+            bubble.style.setProperty("--visibility", String(visibility));
+            bubble.style.setProperty("--anim-duration", animDuration + "s");
+            bubble.style.setProperty("--anim-delay", animDelay + "s");
+            bubble.style.setProperty("--distance", distance + "px");
+            bubble.style.setProperty("--color", config.colors[i % config.colors.length]);
+
+            fragment.appendChild(bubble);
+        }
+        container.appendChild(fragment);
+    }
+
+    function init(target, options) {
+        if (typeof document === "undefined") {
+            return [];
+        }
+        if (target === undefined || target === null) {
+            target = "[data-bubbles]";
+        } else if (!isElement(target) && typeof target !== "string" &&
+                !(target && typeof target.length === "number")) {
+            options = target;
+            target = "[data-bubbles]";
+        }
+        const elements = resolveTargets(target);
+        if (!elements.length) {
+            if (typeof target === "string") {
+                warn('No elements found for target "' + target + '".');
+            } else {
+                warn("No elements to initialize.");
+            }
+            return [];
+        }
+        ensureCss();
+        elements.forEach((element) => {
+            renderBubbles(element, resolveConfig(element, options));
+        });
+        return elements;
+    }
+
+    function autoInit() {
+        if (typeof document === "undefined") {
+            return [];
+        }
+        const elements = Array.prototype.filter.call(
+            document.querySelectorAll("[data-bubbles]"),
+            (element) => !initialized || !initialized.has(element)
+        );
+        if (!elements.length) {
+            return [];
+        }
+        return init(elements);
+    }
+
+    if (typeof document !== "undefined") {
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", autoInit);
+        } else {
+            autoInit();
+        }
+    }
+
+    return {
+        init: init,
+        version: version
+    };
+}));

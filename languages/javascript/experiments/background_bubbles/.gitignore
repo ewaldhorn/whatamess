@@ -1,1 +1,2 @@
-dist/
+# The dist/ demo is committed source in this experiment, not build output.
+!dist/

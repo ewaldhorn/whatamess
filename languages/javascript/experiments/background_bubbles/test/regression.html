@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>bubbles.js regression tests</title>
+    <style>
+        #short { width: 200px; height: 120px; }
+        #tall { width: 200px; height: 400px; }
+        #explicit { width: 200px; height: 100px; }
+        #auto { width: 200px; height: 100px; }
+    </style>
+</head>
+<body>
+    <div id="short"></div>
+    <div id="tall"></div>
+
+    <!-- Carries data- attributes, but is initialized explicitly with different
+         options before DOMContentLoaded. Auto-init must not undo that. -->
+    <div id="explicit" data-bubbles data-count="10"></div>
+
+    <!-- Never touched by script; must still auto-initialize from its data- attributes. -->
+    <div id="auto" data-bubbles data-count="7"></div>
+
+    <script src="../bubbles.js"></script>
+    <script>
+    (function () {
+        "use strict";
+
+        const results = [];
+        window.__results = results;
+        window.__done = false;
+        window.__error = null;
+
+        function check(name, pass, detail) {
+            results.push({
+                name: name,
+                pass: !!pass,
+                detail: detail === undefined ? "" : String(detail)
+            });
+        }
+
+        function bubblesIn(container) {
+            return container.querySelectorAll(".bubble-bg-bubble");
+        }
+
+        // The value the bubble actually animates against. Reading the computed
+        // value (not the container's inline style) is the point: a declaration
+        // on the bubble would shadow the value inherited from its container.
+        function travelOf(container) {
+            const bubble = bubblesIn(container)[0];
+            return bubble ? getComputedStyle(bubble).getPropertyValue("--travel").trim() : null;
+        }
+
+        function waitFor(predicate, timeoutMs) {
+            const deadline = Date.now() + (timeoutMs || 2000);
+            return new Promise((resolve) => {
+                (function poll() {
+                    if (predicate()) {
+                        return resolve(true);
+                    }
+                    if (Date.now() > deadline) {
+                        return resolve(false);
+                    }
+                    setTimeout(poll, 25);
+                }());
+            });
+        }
+
+        const short = document.getElementById("short");
+        const tall = document.getElementById("tall");
+        const explicit = document.getElementById("explicit");
+        const auto = document.getElementById("auto");
+        const height = (el) => el.clientHeight + "px";
+
+        // Explicit init before DOMContentLoaded, so auto-init gets its chance
+        // to clobber these values afterwards.
+        Bubbles.init(short, { count: 5 });
+        Bubbles.init(tall, { count: 4 });
+        Bubbles.init(explicit, { count: 250 });
+
+        check("explicit init renders the requested count",
+            bubblesIn(explicit).length === 250, bubblesIn(explicit).length);
+
+        (async function () {
+            try {
+                if (document.readyState === "loading") {
+                    await new Promise((resolve) => {
+                        document.addEventListener("DOMContentLoaded", resolve, { once: true });
+                    });
+                }
+                await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+
+                // Regression: bubble travel must follow the container height,
+                // not the viewport height.
+                check("bubble travel equals container height",
+                    travelOf(short) === height(short),
+                    "computed=" + travelOf(short) + " expected=" + height(short));
+
+                // The same value must hold for a container taller than the others,
+                // proving it is per-container rather than a shared constant.
+                check("travel is per container, not global",
+                    travelOf(tall) === height(tall) && travelOf(short) !== travelOf(tall),
+                    "short=" + travelOf(short) + " tall=" + travelOf(tall));
+
+                // Regression: the ResizeObserver path must reach the bubbles.
+                tall.style.height = "260px";
+                const resized = await waitFor(() => travelOf(tall) === height(tall));
+                check("travel follows a container resize", resized,
+                    "computed=" + travelOf(tall) + " expected=" + height(tall));
+
+                // Regression: auto-init must not overwrite explicit options.
+                check("auto-init preserves explicit options",
+                    bubblesIn(explicit).length === 250, bubblesIn(explicit).length);
+
+                // Guard: the documented zero-JS path still works.
+                check("data- attributes auto-initialize untouched elements",
+                    bubblesIn(auto).length === 7, bubblesIn(auto).length);
+
+                // Guard: re-initializing the same container replaces bubbles.
+                Bubbles.init(short, { count: 3 });
+                check("re-init replaces bubbles instead of appending",
+                    bubblesIn(short).length === 3, bubblesIn(short).length);
+
+                // Guard: the stylesheet is injected exactly once.
+                check("stylesheet injected once",
+                    document.querySelectorAll("style[data-bubble-bg]").length === 1,
+                    document.querySelectorAll("style[data-bubble-bg]").length);
+            } catch (error) {
+                window.__error = error && error.stack ? error.stack : String(error);
+            } finally {
+                window.__done = true;
+            }
+        }());
+    }());
+    </script>
+</body>
+</html>
