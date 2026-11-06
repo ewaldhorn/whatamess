@@ -64,5 +64,6 @@ It checks that bubble travel follows the container height, that it tracks contai
 - Containers need their own height (page content or CSS) — bubbles are absolutely positioned and don't create layout. Initializing a zero-height container logs a warning.
 - Respects `prefers-reduced-motion`: the animation switches off and the static background remains.
 - Bubble travel distance follows the container height and tracks resizes, so it works in short sections as well as full-viewport heroes.
+- Containers scrolled out of view pause their animation, so a long page does not keep every bubble compositing.
 - No dependencies; works from any static host or straight from `file://`.
 - Needs a modern browser (CSS custom properties). Browsers without `dvh` fall back to `vh`, and without `ResizeObserver` the travel distance is measured once at init.

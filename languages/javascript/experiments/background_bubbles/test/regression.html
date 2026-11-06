@@ -43,6 +43,9 @@
     <div id="zero-count" class="probe"></div>
     <div id="rgb-colors" class="probe" data-colors="rgb(0, 0, 0), color-mix(in srgb, red, blue)"></div>
 
+    <!-- Starts far below the fold so the pause behaviour is observable. -->
+    <div id="offscreen" class="probe" style="margin-top: 3000px"></div>
+
     <script src="../bubbles.js"></script>
     <script>
     (function () {
@@ -218,6 +221,27 @@
                 check("functional color syntax survives data-colors",
                     used.length === 2 && rgbWarns.length === 0,
                     JSON.stringify(used) + " " + JSON.stringify(rgbWarns));
+
+                // Offscreen containers should stop compositing entirely.
+                const offscreenEl = document.getElementById("offscreen");
+                Bubbles.init(offscreenEl, { count: 4 });
+                check("visible containers keep animating",
+                    !short.classList.contains("bubble-bg-paused"), short.className);
+
+                const paused = await waitFor(() =>
+                    offscreenEl.classList.contains("bubble-bg-paused"));
+                const offscreenBubble = bubblesIn(offscreenEl)[0];
+                check("offscreen containers pause their animation",
+                    paused && getComputedStyle(offscreenBubble).animationPlayState === "paused",
+                    offscreenEl.className + " " +
+                        (offscreenBubble ? getComputedStyle(offscreenBubble).animationPlayState : "no bubble"));
+
+                offscreenEl.scrollIntoView();
+                const resumed = await waitFor(() =>
+                    !offscreenEl.classList.contains("bubble-bg-paused"));
+                check("scrolling into view resumes the animation",
+                    resumed && getComputedStyle(offscreenBubble).animationPlayState === "running",
+                    offscreenEl.className + " " + getComputedStyle(offscreenBubble).animationPlayState);
             } catch (error) {
                 window.__error = error && error.stack ? error.stack : String(error);
             } finally {

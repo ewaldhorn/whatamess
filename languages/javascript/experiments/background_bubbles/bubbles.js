@@ -43,6 +43,7 @@
 
     const CONTAINER_CLASS = "bubble-bg";
     const BUBBLE_CLASS = "bubble-bg-bubble";
+    const PAUSED_CLASS = "bubble-bg-paused";
 
     // Containers already rendered by an explicit init() call. Auto-init skips
     // these so it cannot overwrite the options the caller passed in.
@@ -51,6 +52,14 @@
     // Containers with a live ResizeObserver. Kept here rather than as a property
     // on the element, which would leak library internals into the page's DOM.
     const observed = typeof WeakSet === "function" ? new WeakSet() : null;
+
+    // Containers handed to the shared IntersectionObserver.
+    const offscreen = typeof WeakSet === "function" ? new WeakSet() : null;
+
+    // One observer for the whole document rather than one per container, and
+    // held in this closure so it is never collected while containers still
+    // point at it.
+    let visibilityObserver = null;
 
     const cssText = `
 .bubble-bg {
@@ -94,6 +103,9 @@
     .bubble-bg-bubble {
         animation: none;
     }
+}
+.bubble-bg-paused .bubble-bg-bubble {
+    animation-play-state: paused;
 }
 `.trim();
 
@@ -346,6 +358,31 @@
         }
     }
 
+    // Stops compositing work for containers scrolled out of view. A page with
+    // many bubbles otherwise keeps every one of them animating offscreen.
+    function watchVisibility(container) {
+        if (typeof IntersectionObserver === "undefined" || (offscreen && offscreen.has(container))) {
+            return;
+        }
+        try {
+            if (!visibilityObserver) {
+                visibilityObserver = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.target.classList) {
+                            entry.target.classList.toggle(PAUSED_CLASS, !entry.isIntersecting);
+                        }
+                    });
+                });
+            }
+            visibilityObserver.observe(container);
+            if (offscreen) {
+                offscreen.add(container);
+            }
+        } catch (e) {
+            // IntersectionObserver unavailable or blocked; bubbles keep animating.
+        }
+    }
+
     function renderBubbles(container, config) {
         if (initialized) {
             initialized.add(container);
@@ -361,6 +398,7 @@
         clearBubbles(container);
         updateTravel(container);
         watchSize(container);
+        watchVisibility(container);
         if (!container.clientHeight) {
             warn("Container has no height; give it content or a height to see bubbles.");
         }
