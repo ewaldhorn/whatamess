@@ -5,8 +5,135 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
+	"strconv"
+	"strings"
 	"time"
 )
+
+type EnemyTracker struct {
+	possibleCells [15][15]bool
+}
+
+// Initialize the tracker with every water cell as a possible starting location
+func NewEnemyTracker(game_map []string) EnemyTracker {
+	var t EnemyTracker
+
+	for y, row := range game_map {
+		for x, char := range row {
+			if char == '.' {
+				t.possibleCells[y][x] = true
+			}
+		}
+	}
+
+	return t
+}
+
+func (t *EnemyTracker) ProcessOrders(orders string, game_map []string) {
+	if orders == "NA" {
+		return
+	}
+
+	actions := strings.Split(orders, "|")
+	for _, action := range actions {
+		parts := strings.Split(strings.TrimSpace(action), " ")
+		command := parts[0]
+
+		switch command {
+		case "MOVE":
+			t.handleMove(parts[1], game_map)
+		case "SURFACE":
+			sector, _ := strconv.Atoi(parts[1])
+			t.handleSurface(sector)
+		case "SILENCE":
+			t.handleSilence(game_map)
+		}
+	}
+}
+
+// Shift all possible cells in the direction of movement
+func (t *EnemyTracker) handleMove(direction string, game_map []string) {
+	var nextPossible [15][15]bool
+
+	// Range over the tracker's current possible cells
+	for y, row := range t.possibleCells {
+		for x, isPossible := range row {
+			// If this cell was a valid position, calculate where it moved
+			if isPossible {
+				nx, ny := x, y
+				switch direction {
+				case "N":
+					ny--
+				case "S":
+					ny++
+				case "E":
+					nx++
+				case "W":
+					nx--
+				}
+
+				// If the new position is within bounds and is valid water, keep it as a possibility
+				if nx >= 0 && nx < 15 && ny >= 0 && ny < 15 && game_map[ny][nx] == '.' {
+					nextPossible[ny][nx] = true
+				}
+			}
+		}
+	}
+	t.possibleCells = nextPossible
+}
+
+// Filter out any cells that are not in the surfaced sector
+func (t *EnemyTracker) handleSurface(sector int) {
+	// Calculate the bounds of the 5x5 sector (Sectors 1-9)
+	minX := ((sector - 1) % 3) * 5
+	minY := ((sector - 1) / 3) * 5
+	maxX := minX + 4
+	maxY := minY + 4
+
+	for y, row := range t.possibleCells {
+		for x, isPossible := range row {
+			if isPossible {
+				// If a cell is outside the sector, it's no longer a possible location
+				if x < minX || x > maxX || y < minY || y > maxY {
+					t.possibleCells[y][x] = false
+				}
+			}
+		}
+	}
+}
+
+// Expand all possible cells by up to 4 spaces in all directions
+func (t *EnemyTracker) handleSilence(game_map []string) {
+	var nextPossible [15][15]bool
+
+	// Directions: N, S, E, W
+	dx := []int{0, 0, 1, -1}
+	dy := []int{-1, 1, 0, 0}
+
+	for y, row := range t.possibleCells {
+		for x, isPossible := range row {
+			if isPossible {
+				// The enemy might have moved 0 spaces
+				nextPossible[y][x] = true
+
+				// Check moving 1 to 4 spaces in each direction
+				for d := 0; d < 4; d++ {
+					for step := 1; step <= 4; step++ {
+						nx := x + (dx[d] * step)
+						ny := y + (dy[d] * step)
+
+						if nx >= 0 && nx < 15 && ny >= 0 && ny < 15 && game_map[ny][nx] == '.' {
+							nextPossible[ny][nx] = true
+						} else {
+							break // Stop looking further in this direction if we hit an island or edge
+						}
+					}
+				}
+			}
+		}
+	}
+	t.possibleCells = nextPossible
+}
 
 func abs(a int) int {
 	if a < 0 {
@@ -24,24 +151,6 @@ func findEmptyStartingCell(game_map []string, width, height int) string {
 			return fmt.Sprintf("%d %d", x, y)
 		}
 	}
-}
-
-func findTorpedoTarget(x, y, width, height int, game_map []string) (int, int) {
-	for i := 0; i < 30; i++ {
-		tx := x + rand.Intn(9) - 4 // Range: -4 to +4
-		ty := y + rand.Intn(9) - 4 // Range: -4 to +4
-
-		dist := abs(tx-x) + abs(ty-y)
-
-		if tx >= 0 && tx < width && ty >= 0 && ty < height {
-			if dist >= 2 && dist <= 4 && game_map[ty][tx] == '.' {
-				return tx, ty
-			}
-		}
-	}
-
-	// couldn't fire
-	return -1, -1
 }
 
 func determineNewDirection(x, y, width, height int, game_map []string, visited [][]bool) string {
@@ -96,6 +205,8 @@ func main() {
 
 	fmt.Println(findEmptyStartingCell(game_map, width, height))
 
+	tracker := NewEnemyTracker(game_map)
+
 	for {
 		var x, y, myLife, oppLife, torpedoCooldown, sonarCooldown, silenceCooldown, mineCooldown int
 		scanner.Scan()
@@ -107,7 +218,19 @@ func main() {
 
 		scanner.Scan()
 		opponentOrders := scanner.Text()
-		_ = opponentOrders // I don't know what to do with this yet
+		tracker.ProcessOrders(opponentOrders, game_map)
+
+		possibleCount := 0
+		bestTargetX, bestTargetY := -1, -1
+
+		for y, row := range tracker.possibleCells {
+			for x, isPossible := range row {
+				if isPossible {
+					possibleCount++
+					bestTargetX, bestTargetY = x, y
+				}
+			}
+		}
 
 		visited[y][x] = true // mark where we are, i keep forgetting to
 
@@ -127,13 +250,8 @@ func main() {
 			visited[y][x] = true // mark our current position, this is the source of the position bug
 		}
 
-		if torpedoCooldown == 0 {
-			target_x, target_y := findTorpedoTarget(x, y, width, height, game_map)
-			if target_x > -1 {
-				fmt.Println("|TORPEDO", target_x, target_y)
-			} else {
-				fmt.Println()
-			}
+		if torpedoCooldown == 0 && possibleCount <= 3 { // pretty sure we got them
+			fmt.Println("|TORPEDO", bestTargetX, bestTargetY)
 		} else {
 			fmt.Println()
 		}
