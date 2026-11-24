@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"io"
 	"math/rand"
 	"os"
 	"strconv"
@@ -14,7 +15,6 @@ type EnemyTracker struct {
 	possibleCells [15][15]bool
 }
 
-// Initialize the tracker with every water cell as a possible starting location
 func NewEnemyTracker(game_map []string) EnemyTracker {
 	var t EnemyTracker
 
@@ -36,15 +36,23 @@ func (t *EnemyTracker) ProcessOrders(orders string, game_map []string) {
 
 	actions := strings.Split(orders, "|")
 	for _, action := range actions {
-		parts := strings.Split(strings.TrimSpace(action), " ")
+		parts := strings.Fields(strings.TrimSpace(action))
+		if len(parts) == 0 {
+			continue
+		}
 		command := parts[0]
 
 		switch command {
 		case "MOVE":
-			t.handleMove(parts[1], game_map)
+			if len(parts) >= 2 {
+				t.handleMove(parts[1], game_map)
+			}
 		case "SURFACE":
-			sector, _ := strconv.Atoi(parts[1])
-			t.handleSurface(sector)
+			if len(parts) >= 2 {
+				if sector, err := strconv.Atoi(parts[1]); err == nil && sector >= 1 && sector <= 9 {
+					t.handleSurface(sector)
+				}
+			}
 		case "SILENCE":
 			t.handleSilence(game_map)
 		}
@@ -142,10 +150,10 @@ func abs(a int) int {
 	return a
 }
 
-func findEmptyStartingCell(game_map []string, width, height int) string {
+func findEmptyStartingCell(game_map []string, width, height int, rng *rand.Rand) string {
 	for {
-		x := rand.Intn(width)
-		y := rand.Intn(height)
+		x := rng.Intn(width)
+		y := rng.Intn(height)
 
 		if game_map[y][x] == '.' {
 			return fmt.Sprintf("%d %d", x, y)
@@ -153,7 +161,7 @@ func findEmptyStartingCell(game_map []string, width, height int) string {
 	}
 }
 
-func determineNewDirection(x, y, width, height int, game_map []string, visited [][]bool) string {
+func determineNewDirection(x, y, width, height int, game_map []string, visited [][]bool, rng *rand.Rand) string {
 	type Point struct {
 		x, y int
 		dir  string
@@ -166,7 +174,7 @@ func determineNewDirection(x, y, width, height int, game_map []string, visited [
 		{x - 1, y, "W"},
 	}
 
-	rand.Shuffle(len(options), func(i, j int) {
+	rng.Shuffle(len(options), func(i, j int) {
 		options[i], options[j] = options[j], options[i]
 	})
 
@@ -181,19 +189,21 @@ func determineNewDirection(x, y, width, height int, game_map []string, visited [
 	return "SURFACE" // trapped, need to clear visited blocks
 }
 
-func main() {
-	rand.Seed(time.Now().UnixNano())
-
-	scanner := bufio.NewScanner(os.Stdin)
+func run(in io.Reader, out io.Writer, rng *rand.Rand) {
+	scanner := bufio.NewScanner(in)
 	scanner.Buffer(make([]byte, 1000000), 1000000)
 
+	if !scanner.Scan() {
+		return
+	}
 	var width, height, myId int
-	scanner.Scan()
 	fmt.Sscan(scanner.Text(), &width, &height, &myId)
 
 	game_map := make([]string, height)
 	for i := 0; i < height; i++ {
-		scanner.Scan()
+		if !scanner.Scan() {
+			return
+		}
 		game_map[i] = scanner.Text()
 	}
 
@@ -203,20 +213,23 @@ func main() {
 		visited[i] = make([]bool, width)
 	}
 
-	fmt.Println(findEmptyStartingCell(game_map, width, height))
+	fmt.Fprintln(out, findEmptyStartingCell(game_map, width, height, rng))
 
 	tracker := NewEnemyTracker(game_map)
 
-	for {
+	for scanner.Scan() {
 		var x, y, myLife, oppLife, torpedoCooldown, sonarCooldown, silenceCooldown, mineCooldown int
-		scanner.Scan()
 		fmt.Sscan(scanner.Text(), &x, &y, &myLife, &oppLife, &torpedoCooldown, &sonarCooldown, &silenceCooldown, &mineCooldown)
 
+		if !scanner.Scan() {
+			return
+		}
 		var sonarResult string
-		scanner.Scan()
 		fmt.Sscan(scanner.Text(), &sonarResult)
 
-		scanner.Scan()
+		if !scanner.Scan() {
+			return
+		}
 		opponentOrders := scanner.Text()
 		tracker.ProcessOrders(opponentOrders, game_map)
 
@@ -234,12 +247,13 @@ func main() {
 
 		visited[y][x] = true // mark where we are, i keep forgetting to
 
-		direction := determineNewDirection(x, y, width, height, game_map, visited)
+		direction := determineNewDirection(x, y, width, height, game_map, visited, rng)
 
+		var cmd string
 		if direction != "SURFACE" {
-			fmt.Print("MOVE ", direction, " TORPEDO")
+			cmd = fmt.Sprintf("MOVE %s TORPEDO", direction)
 		} else {
-			fmt.Print("SURFACE")
+			cmd = "SURFACE"
 
 			// surfaced, reset visited spots
 			for i := 0; i < height; i++ {
@@ -251,9 +265,14 @@ func main() {
 		}
 
 		if torpedoCooldown == 0 && possibleCount <= 3 { // pretty sure we got them
-			fmt.Println("|TORPEDO", bestTargetX, bestTargetY)
-		} else {
-			fmt.Println()
+			cmd += fmt.Sprintf("|TORPEDO %d %d", bestTargetX, bestTargetY)
 		}
+
+		fmt.Fprintln(out, cmd)
 	}
+}
+
+func main() {
+	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
+	run(os.Stdin, os.Stdout, rng)
 }
